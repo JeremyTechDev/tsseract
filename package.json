@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "server": "nodemon ./src/server/index",
+    "dev": "nodemon src/server/index.js & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
