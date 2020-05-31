@@ -17,10 +17,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.16",
-    "nodemon": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   },
   "eslintConfig": {
     "extends": "react-app"
