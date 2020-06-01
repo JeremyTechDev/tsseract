@@ -1,6 +1,12 @@
 const { User, validate } = require('../models/user');
 const bcrypt = require('bcrypt');
 
+/**
+ * Creates a new user
+ * @param req Express request
+ * @param res Express response
+ * @param req.body User data
+ */
 exports.create = async (req, res) => {
   try {
     const { error } = validate(req.body);
@@ -22,11 +28,31 @@ exports.create = async (req, res) => {
 
     const token = user.generateAuthToken(user._id);
 
-    const { _id, name, username, email, birthDate } = user;
+    const { _id, name, username, email, birthDate, createdAt } = user;
     res
       .header('x-auth-token', token)
-      .send({ _id, name, username, email, birthDate });
+      .send({ data: { _id, name, username, email, birthDate, createdAt } });
   } catch (error) {
-    return res.status(500).send('Ops! something went wrong. Try again later.');
+    return res.status(500).send({ message: error.message });
   }
 };
+
+/**
+ * Retrieve a user by id
+ * @param req Express request
+ * @param res Express response
+ * @param res.params.id User id
+ */
+exports.retrieveUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const user = await User.findById(id);
+
+    const { _id, name, username, email, birthDate, createdAt } = user;
+    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
