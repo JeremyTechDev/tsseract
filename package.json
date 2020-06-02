@@ -35,12 +35,13 @@
     "lint-staged": "^10.2.7",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
     "stylelint": "^13.5.0",
     "supertest": "^4.0.2"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "pretty-quick --staged && lint-staged",
       "pre-push": "npm test"
     }
   },
