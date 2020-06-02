@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_KEY } = require('../config/env');
 
 describe('User', () => {
-  describe('POST:/api/users', async () => {
+  describe('POST:/api/users', () => {
     const userPayload = {
       name: 'Tsseract',
       username: 'admin',
