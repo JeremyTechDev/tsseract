@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt');
 
 /**
  * Creates a new user
- * @param req Express request
- * @param res Express response
- * @param req.body User data
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.body User data
  */
 exports.create = async (req, res) => {
   try {
@@ -39,15 +39,15 @@ exports.create = async (req, res) => {
 
 /**
  * Retrieve a user by id
- * @param req Express request
- * @param res Express response
- * @param res.params.id User id
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {String} res.params.id User id
  */
 exports.retrieveUser = async (req, res) => {
   try {
-    const id = req.params.id;
+    const userId = req.params.id;
 
-    const user = await User.findById(id);
+    const user = await User.findById(userId);
 
     const { _id, name, username, email, birthDate, createdAt } = user;
     res.send({ data: { _id, name, username, email, birthDate, createdAt } });
@@ -56,3 +56,50 @@ exports.retrieveUser = async (req, res) => {
   }
 };
 
+/**
+ * Retrieve a user by username
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {String} res.params.username User username
+ */
+exports.retrieveUserByUsername = async (req, res) => {
+  try {
+    const userUsername = req.params.username;
+    const user = await User.findOne({ username: userUsername });
+
+    if (!user)
+      return res
+        .status(404)
+        .send({ message: 'No user found with the given username' });
+
+    delete user.password;
+
+    const { _id, name, username, email, birthDate, createdAt } = user;
+    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
+/**
+ * Deletes a user by id
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {String} res.params.id User id
+ */
+exports.deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user)
+      return res
+        .status(404)
+        .send({ message: 'No user found with the given username' });
+
+    const { _id, name, username, email, birthDate, createdAt } = user;
+    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};

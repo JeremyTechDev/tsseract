@@ -7,13 +7,17 @@ const { JWT_KEY } = require('../config/env');
 describe('Auth', () => {
   describe('POST:/api/auth', () => {
     beforeAll(async (done) => {
-      await request(app).post('/api/users/').send({
-        name: 'Tsseract',
-        username: 'admin',
-        password: 'Admin.1234',
-        email: 'admin@tsseract.com',
-        birthDate: Date.now(),
-      });
+      const user = await request(app).get(`/api/users/u/admin`);
+
+      if (!user) {
+        await request(app).post('/api/users/').send({
+          name: 'Tsseract',
+          username: 'admin',
+          password: 'Admin.1234',
+          email: 'admin@tsseract.com',
+          birthDate: Date.now(),
+        });
+      }
 
       done();
     });
