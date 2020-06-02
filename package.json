@@ -28,8 +28,27 @@
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "husky": "^4.2.5",
     "jest": "^26.0.1",
-    "nodemon": "^2.0.4"
+    "lint-staged": "^10.2.7",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "stylelint": "^13.5.0",
+    "supertest": "^4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "./src/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "eslint src/*.js --fix-dry-run"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

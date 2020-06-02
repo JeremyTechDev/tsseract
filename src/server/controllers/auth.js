@@ -24,7 +24,7 @@ exports.auth = async (req, res) => {
 
     const token = user.generateAuthToken(user._id);
 
-    res.header('x-auth-token', token).send({ login: true });
+    res.header('x-auth-token', token).send({ data: { login: true } });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
