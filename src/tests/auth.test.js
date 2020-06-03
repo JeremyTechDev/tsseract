@@ -6,25 +6,29 @@ const { JWT_KEY } = require('../config/env');
 
 describe('Auth', () => {
   describe('POST:/api/auth', () => {
+    const userPayload = {
+      name: 'Tsseract',
+      username: 'admin_auth_test',
+      password: 'Admin.1234',
+      email: 'admin_auth_test@tsseract.com',
+      birthDate: Date.now(),
+    };
+    let user;
+
     beforeAll(async (done) => {
-      const user = await request(app).get(`/api/users/u/admin`);
+      user = await request(app).post('/api/users/').send(userPayload);
+      done();
+    });
 
-      if (!user) {
-        await request(app).post('/api/users/').send({
-          name: 'Tsseract',
-          username: 'admin',
-          password: 'Admin.1234',
-          email: 'admin@tsseract.com',
-          birthDate: Date.now(),
-        });
-      }
-
+    afterAll(async (done) => {
+      const userId = user.body.data._id;
+      await request(app).delete(`/api/users/${userId}`);
       done();
     });
 
     it('should return a valid JWT with an id as a property', async () => {
       const res = await request(app).post('/api/auth/').send({
-        username: 'admin',
+        username: 'admin_auth_test',
         password: 'Admin.1234',
       });
 

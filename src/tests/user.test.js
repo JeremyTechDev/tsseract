@@ -8,24 +8,21 @@ describe('User', () => {
   describe('POST:/api/users', () => {
     const userPayload = {
       name: 'Tsseract',
-      username: 'admin',
+      username: 'admin_user_test',
       password: 'Admin.1234',
-      email: 'admin@tsseract.com',
+      email: 'admin_user_test@tsseract.com',
       birthDate: Date.now(),
     };
     let user;
 
     beforeAll(async (done) => {
-      const adminUserExists = await request(app).get(`/api/users/u/admin`);
-
-      if (adminUserExists) {
-        await request(app).delete(
-          `/api/users/${adminUserExists.body.data._id}`,
-        );
-      }
-
       user = await request(app).post('/api/users/').send(userPayload);
+      done();
+    });
 
+    afterAll(async (done) => {
+      const userId = user.body.data._id;
+      await request(app).delete(`/api/users/${userId}`);
       done();
     });
 
