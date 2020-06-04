@@ -1,68 +1,86 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tsseract App
 
-## Available Scripts
+<img src='./src/assets/tsseract-logo.png' width='75' height='75' position='center' />
 
-In the project directory, you can run:
+Tsseract in a social media that allows you to create content and earn money with it depending on the amount of view and interactions your posts have.
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+What things you need to install the software and how to install them
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [NodeJS](https://nodejs.org/es/)
+- [MongoDB](https://www.mongodb.com/es)
 
-### `npm run build`
+### Installing
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Clone the repo:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+  ```
+  git clone https://github.com/jermy2918/tsseract-app.git
+  ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Install dependencies:
 
-### `npm run eject`
+  ```
+  npm install
+  ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Set some environment variables
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  ```
+  NODE_ENV=5000
+  DB_NAME=...
+  JWT_KEY=...
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- To run the client side of the app:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  ```
+  npm start
+  ```
 
-## Learn More
+- To run the server of the app:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  ```
+  npm run server
+  ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Or you can start both in development:
 
-### Code Splitting
+  ```
+  npm run dev
+  ```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+You should get some of the following logs on the console:
 
-### Analyzing the Bundle Size
+```
+🚀 Running server on port 5000...
+📡 Connected to MongoDB...
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Running the tests
 
-### Making a Progressive Web App
+We use [Jest](https://jestjs.io/) as the testing framework for this App. To run tests, just run `npm test` in the console at the project directory.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Tests are run before every push and as an [Action in GitHub](https://github.com/jermy2918/tsseract-app/actions).
 
-### Advanced Configuration
+## Built With
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- [React](https://es.reactjs.org/) - The web framework used
+- [NodeJS](https://nodejs.org/es/) - Dependency Management
+- [MongoDB](https://www.mongodb.com/es) - Database storage
+- [SASS](https://sass-lang.com/) - Styles framework
+- [Express](https://expressjs.com/es/) - API service framework
+- [Jest](https://jestjs.io/) - Testing framework
 
-### Deployment
+## Authors
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- **Jeremy Muñoz Torres** - _Project Owner_ - [GitHub Profile](https://github.com/jermy2918)
 
-### `npm run build` fails to minify
+## License
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
