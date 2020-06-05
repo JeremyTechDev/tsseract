@@ -1,6 +1,6 @@
 # [Ticket Title](https://TrelloTicketURL)
 
-##  Description
+## Description
 
 <!-- Add a brief description for what this PR is going to Accomplish -->
 
@@ -8,6 +8,6 @@
 
 <!-- Include the necessary testing steps  -->
 
-## Changes 
+## Changes
 
 <!-- Include Before and After Images in case of any design change -->
