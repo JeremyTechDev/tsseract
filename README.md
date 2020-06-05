@@ -1,19 +1,59 @@
 # Tsseract App
 
-<img src='./src/assets/tsseract-logo.png' width='75' height='75' position='center' />
+<p align="center">
+  <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
+</p>
 
 Tsseract in a social media that allows you to create content and earn money with it depending on the amount of view and interactions your posts have.
 
+## Folder Structure
+
+    ├── .github                     # GitHub Settings
+        ├── workflows                 # GitHub Actions files
+        └── pull_request_template     # PR Description template
+    ├── public                      # React Public folder
+        └── index.html                # HTML5 file
+    └── src
+        └── app                     # Front-end
+            ├── Components            # Function React Components
+                ├── index.jsx           # Component file
+                └── styles.scss         # SASS styles file
+            ├── Containers            # Class React Components
+                ├── index.jsx           # Container file
+                └── styles.scss         # SASS styles file
+            └── context.js            # App context
+        ├── assets                  # App images and other resoureces
+        ├── config                  # Env variables and URLs endpoint access
+            └── env.js                # Access to env variables
+        ├── helpers                 # Helpers folder
+        ├── server                  # Back-end
+            ├── controllers           # Database controllers
+            ├── middlewares           # Express middlewares
+            ├── models                # MongoDB collections Models
+            ├── routes                # Express routes
+            ├── app.js                # Express App configuration file
+            └── index.js              # Server configuration file
+        └──  tests                  # Unit tests
+    ├── .env                        # Environment variables file
+    ├── .eslintrc.js                # ESLint config file
+    ├── .gitignore                  # Git ignore file
+    ├── .prettierrc                 # Prettier config file
+    ├── .jest.config.js             # Jest config file
+    ├── License
+    ├── package-lock.json
+    ├── package.json
+    └── README.md
+
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
-- [NodeJS](https://nodejs.org/es/)
-- [MongoDB](https://www.mongodb.com/es)
+- [NodeJS](https://nodejs.org/es/) - Dependencies Management
+- [MongoDB](https://www.mongodb.com/es) - Database storage
 
 ### Installing
 
@@ -71,7 +111,7 @@ Tests are run before every push and as an [Action in GitHub](https://github.com/
 ## Built With
 
 - [React](https://es.reactjs.org/) - The web framework used
-- [NodeJS](https://nodejs.org/es/) - Dependency Management
+- [NodeJS](https://nodejs.org/es/) - Dependencies Management
 - [MongoDB](https://www.mongodb.com/es) - Database storage
 - [SASS](https://sass-lang.com/) - Styles framework
 - [Express](https://expressjs.com/es/) - API service framework
