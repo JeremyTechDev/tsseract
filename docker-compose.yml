@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  tsseract:
+  client:
     container_name: client
     restart: always
     build:
