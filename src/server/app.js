@@ -8,7 +8,7 @@ const auth = require('./routes/auth');
 const app = express();
 
 mongoose
-  .connect(`mongodb://localhost/${DB_NAME}`, {
+  .connect(`mongodb://tsseract-db:27017/${DB_NAME}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

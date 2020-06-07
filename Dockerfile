@@ -1,9 +1,6 @@
-FROM mhart/alpine-node:8.11.4
+FROM node:lts
 
-RUN mkdir -p /tsseract
-
-
-WORKDIR /tsseract
+WORKDIR /
 
 COPY package*.json ./
 
@@ -14,4 +11,4 @@ COPY . .
 EXPOSE 3000
 EXPOSE 5000
 
-CMD ["npm", "start"]
+CMD npm run dev
