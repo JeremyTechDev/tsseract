@@ -1,6 +1,3 @@
-const { User } = require('../models/user');
-const jwt = require('jsonwebtoken');
-
 /**
  * Ensures that the user performing the action coincides with the credentials
  * @param req Express request object
@@ -14,7 +11,7 @@ exports.userAuth = (req, res, next) => {
     if (token.id !== req.body.user) {
       return res.status(403).send({
         message:
-          'Access denied. The current user is not allow to perform that action',
+          'Access denied. The current user is not allowed to perform this action.',
       });
     }
 

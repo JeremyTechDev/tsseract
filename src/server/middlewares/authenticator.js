@@ -12,8 +12,7 @@ module.exports = async (req, res, next) => {
     const token = req.header('x-auth-token');
     if (!token)
       return res.status(403).send({
-        message: 'Access denied. No credentials provided',
-        status: 'NOT_AUTHORIZED',
+        message: 'Access denied. No credentials provided.',
       });
 
     const decodedUser = jwt.verify(token, JWT_KEY);
