@@ -1,5 +1,11 @@
 const { Posts, validatePost } = require('../models/posts');
 
+/**
+ * Creates a new post
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.body User data
+ */
 exports.create = async (req, res) => {
   try {
     const { error } = validatePost(req.body);
