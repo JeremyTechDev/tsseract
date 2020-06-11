@@ -7,8 +7,9 @@ const auth = require('./routes/auth');
 
 const app = express();
 
+const PATH = Boolean(DB_ADDRESS) ? DB_ADDRESS : 'localhost';
 mongoose
-  .connect(`mongodb://${!!!DB_ADDRESS || 'localhost'}/${DB_NAME}`, {
+  .connect(`mongodb://${PATH}/${DB_NAME}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
