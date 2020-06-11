@@ -1,12 +1,12 @@
-# Tsseract App
+# Tsseract App 🌐
 
 <p align="center">
   <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
 </p>
 
-Tsseract in a social media that allows you to create content and earn money with it depending on the amount of view and interactions your posts have.
+Tsseract in a social media that allows you to create content and earn money 💸 with it depending on the amount of view and interactions your posts have.
 
-## Folder Structure
+## Folder Structure 🗂️
 
     ├── .github                     # GitHub Settings
         ├── workflows                 # GitHub Actions files
@@ -34,28 +34,55 @@ Tsseract in a social media that allows you to create content and earn money with
             ├── app.js                # Express App configuration file
             └── index.js              # Server configuration file
         └──  tests                  # Unit tests
+    ├── .dockerignore               # Docker ignored files
     ├── .env                        # Environment variables file
     ├── .eslintrc.js                # ESLint config file
-    ├── .gitignore                  # Git ignore file
+    ├── .gitignore                  # Git ignored file
     ├── .prettierrc                 # Prettier config file
+    ├── docker-compose.yml          # Image dependencies file
+    ├── Dockerfile                  # Image file
     ├── .jest.config.js             # Jest config file
     ├── License
     ├── package-lock.json
     ├── package.json
     └── README.md
 
-## Getting Started
+## Getting Started 🚀
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+First, you will need to create a `.env` file and set some environment variables:
+
+```
+NODE_ENV=8080
+DB_NAME=...
+DB_ADDRESS=...
+JWT_KEY=...
+```
+
+### Minimal Set-up
+
+You can just run the app using the Docker 🐳. To do that you will need to download and install the following Docker technologies:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [docker-compose](https://docs.docker.com/compose/install/)
+
+After that, you will only need to run:
+
+```
+docker-compose up
+```
+
+### Full Set-up
+
+You will need to have installed and running these technologies in order to run the application:
 
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
-- [MongoDB](https://www.mongodb.com/es) - Database storage
+- [MongoDB](https://www.mongodb.com/es) - Database Storage
 
-### Installing
+📌 **To run the app with npm. You need to make sure that the env variable `DB_ADDRESS` is empty or set to `localhost`.**
 
 - Clone the repo:
 
@@ -67,14 +94,6 @@ What things you need to install the software and how to install them
 
   ```
   npm install
-  ```
-
-- Set some environment variables
-
-  ```
-  NODE_ENV=5000
-  DB_NAME=...
-  JWT_KEY=...
   ```
 
 - To run the client side of the app:
@@ -98,15 +117,15 @@ What things you need to install the software and how to install them
 You should get some of the following logs on the console:
 
 ```
-🚀 Running server on port 5000...
+🚀 Running server on port 8080...
 📡 Connected to MongoDB...
 ```
 
 ## Running the tests
 
-We use [Jest](https://jestjs.io/) as the testing framework for this App. To run tests, just run `npm test` in the console at the project directory.
+The app uses [Jest](https://jestjs.io/) as the testing framework for this App 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
 
-Tests are run before every push and as an [Action in GitHub](https://github.com/jermy2918/tsseract-app/actions).
+Tests are run before every push and as a [GitHub Action](https://github.com/jermy2918/tsseract-app/actions).
 
 ## Built With
 
@@ -119,7 +138,7 @@ Tests are run before every push and as an [Action in GitHub](https://github.com/
 
 ## Authors
 
-- **Jeremy Muñoz Torres** - _Project Owner_ - [GitHub Profile](https://github.com/jermy2918)
+- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jermy2918)
 
 ## License
 
