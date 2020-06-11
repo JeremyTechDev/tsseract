@@ -34,10 +34,13 @@ Tsseract in a social media that allows you to create content and earn money with
             ├── app.js                # Express App configuration file
             └── index.js              # Server configuration file
         └──  tests                  # Unit tests
+    ├── .dockerignore               # Docker ignore files
     ├── .env                        # Environment variables file
     ├── .eslintrc.js                # ESLint config file
     ├── .gitignore                  # Git ignore file
     ├── .prettierrc                 # Prettier config file
+    ├── docker-compose.yml          # Image dependencies file
+    ├── Dockerfile                  # Image file
     ├── .jest.config.js             # Jest config file
     ├── License
     ├── package-lock.json
@@ -50,12 +53,34 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+First, you will need to set some environment variables:
+
+```
+NODE_ENV=8080
+DB_NAME=...
+DB_ADDRESS=...
+JWT_KEY=...
+```
+
+### Minimal Set-up
+
+You can just run the app using the Docker. To do that you will need to download and install the following Docker technologies:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [docker-compose](https://docs.docker.com/compose/install/)
+
+After that, you will only need to run:
+
+```
+docker-compose up
+```
+
+### Full Set-up
+
+You will need to have installed and running these technologies in order to run the application:
 
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
 - [MongoDB](https://www.mongodb.com/es) - Database storage
-
-### Installing
 
 - Clone the repo:
 
@@ -67,14 +92,6 @@ What things you need to install the software and how to install them
 
   ```
   npm install
-  ```
-
-- Set some environment variables
-
-  ```
-  NODE_ENV=5000
-  DB_NAME=...
-  JWT_KEY=...
   ```
 
 - To run the client side of the app:
@@ -98,7 +115,7 @@ What things you need to install the software and how to install them
 You should get some of the following logs on the console:
 
 ```
-🚀 Running server on port 5000...
+🚀 Running server on port 8080...
 📡 Connected to MongoDB...
 ```
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { DB_NAME } = require('../config/env');
+const { DB_NAME, DB_ADDRESS } = require('../config/env');
 
 const user = require('./routes/user');
 const auth = require('./routes/auth');
@@ -8,7 +8,7 @@ const auth = require('./routes/auth');
 const app = express();
 
 mongoose
-  .connect(`mongodb://tsseract-db:27017/${DB_NAME}`, {
+  .connect(`mongodb://${DB_ADDRESS || 'localhost:27017'}/${DB_NAME}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
