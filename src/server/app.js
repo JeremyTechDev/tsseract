@@ -4,6 +4,7 @@ const { DB_NAME, DB_ADDRESS } = require('../config/env');
 
 const user = require('./routes/user');
 const auth = require('./routes/auth');
+const post = require('./routes/post');
 
 const app = express();
 
@@ -20,6 +21,7 @@ mongoose
 app.use(express.json());
 
 app.use('/api/users', user);
+app.use('/api/posts', post);
 app.use('/api/auth', auth);
 
 app.get('/', (req, res) => res.send('Tsseract App'));

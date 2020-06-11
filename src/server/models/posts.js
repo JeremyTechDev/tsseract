@@ -20,6 +20,11 @@ const postsSchema = new mongoose.Schema({
   cover: {
     type: String,
   },
+  likes: {
+    default: 0,
+    min: 0,
+    type: Number,
+  },
   tags: {
     type: Array,
   },
@@ -40,10 +45,11 @@ const validatePost = (post) => {
     user: Joi.string().required(),
     title: Joi.string().min(5).max(145).required(),
     body: Joi.string().required(),
+    likes: Joi.number().min(0),
     cover: Joi.string(),
     tags: Joi.array(),
-    updatedAt: Joi.date().format('YYYY-MM-DD').utc().required(),
-    createdAt: Joi.date().format('YYYY-MM-DD').utc().required(),
+    updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
+    createdAt: Joi.date().format('YYYY-MM-DD').utc(),
   });
 
   return schema.validate(post);
