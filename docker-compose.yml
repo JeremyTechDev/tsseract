@@ -12,7 +12,7 @@ services:
       - tsseract-db
     expose:
       - 3000
-      - 5000
+      - 8080
     ports:
       - 3000:3000
       - 8080:8080
