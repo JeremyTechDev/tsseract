@@ -3,6 +3,9 @@ const { JWT_KEY } = require('../../config/env');
 
 /**
  * Authenticate
+ * @param req Express request object
+ * @param res Express response object
+ * @param next Next middleware function
  */
 module.exports = async (req, res, next) => {
   try {
