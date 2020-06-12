@@ -7,7 +7,6 @@
 exports.userAuth = (req, res, next) => {
   try {
     const token = req.user;
-    console.log(token);
     if (token.id !== req.body.user) {
       return res.status(403).send({
         message:
