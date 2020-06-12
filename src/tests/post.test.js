@@ -1,8 +1,6 @@
 const app = require('../server/app');
 const request = require('supertest');
 
-const postControllers = require('../server/controllers/post');
-
 describe('Posts', () => {
   describe('POST:api/posts', () => {
     const userPayload = {
@@ -12,7 +10,7 @@ describe('Posts', () => {
       email: 'admin_posts_test@tsseract.com',
       birthDate: Date.now(),
     };
-    let user;
+    let user, post;
 
     beforeAll(async (done) => {
       user = await request(app).post('/api/users/').send(userPayload);
@@ -21,30 +19,37 @@ describe('Posts', () => {
 
     afterAll(async (done) => {
       const userId = user.body.data._id;
+      const postId = post.body.data._id;
+
       await request(app)
         .delete(`/api/users/${userId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
+
+      await request(app)
+        .delete(`/api/posts/${userId}/${postId}`)
+        .set('x-auth-token', user.headers['x-auth-token']);
+
       done();
     });
 
     it('should create a new post in the database', async () => {
       const userId = user.body.data._id;
-      const post = await request(app)
-        .post('/api/posts')
-        .set('x-auth-token', user.headers['x-auth-token'])
-        .send({
-          user: userId,
-          title: 'Test Post',
-          body: 'This is a test post',
-          cover: 'No image',
-        });
-
-      //   console.log(post);
-      expect(post.body.data).toMatchObject({
+      const postPayload = {
         user: userId,
         title: 'Test Post',
         body: 'This is a test post',
-        cover: 'No image',
+        cover: '/testing/url/for/image',
+      };
+
+      post = await request(app)
+        .post('/api/posts')
+        .set('x-auth-token', user.headers['x-auth-token'])
+        .send(postPayload);
+
+      expect(post.body.data).toMatchObject({
+        ...postPayload,
+        likes: 0,
+        tags: [],
       });
     });
   });

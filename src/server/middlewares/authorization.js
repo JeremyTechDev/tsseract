@@ -7,7 +7,9 @@
 exports.userAuth = (req, res, next) => {
   try {
     const token = req.user;
-    if (token.id !== req.body.user) {
+    const userId = req.body.user ? req.body.user : req.params.id;
+
+    if (token.id !== userId) {
       return res.status(403).send({
         message:
           'Access denied. The current user is not allowed to perform this action.',

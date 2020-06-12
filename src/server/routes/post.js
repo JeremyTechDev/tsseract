@@ -11,4 +11,16 @@ const { userAuth } = require('../middlewares/authorization');
  */
 router.post('/', [authenticate, userAuth], postControllers.create);
 
+/**
+ * Deletes a post by id
+ * @route /api/posts/:id/:postId
+ * @param id user id
+ * @param postId post id
+ */
+router.delete(
+  '/:id/:postId',
+  [authenticate, userAuth],
+  postControllers.deletePost,
+);
+
 module.exports = router;

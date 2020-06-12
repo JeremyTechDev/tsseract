@@ -38,7 +38,7 @@ const postsSchema = new mongoose.Schema({
   },
 });
 
-const Posts = new mongoose.model('Posts', postsSchema);
+const Post = new mongoose.model('Posts', postsSchema);
 
 const validatePost = (post) => {
   const schema = Joi.object({
@@ -55,5 +55,5 @@ const validatePost = (post) => {
   return schema.validate(post);
 };
 
-exports.Posts = Posts;
+exports.Post = Post;
 exports.validatePost = validatePost;
