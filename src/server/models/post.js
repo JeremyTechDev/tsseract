@@ -25,9 +25,6 @@ const postsSchema = new mongoose.Schema({
     min: 0,
     type: Number,
   },
-  tags: {
-    type: Array,
-  },
   createdAt: {
     type: Date,
     default: new Date(),
