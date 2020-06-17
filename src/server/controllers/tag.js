@@ -12,9 +12,7 @@ exports.findOrCreate = async (tagName) => {
     const tagExists = await Tag.findOne({ name: tagName });
 
     // if tag already exists
-    if (tagExists) {
-      return { ...tagExists._doc, new: false, statusCode: 200 };
-    }
+    if (tagExists) return { ...tagExists._doc, new: false, statusCode: 200 };
 
     const newTag = new Tag({ name: tagName });
     await newTag.save();

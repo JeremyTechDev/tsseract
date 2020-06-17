@@ -15,8 +15,8 @@ exports.create = async (req, res) => {
     const isUsernameTaken = await User.findOne({ username: req.body.username });
     const isEmailTaken = await User.findOne({ email: req.body.email });
 
-    if (isUsernameTaken) return res.status(400).send('Username already taken');
-    if (isEmailTaken) return res.status(400).send('Email already taken');
+    if (isUsernameTaken) return res.status(409).send('Username already taken');
+    if (isEmailTaken) return res.status(409).send('Email already taken');
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
