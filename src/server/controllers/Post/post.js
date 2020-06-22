@@ -18,20 +18,34 @@ exports.create = async (req, res) => {
     const post = new Post(req.body);
     await post.save();
 
-    // Save tag
-    const tag = await tagControllers.findOrCreate(req.body.tags[0]);
-    if (tag.error) return res.status(tag.statusCode).send(tag.error);
+    /**
+     * Return an array of objects with the
+     * tags and postTag data for each tag
+     */
+    const postTagsResults = await Promise.all(
+      req.body.tags.map(async (tagName) => {
+        // Save tag
+        const tag = await tagControllers.findOrCreate(tagName);
 
-    // Save postTag relation
-    const postTag = await postTagControllers.create({
-      tagId: tag._id,
-      postId: post._id,
-    });
+        // Handle tag errors
+        if (tag.error) return res.status(tag.statusCode).send(tag.error);
 
-    if (postTag.error)
-      return res.status(postTag.statusCode).send(postTag.error);
+        // Save postTag relation
+        const postTag = await postTagControllers.create({
+          tagId: tag._id,
+          postId: post._id,
+        });
 
-    res.send({ data: { post, tag, postTag } });
+        // Handle postTag error
+        if (postTag.error) {
+          return res.status(postTag.statusCode).send(postTag.error);
+        }
+
+        return { tag, postTag };
+      }),
+    );
+
+    res.send({ data: { post, tags: postTagsResults } });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
