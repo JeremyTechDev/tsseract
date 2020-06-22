@@ -1,4 +1,4 @@
-const { Tag, validateTag } = require('../models/tag');
+const { Tag, validateTag } = require('../../models/Post/tag');
 
 /**
  * Creates or finds a tag by name
@@ -17,7 +17,7 @@ exports.findOrCreate = async (tagName) => {
     const newTag = new Tag({ name: tagName });
     await newTag.save();
 
-    return { ...newTag, new: true, statusCode: 200 };
+    return { ...newTag._doc, new: true, statusCode: 200 };
   } catch (error) {
     return { error: error.message, statusCode: 500 };
   }

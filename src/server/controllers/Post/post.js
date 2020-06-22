@@ -1,7 +1,7 @@
-const { Post, validatePost } = require('../models/post');
+const { Post, validatePost } = require('../../models/Post/post');
 
-const tagControllers = require('../controllers/tag');
-const postTagControllers = require('../controllers/postTag');
+const tagControllers = require('../Post/tag');
+const postTagControllers = require('../Post/postTag');
 
 /**
  * Creates a new post

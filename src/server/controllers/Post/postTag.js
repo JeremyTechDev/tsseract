@@ -1,4 +1,4 @@
-const { PostTag, validatePostTag } = require('../models/postTag');
+const { PostTag, validatePostTag } = require('../../models/Post/postTag');
 
 /**
  * Creates a new postTag relationship
