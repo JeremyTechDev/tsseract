@@ -10,6 +10,12 @@ describe('Posts', () => {
       email: 'admin_posts_test@tsseract.com',
       birthDate: Date.now(),
     };
+    const postPayload = {
+      title: 'Test Post',
+      body: 'This is a test post',
+      cover: '/testing/url/for/image',
+    };
+
     let user, post;
 
     beforeAll(async (done) => {
@@ -32,26 +38,64 @@ describe('Posts', () => {
       done();
     });
 
-    it('should create a new post in the database', async () => {
+    it('should create a new post with just one tag', async () => {
       const userId = user.body.data._id;
-      const postPayload = {
+      const newPostPayload = {
+        ...postPayload,
         user: userId,
-        title: 'Test Post',
-        body: 'This is a test post',
-        cover: '/testing/url/for/image',
         tags: ['TypeScript'],
       };
 
       post = await request(app)
         .post('/api/posts')
         .set('x-auth-token', user.headers['x-auth-token'])
-        .send(postPayload);
+        .send(newPostPayload);
 
-      expect(post.body.data).toHaveProperty('post', 'tag', 'postTag');
-      // expect(post.body.data.post).toMatchObject({
-      //   ...postPayload,
-      //   likes: 0,
-      // });
+      expect(post.body.data.tags.length).toBe(1);
+      expect(post.body.data.post).toMatchObject({
+        ...postPayload,
+        user: userId,
+      });
+    });
+
+    it('should create a new post with no tag', async () => {
+      const userId = user.body.data._id;
+      const newPostPayload = {
+        ...postPayload,
+        user: userId,
+        tags: [],
+      };
+
+      post = await request(app)
+        .post('/api/posts')
+        .set('x-auth-token', user.headers['x-auth-token'])
+        .send(newPostPayload);
+
+      expect(post.body.data.tags.length).toBe(0);
+      expect(post.body.data.post).toMatchObject({
+        ...postPayload,
+        user: userId,
+      });
+    });
+
+    it('should create a new post with no tag', async () => {
+      const userId = user.body.data._id;
+      const newPostPayload = {
+        ...postPayload,
+        user: userId,
+        tags: ['TypeScript', 'Docker', 'MongoDB'],
+      };
+
+      post = await request(app)
+        .post('/api/posts')
+        .set('x-auth-token', user.headers['x-auth-token'])
+        .send(newPostPayload);
+
+      expect(post.body.data.tags.length).toBe(3);
+      expect(post.body.data.post).toMatchObject({
+        ...postPayload,
+        user: userId,
+      });
     });
   });
 });
