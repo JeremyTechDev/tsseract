@@ -40,7 +40,7 @@ const Post = new mongoose.model('Posts', postsSchema);
 
 const validatePost = (post) => {
   const schema = Joi.object({
-    user: Joi.string().pattern(objectIdRegExp).required(),
+    user: Joi.string().regex(objectIdRegExp).required(),
     title: Joi.string().min(5).max(145).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),

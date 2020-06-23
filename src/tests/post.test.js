@@ -16,30 +16,30 @@ describe('Posts', () => {
       cover: '/testing/url/for/image',
     };
 
-    let user, post;
+    let user, userId, post;
 
     beforeAll(async (done) => {
       user = await request(app).post('/api/users/').send(userPayload);
+      userId = user.body.data._id;
+
       done();
     });
 
     afterAll(async (done) => {
-      const userId = user.body.data._id;
       const postId = post.body.data._id;
 
       await request(app)
-        .delete(`/api/users/${userId}`)
+        .delete(`/api/posts/${userId}/${postId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
 
       await request(app)
-        .delete(`/api/posts/${userId}/${postId}`)
+        .delete(`/api/users/${userId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
 
       done();
     });
 
     it('should create a new post with just one tag', async () => {
-      const userId = user.body.data._id;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -59,7 +59,6 @@ describe('Posts', () => {
     });
 
     it('should create a new post with no tag', async () => {
-      const userId = user.body.data._id;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -79,7 +78,6 @@ describe('Posts', () => {
     });
 
     it('should create a new post with no tag', async () => {
-      const userId = user.body.data._id;
       const newPostPayload = {
         ...postPayload,
         user: userId,

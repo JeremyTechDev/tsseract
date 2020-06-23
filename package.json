@@ -7,7 +7,7 @@
     "server": "nodemon ./src/server/index",
     "dev": "nodemon src/server/index.js & react-scripts start",
     "build": "react-scripts build",
-    "test": "export DB_ADDRESS= && jest --forceExit",
+    "test": "export DB_ADDRESS= && jest",
     "eject": "react-scripts eject"
   },
   "dependencies": {

@@ -32,8 +32,8 @@ exports.create = async (req, res) => {
 
         // Save postTag relation
         const postTag = await postTagControllers.create({
-          tagId: tag._id,
-          postId: post._id,
+          postId: String(post._id),
+          tagId: String(tag._id),
         });
 
         // Handle postTag error

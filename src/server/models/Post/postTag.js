@@ -19,8 +19,8 @@ const PostTag = new mongoose.model('PostsTags', postTagSchema);
 
 const validatePostTag = (postTag) => {
   const schema = Joi.object({
-    postId: Joi.pattern(objectIdRegExp).required(),
-    tagId: Joi.ref('postId'),
+    postId: Joi.string().regex(objectIdRegExp).required(),
+    tagId: Joi.string().regex(objectIdRegExp).required(),
   });
 
   return schema.validate(postTag);
