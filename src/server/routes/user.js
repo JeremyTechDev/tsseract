@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const userControllers = require('../controllers/user');
+const authenticate = require('../middlewares/authenticator');
+const { userAuth } = require('../middlewares/authorization');
 
 /**
  * Creates a new user
@@ -28,6 +30,6 @@ router.get('/u/:username', userControllers.retrieveUserByUsername);
  * @route /api/users/:id
  * @param {String} id user id
  */
-router.delete('/:id', userControllers.deleteUser);
+router.delete('/:id', [authenticate, userAuth], userControllers.deleteUser);
 
 module.exports = router;

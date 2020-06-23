@@ -22,7 +22,9 @@ describe('Auth', () => {
 
     afterAll(async (done) => {
       const userId = user.body.data._id;
-      await request(app).delete(`/api/users/${userId}`);
+      await request(app)
+        .delete(`/api/users/${userId}`)
+        .set('x-auth-token', user.headers['x-auth-token']);
       done();
     });
 
