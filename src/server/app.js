@@ -7,11 +7,12 @@ const auth = require('./routes/auth');
 const post = require('./routes/post');
 
 /**
- * Creates a Express app with a RESTful API
+ * Creates an Express app with a RESTful API
  * @param {Boolean} isTesting determines whether using a testing DB or not
  * @returns {app} Express application
  */
-const init = (isTesting = false) => {
+const init = (options = {}) => {
+  const { isTesting } = options;
   const PATH = !isTesting && Boolean(DB_ADDRESS) ? DB_ADDRESS : 'localhost';
   const TARGET_DB = isTesting ? 'tsseract-db-test' : DB_NAME;
 

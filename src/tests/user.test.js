@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_KEY } = require('../config/env');
 
 describe('User', () => {
-  const sut = app(true);
+  const SUT = app({ isTesting: true });
 
   describe('POST:/api/users', () => {
     const userPayload = {
@@ -18,13 +18,13 @@ describe('User', () => {
     let user;
 
     beforeAll(async (done) => {
-      user = await request(sut).post('/api/users/').send(userPayload);
+      user = await request(SUT).post('/api/users/').send(userPayload);
       done();
     });
 
     afterAll(async (done) => {
       const userId = user.body.data._id;
-      await request(sut)
+      await request(SUT)
         .delete(`/api/users/${userId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
       done();

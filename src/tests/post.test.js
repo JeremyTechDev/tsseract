@@ -2,7 +2,7 @@ const app = require('../server/app');
 const request = require('supertest');
 
 describe('Posts', () => {
-  const sut = app(true);
+  const SUT = app({ isTesting: true });
 
   describe('POST:api/posts', () => {
     const userPayload = {
@@ -21,7 +21,7 @@ describe('Posts', () => {
     let user, userId, post;
 
     beforeAll(async (done) => {
-      user = await request(sut).post('/api/users/').send(userPayload);
+      user = await request(SUT).post('/api/users/').send(userPayload);
       userId = user.body.data._id;
 
       done();
@@ -30,11 +30,11 @@ describe('Posts', () => {
     afterAll(async (done) => {
       const postId = post.body.data._id;
 
-      await request(sut)
+      await request(SUT)
         .delete(`/api/posts/${userId}/${postId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
 
-      await request(sut)
+      await request(SUT)
         .delete(`/api/users/${userId}`)
         .set('x-auth-token', user.headers['x-auth-token']);
 
@@ -48,7 +48,7 @@ describe('Posts', () => {
         tags: ['TypeScript'],
       };
 
-      post = await request(sut)
+      post = await request(SUT)
         .post('/api/posts')
         .set('x-auth-token', user.headers['x-auth-token'])
         .send(newPostPayload);
@@ -67,7 +67,7 @@ describe('Posts', () => {
         tags: [],
       };
 
-      post = await request(sut)
+      post = await request(SUT)
         .post('/api/posts')
         .set('x-auth-token', user.headers['x-auth-token'])
         .send(newPostPayload);
@@ -86,7 +86,7 @@ describe('Posts', () => {
         tags: ['TypeScript', 'Docker', 'MongoDB'],
       };
 
-      post = await request(sut)
+      post = await request(SUT)
         .post('/api/posts')
         .set('x-auth-token', user.headers['x-auth-token'])
         .send(newPostPayload);
