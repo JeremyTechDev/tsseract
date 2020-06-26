@@ -68,7 +68,7 @@ You can just run the app using the Docker 🐳. To do that, you will need to dow
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [docker-compose](https://docs.docker.com/compose/install/)
-- [MongoDB Compass](https://www.mongodb.com/products/compass) **Optional** - To explore and manipulate the database
+- [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
 After that, you only need to run the following at the root of the project in a console:
 
@@ -82,6 +82,7 @@ You will need to have installed and running these technologies in order to run t
 
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
 - [MongoDB](https://www.mongodb.com/es) - Database Storage
+- [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
 📌 **To run the app with npm. You need to make sure that the env variable `DB_ADDRESS` is empty or set to `localhost`.**
 
