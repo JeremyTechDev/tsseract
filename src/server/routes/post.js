@@ -15,8 +15,9 @@ router.post('/', [authenticate, userAuth], postControllers.create);
 /**
  * Creates a new comment in a post
  * @route /api/posts/c
+ * @param {String} postId post id
  */
-router.post('/c', [authenticate, userAuth], commentControllers.create);
+router.post('/c/:postId', [authenticate, userAuth], commentControllers.create);
 
 /**
  * Deletes a post by id

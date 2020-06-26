@@ -116,9 +116,9 @@ describe('Posts', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post('/api/posts/c')
+        .post(`/api/posts/c/${post.body.data.post._id}`)
         .set('x-auth-token', user.headers['x-auth-token'])
-        .send({ ...newCommentPayload, post: post.body.data.post._id });
+        .send({ ...newCommentPayload });
 
       expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);
       expect(postWithComment.body.data.comments[0]).toMatchObject({

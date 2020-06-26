@@ -12,9 +12,9 @@ exports.create = async (req, res) => {
     const { error } = validateComment(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const post = await Post.findById(req.body.post);
+    const post = await Post.findById(req.params.postId);
+    if (!post) return res.status(404).send('No post found with the given id');
 
-    delete req.body.post;
     post.comments.unshift(req.body);
 
     const { body, comments, title, user } = post;

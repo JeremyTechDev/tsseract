@@ -24,7 +24,6 @@ const commentsSchema = new mongoose.Schema({
 const validateComment = (comment) => {
   const schema = Joi.object({
     user: Joi.string().regex(objectIdRegExp).required(),
-    post: Joi.string().regex(objectIdRegExp).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
     updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
