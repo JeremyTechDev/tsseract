@@ -1,4 +1,4 @@
-# Tsseract App 🌐
+# Tsseract 🌐
 
 <p align="center">
   <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
@@ -53,7 +53,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-First, you will need to create a `.env` file and set some environment variables:
+First, you will need to create a `.env` file at the root of the project and set some environment variables:
 
 ```
 NODE_ENV=8080
@@ -64,12 +64,12 @@ JWT_KEY=...
 
 ### Minimal Set-up
 
-You can just run the app using the Docker 🐳. To do that you will need to download and install the following Docker technologies:
+You can just run the app using the Docker 🐳. To do that, you will need to download and install the following Docker technologies:
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [docker-compose](https://docs.docker.com/compose/install/)
 
-After that, you will only need to run:
+After that, you only need to run the following at the root of the project in a console:
 
 ```
 docker-compose up
