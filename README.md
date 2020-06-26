@@ -1,4 +1,4 @@
-# Tsseract App 🌐
+# Tsseract 🌐
 
 <p align="center">
   <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
@@ -53,7 +53,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-First, you will need to create a `.env` file and set some environment variables:
+First, you will need to create a `.env` file at the root of the project and set some environment variables:
 
 ```
 NODE_ENV=8080
@@ -64,12 +64,13 @@ JWT_KEY=...
 
 ### Minimal Set-up
 
-You can just run the app using the Docker 🐳. To do that you will need to download and install the following Docker technologies:
+You can just run the app using the Docker 🐳. To do that, you will need to download and install the following Docker technologies:
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [docker-compose](https://docs.docker.com/compose/install/)
+- [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
-After that, you will only need to run:
+After that, you only need to run the following at the root of the project in a console:
 
 ```
 docker-compose up
@@ -81,13 +82,14 @@ You will need to have installed and running these technologies in order to run t
 
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
 - [MongoDB](https://www.mongodb.com/es) - Database Storage
+- [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
 📌 **To run the app with npm. You need to make sure that the env variable `DB_ADDRESS` is empty or set to `localhost`.**
 
 - Clone the repo:
 
   ```
-  git clone https://github.com/jermy2918/tsseract-app.git
+  git clone https://github.com/jeremy2918/tsseract-app.git
   ```
 
 - Install dependencies:
@@ -125,7 +127,7 @@ You should get some of the following logs on the console:
 
 The app uses [Jest](https://jestjs.io/) as the testing framework for this App 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
 
-Tests are run before every push and as a [GitHub Action](https://github.com/jermy2918/tsseract-app/actions).
+Tests are run before every push and as a [GitHub Action](https://github.com/jeremy2918/tsseract-app/actions).
 
 ## Built With
 
@@ -138,7 +140,7 @@ Tests are run before every push and as a [GitHub Action](https://github.com/jerm
 
 ## Authors
 
-- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jermy2918)
+- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jeremy2918)
 
 ## License
 
