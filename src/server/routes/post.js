@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const postControllers = require('../controllers/Post/post');
+const commentControllers = require('../controllers/Post/comment');
 const authenticate = require('../middlewares/authenticator');
 const { userAuth } = require('../middlewares/authorization');
 
@@ -10,6 +11,12 @@ const { userAuth } = require('../middlewares/authorization');
  * @route /api/posts/
  */
 router.post('/', [authenticate, userAuth], postControllers.create);
+
+/**
+ * Creates a new comment in a post
+ * @route /api/posts/c
+ */
+router.post('/c', [authenticate, userAuth], commentControllers.create);
 
 /**
  * Deletes a post by id

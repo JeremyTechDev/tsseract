@@ -48,6 +48,10 @@ exports.retrieveUser = async (req, res) => {
     const userId = req.params.id;
 
     const user = await User.findById(userId);
+    if (!user)
+      return res
+        .status(404)
+        .send({ message: 'No used found with the given id' });
 
     const { _id, name, username, email, birthDate, createdAt } = user;
     res.send({ data: { _id, name, username, email, birthDate, createdAt } });
