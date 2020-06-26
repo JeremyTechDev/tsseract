@@ -68,6 +68,7 @@ You can just run the app using the Docker 🐳. To do that, you will need to dow
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [docker-compose](https://docs.docker.com/compose/install/)
+- [MongoDB Compass](https://www.mongodb.com/products/compass) **Optional** - To explore and manipulate the database
 
 After that, you only need to run the following at the root of the project in a console:
 
@@ -87,7 +88,7 @@ You will need to have installed and running these technologies in order to run t
 - Clone the repo:
 
   ```
-  git clone https://github.com/jermy2918/tsseract-app.git
+  git clone https://github.com/jeremy2918/tsseract-app.git
   ```
 
 - Install dependencies:
@@ -125,7 +126,7 @@ You should get some of the following logs on the console:
 
 The app uses [Jest](https://jestjs.io/) as the testing framework for this App 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
 
-Tests are run before every push and as a [GitHub Action](https://github.com/jermy2918/tsseract-app/actions).
+Tests are run before every push and as a [GitHub Action](https://github.com/jeremy2918/tsseract-app/actions).
 
 ## Built With
 
@@ -138,7 +139,7 @@ Tests are run before every push and as a [GitHub Action](https://github.com/jerm
 
 ## Authors
 
-- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jermy2918)
+- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jeremy2918)
 
 ## License
 
