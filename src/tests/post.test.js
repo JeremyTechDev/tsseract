@@ -97,5 +97,34 @@ describe('Posts', () => {
         user: userId,
       });
     });
+
+    it('should add a comment into a post', async () => {
+      const newPostPayload = {
+        ...postPayload,
+        user: userId,
+        tags: [],
+      };
+
+      post = await request(SUT)
+        .post('/api/posts')
+        .set('x-auth-token', user.headers['x-auth-token'])
+        .send(newPostPayload);
+
+      const newCommentPayload = {
+        user: userId,
+        body: 'Test comment',
+      };
+
+      const postWithComment = await request(SUT)
+        .post('/api/posts/c')
+        .set('x-auth-token', user.headers['x-auth-token'])
+        .send({ ...newCommentPayload, post: post.body.data.post._id });
+
+      expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);
+      expect(postWithComment.body.data.comments[0]).toMatchObject({
+        ...newCommentPayload,
+        likes: 0,
+      });
+    });
   });
 });

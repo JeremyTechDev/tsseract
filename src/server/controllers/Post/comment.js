@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
     }
 
     await post.save();
-    res.send(post);
+    res.send({ data: post });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
