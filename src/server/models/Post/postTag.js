@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const { objectIdRegExp } = require('../../../helpers');
+const { regularExpressions } = require('../../../helpers');
 
 const postTagSchema = new mongoose.Schema({
   postId: {
@@ -19,8 +19,8 @@ const PostTag = new mongoose.model('PostsTags', postTagSchema);
 
 const validatePostTag = (postTag) => {
   const schema = Joi.object({
-    postId: Joi.string().regex(objectIdRegExp).required(),
-    tagId: Joi.string().regex(objectIdRegExp).required(),
+    postId: Joi.string().regex(regularExpressions.objectId).required(),
+    tagId: Joi.string().regex(regularExpressions.objectId).required(),
   });
 
   return schema.validate(postTag);

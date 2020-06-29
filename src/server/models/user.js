@@ -4,6 +4,8 @@ const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const pswComplexity = require('joi-password-complexity');
 const { JWT_KEY } = require('../../config/env');
 
+const { regularExpressions } = require('../../helpers');
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -53,7 +55,12 @@ const User = new mongoose.model('Users', userSchema);
 const validateUser = (user) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
-    username: Joi.string().min(2).max(50).required(),
+    username: Joi.string()
+      .min(2)
+      .max(50)
+      .trim()
+      .required()
+      .regex(regularExpressions.username),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .min(2)
@@ -65,7 +72,7 @@ const validateUser = (user) => {
   });
 
   const isValidPassword = pswComplexity(undefined, 'Password').validate(
-    user.password
+    user.password,
   );
   if (isValidPassword.error) return isValidPassword;
 
