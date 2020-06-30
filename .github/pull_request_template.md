@@ -1,10 +1,15 @@
-# [Ticket Title](https://TrelloTicketURL)
+# [Title](Trello-Card-URL)
 
 ## Description
 
-<!-- Add a brief description for what this PR is going to Accomplish -->
+<!-- Add a brief description for what this PR is going to accomplish -->
 
 ## Testing Steps
+
+- `git pull`
+- `git checkout ...`
+- `npm install`
+- `npm run dev`
 
 <!-- Include the necessary testing steps  -->
 
