@@ -8,6 +8,11 @@ const tagSchema = new mongoose.Schema({
     max: 45,
     unique: true,
   },
+  popularity: {
+    type: Number,
+    default: 1,
+    min: 0,
+  },
 });
 
 const Tag = new mongoose.model('Tags', tagSchema);
@@ -18,6 +23,7 @@ const validateTag = (tag) => {
       .max(45)
       .regex(/^[a-z0-9]+$/i)
       .required(),
+    popularity: Joi.number().min(0),
   });
 
   return schema.validate(tag);
