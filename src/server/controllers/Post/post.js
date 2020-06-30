@@ -1,4 +1,5 @@
 const { Post, validatePost } = require('../../models/Post/post');
+const { PostTag } = require('../../models/Post/postTag');
 
 const tagControllers = require('../Post/tag');
 const postTagControllers = require('../Post/postTag');
@@ -61,6 +62,7 @@ exports.deletePost = async (req, res) => {
   try {
     const postId = req.params.postId;
     const post = await Post.findByIdAndDelete(postId);
+    await PostTag.findOneAndDelete({ postId });
 
     if (!post)
       return res
