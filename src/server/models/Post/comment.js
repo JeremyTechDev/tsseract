@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const { objectIdRegExp } = require('../../../helpers');
+const { regularExpressions } = require('../../../helpers');
 
 const commentsSchema = new mongoose.Schema({
   user: {
@@ -23,7 +23,7 @@ const commentsSchema = new mongoose.Schema({
 
 const validateComment = (comment) => {
   const schema = Joi.object({
-    user: Joi.string().regex(objectIdRegExp).required(),
+    user: Joi.string().regex(regularExpressions.objectId).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
     updatedAt: Joi.date().format('YYYY-MM-DD').utc(),

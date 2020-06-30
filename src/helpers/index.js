@@ -1,7 +1,7 @@
 const requestOptions = require('./requestOptions');
-const objectIdRegExp = require('./validateObjectId');
+const regularExpressions = require('./regularExpressions');
 
 module.exports = {
   requestOptions,
-  objectIdRegExp,
+  regularExpressions,
 };
