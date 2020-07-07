@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const pswComplexity = require('joi-password-complexity');
-const { JWT_KEY } = require('../../config/env');
+const { JWT_KEY } = require('../config/env');
 
-const { regularExpressions } = require('../../helpers');
+const { regularExpressions } = require('../helpers');
 
 const userSchema = new mongoose.Schema({
   name: {

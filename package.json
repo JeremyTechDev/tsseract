@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "server": "nodemon ./src/server/index",
-    "dev": "nodemon src/server/index.js & react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest --forceExit",
-    "eject": "react-scripts eject"
+    "dev": "nodemon ./server/index & next",
+    "server": "nodemon ./server/index",
+    "start": "next start",
+    "build": "next build",
+    "test": "jest --forceExit"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -22,9 +21,10 @@
     "joi-password-complexity": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
+    "next": "^9.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "^3.4.1"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",

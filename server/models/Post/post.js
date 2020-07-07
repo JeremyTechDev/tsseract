@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { commentsSchema } = require('./comment');
-const { regularExpressions } = require('../../../helpers');
+const { regularExpressions } = require('../../helpers');
 
 const postsSchema = new mongoose.Schema({
   user: {

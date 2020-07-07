@@ -11,29 +11,27 @@ Tsseract in a social media that allows you to create content and earn money 💸
     ├── .github                     # GitHub Settings
         ├── workflows                 # GitHub Actions files
         └── pull_request_template     # PR Description template
-    ├── public                      # React Public folder
-        └── index.html                # HTML5 file
-    └── src
-        └── app                     # Front-end
-            ├── Components            # Function React Components
-                ├── index.jsx           # Component file
-                └── styles.scss         # SASS styles file
-            ├── Containers            # Class React Components
-                ├── index.jsx           # Container file
-                └── styles.scss         # SASS styles file
-            └── context.js            # App context
-        ├── assets                  # App images and other resoureces
-        ├── config                  # Env variables and URLs endpoint access
-            └── env.js                # Access to env variables
-        ├── helpers                 # Helpers folder
-        ├── server                  # Back-end
-            ├── controllers           # Database controllers
-            ├── middlewares           # Express middlewares
-            ├── models                # MongoDB collections Models
-            ├── routes                # Express routes
-            ├── app.js                # Express App configuration file
-            └── index.js              # Server configuration file
-        └──  tests                  # Unit tests
+    ├── client                      # React Components and Containers
+        ├── Components                # Function React Components
+            ├── index.jsx               # Component file
+            └── styles.scss             # SASS styles file
+        ├── Containers                # Class React Components
+            ├── index.jsx               # Container file
+            └── styles.scss             # SASS styles file
+        └── context.js                # App context
+    ├── pages                       # NextJS Pages
+    ├── resourcese                  # App Resoureces
+    └── server                      # App Restful API
+        ├── config                    # Env variables and URLs endpoint access
+            └── env.js                  # Access to env variables
+        ├── controllers               # Database controllers
+        ├── helpers                   # Helpers folder
+        ├── middlewares               # Express middlewares
+        ├── models                    # MongoDB collections Models
+        ├── routes                    # Express routes
+        ├── tests                     # Unit tests
+        ├── app.js                    # Express App configuration file
+        └── index.js                  # Server configuration file
     ├── .dockerignore               # Docker ignored files
     ├── .env                        # Environment variables file
     ├── .eslintrc.js                # ESLint config file
@@ -131,12 +129,13 @@ Tests are run before every push and as a [GitHub Action](https://github.com/jere
 
 ## Built With
 
-- [React](https://es.reactjs.org/) - The web framework used
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
-- [MongoDB](https://www.mongodb.com/es) - Database storage
-- [SASS](https://sass-lang.com/) - Styles framework
+- [React](https://es.reactjs.org/) - The Web Framework
+- [NextJS](https://nextjs.org/) - React Framework
 - [Express](https://expressjs.com/es/) - API service framework
-- [Jest](https://jestjs.io/) - Testing framework
+- [MongoDB](https://www.mongodb.com/es) - Database storage
+- [SASS](https://sass-lang.com/) - Styles Framework
+- [Jest](https://jestjs.io/) - Testing Framework
 
 ## Authors
 

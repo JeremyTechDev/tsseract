@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
-const { regularExpressions } = require('../../../helpers');
+const { regularExpressions } = require('../../helpers');
 
 const postTagSchema = new mongoose.Schema({
   postId: {
