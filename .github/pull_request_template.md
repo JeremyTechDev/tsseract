@@ -9,7 +9,7 @@
 - `git pull`
 - `git checkout ...`
 - `npm install`
-- `npm run dev`
+- `npm run dev:server`
 
 <!-- Include the necessary testing steps  -->
 
