@@ -1,14 +1,10 @@
-import Link from 'next/link';
+import Layout from '../client/components/Layout';
 
 const App = () => {
   return (
-    <div>
-      <h1>Tsseract</h1>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </div>
+    <Layout>
+      <h1>Tsseract App</h1>
+    </Layout>
   );
 };
-
 export default App;
