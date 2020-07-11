@@ -1,0 +1,37 @@
+/* Only customize bar here */
+$color: #f00;
+$height: 3px;
+
+#nprogress {
+  pointer-events: none;
+
+  .bar {
+    background: $color;
+    height: $height;
+    left: 0;
+    position: absolute;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1031;
+  }
+
+  /* Fancy blur effect */
+  .peg {
+    box-shadow: 0 0 10px $color, 0 0 5px $color;
+    display: block;
+    height: 100%;
+    opacity: 1;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    -webkit-transform: rotate(3deg) translate(0px, -4px);
+    -ms-transform: rotate(3deg) translate(0px, -4px);
+    transform: rotate(3deg) translate(0px, -4px);
+  }
+}
+
+.nprogress-custom-parent {
+  overflow: hidden;
+  position: relative;
+}

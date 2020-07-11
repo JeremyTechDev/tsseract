@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_KEY } = require('../../config/env');
+const { JWT_KEY } = require('../config/env');
 
 /**
  * Authenticate

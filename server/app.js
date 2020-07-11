@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { DB_NAME, DB_ADDRESS } = require('../config/env');
+const { DB_NAME, DB_ADDRESS } = require('./config/env');
 
 const user = require('./routes/user');
 const auth = require('./routes/auth');
