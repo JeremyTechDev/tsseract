@@ -4,43 +4,42 @@
   <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
 </p>
 
-Tsseract in a social media that allows you to create content and earn money 💸 with it depending on the amount of view and interactions your posts have.
+Tsseract in a social media app were can create content and earn money 💸 with it.
 
 ## Folder Structure 🗂️
 
     ├── .github                     # GitHub Settings
-        ├── workflows                 # GitHub Actions files
-        └── pull_request_template     # PR Description template
+        ├── workflows                   # GitHub Actions files
+        └── pull_request_template       # PR Description template
     ├── client                      # React Components and Containers
-        ├── Components                # Function React Components
-            ├── index.jsx               # Component file
-            └── styles.scss             # SASS styles file
-        ├── Containers                # Class React Components
-            ├── index.jsx               # Container file
-            └── styles.scss             # SASS styles file
-        └── context.js                # App context
+        ├── Components                  # Function React Components
+            ├── index.jsx                   # Component file
+            └── styles.scss                 # SASS styles file
+        ├── nprogress.scss              # NProgress custom styles
+        └── context.js                  # App context
     ├── pages                       # NextJS Pages
-    ├── resourcese                  # App Resoureces
     └── server                      # App Restful API
-        ├── config                    # Env variables and URLs endpoint access
-            └── env.js                  # Access to env variables
-        ├── controllers               # Database controllers
-        ├── helpers                   # Helpers folder
-        ├── middlewares               # Express middlewares
-        ├── models                    # MongoDB collections Models
-        ├── routes                    # Express routes
-        ├── tests                     # Unit tests
-        ├── app.js                    # Express App configuration file
-        └── index.js                  # Server configuration file
+        ├── config                      # Env variables and URLs endpoint access
+            └── env.js                      # Access to env variables
+        ├── controllers                 # Database controllers
+        ├── helpers                     # Helpers folder
+        ├── middlewares                 # Express middlewares
+        ├── models                      # MongoDB collections Models
+        ├── routes                      # Express routes
+        ├── app.js                      # Express App configuration file
+        └── index.js                    # Server configuration file
+    ├── static                      # Static files
+    ├── tests                       # Unit tests
     ├── .dockerignore               # Docker ignored files
     ├── .env                        # Environment variables file
     ├── .eslintrc.js                # ESLint config file
-    ├── .gitignore                  # Git ignored file
+    ├── .gitignore                  # Git ignored files
     ├── .prettierrc                 # Prettier config file
     ├── docker-compose.yml          # Image dependencies file
     ├── Dockerfile                  # Image file
     ├── .jest.config.js             # Jest config file
     ├── License
+    ├── next.config.js              # NextJS configuration file
     ├── package-lock.json
     ├── package.json
     └── README.md
@@ -54,13 +53,14 @@ These instructions will get you a copy of the project up and running on your loc
 First, you will need to create a `.env` file at the root of the project and set some environment variables:
 
 ```
-NODE_ENV=8080
+PORT=8080
+NODE_ENV=development
 DB_NAME=...
 DB_ADDRESS=...
 JWT_KEY=...
 ```
 
-### Minimal Set-up
+### Minimal Set-up (beta)
 
 You can just run the app using the Docker 🐳. To do that, you will need to download and install the following Docker technologies:
 
@@ -99,7 +99,7 @@ You will need to have installed and running these technologies in order to run t
 - To run the client side of the app:
 
   ```
-  npm start
+  npm run dev
   ```
 
 - To run the server of the app:
@@ -108,16 +108,16 @@ You will need to have installed and running these technologies in order to run t
   npm run server
   ```
 
-- Or you can start both in development:
+- Or you can start both in development mode:
 
   ```
-  npm run dev
+  npm run dev:server
   ```
 
 You should get some of the following logs on the console:
 
 ```
-🚀 Running server on port 8080...
+🚀 Server running on port 8080...
 📡 Connected to MongoDB...
 ```
 

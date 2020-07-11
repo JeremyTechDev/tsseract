@@ -2,7 +2,7 @@ import Layout from '../client/components/Layout';
 
 const App = () => {
   return (
-    <Layout>
+    <Layout title="Tsseract App">
       <h1>Tsseract App</h1>
     </Layout>
   );
