@@ -1,7 +1,7 @@
 # Tsseract 🌐
 
 <p align="center">
-  <img src='./src/assets/tsseract-logo.png' width='100' height='100' /> 
+  <img src='./static/icons/icon-192x192.png' width='100' height='100' /> 
 </p>
 
 Tsseract in a social media app were can create content and earn money 💸 with it.
@@ -15,8 +15,7 @@ Tsseract in a social media app were can create content and earn money 💸 with 
         ├── Components                  # Function React Components
             ├── index.jsx                   # Component file
             └── styles.scss                 # SASS styles file
-        ├── nprogress.scss              # NProgress custom styles
-        └── context.js                  # App context
+        └── nprogress.scss              # NProgress custom styles
     ├── pages                       # NextJS Pages
     └── server                      # App Restful API
         ├── config                      # Env variables and URLs endpoint access
@@ -31,7 +30,7 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── static                      # Static files
     ├── tests                       # Unit tests
     ├── .dockerignore               # Docker ignored files
-    ├── .env                        # Environment variables file
+    ├── .env.sample                 # Environment variables file
     ├── .eslintrc.js                # ESLint config file
     ├── .gitignore                  # Git ignored files
     ├── .prettierrc                 # Prettier config file
@@ -50,15 +49,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-First, you will need to create a `.env` file at the root of the project and set some environment variables:
-
-```
-PORT=8080
-NODE_ENV=development
-DB_NAME=...
-DB_ADDRESS=...
-JWT_KEY=...
-```
+First, you will need to create an `.env`. Then set the missing environment variables.
+To create the `.env` file just run `cp .env.sample .env`.
 
 ### Minimal Set-up (beta)
 
@@ -123,7 +115,7 @@ You should get some of the following logs on the console:
 
 ## Running the tests
 
-The app uses [Jest](https://jestjs.io/) as the testing framework for this App 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
+This app uses [Jest](https://jestjs.io/) as testing framework 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
 
 Tests are run before every push and as a [GitHub Action](https://github.com/jeremy2918/tsseract-app/actions).
 
