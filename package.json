@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next",
-    "server": "nodemon ./server/index",
-    "dev:server": "nodemon ./server/index & next",
+    "dev": "next ./dist",
+    "server": "ts-node-dev --respawn --no-notify  ./dist/server/index",
+    "dev:server": "ts-node-dev --respawn --no-notify ./dist/server/index & next",
     "start": "next start",
     "build": "next build",
     "test": "jest --forceExit --detectOpenHandles"
@@ -28,16 +28,27 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/express": "^4.17.7",
+    "@types/hapi__joi": "^17.1.4",
+    "@types/helmet": "0.0.47",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.31",
+    "@types/node": "^14.0.22",
+    "@types/node-sass": "^4.11.1",
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "^16.9.43",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.1.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.7",
-    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "stylelint": "^13.5.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "ts-node-dev": "^1.0.0-pre.51",
+    "typescript": "^3.9.6"
   },
   "husky": {
     "hooks": {
