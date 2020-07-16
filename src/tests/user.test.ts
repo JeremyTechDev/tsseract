@@ -1,7 +1,7 @@
-const app = require('../server/app');
-const request = require('supertest');
+import app from '../server/app';
+import request from 'supertest';
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const { JWT_KEY } = require('../server/config/env');
 
 describe('User', () => {
@@ -15,7 +15,7 @@ describe('User', () => {
       email: 'admin_user_test@tsseract.com',
       birthDate: Date.now(),
     };
-    let user;
+    let user: any;
 
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);

@@ -1,5 +1,5 @@
-const app = require('../server/app');
-const request = require('supertest');
+import app from '../server/app';
+import request from 'supertest';
 
 describe('Posts', () => {
   const SUT = app({ isTesting: true });
@@ -18,7 +18,7 @@ describe('Posts', () => {
       cover: '/testing/url/for/image',
     };
 
-    let user, userId, post;
+    let user: any, post: any, userId: string;
 
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);

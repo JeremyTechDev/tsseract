@@ -24,13 +24,13 @@ const create: RequestHandler = async (req, res) => {
      * Return an array of objects with the
      * tags and postTag data for each tag
      */
-    const postTagsResults = await Promise.all(
+    const postTagsResults: any = await Promise.all(
       req.body.tags.map(async (tagName: string) => {
         // Save tag
         const tag = await tagControllers.findOrCreate(tagName);
 
         // Handle tag errors
-        if (tag.error) return res.status(tag.statusCode).send(tag.error);
+        if (tag.error) return { ...tag };
 
         // Save postTag relation
         const postTag = await postTagControllers.create({
@@ -40,14 +40,17 @@ const create: RequestHandler = async (req, res) => {
 
         // Handle postTag error
         if (postTag.error) {
-          return res.status(postTag.statusCode).send(postTag.error);
+          return { ...postTag };
         }
 
-        return { tag, postTag };
+        return { tag, postTag, error: false, statusCode: 200 };
       }),
     );
 
-    res.send({ data: { post, tags: postTagsResults } });
+    if (postTagsResults.error) {
+      return res.status(postTagsResults.statusCode).send(postTagsResults.error);
+    }
+    return res.send({ data: { post, tags: postTagsResults } });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }

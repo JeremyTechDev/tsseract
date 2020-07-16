@@ -1,6 +1,6 @@
 const { User } = require('../server/models/user');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 const { JWT_KEY } = require('../server/config/env');
 
 describe('generateAuthToken', () => {

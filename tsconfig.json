@@ -8,6 +8,7 @@
     "sourceMap": false,
     "strict": true,
     "removeComments": true,
+    "noEmitOnError": false,
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

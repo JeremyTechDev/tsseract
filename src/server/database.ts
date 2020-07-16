@@ -16,7 +16,9 @@ const init = (options: { isTesting: boolean }) => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-    .then(() => console.log('📡 Connected to MongoDB...'))
+    .then(() => {
+      if (!isTesting) console.log('📡 Connected to MongoDB...');
+    })
     .catch((error: Error) =>
       console.log('Error connecting to MongoDB', error.message),
     );

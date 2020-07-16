@@ -1,7 +1,7 @@
-const app = require('../server/app');
-const request = require('supertest');
+import app from '../server/app';
+import request from 'supertest';
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const { JWT_KEY } = require('../server/config/env');
 
 describe('Auth', () => {
@@ -15,7 +15,7 @@ describe('Auth', () => {
       email: 'admin_auth_test@tsseract.com',
       birthDate: Date.now(),
     };
-    let user;
+    let user: any;
 
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);
@@ -31,7 +31,7 @@ describe('Auth', () => {
     });
 
     it('should return a valid JWT with an id as a property', async () => {
-      const res = await request(SUT).post('/api/auth/').send({
+      const res: any = await request(SUT).post('/api/auth/').send({
         username: 'admin_auth_test',
         password: 'Admin.1234',
       });
