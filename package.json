@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next ./dist/server/index",
+    "dev": "next ./dist",
     "server": "ts-node-dev --respawn --no-notify  ./dist/server/index",
-    "dev:server": "ts-node-dev --respawn --no-notify ./dist/server/index & next",
+    "dev:server": "ts-node-dev --respawn --no-notify ./dist/server/index & next ./dist",
     "start": "next start",
     "build": "next build",
     "test": "jest --detectOpenHandles"
