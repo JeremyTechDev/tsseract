@@ -11,24 +11,25 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── .github                     # GitHub Settings
         ├── workflows                   # GitHub Actions files
         └── pull_request_template       # PR Description template
-    ├── client                      # React Components and Containers
-        ├── Components                  # Function React Components
-            ├── index.jsx                   # Component file
-            └── styles.scss                 # SASS styles file
-        └── nprogress.scss              # NProgress custom styles
-    ├── pages                       # NextJS Pages
-    └── server                      # App Restful API
-        ├── config                      # Env variables and URLs endpoint access
-            └── env.js                      # Access to env variables
-        ├── controllers                 # Database controllers
-        ├── helpers                     # Helpers folder
-        ├── middlewares                 # Express middlewares
-        ├── models                      # MongoDB collections Models
-        ├── routes                      # Express routes
-        ├── app.js                      # Express App configuration file
-        └── index.js                    # Server configuration file
+    ├── scss                        # SCSS files
+    ├── src                         # Running files directory
+        ├── client                      # React Components and Containers
+            └── Components                  # Function React Components
+        ├── pages                       # NextJS Pages
+        ├── server                      # App Restful API
+            ├── config                      # Env variables and URLs endpoint access
+                └── env.js                      # Access to env variables
+            ├── controllers                 # Database controllers
+            ├── helpers                     # Helpers folder
+            ├── middlewares                 # Express middlewares
+            ├── models                      # MongoDB collections Models
+            ├── routes                      # Express routes
+            ├── app.ts                      # Express App configuration file
+            └── index.ts                    # Server configuration file
+        └── tests                       # Unit tests
     ├── static                      # Static files
-    ├── tests                       # Unit tests
+        ├── icons                       # Manifest Icons
+        └── manifest.json               # Manifest file
     ├── .dockerignore               # Docker ignored files
     ├── .env.sample                 # Environment variables file
     ├── .eslintrc.js                # ESLint config file
@@ -37,11 +38,13 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── docker-compose.yml          # Image dependencies file
     ├── Dockerfile                  # Image file
     ├── .jest.config.js             # Jest config file
-    ├── License
+    ├── .next-env.d.ts              # Next environment file
+    ├── License                     # MIT License
     ├── next.config.js              # NextJS configuration file
-    ├── package-lock.json
-    ├── package.json
-    └── README.md
+    ├── package-lock.json           # Dependencies tree
+    ├── package.json                # Dependencies management file
+    ├── README.md                   # ReadMe file
+    └── tsconfig.json               # TypeScript configuration file
 
 ## Getting Started 🚀
 
@@ -66,7 +69,7 @@ After that, you only need to run the following at the root of the project in a c
 docker-compose up
 ```
 
-### Full Set-up
+### Full Set-up (recommended)
 
 You will need to have installed and running these technologies in order to run the application:
 
@@ -106,12 +109,14 @@ You will need to have installed and running these technologies in order to run t
   npm run dev:server
   ```
 
-You should get some of the following logs on the console:
+You should get the following logs on the console:
 
 ```
 🚀 Server running on port 8080...
 📡 Connected to MongoDB...
 ```
+
+If you are making some changes to the project, make sure you run `tsc -w` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 
