@@ -1,0 +1,15 @@
+const { User } = require('../server/models/user');
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+const { JWT_KEY } = require('../server/config/env');
+
+describe('generateAuthToken', () => {
+  it('should return a valid JWT', () => {
+    const payload = { id: mongoose.Types.ObjectId().toHexString() };
+    const user = new User(payload);
+    const token = user.generateAuthToken(payload.id);
+    const decoded = jwt.verify(token, JWT_KEY);
+
+    expect(decoded).toMatchObject(payload);
+  });
+});
