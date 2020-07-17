@@ -1,18 +1,18 @@
-import app from '../server/app';
+import app from '../app';
 import request from 'supertest';
 
 import jwt from 'jsonwebtoken';
-const { JWT_KEY } = require('../server/config/env');
+const { JWT_KEY } = require('../config/env');
 
-describe('User', () => {
+describe('Auth', () => {
   const SUT = app({ isTesting: true });
 
-  describe('POST:/api/users', () => {
+  describe('POST:/api/auth', () => {
     const userPayload = {
       name: 'Tsseract',
-      username: 'admin_user_test',
+      username: 'admin_auth_test',
       password: 'Admin.1234',
-      email: 'admin_user_test@tsseract.com',
+      email: 'admin_auth_test@tsseract.com',
       birthDate: Date.now(),
     };
     let user: any;
@@ -30,12 +30,13 @@ describe('User', () => {
       done();
     });
 
-    it('should create a new user in the DB with an _id property', () => {
-      expect(user.body.data).toHaveProperty('_id');
-    });
+    it('should return a valid JWT with an id as a property', async () => {
+      const res: any = await request(SUT).post('/api/auth/').send({
+        username: 'admin_auth_test',
+        password: 'Admin.1234',
+      });
 
-    it('should return a valid JWT in the response headers', () => {
-      const token = user.headers['x-auth-token'];
+      const token = res.headers['x-auth-token'];
       const verify = jwt.verify(token, JWT_KEY);
 
       expect(verify).toHaveProperty('id');

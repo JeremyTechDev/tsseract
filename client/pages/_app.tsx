@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import '../../scss/nprogress.scss';
+import '../../../scss/nprogress.scss';
 
 interface Props {
   Component: React.FC;
