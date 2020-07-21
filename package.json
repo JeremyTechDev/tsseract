@@ -6,6 +6,7 @@
     "dev": "next ./dist/client",
     "server": "ts-node-dev --respawn --no-notify  ./dist/server/index",
     "dev:server": "ts-node-dev --respawn --no-notify ./dist/server/index & next ./dist/client",
+    "tsc": "tsc -p ./server -w & tsc -p ./client -w",
     "start": "next start",
     "build": "next build",
     "test": "jest --detectOpenHandles"
