@@ -26,7 +26,7 @@ jobs:
         run: npm install
         
       - name: Run TypeScript Compiler
-        run: tsc
+        run: npm run tsc
 
       - name: Run Unit Tests
         run: npm test
