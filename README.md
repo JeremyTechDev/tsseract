@@ -11,22 +11,21 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── .github                     # GitHub Settings
         ├── workflows                   # GitHub Actions files
         └── pull_request_template       # PR Description template
+    ├── client                      # React Components and Containers
+        ├── components                  # Function React Components
+        └── pages                       # NextJS Pages
     ├── scss                        # SCSS files
-    ├── src                         # Running files directory
-        ├── client                      # React Components and Containers
-            └── Components                  # Function React Components
-        ├── pages                       # NextJS Pages
-        ├── server                      # App Restful API
-            ├── config                      # Env variables and URLs endpoint access
-                └── env.js                      # Access to env variables
-            ├── controllers                 # Database controllers
-            ├── helpers                     # Helpers folder
-            ├── middlewares                 # Express middlewares
-            ├── models                      # MongoDB collections Models
-            ├── routes                      # Express routes
-            ├── app.ts                      # Express App configuration file
-            └── index.ts                    # Server configuration file
-        └── tests                       # Unit tests
+    ├── server                      # App Restful API
+        ├── config                      # Env variables and URLs endpoint access
+        ├── controllers                 # Database controllers
+        ├── helpers                     # Helpers folder
+        ├── middlewares                 # Express middlewares
+        ├── models                      # MongoDB collections Models
+        ├── routes                      # Express routes
+        ├── tests                       # Unit tests
+        ├── app.ts                      # Express App configuration file
+        ├── database.ts                 # MongoDB connection file
+        └── index.ts                    # Server configuration file
     ├── static                      # Static files
         ├── icons                       # Manifest Icons
         └── manifest.json               # Manifest file
@@ -91,6 +90,12 @@ You will need to have installed and running these technologies in order to run t
   npm install
   ```
 
+- Build the `dist` folder:
+
+  ```
+  npm run tsc
+  ```
+
 - To run the client side of the app:
 
   ```
@@ -116,7 +121,7 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `tsc -w` to start the TypeScript compilation on watch mode.
+If you are making some changes to the project, make sure you run `npm run tsc:watch` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 

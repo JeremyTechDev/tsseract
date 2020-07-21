@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "../dist/client",
+    "rootDir": "./",
+    "sourceMap": false,
+    "strict": true,
+    "removeComments": true,
+    "noEmitOnError": false,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "noEmit": false
+  },
+  "exclude": ["node_modules"]
+}
