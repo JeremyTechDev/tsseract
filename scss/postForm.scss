@@ -1,0 +1,61 @@
+@import './index.scss';
+
+.container {
+  width: 60%;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  height: 90vh;
+
+  .form {
+    background-color: $dark;
+    height: 100%;
+    width: 70%;
+
+    &__cover {
+      height: 10%;
+      padding: 10px 40px;
+      display: flex;
+      align-items: center;
+
+      button {
+        background: none;
+        border: 2px solid $light;
+        border-radius: 3px;
+        padding: 10px;
+      }
+    }
+
+    &__title {
+      height: 15%;
+      width: 100%;
+      resize: none;
+      border: none;
+      background: none;
+      font-weight: 700;
+      padding: 10px 40px;
+      font-size: 40px;
+      word-wrap: break-word;
+    }
+
+    &__tags {
+      height: 7.5%;
+      padding: 0 40px;
+    }
+
+    &__body {
+      height: 60%;
+    }
+
+    &__image {
+      background-color: $black;
+      height: 7.5%;
+      transform: translateY(-20px);
+    }
+  }
+  .guide {
+    background-color: $black;
+    width: 30%;
+    height: 100%;
+  }
+}

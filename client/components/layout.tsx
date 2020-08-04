@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
+
 import '../../../scss/layout.scss';
 
 interface Props {
@@ -8,19 +8,12 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children, title }) => (
-  <div>
+  <div className="layout">
     <Head>
       <title>{title}</title>
     </Head>
-    <header className="example">
-      <Link href="/">
-        <a>Home</a>
-      </Link>
-    </header>
 
     {children}
-
-    <footer />
   </div>
 );
 
