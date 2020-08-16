@@ -15,20 +15,34 @@ const PostForm: React.FC<Props> = ({ title }) => {
       </Head>
       <div className="form">
         <div className="form__cover">
-          <button>Cover image</button>
+          <button className="btn">Cover image</button>
         </div>
-        <span
+
+        <textarea
           placeholder="Add your post title here..."
           className="form__title"
-          contentEditable
-          role="textbox"
-          //   maxLength={55}
-        >
-          Add up to 5 tags...
-        </span>
+          maxLength={55}
+        />
+
         <div className="form__tags">Add up to 5 tags...</div>
-        <div className="form__body"></div>
-        <div className="form__image"></div>
+
+        <div className="form__image">
+          <button className="btn">Upload image</button>
+        </div>
+
+        <textarea
+          placeholder="Write you post content here..."
+          className="form__body"
+        />
+
+        <div className="form__view">
+          <div className="form__view--option active">
+            <span>Edit</span>
+          </div>
+          <div className="form__view--option">
+            <span>Preview</span>
+          </div>
+        </div>
       </div>
       <div className="guide"></div>
     </div>

@@ -7,6 +7,13 @@
   flex-direction: row;
   height: 90vh;
 
+  .btn {
+    background: none;
+    border: 2px solid $light;
+    border-radius: 3px;
+    padding: 10px;
+  }
+
   .form {
     background-color: $dark;
     height: 100%;
@@ -17,13 +24,6 @@
       padding: 10px 40px;
       display: flex;
       align-items: center;
-
-      button {
-        background: none;
-        border: 2px solid $light;
-        border-radius: 3px;
-        padding: 10px;
-      }
     }
 
     &__title {
@@ -35,24 +35,58 @@
       font-weight: 700;
       padding: 10px 40px;
       font-size: 40px;
-      word-wrap: break-word;
     }
 
     &__tags {
-      height: 7.5%;
+      height: 5%;
       padding: 0 40px;
-    }
-
-    &__body {
-      height: 60%;
     }
 
     &__image {
       background-color: $black;
       height: 7.5%;
-      transform: translateY(-20px);
+      display: flex;
+      padding: 0 40px;
+      align-items: center;
+
+      button {
+        border: none;
+        background-color: $dark;
+      }
+    }
+
+    &__body {
+      height: 57.5%;
+      width: 100%;
+      resize: none;
+      border: none;
+      background: none;
+      font-weight: 500;
+      padding: 10px 40px;
+      font-size: 20px;
+    }
+
+    &__view {
+      height: 5%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+
+      &--option {
+        width: 50%;
+        text-align: center;
+        padding: 1.25%;
+        display: flex;
+        justify-content: center;
+        border-bottom: 3px solid $dark;
+
+        &.active {
+          border-color: $red;
+        }
+      }
     }
   }
+
   .guide {
     background-color: $black;
     width: 30%;
