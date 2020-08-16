@@ -54,7 +54,7 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(1);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -73,7 +73,7 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(0);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -92,7 +92,7 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(3);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -116,7 +116,7 @@ describe('Posts', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post(`/api/posts/c/${post.body.data.post._id}`)
+        .post(`/api/posts/c/${post.body.data._id}`)
         .set('x-auth-token', user.headers['x-auth-token'])
         .send({ ...newCommentPayload });
 

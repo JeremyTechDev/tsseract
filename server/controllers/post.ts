@@ -1,9 +1,13 @@
 import { RequestHandler } from 'express';
 const { Post, validatePost } = require('../../models/Post/post');
-const { PostTag } = require('../../models/Post/postTag');
+const { validateTags } = require('../../models/Post/tag');
 
 const tagControllers = require('./tag');
-const postTagControllers = require('./postTag');
+
+interface Tag {
+  _id?: string;
+  error?: object;
+}
 
 /**
  * Creates a new post
@@ -16,41 +20,26 @@ const create: RequestHandler = async (req, res) => {
     const { error } = validatePost(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    // Save post
-    const post = new Post(req.body);
-    await post.save();
+    const tagsError = validateTags(req.body.tags);
+    if (tagsError)
+      return res.status(400).send({ message: 'Invalid tag or tags' });
 
-    /**
-     * Return an array of objects with the
-     * tags and postTag data for each tag
-     */
-    const postTagsResults: any = await Promise.all(
+    const createdTags = <Tag[]>await Promise.all(
       req.body.tags.map(async (tagName: string) => {
-        // Save tag
-        const tag = await tagControllers.findOrCreate(tagName);
-
-        // Handle tag errors
-        if (tag.error) return { ...tag };
-
-        // Save postTag relation
-        const postTag = await postTagControllers.create({
-          postId: String(post._id),
-          tagId: String(tag._id),
-        });
-
-        // Handle postTag error
-        if (postTag.error) {
-          return { ...postTag };
-        }
-
-        return { tag, postTag, error: false, statusCode: 200 };
+        return await tagControllers.findOrCreate(tagName);
       }),
     );
 
-    if (postTagsResults.error) {
-      return res.status(postTagsResults.statusCode).send(postTagsResults.error);
+    if (createdTags.some((tag: Tag) => !tag._id)) {
+      return res
+        .status(400)
+        .send({ message: 'An error ocurred while creating the tags' });
     }
-    return res.send({ data: { post, tags: postTagsResults } });
+
+    const post = new Post({ ...req.body, tags: createdTags });
+    await post.save();
+
+    return res.send({ data: post });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -66,7 +55,6 @@ const deletePost: RequestHandler = async (req, res) => {
   try {
     const postId = req.params.postId;
     const post = await Post.findByIdAndDelete(postId);
-    await PostTag.findOneAndDelete({ postId });
 
     if (!post)
       return res
