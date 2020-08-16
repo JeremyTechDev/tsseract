@@ -1,5 +1,6 @@
-import app from '../app';
 import request from 'supertest';
+
+const { app } = require('../app');
 
 describe('Posts', () => {
   const SUT = app({ isTesting: true });
@@ -79,7 +80,7 @@ describe('Posts', () => {
       });
     });
 
-    it('should create a new post with no tag', async () => {
+    it('should create a new post with three tags', async () => {
       const newPostPayload = {
         ...postPayload,
         user: userId,

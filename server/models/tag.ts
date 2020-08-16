@@ -26,8 +26,8 @@ const validateTags = (tags: [string]) => {
     popularity: Joi.number().min(0),
   });
 
-  const validTags = tags.map((tag) => schema.validate(tag).error);
-  return validTags.some((tagResult: boolean) => tagResult);
+  const validTags = tags.map((tag) => schema.validate({ name: tag }).error);
+  return validTags.some((tagResult) => tagResult);
 };
 
 exports.Tag = Tag;

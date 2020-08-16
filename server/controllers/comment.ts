@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
-const { Post, validatePost } = require('../../models/Post/post');
-const { validateComment } = require('../../models/Post/comment');
+const { Post, validatePost } = require('../models/post');
+const { validateComment } = require('../models/comment');
 
 /**
  * Creates a new comment in a post

@@ -30,3 +30,4 @@ const init = (options: Options) => {
 };
 
 export default init;
+exports.app = init;

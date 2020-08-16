@@ -2,7 +2,7 @@ import { Schema, Types, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
 const { commentsSchema } = require('./comment');
-const { regularExpressions } = require('../../helpers');
+const { regularExpressions } = require('../helpers');
 
 const postsSchema = new Schema({
   user: {
@@ -36,7 +36,6 @@ const postsSchema = new Schema({
     type: [Types.ObjectId],
     ref: 'Tags',
     default: [],
-    max: 4,
   },
   createdAt: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },

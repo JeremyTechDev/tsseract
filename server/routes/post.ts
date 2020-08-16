@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-const postControllers = require('../controllers/Post/post');
-const commentControllers = require('../controllers/Post/comment');
+const postControllers = require('../controllers/post');
+const commentControllers = require('../controllers/comment');
 const authenticate = require('../middlewares/authenticator');
 const { userAuth } = require('../middlewares/authorization');
 

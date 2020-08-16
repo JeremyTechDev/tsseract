@@ -1,4 +1,4 @@
-import app from '../app';
+const { app } = require('../app');
 import request from 'supertest';
 
 import jwt from 'jsonwebtoken';
