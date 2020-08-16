@@ -1,6 +1,7 @@
 import { Schema, Types } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const { regularExpressions } = require('../../helpers');
+
+const { regularExpressions } = require('../helpers');
 
 const commentsSchema = new Schema({
   user: {

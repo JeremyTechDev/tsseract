@@ -1,4 +1,4 @@
-const { Tag, validateTag } = require('../../models/Post/tag');
+const { Tag } = require('../models/tag');
 
 /**
  * Creates or finds a tag by name
@@ -6,9 +6,6 @@ const { Tag, validateTag } = require('../../models/Post/tag');
  */
 const findOrCreate = async (tagName: string) => {
   try {
-    const { error } = validateTag({ name: tagName });
-    if (error) return { error: error.details[0].message, statusCode: 400 };
-
     const tagExists = await Tag.findOne({ name: tagName });
 
     // if tag already exists, increment popularity and return
@@ -16,15 +13,15 @@ const findOrCreate = async (tagName: string) => {
       tagExists.popularity++;
       await tagExists.save();
 
-      return { ...tagExists._doc, new: false, statusCode: 200 };
+      return { ...tagExists._doc, new: false };
     }
 
     const newTag = new Tag({ name: tagName });
     await newTag.save();
 
-    return { ...newTag._doc, new: true, statusCode: 200 };
+    return { ...newTag._doc, new: true };
   } catch (error) {
-    return { error: error.message, statusCode: 500 };
+    return { error: error.message };
   }
 };
 

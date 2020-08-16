@@ -1,7 +1,7 @@
-import app from '../app';
+import jwt from 'jsonwebtoken';
 import request from 'supertest';
 
-import jwt from 'jsonwebtoken';
+const { app } = require('../app');
 const { JWT_KEY } = require('../config/env');
 
 describe('User', () => {

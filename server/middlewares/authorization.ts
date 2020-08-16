@@ -14,7 +14,7 @@ exports.userAuth = async (
 ) => {
   try {
     const token = req.user;
-    const userId = req.body.user ? req.body.user : req.params.id;
+    const userId = req.body.user || req.params.id;
 
     const userExists = await User.findById(userId);
     if (!userExists)
