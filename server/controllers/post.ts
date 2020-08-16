@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
+
 const { Post, validatePost } = require('../models/post');
 const { validateTags } = require('../models/tag');
-
 const tagControllers = require('./tag');
 
 interface Tag {
@@ -20,12 +20,13 @@ const create: RequestHandler = async (req, res) => {
     const { error } = validatePost(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    let createdTags: Tag[] = [];
     if (req.body.tags && req.body.tags.length) {
       const tagsError = validateTags(req.body.tags);
       if (tagsError)
         return res.status(400).send({ message: 'Invalid tag or tags' });
 
-      const createdTags = <Tag[]>await Promise.all(
+      createdTags = <Tag[]>await Promise.all(
         req.body.tags.map(async (tagName: string) => {
           return await tagControllers.findOrCreate(tagName);
         }),
@@ -36,14 +37,9 @@ const create: RequestHandler = async (req, res) => {
           .status(400)
           .send({ message: 'An error ocurred while creating the tags' });
       }
-
-      const post = new Post({ ...req.body, tags: createdTags });
-      await post.save();
-
-      return res.send({ data: post });
     }
 
-    const post = new Post({ ...req.body });
+    const post = new Post({ ...req.body, tags: createdTags });
     await post.save();
 
     return res.send({ data: post });
