@@ -1,5 +1,6 @@
-import app from '../app';
 import request from 'supertest';
+
+const { app } = require('../app');
 
 describe('Posts', () => {
   const SUT = app({ isTesting: true });
@@ -54,7 +55,7 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(1);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -73,13 +74,13 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(0);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
     });
 
-    it('should create a new post with no tag', async () => {
+    it('should create a new post with three tags', async () => {
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -92,7 +93,7 @@ describe('Posts', () => {
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(3);
-      expect(post.body.data.post).toMatchObject({
+      expect(post.body.data).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -116,7 +117,7 @@ describe('Posts', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post(`/api/posts/c/${post.body.data.post._id}`)
+        .post(`/api/posts/c/${post.body.data._id}`)
         .set('x-auth-token', user.headers['x-auth-token'])
         .send({ ...newCommentPayload });
 

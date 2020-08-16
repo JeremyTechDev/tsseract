@@ -17,7 +17,7 @@ const tagSchema = new Schema({
 
 const Tag = model('Tags', tagSchema);
 
-const validateTag = (tag: any) => {
+const validateTags = (tags: [string]) => {
   const schema = Joi.object({
     name: Joi.string()
       .max(45)
@@ -26,8 +26,9 @@ const validateTag = (tag: any) => {
     popularity: Joi.number().min(0),
   });
 
-  return schema.validate(tag);
+  const validTags = tags.map((tag) => schema.validate({ name: tag }).error);
+  return validTags.some((tagResult) => tagResult);
 };
 
 exports.Tag = Tag;
-exports.validateTag = validateTag;
+exports.validateTags = validateTags;
