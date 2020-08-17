@@ -1,6 +1,7 @@
 $black: #1a1a1a;
 $dark: #333333;
 $gray: #555555;
+$light-gray: #888888;
 
 $white: #faf3e3;
 $light: #ccc;
@@ -13,6 +14,7 @@ $red: #f6404f;
   box-sizing: border-box;
   color: $light;
   margin: 0;
+  outline: none;
   padding: 0;
 }
 

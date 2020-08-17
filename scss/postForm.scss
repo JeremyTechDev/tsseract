@@ -62,7 +62,7 @@
       border: none;
       background: none;
       font-weight: 500;
-      padding: 10px 40px;
+      padding: 10px 20px;
       font-size: 20px;
     }
 
@@ -73,15 +73,23 @@
       flex-direction: row;
 
       &--option {
+        color: $light-gray;
         width: 50%;
+        font-weight: 700;
         text-align: center;
         padding: 1.25%;
         display: flex;
         justify-content: center;
         border-bottom: 3px solid $dark;
+        cursor: pointer;
+
+        &:hover {
+          color: $light;
+        }
 
         &.active {
           border-color: $red;
+          color: $light;
         }
       }
     }
