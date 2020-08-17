@@ -23,6 +23,21 @@ const PostForm: React.FC<Props> = ({ title }) => {
         <title>{title}</title>
       </Head>
       <div className="form">
+        <div className="form__view">
+          <div
+            className={`form__view--option ${!showPreview && 'active'}`}
+            onClick={() => setShowPreview(false)}
+          >
+            Edit
+          </div>
+          <div
+            className={`form__view--option ${showPreview && 'active'}`}
+            onClick={() => setShowPreview(true)}
+          >
+            Preview
+          </div>
+        </div>
+
         {(showPreview && (
           <div
             className="form__body preview"
@@ -60,23 +75,7 @@ const PostForm: React.FC<Props> = ({ title }) => {
             </textarea>
           </React.Fragment>
         )}
-
-        <div className="form__view">
-          <div
-            className={`form__view--option ${!showPreview && 'active'}`}
-            onClick={() => setShowPreview(false)}
-          >
-            Edit
-          </div>
-          <div
-            className={`form__view--option ${showPreview && 'active'}`}
-            onClick={() => setShowPreview(true)}
-          >
-            Preview
-          </div>
-        </div>
       </div>
-      <div className="guide"></div>
     </div>
   );
 };
