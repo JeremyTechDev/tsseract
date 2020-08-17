@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import marked from 'marked';
+import dompurify from 'dompurify';
 
 import '../../../scss/postForm.scss';
 
@@ -21,7 +23,14 @@ const PostForm: React.FC<Props> = ({ title }) => {
         <title>{title}</title>
       </Head>
       <div className="form">
-        {(showPreview && <h1>Hi</h1>) || (
+        {(showPreview && (
+          <div
+            className="form__body preview"
+            dangerouslySetInnerHTML={{
+              __html: dompurify.sanitize(marked(post.content)),
+            }}
+          />
+        )) || (
           <React.Fragment>
             <div className="form__cover">
               <button className="btn">Cover image</button>
@@ -46,7 +55,9 @@ const PostForm: React.FC<Props> = ({ title }) => {
               placeholder="Write you post content here..."
               className="form__body"
               onChange={(event) => handleChange(event)}
-            />
+            >
+              {post.content}
+            </textarea>
           </React.Fragment>
         )}
 

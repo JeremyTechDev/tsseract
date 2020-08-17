@@ -58,12 +58,16 @@
     &__body {
       height: 57.5%;
       width: 100%;
-      resize: none;
+      resize: vertical;
       border: none;
       background: none;
       font-weight: 500;
       padding: 10px 20px;
       font-size: 20px;
+    }
+
+    .preview {
+      height: 95%;
     }
 
     &__view {
