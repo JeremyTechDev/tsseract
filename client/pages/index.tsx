@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../components/layout';
 
+import Layout from '../components/layout';
 import PostForm from '../components/postForm';
 
 const App: React.FC = () => {

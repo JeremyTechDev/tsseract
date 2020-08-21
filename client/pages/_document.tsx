@@ -55,6 +55,11 @@ export default class extends Document {
             content="Tsseract in a social media app were can create content and earn money 💸 with it."
           />
           <meta name="author" content="Jeremy Muñoz" />
+
+          <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />
