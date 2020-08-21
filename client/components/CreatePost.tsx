@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import {
-  Box,
   Button,
   Grid,
   makeStyles,
@@ -12,37 +11,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import marked from 'marked';
-import { sanitize } from 'dompurify';
+
+import TabPanel from './TabPanel';
 
 interface Props {
   title: string;
 }
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      aria-labelledby={`simple-tab-${index}`}
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      role="tabpanel"
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-};
 
 const useStyles = makeStyles({
   margin: {
@@ -79,11 +53,6 @@ const PostForm: React.FC<Props> = ({ title }) => {
   const [tab, setTab] = useState(1);
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
-
-  // const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   setPost(Object.assign(post, { [target.id]: target.value }));
-  //   console.log(post);
-  // };
 
   return (
     <Paper square elevation={0}>
@@ -157,8 +126,9 @@ const PostForm: React.FC<Props> = ({ title }) => {
                 </Typography>
 
                 <Typography
+                  component="pre"
                   dangerouslySetInnerHTML={{
-                    __html: sanitize(marked(postBody)),
+                    __html: marked(postBody, { sanitize: true }),
                   }}
                 />
               </Paper>

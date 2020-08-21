@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Layout from '../components/layout';
-import PostForm from '../components/postForm';
+import Layout from '../components/Layout';
+import CreatePost from '../components/CreatePost';
 
 const App: React.FC = () => {
   return (
     <Layout title="Tsseract App">
-      <PostForm title="Create Post" />
+      <CreatePost title="Create Post" />
     </Layout>
   );
 };
