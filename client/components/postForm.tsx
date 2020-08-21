@@ -4,17 +4,15 @@ import {
   Box,
   Button,
   Grid,
+  makeStyles,
   Paper,
   Tab,
   Tabs,
   TextareaAutosize,
   Typography,
-  makeStyles,
 } from '@material-ui/core';
 import marked from 'marked';
-import dompurify from 'dompurify';
-
-// import '../../../scss/postForm.scss';
+import { sanitize } from 'dompurify';
 
 interface Props {
   title: string;
@@ -54,36 +52,38 @@ const useStyles = makeStyles({
     padding: 10,
   },
   titleTextArea: {
-    resize: 'none',
-    border: 'none',
     background: 'none',
-    width: 'calc(100% - 15px)',
+    border: 'none',
     color: '#fff',
+    fontFamily: 'Playfair Display',
+    fontSize: 35,
     fontWeight: 500,
-    fontSize: 25,
     margin: '10px 10px 0',
+    resize: 'none',
+    width: 'calc(100% - 15px)',
   },
   bodyTextArea: {
-    resize: 'none',
-    border: 'none',
     background: 'none',
-    width: 'calc(100% - 15px)',
+    border: 'none',
     color: '#fff',
-    fontWeight: 500,
     fontSize: 20,
+    fontWeight: 500,
     margin: '10px',
+    resize: 'none',
+    width: 'calc(100% - 15px)',
   },
 });
 
 const PostForm: React.FC<Props> = ({ title }) => {
   const classes = useStyles();
   const [tab, setTab] = useState(1);
-  const [post, setPost] = useState({ title: '', tags: [], content: '' });
+  const [postTitle, setPostTitle] = useState('');
+  const [postBody, setPostBody] = useState('');
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPost(Object.assign(post, { [target.id]: target.value }));
-    console.log(post);
-  };
+  // const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   setPost(Object.assign(post, { [target.id]: target.value }));
+  //   console.log(post);
+  // };
 
   return (
     <Paper square elevation={0}>
@@ -120,9 +120,9 @@ const PostForm: React.FC<Props> = ({ title }) => {
 
                 <TextareaAutosize
                   className={classes.titleTextArea}
-                  defaultValue={post.title}
+                  defaultValue={postTitle}
                   maxLength={125}
-                  onChange={(event) => handleChange(event)}
+                  onChange={({ target }) => setPostTitle(target.value)}
                   placeholder="Add your post title here..."
                 />
 
@@ -141,11 +141,11 @@ const PostForm: React.FC<Props> = ({ title }) => {
                 </Paper>
 
                 <TextareaAutosize
-                  rowsMin={10}
                   className={classes.bodyTextArea}
-                  defaultValue={post.content}
-                  onChange={(event) => handleChange(event)}
+                  defaultValue={postBody}
+                  onChange={({ target }) => setPostBody(target.value)}
                   placeholder="Write you post content here..."
+                  rowsMin={10}
                 />
               </Paper>
             </TabPanel>
@@ -153,14 +153,14 @@ const PostForm: React.FC<Props> = ({ title }) => {
             <TabPanel value={tab} index={1}>
               <Paper elevation={4}>
                 <Typography className={classes.padding} variant="h3">
-                  {post.title || 'The title of your post will apper here'}
+                  {postTitle || 'The title of your post will apper here'}
                 </Typography>
 
                 <Typography
                   dangerouslySetInnerHTML={{
-                    __html: marked(post.content),
+                    __html: sanitize(marked(postBody)),
                   }}
-                ></Typography>
+                />
               </Paper>
             </TabPanel>
           </Paper>
