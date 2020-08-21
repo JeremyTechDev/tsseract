@@ -1,20 +1,19 @@
 import React from 'react';
 import Head from 'next/head';
-
-import '../../../scss/layout.scss';
+import { Paper } from '@material-ui/core';
 
 interface Props {
   title: string;
 }
 
 const Layout: React.FC<Props> = ({ children, title }) => (
-  <div className="layout">
+  <Paper square elevation={0}>
     <Head>
       <title>{title}</title>
     </Head>
 
     {children}
-  </div>
+  </Paper>
 );
 
 export default Layout;
