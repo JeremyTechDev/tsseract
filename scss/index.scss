@@ -25,3 +25,28 @@ html {
     cursor: pointer;
   }
 }
+
+.btn-light {
+  background: $dark;
+  border-radius: 3px;
+  border: none;
+  padding: 10px;
+  transition: 0.05s all;
+
+  &:hover,
+  &:active {
+    background-color: $gray;
+  }
+}
+.btn-dark {
+  background: $black;
+  border-radius: 3px;
+  border: none;
+  padding: 10px;
+  transition: 0.05s all;
+
+  &:hover,
+  &:active {
+    background-color: $light-gray;
+  }
+}
