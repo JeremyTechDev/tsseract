@@ -8,8 +8,8 @@ interface Props {
 
 const useStyles = makeStyles({
   margin: {
-    margin: -8,
-    padding: 10,
+    padding: '10px',
+    minHeight: 'calc(100vh - 20px)',
   },
 });
 

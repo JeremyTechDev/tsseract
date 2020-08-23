@@ -1,68 +1,32 @@
 import React, { useState } from 'react';
-import Head from 'next/head';
 import {
   Button,
   Grid,
-  makeStyles,
   Paper,
   Tab,
   Tabs,
   TextareaAutosize,
+  TextField,
   Typography,
 } from '@material-ui/core';
 import marked from 'marked';
 
-import TabPanel from './TabPanel';
+import TabPanel from '../TabPanel';
+import useStyles from './styles';
 
-interface Props {
-  title: string;
-}
-
-const useStyles = makeStyles({
-  margin: {
-    margin: 10,
-  },
-  padding: {
-    padding: 10,
-  },
-  titleTextArea: {
-    background: 'none',
-    border: 'none',
-    color: '#fff',
-    fontFamily: 'Playfair Display',
-    fontSize: 35,
-    fontWeight: 500,
-    margin: '10px 10px 0',
-    resize: 'none',
-    width: 'calc(100% - 15px)',
-  },
-  bodyTextArea: {
-    background: 'none',
-    border: 'none',
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 500,
-    margin: '10px',
-    resize: 'none',
-    width: 'calc(100% - 15px)',
-  },
-});
-
-const PostForm: React.FC<Props> = ({ title }) => {
+const PostForm: React.FC = () => {
   const classes = useStyles();
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(0);
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
+  const [coverImage, setCoverImg] = useState('');
+  const [showCoverImg, setShowCoverImg] = useState(false);
 
   return (
     <Paper square elevation={0}>
-      <Head>
-        <title>{title}</title>
-      </Head>
-
       <Grid container>
-        <Grid item xs={2} />
-        <Grid item xs={6}>
+        <Grid item md={2} />
+        <Grid item xs={12} md={6}>
           <Paper square elevation={2}>
             <Tabs
               centered
@@ -82,9 +46,16 @@ const PostForm: React.FC<Props> = ({ title }) => {
                     className={classes.margin}
                     color="primary"
                     variant="outlined"
+                    onClick={() => setShowCoverImg(!showCoverImg)}
                   >
                     Cover image
                   </Button>
+                  {showCoverImg && (
+                    <TextField
+                      variant="outlined"
+                      placeholder="Paste the URL here..."
+                    />
+                  )}
                 </Paper>
 
                 <TextareaAutosize
@@ -125,18 +96,24 @@ const PostForm: React.FC<Props> = ({ title }) => {
                   {postTitle || 'The title of your post will apper here'}
                 </Typography>
 
-                <Typography
-                  component="pre"
-                  dangerouslySetInnerHTML={{
-                    __html: marked(postBody, { sanitize: true }),
-                  }}
-                />
+                {(postBody && (
+                  <Typography
+                    component="pre"
+                    dangerouslySetInnerHTML={{
+                      __html: marked(postBody, { sanitize: true }),
+                    }}
+                  />
+                )) || (
+                  <Typography align="center" variant="subtitle1">
+                    Start typing! You'll see your content here.
+                  </Typography>
+                )}
               </Paper>
             </TabPanel>
           </Paper>
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={12} md={2}>
           <Button
             className={classes.margin}
             color="primary"
@@ -145,7 +122,7 @@ const PostForm: React.FC<Props> = ({ title }) => {
             Publish!
           </Button>
         </Grid>
-        <Grid item xs={2} />
+        <Grid item md={2} />
       </Grid>
     </Paper>
   );
