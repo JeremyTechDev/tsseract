@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import {
   Button,
   Grid,
+  Container,
   Paper,
   Tab,
   Tabs,
   TextareaAutosize,
   TextField,
   Typography,
+  Modal,
+  Backdrop,
+  Fade,
+  Tooltip,
 } from '@material-ui/core';
 import marked from 'marked';
+import { BrokenImage } from '@material-ui/icons';
 
 import TabPanel from '../TabPanel';
 import useStyles from './styles';
@@ -21,9 +27,33 @@ const PostForm: React.FC = () => {
   const [postBody, setPostBody] = useState('');
   const [coverImage, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
+  const [imgFound, setImgFound] = useState(false);
+
+  const imgExists = (url: string) => {
+    const http = new XMLHttpRequest();
+
+    http.open('HEAD', url, false);
+    http.send();
+
+    return http.status !== 404;
+  };
+
+  const handleImage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { value: url } = event.target;
+
+    setCoverImg(url);
+    setImgFound(imgExists(url));
+  };
+
+  const clearImg = () => {
+    setShowCoverImg(false);
+    setCoverImg('');
+  };
 
   return (
-    <Paper square elevation={0}>
+    <Container disableGutters maxWidth="xl">
       <Grid container>
         <Grid item md={2} />
         <Grid item xs={12} md={6}>
@@ -41,22 +71,90 @@ const PostForm: React.FC = () => {
 
             <TabPanel value={tab} index={0}>
               <Paper elevation={4}>
-                <Paper elevation={3}>
-                  <Button
-                    className={classes.margin}
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => setShowCoverImg(!showCoverImg)}
-                  >
-                    Cover image
-                  </Button>
-                  {showCoverImg && (
-                    <TextField
+                <Grid container>
+                  {(coverImage && (
+                    <Tooltip placement="top" title="Click to change">
+                      <img
+                        alt="Cover Image"
+                        className={classes.coverImg}
+                        src={coverImage}
+                        onClick={() => setShowCoverImg(!showCoverImg)}
+                      />
+                    </Tooltip>
+                  )) || (
+                    <Button
+                      className={classes.margin}
+                      color="primary"
                       variant="outlined"
-                      placeholder="Paste the URL here..."
-                    />
+                      onClick={() => setShowCoverImg(!showCoverImg)}
+                    >
+                      Cover image
+                    </Button>
                   )}
-                </Paper>
+                </Grid>
+
+                {showCoverImg && (
+                  <Modal
+                    aria-describedby="Add cover image to the post"
+                    aria-labelledby="Cover Image Modal"
+                    className={classes.modal}
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{ timeout: 500 }}
+                    closeAfterTransition
+                    onClose={() => setShowCoverImg(false)}
+                    open={showCoverImg}
+                  >
+                    <Fade in={showCoverImg}>
+                      <Paper className={classes.paper}>
+                        <Typography paragraph variant="subtitle1">
+                          Copy an image URL and paste it here
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          label="Cover URL"
+                          onChange={(event) => handleImage(event)}
+                          value={coverImage}
+                        />
+                        {coverImage && (
+                          <React.Fragment>
+                            {(imgFound && (
+                              <img
+                                alt="Cover Image"
+                                className={classes.coverImg}
+                                src={coverImage}
+                              />
+                            )) || (
+                              <Grid
+                                className={classes.padding}
+                                container
+                                direction="column"
+                                alignItems="center"
+                              >
+                                <BrokenImage color="error" fontSize="large" />
+                                <Typography color="error">
+                                  Image not found
+                                </Typography>
+                              </Grid>
+                            )}
+                          </React.Fragment>
+                        )}
+
+                        <Container className={classes.modalBtns}>
+                          <Button onClick={clearImg} color="primary">
+                            Remove
+                          </Button>
+                          <Button
+                            color="primary"
+                            onClick={() => setShowCoverImg(false)}
+                            variant="contained"
+                          >
+                            Save
+                          </Button>
+                        </Container>
+                      </Paper>
+                    </Fade>
+                  </Modal>
+                )}
 
                 <TextareaAutosize
                   className={classes.titleTextArea}
@@ -92,7 +190,17 @@ const PostForm: React.FC = () => {
 
             <TabPanel value={tab} index={1}>
               <Paper elevation={4}>
-                <Typography className={classes.padding} variant="h3">
+                <img
+                  alt="Cover Image"
+                  className={classes.coverImg}
+                  src={coverImage}
+                />
+
+                <Typography
+                  className={classes.padding}
+                  align="center"
+                  variant="h3"
+                >
                   {postTitle || 'The title of your post will apper here'}
                 </Typography>
 
@@ -124,7 +232,7 @@ const PostForm: React.FC = () => {
         </Grid>
         <Grid item md={2} />
       </Grid>
-    </Paper>
+    </Container>
   );
 };
 
