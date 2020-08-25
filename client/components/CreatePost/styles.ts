@@ -28,12 +28,6 @@ const useStyles = makeStyles({
     resize: 'none',
     width: 'calc(100% - 15px)',
   },
-  modal: {
-    alignItems: 'flex-start',
-    display: 'flex',
-    justifyContent: 'center',
-    margin: 100,
-  },
   coverImg: {
     display: 'block',
     margin: '5px auto',
@@ -41,15 +35,6 @@ const useStyles = makeStyles({
     height: '50vh',
     objectFit: 'cover',
     borderRadius: 4,
-  },
-  modalBtns: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    padding: 0,
-    marginTop: 10,
-  },
-  paper: {
-    padding: 20,
   },
 });
 

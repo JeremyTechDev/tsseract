@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { Paper, makeStyles } from '@material-ui/core';
 
 interface Props {
+  children?: React.ReactNode;
   title: string;
 }
 

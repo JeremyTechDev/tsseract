@@ -7,17 +7,13 @@ import {
   Tab,
   Tabs,
   TextareaAutosize,
-  TextField,
   Typography,
-  Modal,
-  Backdrop,
-  Fade,
   Tooltip,
 } from '@material-ui/core';
 import marked from 'marked';
-import { BrokenImage } from '@material-ui/icons';
 
 import TabPanel from '../TabPanel';
+import CoverImgModal from '../CoverImgModal';
 import useStyles from './styles';
 
 const PostForm: React.FC = () => {
@@ -25,32 +21,8 @@ const PostForm: React.FC = () => {
   const [tab, setTab] = useState(0);
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
-  const [coverImage, setCoverImg] = useState('');
+  const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
-  const [imgFound, setImgFound] = useState(false);
-
-  const imgExists = (url: string) => {
-    const http = new XMLHttpRequest();
-
-    http.open('HEAD', url, false);
-    http.send();
-
-    return http.status !== 404;
-  };
-
-  const handleImage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { value: url } = event.target;
-
-    setCoverImg(url);
-    setImgFound(imgExists(url));
-  };
-
-  const clearImg = () => {
-    setShowCoverImg(false);
-    setCoverImg('');
-  };
 
   return (
     <Container disableGutters maxWidth="xl">
@@ -72,13 +44,13 @@ const PostForm: React.FC = () => {
             <TabPanel value={tab} index={0}>
               <Paper elevation={4}>
                 <Grid container>
-                  {(coverImage && (
+                  {(coverImg && (
                     <Tooltip placement="top" title="Click to change">
                       <img
                         alt="Cover Image"
                         className={classes.coverImg}
-                        src={coverImage}
-                        onClick={() => setShowCoverImg(!showCoverImg)}
+                        src={coverImg}
+                        onClick={() => setShowCoverImg(true)}
                       />
                     </Tooltip>
                   )) || (
@@ -86,75 +58,12 @@ const PostForm: React.FC = () => {
                       className={classes.margin}
                       color="primary"
                       variant="outlined"
-                      onClick={() => setShowCoverImg(!showCoverImg)}
+                      onClick={() => setShowCoverImg(true)}
                     >
                       Cover image
                     </Button>
                   )}
                 </Grid>
-
-                {showCoverImg && (
-                  <Modal
-                    aria-describedby="Add cover image to the post"
-                    aria-labelledby="Cover Image Modal"
-                    className={classes.modal}
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{ timeout: 500 }}
-                    closeAfterTransition
-                    onClose={() => setShowCoverImg(false)}
-                    open={showCoverImg}
-                  >
-                    <Fade in={showCoverImg}>
-                      <Paper className={classes.paper}>
-                        <Typography paragraph variant="subtitle1">
-                          Copy an image URL and paste it here
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          label="Cover URL"
-                          onChange={(event) => handleImage(event)}
-                          value={coverImage}
-                        />
-                        {coverImage && (
-                          <React.Fragment>
-                            {(imgFound && (
-                              <img
-                                alt="Cover Image"
-                                className={classes.coverImg}
-                                src={coverImage}
-                              />
-                            )) || (
-                              <Grid
-                                className={classes.padding}
-                                container
-                                direction="column"
-                                alignItems="center"
-                              >
-                                <BrokenImage color="error" fontSize="large" />
-                                <Typography color="error">
-                                  Image not found
-                                </Typography>
-                              </Grid>
-                            )}
-                          </React.Fragment>
-                        )}
-
-                        <Container className={classes.modalBtns}>
-                          <Button onClick={clearImg} color="primary">
-                            Remove
-                          </Button>
-                          <Button
-                            color="primary"
-                            onClick={() => setShowCoverImg(false)}
-                            variant="contained"
-                          >
-                            Save
-                          </Button>
-                        </Container>
-                      </Paper>
-                    </Fade>
-                  </Modal>
-                )}
 
                 <TextareaAutosize
                   className={classes.titleTextArea}
@@ -190,11 +99,13 @@ const PostForm: React.FC = () => {
 
             <TabPanel value={tab} index={1}>
               <Paper elevation={4}>
-                <img
-                  alt="Cover Image"
-                  className={classes.coverImg}
-                  src={coverImage}
-                />
+                {coverImg && (
+                  <img
+                    alt="Cover Image"
+                    className={classes.coverImg}
+                    src={coverImg}
+                  />
+                )}
 
                 <Typography
                   className={classes.padding}
@@ -231,6 +142,14 @@ const PostForm: React.FC = () => {
           </Button>
         </Grid>
         <Grid item md={2} />
+
+        {showCoverImg && (
+          <CoverImgModal
+            coverImg={coverImg}
+            handleClose={setShowCoverImg}
+            setCoverImg={setCoverImg}
+          />
+        )}
       </Grid>
     </Container>
   );
