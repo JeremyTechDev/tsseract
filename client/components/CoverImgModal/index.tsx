@@ -23,7 +23,7 @@ interface T {
 
 const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
   const classes = useStyles();
-  const [imgFound, setImgFound] = useState(false);
+  const [imgFound, setImgFound] = useState(Boolean(coverImg));
 
   const handleImage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -31,7 +31,6 @@ const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
     const { value: url } = event.target;
 
     setCoverImg(url);
-    console.log(imgExists(url));
     setImgFound(imgExists(url));
   };
 
@@ -60,7 +59,7 @@ const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
           <TextField
             fullWidth
             label="Cover URL"
-            onChange={(event) => handleImage(event)}
+            onChange={handleImage}
             value={coverImg}
           />
 
@@ -93,6 +92,7 @@ const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
 
             <Button
               color="primary"
+              disabled={!coverImg || !imgFound}
               onClick={() => handleClose(false)}
               variant="contained"
             >
