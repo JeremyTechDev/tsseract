@@ -19,10 +19,16 @@ const useStyles = makeStyles({
     borderRadius: 4,
   },
   modalBtns: {
+    alignItems: 'center',
     display: 'flex',
-    justifyContent: 'flex-end',
-    padding: 0,
     marginTop: 10,
+    padding: 0,
+  },
+  btnBox: {
+    marginLeft: 'auto',
+  },
+  txtBox: {
+    margin: '-5px auto 0 0',
   },
   paper: {
     padding: 20,
