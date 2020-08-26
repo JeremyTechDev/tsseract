@@ -36,6 +36,11 @@ const useStyles = makeStyles({
     objectFit: 'cover',
     borderRadius: 4,
   },
+  currImgInput: {
+    width: '65%',
+    border: 'none',
+    padding: 5,
+  },
 });
 
 export default useStyles;

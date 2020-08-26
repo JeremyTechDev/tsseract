@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Button,
   Container,
@@ -7,9 +7,12 @@ import {
   Tab,
   Tabs,
   TextareaAutosize,
-  Tooltip,
   Typography,
+  TextField,
+  Tooltip,
+  Fab,
 } from '@material-ui/core';
+import { Assignment } from '@material-ui/icons';
 import marked from 'marked';
 
 import TabPanel from '../TabPanel';
@@ -23,6 +26,20 @@ const PostForm: React.FC = () => {
   const [postBody, setPostBody] = useState('');
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
+  const [currImg, setCurrImg] = useState('');
+  const [showImgModal, setShowImgModal] = useState(false);
+  const currImgRef = useRef<HTMLInputElement>(null);
+
+  const openImgModal = () => {
+    setCurrImg('');
+    setShowImgModal(true);
+  };
+
+  const copy = () => {
+    currImgRef.current?.select;
+    document.execCommand('copy');
+    console.log(currImgRef.current);
+  };
 
   return (
     <Container disableGutters maxWidth="xl">
@@ -78,13 +95,31 @@ const PostForm: React.FC = () => {
                 </Typography>
 
                 <Paper elevation={3}>
-                  <Button
-                    className={classes.margin}
-                    color="primary"
-                    variant="outlined"
-                  >
-                    Upload image
-                  </Button>
+                  <Grid container alignItems="center" justify="flex-start">
+                    <Button
+                      className={classes.margin}
+                      color="primary"
+                      variant="outlined"
+                      onClick={openImgModal}
+                    >
+                      Upload image
+                    </Button>
+                    <input
+                      ref={currImgRef}
+                      // variant="outlined"
+                      value={currImg}
+                      className={classes.currImgInput}
+                      disabled
+                    />
+                    <Fab
+                      onClick={copy}
+                      title="Copy Markdown for Image"
+                      size="small"
+                      color="secondary"
+                    >
+                      <Assignment />
+                    </Fab>
+                  </Grid>
                 </Paper>
 
                 <TextareaAutosize
@@ -145,9 +180,18 @@ const PostForm: React.FC = () => {
 
         {showCoverImg && (
           <CoverImgModal
-            coverImg={coverImg}
-            handleClose={setShowCoverImg}
-            setCoverImg={setCoverImg}
+            img={coverImg}
+            open={setShowCoverImg}
+            setImg={setCoverImg}
+          />
+        )}
+
+        {showImgModal && (
+          <CoverImgModal
+            requireCaption
+            img={currImg}
+            open={setShowImgModal}
+            setImg={setCurrImg}
           />
         )}
       </Grid>

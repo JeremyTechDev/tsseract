@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Backdrop,
   Button,
   Container,
@@ -16,67 +17,78 @@ import useStyles from './styles';
 import { imgExists } from '../../helpers/imgExists';
 
 interface T {
-  coverImg: string;
-  handleClose: React.Dispatch<React.SetStateAction<boolean>>;
-  setCoverImg: React.Dispatch<React.SetStateAction<string>>;
+  requireCaption?: boolean;
+  img: string;
+  open: React.Dispatch<React.SetStateAction<boolean>>;
+  setImg: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
+const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
   const classes = useStyles();
-  const [imgFound, setImgFound] = useState(Boolean(coverImg));
+  const [caption, setCaption] = useState('');
+  const [imgFound, setImgFound] = useState(Boolean(img));
+
+  const save = () => {
+    if (requireCaption) setImg(`![alt text](${img} "${caption}")`);
+    open(false);
+  };
+
+  const handleCaption = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { value: caption } = event.target;
+
+    setCaption(caption);
+  };
 
   const handleImage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { value: url } = event.target;
 
-    setCoverImg(url);
+    setImg(url);
     setImgFound(imgExists(url));
   };
 
   const clearImg = () => {
-    handleClose(false);
-    setCoverImg('');
+    open(false);
+    setImg('');
   };
 
   return (
     <Modal
       aria-describedby="Add cover image to the post"
       aria-labelledby="Cover Image Modal"
-      className={classes.modal}
       BackdropComponent={Backdrop}
       BackdropProps={{ timeout: 500 }}
+      className={classes.modal}
       closeAfterTransition
-      onClose={() => handleClose(false)}
+      onClose={() => open(false)}
       open={true}
     >
       <Fade in={true}>
         <Paper className={classes.paper}>
-          <Typography paragraph variant="subtitle1">
+          <Typography variant="subtitle1">
             Copy an image URL and paste it here
           </Typography>
 
           <TextField
             fullWidth
-            label="Cover URL"
-            onChange={handleImage}
-            value={coverImg}
+            label="Image URL"
+            onChange={(event) => handleImage(event)}
+            value={img}
           />
 
-          {coverImg && (
+          {img && (
             <React.Fragment>
               {(imgFound && (
-                <img
-                  alt="Cover Image"
-                  className={classes.coverImg}
-                  src={coverImg}
-                />
+                <img alt="Image" className={classes.coverImg} src={img} />
               )) || (
                 <Grid
+                  alignItems="center"
                   className={classes.padding}
                   container
                   direction="column"
-                  alignItems="center"
                 >
                   <BrokenImage color="error" fontSize="large" />
                   <Typography color="error">Image not found</Typography>
@@ -86,18 +98,30 @@ const CoverImg: React.FC<T> = ({ coverImg, handleClose, setCoverImg }) => {
           )}
 
           <Container className={classes.modalBtns}>
-            <Button onClick={clearImg} color="primary">
-              Remove
-            </Button>
+            {requireCaption && (
+              <TextField
+                className={classes.txtBox}
+                color="primary"
+                label="Caption"
+                onChange={handleCaption}
+                value={caption}
+              />
+            )}
 
-            <Button
-              color="primary"
-              disabled={!coverImg || !imgFound}
-              onClick={() => handleClose(false)}
-              variant="contained"
-            >
-              Save
-            </Button>
+            <Box className={classes.btnBox}>
+              <Button onClick={clearImg} color="primary">
+                Remove
+              </Button>
+
+              <Button
+                color="primary"
+                disabled={(requireCaption && !caption) || !imgFound || !img}
+                onClick={save}
+                variant="contained"
+              >
+                Save
+              </Button>
+            </Box>
           </Container>
         </Paper>
       </Fade>
