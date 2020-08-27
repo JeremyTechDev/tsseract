@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import copy from 'copy-to-clipboard';
 
-const useCopyToClipboard = (resetInterval: number) => {
+const useCopyToClipboard = (
+  resetInterval: number,
+): [boolean, (text: string | number) => void] => {
   const [isCopied, setCopied] = useState(false);
 
   const handleCopy = useCallback((text: string | number) => {
@@ -10,8 +12,12 @@ const useCopyToClipboard = (resetInterval: number) => {
   }, []);
 
   useEffect(() => {
+    let timeout: any;
+    if (isCopied && resetInterval) {
+      timeout = setTimeout(() => setCopied(false), resetInterval);
+    }
     return () => {
-      clearTimeout(setTimeout(() => setCopied(false), resetInterval));
+      clearTimeout(timeout);
     };
   }, [isCopied, resetInterval]);
 

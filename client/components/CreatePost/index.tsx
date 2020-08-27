@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Container,
@@ -12,33 +12,28 @@ import {
   Tooltip,
   Fab,
 } from '@material-ui/core';
-import { Assignment } from '@material-ui/icons';
+import { Assignment, AssignmentTurnedIn } from '@material-ui/icons';
 import marked from 'marked';
 
 import TabPanel from '../TabPanel';
 import CoverImgModal from '../CoverImgModal';
 import useStyles from './styles';
+import useCopyToClipBoard from '../../hooks/useCopyToClipBoard';
+import useForm from '../../hooks/useForm';
 
 const PostForm: React.FC = () => {
   const classes = useStyles();
   const [tab, setTab] = useState(0);
-  const [postTitle, setPostTitle] = useState('');
-  const [postBody, setPostBody] = useState('');
+  const [values, handleChange] = useForm({ title: '', content: '' });
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
   const [currImg, setCurrImg] = useState('');
   const [showImgModal, setShowImgModal] = useState(false);
-  const currImgRef = useRef<HTMLInputElement>(null);
+  const [isCopied, handleCopy] = useCopyToClipBoard(2000);
 
   const openImgModal = () => {
     setCurrImg('');
     setShowImgModal(true);
-  };
-
-  const copy = () => {
-    currImgRef.current?.select;
-    document.execCommand('copy');
-    console.log(currImgRef.current);
   };
 
   return (
@@ -83,10 +78,11 @@ const PostForm: React.FC = () => {
                 </Grid>
 
                 <TextareaAutosize
+                  name="title"
                   className={classes.titleTextArea}
-                  defaultValue={postTitle}
+                  defaultValue={values.title!}
                   maxLength={125}
-                  onChange={({ target }) => setPostTitle(target.value)}
+                  onChange={handleChange}
                   placeholder="Add your post title here..."
                 />
 
@@ -104,28 +100,27 @@ const PostForm: React.FC = () => {
                     >
                       Upload image
                     </Button>
-                    <input
-                      ref={currImgRef}
-                      // variant="outlined"
+                    <TextField
                       value={currImg}
                       className={classes.currImgInput}
                       disabled
                     />
                     <Fab
-                      onClick={copy}
+                      onClick={() => handleCopy(currImg)}
                       title="Copy Markdown for Image"
                       size="small"
                       color="secondary"
                     >
-                      <Assignment />
+                      {isCopied ? <AssignmentTurnedIn /> : <Assignment />}
                     </Fab>
                   </Grid>
                 </Paper>
 
                 <TextareaAutosize
+                  name="content"
                   className={classes.bodyTextArea}
-                  defaultValue={postBody}
-                  onChange={({ target }) => setPostBody(target.value)}
+                  defaultValue={values.content}
+                  onChange={handleChange}
                   placeholder="Write you post content here..."
                   rowsMin={10}
                 />
@@ -147,14 +142,14 @@ const PostForm: React.FC = () => {
                   align="center"
                   variant="h3"
                 >
-                  {postTitle || 'The title of your post will apper here'}
+                  {values.title || 'The title of your post will apper here'}
                 </Typography>
 
-                {(postBody && (
+                {(values.content && (
                   <Typography
                     component="pre"
                     dangerouslySetInnerHTML={{
-                      __html: marked(postBody, { sanitize: true }),
+                      __html: marked(values.content, { sanitize: true }),
                     }}
                   />
                 )) || (
