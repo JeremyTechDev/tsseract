@@ -13,13 +13,13 @@ import {
   Fab,
 } from '@material-ui/core';
 import { Assignment, AssignmentTurnedIn } from '@material-ui/icons';
-import marked from 'marked';
 
 import TabPanel from '../TabPanel';
 import CoverImgModal from '../CoverImgModal';
-import useStyles from './styles';
 import useCopyToClipBoard from '../../hooks/useCopyToClipBoard';
 import useForm from '../../hooks/useForm';
+import { markDown } from '../../helpers/markDown';
+import useStyles from './styles';
 
 const PostForm: React.FC = () => {
   const classes = useStyles();
@@ -148,9 +148,7 @@ const PostForm: React.FC = () => {
                 {(values.content && (
                   <Typography
                     component="pre"
-                    dangerouslySetInnerHTML={{
-                      __html: marked(values.content, { sanitize: true }),
-                    }}
+                    dangerouslySetInnerHTML={markDown(values.content)}
                   />
                 )) || (
                   <Typography align="center" variant="subtitle1">
