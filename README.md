@@ -111,7 +111,7 @@ You will need to have installed and running these technologies in order to run t
 - Or you can start both in development mode:
 
   ```
-  npm run dev:server
+  npm run watch
   ```
 
 You should get the following logs on the console:
