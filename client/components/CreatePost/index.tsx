@@ -44,7 +44,7 @@ const PostForm: React.FC = () => {
             </Tabs>
 
             <TabPanel value={tab} index={0}>
-              <Grid justify="space-between" container xs={12}>
+              <Grid justify="space-between" container>
                 {(coverImg && (
                   <Tooltip placement="top" title="Click to change">
                     <img
@@ -72,7 +72,7 @@ const PostForm: React.FC = () => {
               <TextareaAutosize
                 name="title"
                 className={classes.titleTextArea}
-                defaultValue={values.title!}
+                defaultValue={values.title}
                 maxLength={125}
                 onChange={handleChange}
                 placeholder="Add your post title here..."

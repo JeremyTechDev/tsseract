@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
   currImgInput: {
     margin: 10,
-    [theme.breakpoints.down('md')]: {},
   },
 }));
 
