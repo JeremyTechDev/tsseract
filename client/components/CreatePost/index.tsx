@@ -16,7 +16,9 @@ import TabPanel from '../TabPanel';
 import UploadImage from './UploadImg';
 import useForm from '../../hooks/useForm';
 import { markDown } from '../../helpers/markDown';
+
 import useStyles from './styles';
+import '../../../../scss/createPost.scss';
 
 const PostForm: React.FC = () => {
   const classes = useStyles();
@@ -120,7 +122,7 @@ const PostForm: React.FC = () => {
 
                 {(values.content && (
                   <Typography
-                    className={classes.padding}
+                    className="preview__result"
                     component="pre"
                     dangerouslySetInnerHTML={markDown(values.content)}
                   />

@@ -14,7 +14,6 @@ import {
 import { BrokenImage } from '@material-ui/icons';
 
 import useStyles from './styles';
-import { imgExists } from '../../helpers/imgExists';
 
 interface T {
   requireCaption?: boolean;
@@ -47,7 +46,9 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
     const { value: url } = event.target;
 
     setImg(url);
-    setImgFound(imgExists(url));
+    setImgFound(Boolean(url));
+
+    // setImgFound(imgExists(url)); wanted change
   };
 
   const clearImg = () => {
@@ -57,8 +58,6 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
 
   return (
     <Modal
-      aria-describedby="Add cover image to the post"
-      aria-labelledby="Cover Image Modal"
       BackdropComponent={Backdrop}
       BackdropProps={{ timeout: 500 }}
       className={classes.modal}
