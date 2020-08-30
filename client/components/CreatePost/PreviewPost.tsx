@@ -6,7 +6,6 @@ import { markDown } from '../../helpers/markDown';
 import useStyles from './styles';
 import '../../../../scss/createPost.scss';
 import 'highlight.js/scss/tomorrow-night-bright.scss';
-import { PostAdd } from '@material-ui/icons';
 
 interface Props {
   children?: React.ReactNode;

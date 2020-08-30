@@ -7,10 +7,20 @@
     background-color: $dark;
     border-radius: $radius;
     color: $white;
-    display: block;
     font-size: 14px;
     overflow-x: auto;
+  }
+
+  /* block code */
+  pre > code {
+    display: block;
     padding: 5px;
+  }
+
+  /* inline code */
+  p > code {
+    padding: 2px 3px;
+    white-space: pre-wrap;
   }
 
   img {

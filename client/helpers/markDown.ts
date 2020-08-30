@@ -5,7 +5,8 @@ import marked from 'marked';
 
 marked.options({
   gfm: true,
-  highlight: function (code, lang) {
+  xhtml: true,
+  highlight: (code, lang) => {
     const validLang = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(validLang, code).value;
   },
