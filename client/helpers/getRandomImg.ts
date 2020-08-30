@@ -1,7 +1,7 @@
 interface Data {
   color?: string;
   description?: string;
-  full: string;
+  img: string;
   link?: string;
   name?: string;
   raw?: string;
@@ -15,16 +15,23 @@ const getRandomImg = async (): Promise<Data> => {
     const {
       alt_description,
       color,
-      urls: { full, raw },
+      urls: { raw, regular },
       user: {
         name,
         links: { html },
       },
     } = data;
 
-    return { description: alt_description, color, full, raw, name, link: html };
+    return {
+      color,
+      description: alt_description,
+      img: regular,
+      link: html,
+      name,
+      raw,
+    };
   } catch (error) {
-    return { full: 'https://source.unsplash.com/random/1600x800' };
+    return { img: 'https://source.unsplash.com/random/1600x800' };
   }
 };
 

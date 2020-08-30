@@ -1,31 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from '@material-ui/core';
+import { Grid, CircularProgress } from '@material-ui/core';
 
-import useStyles from './styles';
+import ImgInfo from './ImgInfo';
 import getRandomImg from '../../helpers/getRandomImg';
+import useStyles from './styles';
 
 interface BgData {
   color?: string;
   description?: string;
-  full: string;
+  img: string;
   link?: string;
   name?: string;
   raw?: string;
 }
 
 const Login = () => {
-  const [bgData, setBgData] = useState<BgData>({ full: '' });
-  const classes = useStyles({ bg: bgData.full });
+  const [bgData, setBgData] = useState<BgData>({ img: '' });
+  const [loading, setLoading] = useState(false);
+  const classes = useStyles({ bg: bgData.img });
 
   useEffect(() => {
+    setLoading(true);
     const fetchBgData = async () => {
       setBgData(await getRandomImg());
+      setLoading(false);
     };
 
     fetchBgData();
   }, []);
 
-  return <Container className={classes.container}>Hola</Container>;
+  return (
+    (loading && (
+      <CircularProgress size={100} className={classes.centered} />
+    )) || (
+      <Grid container className={classes.grid}>
+        <Grid container xs={2} alignItems="flex-end">
+          <ImgInfo bgData={bgData} />
+        </Grid>
+      </Grid>
+    )
+  );
 };
 
 export default Login;
