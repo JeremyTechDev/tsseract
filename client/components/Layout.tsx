@@ -1,27 +1,31 @@
 import React from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
-import '../../../scss/layout.scss';
+import { Paper, makeStyles } from '@material-ui/core';
 
 interface Props {
+  children?: React.ReactNode;
   title: string;
 }
 
-const Layout: React.FC<Props> = ({ children, title }) => (
-  <div>
-    <Head>
-      <title>{title}</title>
-    </Head>
-    <header className="example">
-      <Link href="/">
-        <a>Home</a>
-      </Link>
-    </header>
+const useStyles = makeStyles({
+  margin: {
+    padding: '10px',
+    minHeight: 'calc(100vh - 20px)',
+  },
+});
 
-    {children}
+const Layout: React.FC<Props> = ({ children, title }) => {
+  const classes = useStyles();
 
-    <footer />
-  </div>
-);
+  return (
+    <Paper className={classes.margin} square elevation={0}>
+      <Head>
+        <title>{title}</title>
+      </Head>
+
+      {children}
+    </Paper>
+  );
+};
 
 export default Layout;

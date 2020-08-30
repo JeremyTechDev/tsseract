@@ -1,5 +1,7 @@
+@import './index.scss';
+
 /* Only customize bar here */
-$color: #f00;
+$color: $red;
 $height: 3px;
 
 #nprogress {
