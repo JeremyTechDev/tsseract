@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
   },
-  currImgInput: {
-    margin: 10,
-  },
 }));
 
 export default useStyles;

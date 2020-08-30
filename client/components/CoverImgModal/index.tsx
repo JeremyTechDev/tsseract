@@ -15,9 +15,13 @@ import { BrokenImage } from '@material-ui/icons';
 
 import useStyles from './styles';
 
+type InputChangeEvent = React.ChangeEvent<
+  HTMLInputElement | HTMLTextAreaElement
+>;
+
 interface T {
-  requireCaption?: boolean;
   img: string;
+  requireCaption?: boolean;
   open: React.Dispatch<React.SetStateAction<boolean>>;
   setImg: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -32,17 +36,13 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
     open(false);
   };
 
-  const handleCaption = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleCaption = (event: InputChangeEvent) => {
     const { value: caption } = event.target;
 
     setCaption(caption);
   };
 
-  const handleImage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleImage = (event: InputChangeEvent) => {
     const { value: url } = event.target;
 
     setImg(url);
@@ -74,7 +74,7 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
           <TextField
             fullWidth
             label="Image URL"
-            onChange={(event) => handleImage(event)}
+            onChange={handleImage}
             value={img}
           />
 

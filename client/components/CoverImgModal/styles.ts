@@ -11,12 +11,12 @@ const useStyles = makeStyles({
     margin: 100,
   },
   coverImg: {
-    display: 'block',
-    margin: '5px auto',
-    width: '100%',
-    height: '50vh',
-    objectFit: 'cover',
     borderRadius: 4,
+    display: 'block',
+    height: '50vh',
+    margin: '5px auto',
+    objectFit: 'cover',
+    width: '100%',
   },
   modalBtns: {
     alignItems: 'center',

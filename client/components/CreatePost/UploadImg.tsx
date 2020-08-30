@@ -28,7 +28,7 @@ const UploadImage: React.FC = () => {
         Upload image
       </Button>
       <TextField
-        className={classes.currImgInput}
+        className={classes.margin}
         disabled
         size="small"
         value={currImg}
