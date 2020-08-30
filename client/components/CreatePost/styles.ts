@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'none',
     border: 'none',
     color: theme.palette.type === 'dark' ? '#fff' : '#000',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 500,
     margin: '10px',
     resize: 'none',

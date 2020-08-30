@@ -1,6 +1,16 @@
-import emoji from 'node-emoji';
-import marked from 'marked';
 import dompurify from 'dompurify';
+import emoji from 'node-emoji';
+import hljs from 'highlight.js';
+import marked from 'marked';
+
+marked.options({
+  gfm: true,
+  xhtml: true,
+  highlight: (code, lang) => {
+    const validLang = hljs.getLanguage(lang) ? lang : 'plaintext';
+    return hljs.highlight(validLang, code).value;
+  },
+});
 
 /**
  * Returns a dangerouslySetInnerHTML with a clean markdown string

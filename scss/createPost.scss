@@ -3,8 +3,28 @@
 .preview__result {
   padding: 10px;
 
+  code {
+    background-color: $dark;
+    border-radius: $radius;
+    color: $white;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  /* block code */
+  pre > code {
+    display: block;
+    padding: 5px;
+  }
+
+  /* inline code */
+  p > code {
+    padding: 2px 3px;
+    white-space: pre-wrap;
+  }
+
   img {
-    border-radius: 4px;
+    border-radius: $radius;
     display: block;
     margin: 0 auto;
     max-width: 100%;
