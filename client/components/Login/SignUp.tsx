@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 
 import Input from './Input';
+import useFetch from '../../hooks/useFetch';
 import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
@@ -21,6 +22,7 @@ interface Props {
 
 const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
+  const [data, handleFetch] = useFetch('/api/users/', 'POST');
 
   return (
     <Grid container direction="column" alignItems="center">
