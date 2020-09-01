@@ -28,26 +28,22 @@ export default class extends Document {
           <link
             rel="icon"
             type="image/png"
-            sizes="512x512"
-            href="/static/icons/icon-512x512.png"
+            href="/static/Icon-bottom/logo_size.jpg"
           />
           <link
             rel="apple-touch-icon"
             type="image/png"
-            sizes="512x512"
-            href="/static/icons/icon-512x512.png"
+            href="/static/Icon-bottom/logo_size.jpg"
           />
           <link
             rel="icon"
             type="image/png"
-            sizes="192x192"
-            href="/static/icons/icon-192x192.png"
+            href="/static/Icon-bottom/logo_size_invert.jpg"
           />
           <link
             rel="apple-touch-icon"
             type="image/png"
-            sizes="192x192"
-            href="/static/icons/icon-192x192.png"
+            href="/static/Icon-bottom/logo_size_invert.jpg"
           />
 
           <meta
