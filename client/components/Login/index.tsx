@@ -28,7 +28,7 @@ interface BgData {
 const Login = () => {
   const [bgData, setBgData] = useState<BgData>({ img: '' });
   const [loading, setLoading] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(true);
+  const [showSignUp, setShowSignUp] = useState(false);
   const [user, handleChange] = useForm({
     email: '',
     name: '',
