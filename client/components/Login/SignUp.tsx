@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
 import Input from './Input';
@@ -10,23 +10,32 @@ type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
 >;
 
+type User = {
+  email: string;
+  name: string;
+  password: string;
+  rPassword: string;
+  username: string;
+};
+
 interface Props {
-  user: {
-    name: string;
-    email: string;
-    password: string;
-    rPassword: string;
-    username: string;
-  };
+  user: User;
   handleChange: (event: InputChangeEvent) => void;
 }
 
 const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [data, handleFetch] = useFetch('/api/users/', 'POST');
+  const [errors, setErrors] = useState<User>({
+    email: '',
+    name: '',
+    password: '',
+    rPassword: '',
+    username: '',
+  });
 
   const handleSubmit = () => {
-    useValidation(user);
+    setErrors(useValidation(user));
   };
 
   return (
@@ -36,34 +45,39 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
       </Typography>
       <form onSubmit={handleSubmit}>
         <Input
-          className={classes.margin}
+          error={Boolean(errors.name)}
           handleChange={handleChange}
+          helperText={errors.name}
           label="Name"
           value={user.name}
         />
         <Input
-          className={classes.margin}
+          error={Boolean(errors.username)}
           handleChange={handleChange}
+          helperText={errors.username}
           label="Username"
           value={user.username}
         />
         <Input
-          className={classes.margin}
+          error={Boolean(errors.email)}
           handleChange={handleChange}
+          helperText={errors.email}
           label="Email"
           type="email"
           value={user.email}
         />
         <Input
-          className={classes.margin}
+          error={Boolean(errors.password)}
           handleChange={handleChange}
+          helperText={errors.password}
           label="Password"
           type="password"
           value={user.password}
         />
         <Input
-          className={classes.margin}
+          error={Boolean(errors.rPassword)}
           handleChange={handleChange}
+          helperText={errors.rPassword}
           label="Repeat Password"
           name="rPassword"
           type="password"

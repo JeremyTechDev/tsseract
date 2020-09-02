@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 
 import Input from './Input';
+import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
 >;
 
+type User = {
+  password: string;
+  username: string;
+};
+
 interface Props {
-  user: {
-    password: string;
-    username: string;
-  };
+  user: User;
   handleChange: (event: InputChangeEvent) => void;
 }
 
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
+  const [errors, setErrors] = useState<User>({
+    username: '',
+    password: '',
+  });
+
+  const handleSubmit = () => {
+    setErrors(useValidation(user));
+  };
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -25,24 +36,33 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
         Sign In to Tsseract
       </Typography>
 
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Username"
-        value={user.username}
-      />
+      <form onSubmit={handleSubmit}>
+        <Input
+          error={Boolean(errors.username)}
+          handleChange={handleChange}
+          helperText={errors.username}
+          label="Username"
+          value={user.username}
+        />
 
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Password"
-        type="password"
-        value={user.password}
-      />
+        <Input
+          error={Boolean(errors.password)}
+          handleChange={handleChange}
+          helperText={errors.password}
+          label="Password"
+          type="password"
+          value={user.password}
+        />
 
-      <Button className={classes.margin} color="primary" variant="contained">
-        Sign In
-      </Button>
+        <Button
+          className={classes.margin}
+          color="primary"
+          onClick={handleSubmit}
+          variant="contained"
+        >
+          Sign In
+        </Button>
+      </form>
     </Grid>
   );
 };

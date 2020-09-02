@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   margin: { margin: 5 },
   birthdayInput: {
     width: 225,
-    margin: 10,
+    margin: '10px 5px',
   },
   grid: {
     backgroundImage: ({ bg }: Props) => `url(${bg})`,
