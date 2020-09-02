@@ -9,7 +9,7 @@ interface Props {
   className: string;
   label: string;
   name?: string;
-  type?: 'password';
+  type?: 'password' | 'email';
   value: string;
   handleChange: (event: InputChangeEvent) => void;
 }

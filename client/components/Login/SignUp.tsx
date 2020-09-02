@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, Button } from '@material-ui/core';
+import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
 import Input from './Input';
 import useFetch from '../../hooks/useFetch';
@@ -45,6 +45,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         className={classes.margin}
         handleChange={handleChange}
         label="Email"
+        type="email"
         value={user.email}
       />
       <Input
@@ -61,6 +62,12 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         name="rPassword"
         type="password"
         value={user.rPassword}
+      />
+      <TextField
+        className={classes.birthdayInput}
+        label="Birthday"
+        type="date"
+        variant="outlined"
       />
 
       <Button className={classes.margin} color="primary" variant="contained">

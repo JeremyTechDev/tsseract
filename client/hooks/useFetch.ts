@@ -8,7 +8,7 @@ const useFetch = (url: string, method: RequestType = 'GET'): ReturnItem => {
 
   const handleFetch = async (body: {} = {}) => {
     try {
-      const { data } = await fetch(url, {
+      const { data } = await fetch(`http://localhost:8080${url}`, {
         method,
         body: JSON.stringify(body),
         headers: {

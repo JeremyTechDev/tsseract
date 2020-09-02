@@ -7,6 +7,10 @@ interface Props {
 
 const useStyles = makeStyles({
   margin: { margin: 5 },
+  birthdayInput: {
+    width: 225,
+    margin: 10,
+  },
   grid: {
     backgroundImage: ({ bg }: Props) => `url(${bg})`,
     backgroundSize: 'cover',
