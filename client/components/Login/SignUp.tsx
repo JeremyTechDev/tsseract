@@ -3,6 +3,7 @@ import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
 import Input from './Input';
 import useFetch from '../../hooks/useFetch';
+import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
@@ -24,53 +25,64 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [data, handleFetch] = useFetch('/api/users/', 'POST');
 
+  const handleSubmit = () => {
+    useValidation(user);
+  };
+
   return (
     <Grid container direction="column" alignItems="center">
       <Typography align="center" variant="h3" paragraph>
         Sign Up to Tsseract
       </Typography>
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Name"
-        value={user.name}
-      />
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Username"
-        value={user.username}
-      />
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Email"
-        type="email"
-        value={user.email}
-      />
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Password"
-        type="password"
-        value={user.password}
-      />
-      <Input
-        className={classes.margin}
-        handleChange={handleChange}
-        label="Repeat Password"
-        name="rPassword"
-        type="password"
-        value={user.rPassword}
-      />
-      <TextField
-        className={classes.birthdayInput}
-        label="Birthday"
-        type="date"
-        variant="outlined"
-      />
+      <form onSubmit={handleSubmit}>
+        <Input
+          className={classes.margin}
+          handleChange={handleChange}
+          label="Name"
+          value={user.name}
+        />
+        <Input
+          className={classes.margin}
+          handleChange={handleChange}
+          label="Username"
+          value={user.username}
+        />
+        <Input
+          className={classes.margin}
+          handleChange={handleChange}
+          label="Email"
+          type="email"
+          value={user.email}
+        />
+        <Input
+          className={classes.margin}
+          handleChange={handleChange}
+          label="Password"
+          type="password"
+          value={user.password}
+        />
+        <Input
+          className={classes.margin}
+          handleChange={handleChange}
+          label="Repeat Password"
+          name="rPassword"
+          type="password"
+          value={user.rPassword}
+        />
+        <TextField
+          className={classes.birthdayInput}
+          label="Birthday"
+          type="date"
+          variant="outlined"
+        />
+      </form>
 
-      <Button className={classes.margin} color="primary" variant="contained">
+      <Button
+        className={classes.margin}
+        color="primary"
+        onClick={handleSubmit}
+        variant="contained"
+      >
         Sign Up
       </Button>
     </Grid>
