@@ -1,7 +1,7 @@
 # Tsseract 🌐
 
 <p align="center">
-  <img src='./static/Main-aside/logo_transparent_background.png' width='100' height='100' /> 
+  <img src='./static/Main-aside/logo_transparent_background.png' width='100' /> 
 </p>
 
 Tsseract in a social media app were can create content and earn money 💸 with it.
