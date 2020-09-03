@@ -36,7 +36,8 @@
     "node-sass": "^4.14.1",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "set-cookie-parser": "^2.4.6"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -56,6 +57,7 @@
     "@types/node-sass": "^4.11.1",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^16.9.43",
+    "@types/set-cookie-parser": "0.0.6",
     "@types/supertest": "^2.0.10",
     "babel-plugin-styled-components": "^1.11.1",
     "eslint": "^7.4.0",

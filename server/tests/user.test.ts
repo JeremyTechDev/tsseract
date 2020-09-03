@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
 import request from 'supertest';
+const setCookie = require('set-cookie-parser');
 
 const { app } = require('../app');
-const { JWT_KEY } = require('../config/env');
 
 describe('User', () => {
   const SUT = app({ isTesting: true });
@@ -15,30 +14,41 @@ describe('User', () => {
       email: 'admin_user_test@tsseract.com',
       birthDate: Date.now(),
     };
-    let user: any;
+    let user: any, cookies: any;
 
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);
+      cookies = setCookie.parse(user);
       done();
     });
 
     afterAll(async (done) => {
       const userId = user.body.data._id;
+      const [cookie] = cookies;
+
       await request(SUT)
         .delete(`/api/users/${userId}`)
-        .set('x-auth-token', user.headers['x-auth-token']);
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
       done();
     });
 
-    it('should create a new user in the DB with an _id property', () => {
+    it('should create a new user in the DB with the user properties', () => {
       expect(user.body.data).toHaveProperty('_id');
+      expect(user.body.data).toHaveProperty('birthDate');
+      expect(user.body.data).toHaveProperty('email');
+      expect(user.body.data).toHaveProperty('name');
+      expect(user.body.data).toHaveProperty('username');
     });
 
-    it('should return a valid JWT in the response headers', () => {
-      const token = user.headers['x-auth-token'];
-      const verify = jwt.verify(token, JWT_KEY);
+    it('should set a cookie', () => {
+      expect(user.header).toHaveProperty('set-cookie');
+    });
 
-      expect(verify).toHaveProperty('id');
+    test('should set tsseract-auth-token cookie', () => {
+      cookies.forEach((cookie: any) => {
+        expect(cookie).toHaveProperty('name');
+        expect(cookie.name).toEqual('tsseract-auth-token');
+      });
     });
   });
 });
