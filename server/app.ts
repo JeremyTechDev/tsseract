@@ -1,7 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
+import cookieParser = require('cookie-parser');
 import helmet from 'helmet';
+
 import database from './database';
 const { user, auth, post } = require('./routes');
+const { COOKIE_KEY } = require('./config/env');
 
 interface Options {
   isTesting: boolean;
@@ -19,12 +22,13 @@ const init = (options: Options) => {
   const app = express();
   app.use(helmet());
   app.use(express.json());
+  app.use(cookieParser(COOKIE_KEY));
 
   app.use('/api/users', user);
   app.use('/api/posts', post);
   app.use('/api/auth', auth);
 
-  app.get('/', (_: Request, res: Response) => res.send('Tsseract App'));
+  app.get('/', (_, res: Response) => res.send('Tsseract App'));
 
   return app;
 };
