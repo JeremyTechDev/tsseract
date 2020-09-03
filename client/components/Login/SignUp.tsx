@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
 import Input from './Input';
-import useFetch from '../../hooks/useFetch';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
 
@@ -11,6 +10,7 @@ type InputChangeEvent = React.ChangeEvent<
 >;
 
 type User = {
+  birthDate: string;
   email: string;
   name: string;
   password: string;
@@ -25,8 +25,9 @@ interface Props {
 
 const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
-  const [data, handleFetch] = useFetch('/api/users/', 'POST');
+  const { validate } = useValidation(user);
   const [errors, setErrors] = useState<User>({
+    birthDate: '',
     email: '',
     name: '',
     password: '',
@@ -35,7 +36,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   });
 
   const handleSubmit = () => {
-    setErrors(useValidation(user));
+    setErrors(validate());
   };
 
   return (
@@ -84,19 +85,20 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           value={user.rPassword}
         />
         <TextField
-          className={classes.birthdayInput}
+          className={classes.margin}
+          error={Boolean(errors.birthDate)}
+          helperText={errors.birthDate}
           label="Birthday"
+          name="birthDate"
+          onChange={handleChange}
+          value={user.birthDate}
           type="date"
           variant="outlined"
+          placeholder=""
         />
       </form>
 
-      <Button
-        className={classes.margin}
-        color="primary"
-        onClick={handleSubmit}
-        variant="contained"
-      >
+      <Button color="secondary" onClick={handleSubmit} variant="contained">
         Sign Up
       </Button>
     </Grid>

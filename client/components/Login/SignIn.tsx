@@ -3,7 +3,6 @@ import { Typography, Grid, Button } from '@material-ui/core';
 
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
-import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
@@ -20,14 +19,14 @@ interface Props {
 }
 
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
-  const classes = useStyles({});
+  const { validate } = useValidation(user);
   const [errors, setErrors] = useState<User>({
     username: '',
     password: '',
   });
 
   const handleSubmit = () => {
-    setErrors(useValidation(user));
+    setErrors(validate());
   };
 
   return (
@@ -53,16 +52,11 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           type="password"
           value={user.password}
         />
-
-        <Button
-          className={classes.margin}
-          color="primary"
-          onClick={handleSubmit}
-          variant="contained"
-        >
-          Sign In
-        </Button>
       </form>
+
+      <Button color="secondary" onClick={handleSubmit} variant="contained">
+        Sign In
+      </Button>
     </Grid>
   );
 };

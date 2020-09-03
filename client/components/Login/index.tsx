@@ -30,6 +30,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showSignUp, setShowSignUp] = useState(true);
   const [user, handleChange] = useForm({
+    birthDate: '',
     email: '',
     name: '',
     password: '',
@@ -73,21 +74,14 @@ const Login = () => {
 
             <Divider light />
 
-            {(showSignUp && (
-              <Typography align="center">
-                Already have an account?
-                <Button color="primary" onClick={handleViewChange}>
-                  Sign In
-                </Button>
-              </Typography>
-            )) || (
-              <Typography align="center">
-                Don't have an account yet?
-                <Button color="primary" onClick={handleViewChange}>
-                  Sign Up
-                </Button>
-              </Typography>
-            )}
+            <Typography align="center">
+              {showSignUp
+                ? 'Already have an account?'
+                : "Don't have an account yet?"}
+              <Button color="secondary" onClick={handleViewChange}>
+                {showSignUp ? 'Sign In' : 'Sign Up'}
+              </Button>
+            </Typography>
           </Container>
         </Grid>
 

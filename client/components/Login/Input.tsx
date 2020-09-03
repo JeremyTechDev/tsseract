@@ -31,6 +31,7 @@ const Input: React.FC<Props> = ({
     <Grid item>
       <TextField
         className={classes.margin}
+        color="secondary"
         error={error}
         helperText={error && helperText}
         label={label}
