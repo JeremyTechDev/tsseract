@@ -121,7 +121,7 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `npm run tsc:watch` to start the TypeScript compilation on watch mode.
+If you are making some changes to the project, make sure you run `npm run tsc` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 

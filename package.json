@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next ./dist/client",
-    "server": "ts-node-dev --respawn --no-notify ./dist/server",
+    "server": "tsnd --respawn --no-notify ./dist/server",
     "watch": "run-p dev server",
     "tsc:client:watch": "tsc -p ./client -w",
     "tsc:server:watch": "tsc -p ./server -w",
