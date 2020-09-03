@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next ./dist/client",
-    "server": "ts-node-dev --respawn --no-notify  ./dist/server/index",
-    "watch": "ts-node-dev --respawn --no-notify ./dist/server/index & next ./dist/client",
-    "tsc": "tsc -p ./server & tsc -p ./client",
-    "tsc:watch": "tsc -p ./server -w & tsc -p ./client -w",
+    "server": "ts-node-dev --respawn --no-notify ./dist/server",
+    "watch": "run-p dev server",
+    "tsc:client:watch": "tsc -p ./client -w",
+    "tsc:server:watch": "tsc -p ./server -w",
+    "tsc": "run-p tsc:**",
     "start": "next start ./dist/client",
     "build": "next build",
     "test": "jest --detectOpenHandles"
@@ -61,6 +62,7 @@
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.7",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "stylelint": "^13.5.0",
