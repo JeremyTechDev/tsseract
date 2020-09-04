@@ -1,7 +1,7 @@
 # Tsseract 🌐
 
 <p align="center">
-  <img src='./static/icons/icon-192x192.png' width='100' height='100' /> 
+  <img src='./static/Main-aside/logo_transparent_background.png' height='100' /> 
 </p>
 
 Tsseract in a social media app were can create content and earn money 💸 with it.
@@ -121,7 +121,7 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `npm run tsc:watch` to start the TypeScript compilation on watch mode.
+If you are making some changes to the project, make sure you run `npm run tsc` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 
