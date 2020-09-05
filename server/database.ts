@@ -1,5 +1,5 @@
 import { connect } from 'mongoose';
-const { DB_NAME, DB_ADDRESS } = require('./config/env');
+const { DB_NAME, DB_ADDRESS } = process.env;
 
 /**
  * Starts a connection with MongoDB
@@ -13,6 +13,7 @@ const init = (options: { isTesting: boolean }) => {
 
   connect(`mongodb://${PATH}/${TARGET_DB}`, {
     useCreateIndex: true,
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
