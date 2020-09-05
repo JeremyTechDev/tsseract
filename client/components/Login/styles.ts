@@ -6,12 +6,16 @@ interface Props {
 }
 
 const useStyles = makeStyles({
+  btn: { margin: 15 },
+  margin: {
+    margin: '10px 5px',
+    width: 225,
+  },
   grid: {
     backgroundImage: ({ bg }: Props) => `url(${bg})`,
     backgroundSize: 'cover',
     minHeight: '100vh',
     minWidth: '100%',
-    position: 'fixed',
   },
   centered: {
     left: '50%',
@@ -21,9 +25,10 @@ const useStyles = makeStyles({
   },
   imgInfo: {
     backgroundColor: '#000',
+    borderRadius: 4,
     color: '#fff',
     margin: 5,
-    opacity: 0.7,
+    opacity: 0.8,
     padding: 10,
   },
 });

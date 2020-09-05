@@ -14,10 +14,10 @@ module.exports = async (
   next: NextFunction,
 ) => {
   try {
-    const token = req.header('x-auth-token');
+    const token = req.signedCookies['tsseract-auth-token'];
     if (!token)
       return res.status(401).send({
-        message: 'Access denied. No credentials provided.',
+        error: 'Access denied. No credentials provided.',
       });
 
     const decodedUser = jwt.verify(token, JWT_KEY);
@@ -25,6 +25,6 @@ module.exports = async (
 
     next();
   } catch (error) {
-    return res.status(500).send({ message: error.message });
+    return res.status(500).send({ error: error.message });
   }
 };

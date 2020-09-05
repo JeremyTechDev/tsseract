@@ -1,14 +1,24 @@
 import React from 'react';
+import Link from 'next/link';
+import { Grid, Button } from '@material-ui/core';
 
 import Layout from '../components/Layout';
-// import CreatePost from '../components/CreatePost';
-import Login from '../components/Login';
 
 const App: React.FC = () => {
   return (
     <Layout title="Tsseract App">
-      <Login />
-      {/* <CreatePost /> */}
+      <Grid container>
+        <Link href="/login">
+          <Button variant="contained" color="primary">
+            Login
+          </Button>
+        </Link>
+        <Link href="/create-post">
+          <Button variant="contained" color="primary">
+            Write a Post
+          </Button>
+        </Link>
+      </Grid>
     </Layout>
   );
 };

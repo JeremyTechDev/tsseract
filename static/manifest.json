@@ -8,13 +8,11 @@
   "theme_color": "#f6404f",
   "icons": [
     {
-      "src": "/static/Icon-bottom/logo_size.jpg",
-      "sizes": "512x512",
+      "src": "./static/Icon-bottom/logo_size.jpg",
       "type": "image/png"
     },
     {
-      "src": "/static/Icon-bottom/logo_size_invert.jpg",
-      "sizes": "192x192",
+      "src": "./static/Icon-bottom/logo_size_invert.jpg",
       "type": "image/png"
     }
   ]

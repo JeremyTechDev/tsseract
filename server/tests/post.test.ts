@@ -1,4 +1,5 @@
 import request from 'supertest';
+const setCookie = require('set-cookie-parser');
 
 const { app } = require('../app');
 
@@ -19,10 +20,11 @@ describe('Posts', () => {
       cover: '/testing/url/for/image',
     };
 
-    let user: any, post: any, userId: string;
+    let user: any, post: any, cookies: any, userId: string;
 
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);
+      cookies = setCookie.parse(user);
       userId = user.body.data._id;
 
       done();
@@ -30,19 +32,21 @@ describe('Posts', () => {
 
     afterAll(async (done) => {
       const postId = post.body.data._id;
+      const [cookie] = cookies;
 
       await request(SUT)
         .delete(`/api/posts/${userId}/${postId}`)
-        .set('x-auth-token', user.headers['x-auth-token']);
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
       await request(SUT)
         .delete(`/api/users/${userId}`)
-        .set('x-auth-token', user.headers['x-auth-token']);
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
       done();
     });
 
     it('should create a new post with just one tag', async () => {
+      const [cookie] = cookies;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -51,7 +55,7 @@ describe('Posts', () => {
 
       post = await request(SUT)
         .post('/api/posts')
-        .set('x-auth-token', user.headers['x-auth-token'])
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(1);
@@ -62,6 +66,7 @@ describe('Posts', () => {
     });
 
     it('should create a new post with no tag', async () => {
+      const [cookie] = cookies;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -70,7 +75,7 @@ describe('Posts', () => {
 
       post = await request(SUT)
         .post('/api/posts')
-        .set('x-auth-token', user.headers['x-auth-token'])
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(0);
@@ -81,6 +86,7 @@ describe('Posts', () => {
     });
 
     it('should create a new post with three tags', async () => {
+      const [cookie] = cookies;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -89,7 +95,7 @@ describe('Posts', () => {
 
       post = await request(SUT)
         .post('/api/posts')
-        .set('x-auth-token', user.headers['x-auth-token'])
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
 
       expect(post.body.data.tags.length).toBe(3);
@@ -100,6 +106,7 @@ describe('Posts', () => {
     });
 
     it('should add a comment into a post', async () => {
+      const [cookie] = cookies;
       const newPostPayload = {
         ...postPayload,
         user: userId,
@@ -108,7 +115,7 @@ describe('Posts', () => {
 
       post = await request(SUT)
         .post('/api/posts')
-        .set('x-auth-token', user.headers['x-auth-token'])
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
 
       const newCommentPayload = {
@@ -118,7 +125,7 @@ describe('Posts', () => {
 
       const postWithComment = await request(SUT)
         .post(`/api/posts/c/${post.body.data._id}`)
-        .set('x-auth-token', user.headers['x-auth-token'])
+        .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send({ ...newCommentPayload });
 
       expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);

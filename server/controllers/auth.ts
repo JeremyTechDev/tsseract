@@ -1,7 +1,9 @@
-import { RequestHandler } from 'express';
-const { User } = require('../models/user');
-import bcrypt from 'bcrypt';
 const Joi = require('@hapi/joi');
+import { RequestHandler } from 'express';
+import bcrypt from 'bcrypt';
+
+const { User } = require('../models/user');
+const { cookieCreator } = require('../helpers');
 
 /**
  * Creates a new user
@@ -12,22 +14,24 @@ const Joi = require('@hapi/joi');
 const auth: RequestHandler = async (req, res) => {
   try {
     const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send({ error: error.details[0].message });
 
     const { username, password } = req.body;
 
     const user = await User.findOne({ username });
-    if (!user) return res.status(400).send('Invalid username or password');
+    if (!user)
+      return res.status(400).send({ error: 'Invalid username or password' });
 
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword)
-      return res.status(400).send('Invalid username or password');
+      return res.status(400).send({ error: 'Invalid username or password' });
 
-    const token = user.generateAuthToken(user._id);
+    const { cookie, cookieConfig } = cookieCreator(user._id);
+    res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.header('x-auth-token', token).send({ data: { login: true } });
+    res.send({ data: { login: true } });
   } catch (error) {
-    return res.status(500).send({ message: error.message });
+    return res.status(500).send({ error: error.message });
   }
 };
 

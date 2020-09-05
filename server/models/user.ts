@@ -1,8 +1,6 @@
 import { Schema, model } from 'mongoose';
-const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const pswComplexity = require('joi-password-complexity');
-const { JWT_KEY } = require('../config/env');
 
 const { regularExpressions } = require('../helpers');
 
@@ -45,10 +43,6 @@ const userSchema = new Schema({
     default: Date.now(),
   },
 });
-
-userSchema.methods.generateAuthToken = (id: string) => {
-  return jwt.sign({ id }, JWT_KEY);
-};
 
 const User = model('Users', userSchema);
 

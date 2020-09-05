@@ -18,17 +18,17 @@ exports.userAuth = async (
 
     const userExists = await User.findById(userId);
     if (!userExists)
-      return res.status(404).send({ message: 'Access denied. Invalid User' });
+      return res.status(404).send({ error: 'Access denied. Invalid User' });
 
     if (token.id !== userId) {
       return res.status(403).send({
-        message:
+        error:
           'Access denied. The current user is not allowed to perform this action.',
       });
     }
 
     next();
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send({ error: error.message });
   }
 };

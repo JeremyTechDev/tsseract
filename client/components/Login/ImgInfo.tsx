@@ -19,7 +19,7 @@ const ImgInfo: React.FC<Props> = ({ bgData }) => {
   const { color, name, link, description } = bgData;
   const classes = useStyles({ color });
 
-  return (
+  return name ? (
     <Paper className={classes.imgInfo}>
       {description && (
         <Typography align="right" variant="subtitle1">
@@ -32,7 +32,7 @@ const ImgInfo: React.FC<Props> = ({ bgData }) => {
         </Typography>
       )}
     </Paper>
-  );
+  ) : null;
 };
 
 export default ImgInfo;
