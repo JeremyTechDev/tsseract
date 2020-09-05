@@ -98,7 +98,12 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         />
       </form>
 
-      <Button color="secondary" onClick={handleSubmit} variant="contained">
+      <Button
+        className={classes.btn}
+        color="secondary"
+        onClick={handleSubmit}
+        variant="contained"
+      >
         Sign Up
       </Button>
     </Grid>

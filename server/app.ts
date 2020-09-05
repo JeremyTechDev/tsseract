@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
 import database from './database';

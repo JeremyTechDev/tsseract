@@ -10,10 +10,10 @@ const useFetch = (url: string, method: RequestType = 'GET'): ReturnItem => {
     try {
       const { data } = await fetch(`http://localhost:8080${url}`, {
         method,
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        cache: 'default',
         body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
       }).then((res) => res.json());
 
       setData(data);

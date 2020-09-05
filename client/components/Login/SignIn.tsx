@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 
 import Input from './Input';
-import useValidation from '../../hooks/useValidation';
+import useFetch from '../../hooks/useFetch';
+import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
@@ -19,14 +20,11 @@ interface Props {
 }
 
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
-  const { validate } = useValidation(user);
-  const [errors, setErrors] = useState<User>({
-    username: '',
-    password: '',
-  });
+  const classes = useStyles({});
+  const [response, handleFetch] = useFetch('/api/auth/', 'POST');
 
-  const handleSubmit = () => {
-    setErrors(validate());
+  const handleSubmit = async () => {
+    await handleFetch(user);
   };
 
   return (
@@ -37,24 +35,25 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
 
       <form onSubmit={handleSubmit}>
         <Input
-          error={Boolean(errors.username)}
           handleChange={handleChange}
-          helperText={errors.username}
           label="Username"
           value={user.username}
         />
 
         <Input
-          error={Boolean(errors.password)}
           handleChange={handleChange}
-          helperText={errors.password}
           label="Password"
           type="password"
           value={user.password}
         />
       </form>
 
-      <Button color="secondary" onClick={handleSubmit} variant="contained">
+      <Button
+        className={classes.btn}
+        color="secondary"
+        onClick={handleSubmit}
+        variant="contained"
+      >
         Sign In
       </Button>
     </Grid>

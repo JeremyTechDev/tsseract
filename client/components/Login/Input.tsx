@@ -12,8 +12,8 @@ interface Props {
   name?: string;
   type?: 'password' | 'email';
   value: string;
-  error: boolean;
-  helperText: string;
+  error?: boolean;
+  helperText?: string;
   handleChange: (event: InputChangeEvent) => void;
 }
 

@@ -7,7 +7,7 @@ export default class extends Document {
       <html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
-          <link rel="manifest" href="/static/manifest.json" />
+          <link rel="manifest" href="./static/manifest.json" />
 
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />

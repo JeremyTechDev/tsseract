@@ -6,6 +6,7 @@ interface Props {
 }
 
 const useStyles = makeStyles({
+  btn: { margin: 15 },
   margin: {
     margin: '10px 5px',
     width: 225,
