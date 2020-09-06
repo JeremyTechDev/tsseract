@@ -1,8 +1,11 @@
-import { RequestHandler } from 'express';
+import { RequestHandler, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
-const { User, validate } = require('../models/user');
+import { User, IUser, validateUser } from '../models/user';
 const { cookieCreator } = require('../helpers');
+
+// to select all the user data but their password
+const SELECT = '_id name username email birthday createdAt followers following';
 
 /**
  * Creates a new user
@@ -12,7 +15,7 @@ const { cookieCreator } = require('../helpers');
  */
 const create: RequestHandler = async (req, res) => {
   try {
-    const { error } = validate(req.body);
+    const { error } = validateUser(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     const isUsernameTaken = await User.findOne({ username: req.body.username });
@@ -28,7 +31,7 @@ const create: RequestHandler = async (req, res) => {
 
     Object.assign(req.body, { password: hashedPassword });
 
-    const user = new User({ ...req.body });
+    const user = new User({ ...req.body }) as IUser;
     await user.save();
 
     const { cookie, cookieConfig } = cookieCreator(user._id);
@@ -51,12 +54,11 @@ const retrieveUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select(SELECT);
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
-    const { _id, name, username, email, birthDate, createdAt } = user;
-    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+    res.send({ data: user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -70,18 +72,119 @@ const retrieveUser: RequestHandler = async (req, res) => {
  */
 const retrieveUserByUsername: RequestHandler = async (req, res) => {
   try {
-    const userUsername = req.params.username;
-    const user = await User.findOne({ username: userUsername });
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select(SELECT);
 
     if (!user)
       return res
         .status(404)
         .send({ error: 'No user found with the given username' });
 
-    delete user.password;
+    res.send({ data: user });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
 
-    const { _id, name, username, email, birthDate, createdAt } = user;
-    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+/**
+ * Follow a user
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {String} res.params.followToUsername user to follow
+ */
+const follow = async (
+  req: Request & { user: { id: string | null } },
+  res: Response,
+) => {
+  const { followToUsername } = req.params;
+  const { id: followById } = req.user;
+
+  try {
+    const followTo = (await User.findOne({
+      username: followToUsername,
+    })) as IUser;
+    const followBy = (await User.findById(followById)) as IUser;
+
+    if (!followTo)
+      return res
+        .status(404)
+        .send({ message: 'No user found with the given username' });
+
+    if (followTo._id.equals(followById!))
+      return res
+        .status(409)
+        .send({ message: 'You cannot follow your own account' });
+
+    if (followBy.following.includes(followTo._id))
+      return res
+        .status(409)
+        .send({ message: 'You already follow that account' });
+
+    const newFollowBy = await User.findOneAndUpdate(
+      { _id: followById },
+      { $push: { following: followTo._id } },
+      { new: true },
+    );
+
+    const newFollowTo = await User.findOneAndUpdate(
+      { _id: followTo._id },
+      { $push: { followers: followById } },
+      { new: true },
+    );
+
+    res.send({ data: { following: newFollowBy, follower: newFollowTo } });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
+ * Unfollow a user
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {String} res.params.followToUsername user to unfollow
+ */
+const unfollow = async (
+  req: Request & { user: { id: string | null } },
+  res: Response,
+) => {
+  const { followToUsername } = req.params;
+  const { id: followById } = req.user;
+
+  try {
+    const followTo = (await User.findOne({
+      username: followToUsername,
+    })) as IUser;
+    const followBy = (await User.findById(followById)) as IUser;
+
+    if (!followTo)
+      return res
+        .status(404)
+        .send({ message: 'No user found with the given username' });
+
+    if (followTo._id.equals(followById!))
+      return res
+        .status(409)
+        .send({ message: 'You cannot unfollow your own account' });
+
+    if (!followBy.following.includes(followTo._id))
+      return res
+        .status(409)
+        .send({ message: "You don't follow the given account" });
+
+    const newFollowBy = await User.findOneAndUpdate(
+      { _id: followById },
+      { $pull: { following: followTo._id } },
+      { new: true },
+    );
+
+    const newFollowTo = await User.findOneAndUpdate(
+      { _id: followTo._id },
+      { $pull: { followers: followById } },
+      { new: true },
+    );
+
+    res.send({ data: { following: newFollowBy, follower: newFollowTo } });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -96,15 +199,14 @@ const retrieveUserByUsername: RequestHandler = async (req, res) => {
 const deleteUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await User.findByIdAndDelete(userId);
+    const user = await User.findByIdAndDelete(userId).select(SELECT);
 
     if (!user)
       return res
         .status(404)
         .send({ error: 'No user found with the given username' });
 
-    const { _id, name, username, email, birthDate, createdAt } = user;
-    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+    res.send({ data: user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -112,7 +214,9 @@ const deleteUser: RequestHandler = async (req, res) => {
 
 module.exports = {
   create,
+  deleteUser,
+  follow,
   retrieveUser,
   retrieveUserByUsername,
-  deleteUser,
+  unfollow,
 };
