@@ -2,7 +2,7 @@ import { Schema, Types, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const pswComplexity = require('joi-password-complexity');
 
-const { regularExpressions } = require('../helpers');
+import regex from '../helpers/regex';
 
 const userSchema = new Schema({
   name: {
@@ -76,7 +76,7 @@ export const validateUser = (user: any) => {
       .max(50)
       .trim()
       .required()
-      .regex(regularExpressions.username),
+      .regex(regex.username),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .min(2)
@@ -85,12 +85,8 @@ export const validateUser = (user: any) => {
       .required(),
     password: Joi.required(), // validated with passwordComplexity
     birthDate: Joi.date().format('YYYY-MM-DD').utc().required(),
-    following: Joi.array().items(
-      Joi.string().regex(regularExpressions.objectId),
-    ),
-    followers: Joi.array().items(
-      Joi.string().regex(regularExpressions.objectId),
-    ),
+    following: Joi.array().items(Joi.string().regex(regex.objectId)),
+    followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });
 
   const isValidPassword = pswComplexity(undefined, 'Password').validate(

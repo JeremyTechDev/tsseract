@@ -1,7 +1,7 @@
 import { Schema, Types, Document } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
-const { regularExpressions } = require('../helpers');
+import regex from '../helpers/regex';
 
 export const commentsSchema = new Schema({
   user: {
@@ -32,7 +32,7 @@ export interface IComment extends Document {
 
 export const validateComment = (comment: any) => {
   const schema = Joi.object({
-    user: Joi.string().regex(regularExpressions.objectId).required(),
+    user: Joi.string().regex(regex.objectId).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
     updatedAt: Joi.date().format('YYYY-MM-DD').utc(),

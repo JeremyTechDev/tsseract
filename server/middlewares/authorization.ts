@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-const { User } = require('../models/user');
+
+import User, { IUser } from '../models/user';
 
 /**
  * Ensures that the user performing the action coincides with the credentials
@@ -16,7 +17,7 @@ module.exports = async (
     const token = req.user;
     const userId = req.body.user || req.params.id;
 
-    const userExists = await User.findById(userId);
+    const userExists = (await User.findById(userId)) as IUser;
     if (!userExists)
       return res.status(404).send({ error: 'Access denied. Invalid User' });
 

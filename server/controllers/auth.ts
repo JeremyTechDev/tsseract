@@ -2,8 +2,8 @@ const Joi = require('@hapi/joi');
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 
-const { User } = require('../models/user');
-const { cookieCreator } = require('../helpers');
+import User, { IUser } from '../models/user';
+import cookieCreator from '../helpers/cookieCreator';
 
 /**
  * Creates a new user
@@ -18,7 +18,7 @@ const auth: RequestHandler = async (req, res) => {
 
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = (await User.findOne({ username })) as IUser;
     if (!user)
       return res.status(400).send({ error: 'Invalid username or password' });
 

@@ -1,8 +1,8 @@
 import { Schema, Types, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
-const { commentsSchema } = require('./comment');
-const { regularExpressions } = require('../helpers');
+import { commentsSchema } from './comment';
+import regex from '../helpers/regex';
 
 export const postsSchema = new Schema({
   user: {
@@ -57,7 +57,7 @@ export default model('Posts', postsSchema);
 
 export const validatePost = (post: any) => {
   const schema = Joi.object({
-    user: Joi.string().regex(regularExpressions.objectId).required(),
+    user: Joi.string().regex(regex.objectId).required(),
     title: Joi.string().min(5).max(145).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
