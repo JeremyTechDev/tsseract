@@ -7,7 +7,7 @@ const { User } = require('../models/user');
  * @param res Express response object
  * @param next Next middleware function
  */
-exports.userAuth = async (
+module.exports = async (
   req: Request & { user: { id: string | null } },
   res: Response,
   next: NextFunction,

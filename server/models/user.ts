@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const pswComplexity = require('joi-password-complexity');
 
@@ -13,11 +13,12 @@ const userSchema = new Schema({
     trim: true,
   },
   username: {
-    type: String,
+    lowercase: true,
     maxlength: 50,
     minlength: 2,
     required: true,
     trim: true,
+    type: String,
     unique: true,
   },
   password: {
@@ -27,11 +28,12 @@ const userSchema = new Schema({
     required: true,
   },
   email: {
-    type: String,
+    lowercase: true,
     maxlength: 255,
     minlength: 2,
     required: true,
     trim: true,
+    type: String,
     unique: true,
   },
   birthDate: {
@@ -42,11 +44,31 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  following: {
+    type: [{ type: Types.ObjectId, ref: 'Users' }],
+    default: [],
+  },
+  followers: {
+    type: [{ type: Types.ObjectId, ref: 'Users' }],
+    default: [],
+  },
 });
 
-const User = model('Users', userSchema);
+export interface IUser extends Document {
+  name: string;
+  username: string;
+  password: string;
+  email: string;
+  birthDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  followers: Types.ObjectId[];
+  following: Types.ObjectId[];
+}
 
-const validateUser = (user: any) => {
+export const User = model('Users', userSchema);
+
+export const validateUser = (user: any) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
     username: Joi.string()
@@ -63,6 +85,12 @@ const validateUser = (user: any) => {
       .required(),
     password: Joi.required(), // validated with passwordComplexity
     birthDate: Joi.date().format('YYYY-MM-DD').utc().required(),
+    following: Joi.array().items(
+      Joi.string().regex(regularExpressions.objectId),
+    ),
+    followers: Joi.array().items(
+      Joi.string().regex(regularExpressions.objectId),
+    ),
   });
 
   const isValidPassword = pswComplexity(undefined, 'Password').validate(
@@ -72,6 +100,3 @@ const validateUser = (user: any) => {
 
   return schema.validate(user);
 };
-
-exports.User = User;
-exports.validate = validateUser;
