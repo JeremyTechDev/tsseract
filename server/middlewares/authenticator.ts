@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
 const { JWT_KEY } = process.env;
@@ -9,11 +9,7 @@ const { JWT_KEY } = process.env;
  * @param res Express response object
  * @param next Next middleware function
  */
-module.exports = async (
-  req: Request & { user: { id: string | null } },
-  res: Response,
-  next: NextFunction,
-) => {
+export const authenticate: RequestHandler = async (req, res, next) => {
   try {
     const token = req.signedCookies['tsseract-auth-token'];
     if (!token)
@@ -22,7 +18,7 @@ module.exports = async (
       });
 
     const decodedUser = jwt.verify(token, <string>JWT_KEY);
-    req.user = decodedUser as { id: string | null };
+    req.cookies.userId = decodedUser;
 
     next();
   } catch (error) {

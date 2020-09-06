@@ -1,12 +1,14 @@
 import express from 'express';
-const router = express.Router();
 
-const authControllers = require('../controllers/auth');
+import { auth } from '../controllers/auth';
+
+const router = express.Router();
 
 /**
  * Creates a new user
  * @route /api/auth/
+ * @method POST
  */
-router.post('/', authControllers.auth);
+router.post('/', auth);
 
-module.exports = router;
+export default router;

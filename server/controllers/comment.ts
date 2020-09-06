@@ -8,7 +8,7 @@ import { validateComment } from '../models/comment';
  * @param {Object} res Express response
  * @param {Object} req.body User data
  */
-const create: RequestHandler = async (req, res) => {
+export const createComment: RequestHandler = async (req, res) => {
   try {
     const { error } = validateComment(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
@@ -31,5 +31,3 @@ const create: RequestHandler = async (req, res) => {
     return res.status(500).send({ error: error.message });
   }
 };
-
-module.exports = { create };

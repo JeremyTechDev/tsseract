@@ -1,11 +1,12 @@
-import { RequestHandler, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 
 import User, { IUser, validateUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
 
 // to select all the user data but their password
-const SELECT = '_id name username email birthday createdAt followers following';
+const SELECT =
+  '_id name username email birthDate createdAt followers following';
 
 /**
  * Creates a new user
@@ -13,7 +14,7 @@ const SELECT = '_id name username email birthday createdAt followers following';
  * @param {Object} res Express response
  * @param {Object} req.body User data
  */
-const create: RequestHandler = async (req, res) => {
+export const createUser: RequestHandler = async (req, res) => {
   try {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
@@ -50,7 +51,7 @@ const create: RequestHandler = async (req, res) => {
  * @param {Object} res Express response
  * @param {String} res.params.id User id
  */
-const retrieveUser: RequestHandler = async (req, res) => {
+export const retrieveUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -70,7 +71,7 @@ const retrieveUser: RequestHandler = async (req, res) => {
  * @param {Object} res Express response
  * @param {String} res.params.username User username
  */
-const retrieveUserByUsername: RequestHandler = async (req, res) => {
+export const retrieveUserByUsername: RequestHandler = async (req, res) => {
   try {
     const { username } = req.params;
     const user = await User.findOne({ username }).select(SELECT);
@@ -92,12 +93,9 @@ const retrieveUserByUsername: RequestHandler = async (req, res) => {
  * @param {Object} res Express response
  * @param {String} res.params.followToUsername user to follow
  */
-const follow = async (
-  req: Request & { user: { id: string | null } },
-  res: Response,
-) => {
+export const follow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const { id: followById } = req.user;
+  const { id: followById } = req.cookies.user;
 
   try {
     const followTo = (await User.findOne({
@@ -144,12 +142,9 @@ const follow = async (
  * @param {Object} res Express response
  * @param {String} res.params.followToUsername user to unfollow
  */
-const unfollow = async (
-  req: Request & { user: { id: string | null } },
-  res: Response,
-) => {
+export const unfollow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const { id: followById } = req.user;
+  const { id: followById } = req.cookies.user;
 
   try {
     const followTo = (await User.findOne({
@@ -196,7 +191,7 @@ const unfollow = async (
  * @param {Object} res Express response
  * @param {String} res.params.id User id
  */
-const deleteUser: RequestHandler = async (req, res) => {
+export const deleteUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
@@ -210,13 +205,4 @@ const deleteUser: RequestHandler = async (req, res) => {
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
-};
-
-module.exports = {
-  create,
-  deleteUser,
-  follow,
-  retrieveUser,
-  retrieveUserByUsername,
-  unfollow,
 };

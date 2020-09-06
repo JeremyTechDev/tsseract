@@ -1,6 +1,5 @@
 import { Schema, Types, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const pswComplexity = require('joi-password-complexity');
 
 import regex from '../helpers/regex';
 
@@ -83,16 +82,11 @@ export const validateUser = (user: any) => {
       .max(255)
       .trim()
       .required(),
-    password: Joi.required(), // validated with passwordComplexity
+    password: Joi.string().trim().min(8).max(26).required(),
     birthDate: Joi.date().format('YYYY-MM-DD').utc().required(),
     following: Joi.array().items(Joi.string().regex(regex.objectId)),
     followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });
-
-  const isValidPassword = pswComplexity(undefined, 'Password').validate(
-    user.password,
-  );
-  if (isValidPassword.error) return isValidPassword;
 
   return schema.validate(user);
 };

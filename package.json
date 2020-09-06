@@ -31,7 +31,6 @@
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "highlight.js": "^10.1.2",
-    "joi-password-complexity": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "marked": "^1.1.1",
     "mongoose": "^5.9.16",

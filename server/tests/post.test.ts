@@ -1,6 +1,6 @@
-import request from 'supertest';
 import http from 'http';
-const setCookie = require('set-cookie-parser');
+import request from 'supertest';
+import setCookie from 'set-cookie-parser';
 
 import server from '../server';
 

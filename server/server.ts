@@ -5,7 +5,11 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
 import database from './database';
-const { user, auth, post } = require('./routes');
+
+import auth from './routes/auth';
+import user from './routes/user';
+import post from './routes/post';
+
 const { COOKIE_KEY, PORT = 8080 } = process.env;
 
 interface Options {

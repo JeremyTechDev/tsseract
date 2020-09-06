@@ -4,7 +4,7 @@ import Tag, { ITag } from '../models/tag';
  * Creates or finds a tag by name
  * @param {Object} tagName unique tag name
  */
-const findOrCreate = async (tagName: string) => {
+export const findOrCreate = async (tagName: string) => {
   try {
     const tagExists = (await Tag.findOne({ name: tagName })) as ITag;
 
@@ -24,5 +24,3 @@ const findOrCreate = async (tagName: string) => {
     return { error: error.message };
   }
 };
-
-module.exports = { findOrCreate };

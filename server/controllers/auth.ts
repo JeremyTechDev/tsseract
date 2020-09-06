@@ -11,7 +11,7 @@ import cookieCreator from '../helpers/cookieCreator';
  * @param res Express response
  * @param req.body User data
  */
-const auth: RequestHandler = async (req, res) => {
+export const auth: RequestHandler = async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
@@ -43,5 +43,3 @@ const validate = (req: any) => {
 
   return schema.validate(req);
 };
-
-module.exports = { auth };

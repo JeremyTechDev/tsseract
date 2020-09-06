@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 
 import Post, { IPost, validatePost } from '../models/post';
 import { ITag, validateTags } from '../models/tag';
-const tagControllers = require('./tag');
+import { findOrCreate as findOrCreateTag } from './tag';
 
 /**
  * Creates a new post
@@ -10,7 +10,7 @@ const tagControllers = require('./tag');
  * @param {Object} res Express response
  * @param {Object} req.body User data
  */
-const create: RequestHandler = async (req, res) => {
+export const createPost: RequestHandler = async (req, res) => {
   try {
     const { error } = validatePost(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
@@ -23,7 +23,7 @@ const create: RequestHandler = async (req, res) => {
 
       createdTags = <ITag[]>await Promise.all(
         req.body.tags.map(async (tagName: string) => {
-          return await tagControllers.findOrCreate(tagName);
+          return await findOrCreateTag(tagName);
         }),
       );
 
@@ -49,7 +49,7 @@ const create: RequestHandler = async (req, res) => {
  * @param {Object} res Express response
  * @param {String} res.params.id Post id
  */
-const deletePost: RequestHandler = async (req, res) => {
+export const deletePost: RequestHandler = async (req, res) => {
   try {
     const postId = req.params.postId;
     const post = (await Post.findByIdAndDelete(postId)) as IPost;
@@ -64,5 +64,3 @@ const deletePost: RequestHandler = async (req, res) => {
     return res.status(500).send({ error: error.message });
   }
 };
-
-module.exports = { create, deletePost };
