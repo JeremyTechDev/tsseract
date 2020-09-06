@@ -1,6 +1,11 @@
-import app from './app';
-const { PORT = 8080 } = require('./config/env');
+import next from 'next';
 
-app({ isTesting: false }).listen(PORT, () =>
-  console.log(`🚀 Server running on port ${PORT}...`),
-);
+import server from './server';
+const { NODE_ENV } = process.env;
+
+const dev = NODE_ENV !== 'production';
+
+const app = next({ dev, dir: './dist/client' });
+const appHandler = app.getRequestHandler();
+
+app.prepare().then(() => server({ dev, appHandler }));

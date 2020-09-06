@@ -13,22 +13,24 @@ Tsseract in a social media app were can create content and earn money 💸 with 
         └── pull_request_template       # PR Description template
     ├── client                      # React Components and Containers
         ├── components                  # Function React Components
-        └── pages                       # NextJS Pages
+        ├── helpers                     # Helpers Functions
+        ├── hooks                       # Custom React Hooks
+        ├── pages                       # NextJS Pages
+        └── theme                       # MaterialUI theme
     ├── scss                        # SCSS files
     ├── server                      # App Restful API
-        ├── config                      # Env variables and URLs endpoint access
         ├── controllers                 # Database controllers
         ├── helpers                     # Helpers folder
         ├── middlewares                 # Express middlewares
         ├── models                      # MongoDB collections Models
         ├── routes                      # Express routes
         ├── tests                       # Unit tests
-        ├── app.ts                      # Express App configuration file
         ├── database.ts                 # MongoDB connection file
-        └── index.ts                    # Server configuration file
+        ├── index.ts                    # NextJS Server configuration file
+        └── server.ts                   # Express Server configuration file
     ├── static                      # Static files
-        ├── icons                       # Manifest Icons
         └── manifest.json               # Manifest file
+    ├── .babelrc                    # Babel custom config file
     ├── .dockerignore               # Docker ignored files
     ├── .env.sample                 # Environment variables file
     ├── .eslintrc.js                # ESLint config file
@@ -42,8 +44,7 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── next.config.js              # NextJS configuration file
     ├── package-lock.json           # Dependencies tree
     ├── package.json                # Dependencies management file
-    ├── README.md                   # ReadMe file
-    └── tsconfig.json               # TypeScript configuration file
+    └── README.md                   # ReadMe file
 
 ## Getting Started 🚀
 

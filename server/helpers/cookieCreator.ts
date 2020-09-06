@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { JWT_KEY } = require('../config/env');
+const { JWT_KEY } = process.env;
 
 module.exports = (userId: string) => {
   const cookie = jwt.sign({ id: userId }, JWT_KEY, { expiresIn: '7d' });

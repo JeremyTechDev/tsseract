@@ -1,10 +1,11 @@
 import request from 'supertest';
+import http from 'http';
 const setCookie = require('set-cookie-parser');
 
-const { app } = require('../app');
+import server from '../server';
 
 describe('Posts', () => {
-  const SUT = app({ isTesting: true });
+  const SUT = http.createServer(server({ isTesting: true, dev: true }));
 
   describe('POST:api/posts', () => {
     const userPayload = {
@@ -42,6 +43,7 @@ describe('Posts', () => {
         .delete(`/api/users/${userId}`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
+      SUT.close();
       done();
     });
 
