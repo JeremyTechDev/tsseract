@@ -18,7 +18,7 @@ export const authenticate: RequestHandler = async (req, res, next) => {
       });
 
     const decodedUser = jwt.verify(token, <string>JWT_KEY);
-    req.cookies.userId = decodedUser;
+    req.cookies.user = decodedUser;
 
     next();
   } catch (error) {

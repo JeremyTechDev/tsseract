@@ -95,7 +95,7 @@ export const retrieveUserByUsername: RequestHandler = async (req, res) => {
  */
 export const follow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const { id: followById } = req.cookies.user;
+  const followById = req.cookies.user.id;
 
   try {
     const followTo = (await User.findOne({
@@ -144,7 +144,7 @@ export const follow: RequestHandler = async (req, res) => {
  */
 export const unfollow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const { id: followById } = req.cookies.user;
+  const followById = req.cookies.user.id;
 
   try {
     const followTo = (await User.findOne({
