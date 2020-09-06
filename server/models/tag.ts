@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi');
 
-const tagSchema = new Schema({
+export const tagSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -15,9 +15,15 @@ const tagSchema = new Schema({
   },
 });
 
-const Tag = model('Tags', tagSchema);
+export interface ITag extends Document {
+  name: string;
+  popularity: number;
+  _doc: Document;
+}
 
-const validateTags = (tags: [string]) => {
+export default model('Tags', tagSchema);
+
+export const validateTags = (tags: [string]) => {
   const schema = Joi.object({
     name: Joi.string()
       .max(45)
@@ -29,6 +35,3 @@ const validateTags = (tags: [string]) => {
   const validTags = tags.map((tag) => schema.validate({ name: tag }).error);
   return validTags.some((tagResult) => tagResult);
 };
-
-exports.Tag = Tag;
-exports.validateTags = validateTags;

@@ -1,13 +1,8 @@
 import { RequestHandler } from 'express';
 
-const { Post, validatePost } = require('../models/post');
-const { validateTags } = require('../models/tag');
+import Post, { IPost, validatePost } from '../models/post';
+import { ITag, validateTags } from '../models/tag';
 const tagControllers = require('./tag');
-
-interface Tag {
-  _id?: string;
-  error?: object;
-}
 
 /**
  * Creates a new post
@@ -20,13 +15,13 @@ const create: RequestHandler = async (req, res) => {
     const { error } = validatePost(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
 
-    let createdTags: Tag[] = [];
+    let createdTags: ITag[] = [];
     if (req.body.tags && req.body.tags.length) {
       const tagsError = validateTags(req.body.tags);
       if (tagsError)
         return res.status(400).send({ error: 'Invalid tag or tags' });
 
-      createdTags = <Tag[]>await Promise.all(
+      createdTags = <ITag[]>await Promise.all(
         req.body.tags.map(async (tagName: string) => {
           return await tagControllers.findOrCreate(tagName);
         }),
@@ -39,7 +34,7 @@ const create: RequestHandler = async (req, res) => {
       }
     }
 
-    const post = new Post({ ...req.body, tags: createdTags });
+    const post = new Post({ ...req.body, tags: createdTags }) as IPost;
     await post.save();
 
     return res.send({ data: post });
@@ -57,7 +52,7 @@ const create: RequestHandler = async (req, res) => {
 const deletePost: RequestHandler = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const post = await Post.findByIdAndDelete(postId);
+    const post = (await Post.findByIdAndDelete(postId)) as IPost;
 
     if (!post)
       return res

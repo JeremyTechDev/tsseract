@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
-import { User, IUser, validateUser } from '../models/user';
+import User, { IUser, validateUser } from '../models/user';
 const { cookieCreator } = require('../helpers');
 
 // to select all the user data but their password

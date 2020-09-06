@@ -1,4 +1,4 @@
-const { Tag } = require('../models/tag');
+import Tag, { ITag } from '../models/tag';
 
 /**
  * Creates or finds a tag by name
@@ -6,7 +6,7 @@ const { Tag } = require('../models/tag');
  */
 const findOrCreate = async (tagName: string) => {
   try {
-    const tagExists = await Tag.findOne({ name: tagName });
+    const tagExists = (await Tag.findOne({ name: tagName })) as ITag;
 
     // if tag already exists, increment popularity and return
     if (tagExists) {
@@ -16,7 +16,7 @@ const findOrCreate = async (tagName: string) => {
       return { ...tagExists._doc, new: false };
     }
 
-    const newTag = new Tag({ name: tagName });
+    const newTag = new Tag({ name: tagName }) as ITag;
     await newTag.save();
 
     return { ...newTag._doc, new: true };

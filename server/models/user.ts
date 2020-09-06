@@ -66,7 +66,7 @@ export interface IUser extends Document {
   following: Types.ObjectId[];
 }
 
-export const User = model('Users', userSchema);
+export default model('Users', userSchema);
 
 export const validateUser = (user: any) => {
   const schema = Joi.object({

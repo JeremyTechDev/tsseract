@@ -1,9 +1,9 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, Document } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
 const { regularExpressions } = require('../helpers');
 
-const commentsSchema = new Schema({
+export const commentsSchema = new Schema({
   user: {
     type: Types.ObjectId,
     required: true,
@@ -22,7 +22,15 @@ const commentsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-const validateComment = (comment: any) => {
+export interface IComment extends Document {
+  user: Types.ObjectId;
+  body: string;
+  likes: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const validateComment = (comment: any) => {
   const schema = Joi.object({
     user: Joi.string().regex(regularExpressions.objectId).required(),
     body: Joi.string().required(),
@@ -33,6 +41,3 @@ const validateComment = (comment: any) => {
 
   return schema.validate(comment);
 };
-
-exports.commentsSchema = commentsSchema;
-exports.validateComment = validateComment;

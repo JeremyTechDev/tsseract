@@ -1,10 +1,10 @@
-import { Schema, Types, model } from 'mongoose';
+import { Schema, Types, Document, model } from 'mongoose';
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 
 const { commentsSchema } = require('./comment');
 const { regularExpressions } = require('../helpers');
 
-const postsSchema = new Schema({
+export const postsSchema = new Schema({
   user: {
     type: Types.ObjectId,
     ref: 'Users',
@@ -41,9 +41,21 @@ const postsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-const Post = model('Posts', postsSchema);
+export interface IPost extends Document {
+  user: Types.ObjectId;
+  title: string;
+  body: string;
+  cover: string;
+  likes: number;
+  comments: [];
+  tags: Types.ObjectId[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const validatePost = (post: any) => {
+export default model('Posts', postsSchema);
+
+export const validatePost = (post: any) => {
   const schema = Joi.object({
     user: Joi.string().regex(regularExpressions.objectId).required(),
     title: Joi.string().min(5).max(145).required(),
@@ -58,6 +70,3 @@ const validatePost = (post: any) => {
 
   return schema.validate(post);
 };
-
-exports.Post = Post;
-exports.validatePost = validatePost;
