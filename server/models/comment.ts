@@ -35,8 +35,8 @@ export const validateComment = <T>(comment: T) => {
     user: Joi.string().regex(regex.objectId).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
-    updatedAt: Joi.date().timestamp().greater('now').required(),
-    createdAt: Joi.date().timestamp().greater('now').required(),
+    updatedAt: Joi.date().timestamp(),
+    createdAt: Joi.date().timestamp(),
   });
 
   return schema.validate(comment);

@@ -60,6 +60,8 @@ describe('Posts', () => {
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
 
+      console.log('her', post);
+
       expect(post.body.data.tags.length).toBe(1);
       expect(post.body.data).toMatchObject({
         ...postPayload,

@@ -64,8 +64,8 @@ export const validatePost = <T>(post: T) => {
     cover: Joi.string(),
     tags: Joi.array().items(Joi.string()),
     comments: Joi.array().items(Joi.object()),
-    updatedAt: Joi.date().timestamp().greater('now').required(),
-    createdAt: Joi.date().timestamp().greater('now').required(),
+    updatedAt: Joi.date().timestamp(),
+    createdAt: Joi.date().timestamp(),
   });
 
   return schema.validate(post);
