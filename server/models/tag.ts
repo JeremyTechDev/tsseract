@@ -1,5 +1,7 @@
 import { Schema, Document, model } from 'mongoose';
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
+
+import regex from '../helpers/regex';
 
 export const tagSchema = new Schema({
   name: {
@@ -23,12 +25,9 @@ export interface ITag extends Document {
 
 export default model('Tags', tagSchema);
 
-export const validateTags = (tags: [string]) => {
+export const validateTags = (tags: string[]) => {
   const schema = Joi.object({
-    name: Joi.string()
-      .max(45)
-      .regex(/^[a-z0-9]+$/i)
-      .required(),
+    name: Joi.string().max(45).regex(regex.tag).required(),
     popularity: Joi.number().min(0),
   });
 

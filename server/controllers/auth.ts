@@ -1,6 +1,6 @@
-const Joi = require('@hapi/joi');
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
+import Joi from '@hapi/joi';
 
 import User, { IUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
@@ -29,17 +29,17 @@ export const auth: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(user._id);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send({ data: { login: true } });
+    res.send({ data: user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 };
 
-const validate = (req: any) => {
+const validate = <T>(userData: T) => {
   const schema = Joi.object({
     username: Joi.string().min(2).max(50).required(),
     password: Joi.string().min(8).max(26).required(),
   });
 
-  return schema.validate(req);
+  return schema.validate(userData);
 };

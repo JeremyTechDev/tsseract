@@ -1,5 +1,5 @@
 import { Schema, Types, Document, model } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+import Joi from '@hapi/joi';
 
 import regex from '../helpers/regex';
 
@@ -67,7 +67,7 @@ export interface IUser extends Document {
 
 export default model('Users', userSchema);
 
-export const validateUser = (user: any) => {
+export const validateUser = <T>(user: T) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
     username: Joi.string()
@@ -83,7 +83,7 @@ export const validateUser = (user: any) => {
       .trim()
       .required(),
     password: Joi.string().trim().min(8).max(26).required(),
-    birthDate: Joi.date().format('YYYY-MM-DD').utc().required(),
+    birthDate: Joi.date().timestamp().greater('now').required(),
     following: Joi.array().items(Joi.string().regex(regex.objectId)),
     followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });

@@ -1,5 +1,5 @@
 import { Schema, Types, Document, model } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+import Joi from '@hapi/joi';
 
 import { commentsSchema } from './comment';
 import regex from '../helpers/regex';
@@ -55,7 +55,7 @@ export interface IPost extends Document {
 
 export default model('Posts', postsSchema);
 
-export const validatePost = (post: any) => {
+export const validatePost = <T>(post: T) => {
   const schema = Joi.object({
     user: Joi.string().regex(regex.objectId).required(),
     title: Joi.string().min(5).max(145).required(),
@@ -64,8 +64,8 @@ export const validatePost = (post: any) => {
     cover: Joi.string(),
     tags: Joi.array().items(Joi.string()),
     comments: Joi.array().items(Joi.object()),
-    updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
-    createdAt: Joi.date().format('YYYY-MM-DD').utc(),
+    updatedAt: Joi.date().timestamp().greater('now').required(),
+    createdAt: Joi.date().timestamp().greater('now').required(),
   });
 
   return schema.validate(post);

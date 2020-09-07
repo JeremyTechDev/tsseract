@@ -1,5 +1,5 @@
 import { Schema, Types, Document } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+import Joi from '@hapi/joi';
 
 import regex from '../helpers/regex';
 
@@ -30,13 +30,13 @@ export interface IComment extends Document {
   updatedAt: Date;
 }
 
-export const validateComment = (comment: any) => {
+export const validateComment = <T>(comment: T) => {
   const schema = Joi.object({
     user: Joi.string().regex(regex.objectId).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
-    updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
-    createdAt: Joi.date().format('YYYY-MM-DD').utc(),
+    updatedAt: Joi.date().timestamp().greater('now').required(),
+    createdAt: Joi.date().timestamp().greater('now').required(),
   });
 
   return schema.validate(comment);
