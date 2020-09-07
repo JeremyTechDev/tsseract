@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-const { User } = require('../models/user');
+import { RequestHandler } from 'express';
+
+import User, { IUser } from '../models/user';
 
 /**
  * Ensures that the user performing the action coincides with the credentials
@@ -7,20 +8,16 @@ const { User } = require('../models/user');
  * @param res Express response object
  * @param next Next middleware function
  */
-module.exports = async (
-  req: Request & { user: { id: string | null } },
-  res: Response,
-  next: NextFunction,
-) => {
+export const authorizate: RequestHandler = async (req, res, next) => {
   try {
-    const token = req.user;
+    const token = req.cookies.user.id;
     const userId = req.body.user || req.params.id;
 
-    const userExists = await User.findById(userId);
-    if (!userExists)
+    const user = (await User.findById(userId)) as IUser;
+    if (!user)
       return res.status(404).send({ error: 'Access denied. Invalid User' });
 
-    if (token.id !== userId) {
+    if (!user._id.equals(token)) {
       return res.status(403).send({
         error:
           'Access denied. The current user is not allowed to perform this action.',

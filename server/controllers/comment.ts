@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
-const { Post, validatePost } = require('../models/post');
-const { validateComment } = require('../models/comment');
+import mongoose from 'mongoose';
+
+import Post, { IPost } from '../models/post';
+import { validateComment } from '../models/comment';
 
 /**
  * Creates a new comment in a post
@@ -8,28 +10,27 @@ const { validateComment } = require('../models/comment');
  * @param {Object} res Express response
  * @param {Object} req.body User data
  */
-const create: RequestHandler = async (req, res) => {
+export const createComment: RequestHandler = async (req, res) => {
   try {
+    const { postId } = req.params;
+
     const { error } = validateComment(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
 
-    const post = await Post.findById(req.params.postId);
+    if (!mongoose.isValidObjectId(postId))
+      return res.status(404).send({ error: 'No post found with the given id' });
+
+    const post = (await Post.findByIdAndUpdate(
+      postId,
+      { $push: { comments: req.body } },
+      { new: true },
+    )) as IPost;
+
     if (!post)
       return res.status(404).send({ error: 'No post found with the given id' });
 
-    post.comments.unshift(req.body);
-
-    const { body, comments, title, user } = post;
-    const newPost = validatePost({ body, comments, title, user: String(user) });
-    if (newPost.error) {
-      return res.status(400).send({ error: newPost.error.details[0].message });
-    }
-
-    await post.save();
     res.send({ data: post });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 };
-
-module.exports = { create };

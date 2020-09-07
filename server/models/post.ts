@@ -1,10 +1,10 @@
-import { Schema, Types, model } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+import { Schema, Types, Document, model } from 'mongoose';
+import Joi from '@hapi/joi';
 
-const { commentsSchema } = require('./comment');
-const { regularExpressions } = require('../helpers');
+import { commentsSchema } from './comment';
+import regex from '../helpers/regex';
 
-const postsSchema = new Schema({
+export const postsSchema = new Schema({
   user: {
     type: Types.ObjectId,
     ref: 'Users',
@@ -41,23 +41,32 @@ const postsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-const Post = model('Posts', postsSchema);
+export interface IPost extends Document {
+  user: Types.ObjectId;
+  title: string;
+  body: string;
+  cover: string;
+  likes: number;
+  comments: [];
+  tags: Types.ObjectId[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const validatePost = (post: any) => {
+export default model('Posts', postsSchema);
+
+export const validatePost = <T>(post: T) => {
   const schema = Joi.object({
-    user: Joi.string().regex(regularExpressions.objectId).required(),
+    user: Joi.string().regex(regex.objectId).required(),
     title: Joi.string().min(5).max(145).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
     cover: Joi.string(),
     tags: Joi.array().items(Joi.string()),
     comments: Joi.array().items(Joi.object()),
-    updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
-    createdAt: Joi.date().format('YYYY-MM-DD').utc(),
+    updatedAt: Joi.date().timestamp(),
+    createdAt: Joi.date().timestamp(),
   });
 
   return schema.validate(post);
 };
-
-exports.Post = Post;
-exports.validatePost = validatePost;

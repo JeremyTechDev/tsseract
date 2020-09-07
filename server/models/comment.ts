@@ -1,9 +1,9 @@
-import { Schema, Types } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+import { Schema, Types, Document } from 'mongoose';
+import Joi from '@hapi/joi';
 
-const { regularExpressions } = require('../helpers');
+import regex from '../helpers/regex';
 
-const commentsSchema = new Schema({
+export const commentsSchema = new Schema({
   user: {
     type: Types.ObjectId,
     required: true,
@@ -22,17 +22,22 @@ const commentsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-const validateComment = (comment: any) => {
+export interface IComment extends Document {
+  user: Types.ObjectId;
+  body: string;
+  likes: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const validateComment = <T>(comment: T) => {
   const schema = Joi.object({
-    user: Joi.string().regex(regularExpressions.objectId).required(),
+    user: Joi.string().regex(regex.objectId).required(),
     body: Joi.string().required(),
     likes: Joi.number().min(0),
-    updatedAt: Joi.date().format('YYYY-MM-DD').utc(),
-    createdAt: Joi.date().format('YYYY-MM-DD').utc(),
+    updatedAt: Joi.date().timestamp(),
+    createdAt: Joi.date().timestamp(),
   });
 
   return schema.validate(comment);
 };
-
-exports.commentsSchema = commentsSchema;
-exports.validateComment = validateComment;

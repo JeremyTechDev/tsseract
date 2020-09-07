@@ -1,6 +1,6 @@
-import request from 'supertest';
 import http from 'http';
-const setCookie = require('set-cookie-parser');
+import request from 'supertest';
+import setCookie from 'set-cookie-parser';
 
 import server from '../server';
 
@@ -59,6 +59,8 @@ describe('Posts', () => {
         .post('/api/posts')
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`])
         .send(newPostPayload);
+
+      console.log('her', post);
 
       expect(post.body.data.tags.length).toBe(1);
       expect(post.body.data).toMatchObject({

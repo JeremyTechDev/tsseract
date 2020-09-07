@@ -1,8 +1,7 @@
 import { Schema, Types, Document, model } from 'mongoose';
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const pswComplexity = require('joi-password-complexity');
+import Joi from '@hapi/joi';
 
-const { regularExpressions } = require('../helpers');
+import regex from '../helpers/regex';
 
 const userSchema = new Schema({
   name: {
@@ -66,9 +65,9 @@ export interface IUser extends Document {
   following: Types.ObjectId[];
 }
 
-export const User = model('Users', userSchema);
+export default model('Users', userSchema);
 
-export const validateUser = (user: any) => {
+export const validateUser = <T>(user: T) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
     username: Joi.string()
@@ -76,27 +75,18 @@ export const validateUser = (user: any) => {
       .max(50)
       .trim()
       .required()
-      .regex(regularExpressions.username),
+      .regex(regex.username),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .min(2)
       .max(255)
       .trim()
       .required(),
-    password: Joi.required(), // validated with passwordComplexity
-    birthDate: Joi.date().format('YYYY-MM-DD').utc().required(),
-    following: Joi.array().items(
-      Joi.string().regex(regularExpressions.objectId),
-    ),
-    followers: Joi.array().items(
-      Joi.string().regex(regularExpressions.objectId),
-    ),
+    password: Joi.string().trim().min(8).max(26).required(),
+    birthDate: Joi.date().timestamp().required(),
+    following: Joi.array().items(Joi.string().regex(regex.objectId)),
+    followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });
-
-  const isValidPassword = pswComplexity(undefined, 'Password').validate(
-    user.password,
-  );
-  if (isValidPassword.error) return isValidPassword;
 
   return schema.validate(user);
 };

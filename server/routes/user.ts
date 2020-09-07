@@ -1,16 +1,24 @@
 import express from 'express';
-const router = express.Router();
 
-const userControllers = require('../controllers/user');
-const authenticate = require('../middlewares/authenticator');
-const authorizate = require('../middlewares/authorization');
+import {
+  createUser,
+  deleteUser,
+  follow,
+  retrieveUser,
+  retrieveUserByUsername,
+  unfollow,
+} from '../controllers/user';
+import { authenticate } from '../middlewares/authenticator';
+import { authorizate } from '../middlewares/authorization';
+
+const router = express.Router();
 
 /**
  * Creates a new user
  * @route /api/users/
  * @method POST
  */
-router.post('/', userControllers.create);
+router.post('/', createUser);
 
 /**
  * Retrieve a user by id
@@ -18,7 +26,7 @@ router.post('/', userControllers.create);
  * @param {String} id user id
  * @method GET
  */
-router.get('/:id', userControllers.retrieveUser);
+router.get('/:id', retrieveUser);
 
 /**
  * Retrieve a user by username
@@ -26,7 +34,7 @@ router.get('/:id', userControllers.retrieveUser);
  * @param {String} username user username
  * @method GET
  */
-router.get('/u/:username', userControllers.retrieveUserByUsername);
+router.get('/u/:username', retrieveUserByUsername);
 
 /**
  * Follow a user
@@ -34,7 +42,7 @@ router.get('/u/:username', userControllers.retrieveUserByUsername);
  * @param {String} followToUsername the user's to follow username
  * @method PUT
  */
-router.put('/follow/:followToUsername', authenticate, userControllers.follow);
+router.put('/follow/:followToUsername', authenticate, follow);
 
 /**
  * Unfollow a user
@@ -42,11 +50,7 @@ router.put('/follow/:followToUsername', authenticate, userControllers.follow);
  * @param {String} followToUsername the user's to unfollow username
  * @method PUT
  */
-router.put(
-  '/unfollow/:followToUsername',
-  authenticate,
-  userControllers.unfollow,
-);
+router.put('/unfollow/:followToUsername', authenticate, unfollow);
 
 /**
  * Deletes a user by id
@@ -54,6 +58,6 @@ router.put(
  * @param {String} id user id
  * @method DELETE
  */
-router.delete('/:id', [authenticate, authorizate], userControllers.deleteUser);
+router.delete('/:id', [authenticate, authorizate], deleteUser);
 
-module.exports = router;
+export default router;
