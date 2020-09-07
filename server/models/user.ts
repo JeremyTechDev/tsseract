@@ -83,7 +83,7 @@ export const validateUser = <T>(user: T) => {
       .trim()
       .required(),
     password: Joi.string().trim().min(8).max(26).required(),
-    birthDate: Joi.date().timestamp().greater('now').required(),
+    birthDate: Joi.date().timestamp().required(),
     following: Joi.array().items(Joi.string().regex(regex.objectId)),
     followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });
