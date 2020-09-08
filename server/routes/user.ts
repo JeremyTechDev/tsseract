@@ -9,7 +9,6 @@ import {
   unfollow,
 } from '../controllers/user';
 import { authenticate } from '../middlewares/authenticator';
-import { authorizate } from '../middlewares/authorization';
 
 const router = express.Router();
 
@@ -58,6 +57,6 @@ router.put('/unfollow/:followToUsername', authenticate, unfollow);
  * @param {String} id user id
  * @method DELETE
  */
-router.delete('/:id', [authenticate, authorizate], deleteUser);
+router.delete('/:id', authenticate, deleteUser);
 
 export default router;
