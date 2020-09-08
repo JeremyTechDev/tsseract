@@ -47,6 +47,40 @@ export const createPost: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Toogle the user like state of a post
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.params.postId post id
+ * @param {Object} req.cookies.profile._id user id
+ */
+export const toogleLike: RequestHandler = async (req, res) => {
+  const { postId } = req.params;
+  const { _id: userId } = req.cookies.profile;
+
+  try {
+    const post = (await Post.findById(postId)) as IPost;
+
+    if (!post)
+      return res
+        .status(404)
+        .send({ error: 'No post found with the given id.' });
+
+    const likes = post.likes.map((user) => user.toString());
+
+    const update = likes.includes(userId) ? '$pull' : '$push';
+    const newPost = await Post.findByIdAndUpdate(
+      post._id,
+      { [update]: { likes: userId } },
+      { new: true },
+    );
+
+    res.send({ data: newPost });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Retrieves all posts by a given user
  * @param {Object} req Express request
  * @param {Object} res Express response

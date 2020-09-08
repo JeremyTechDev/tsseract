@@ -5,6 +5,7 @@ import {
   deletePost,
   getPostsBy,
   getPostsFeed,
+  toogleLike,
 } from '../controllers/post';
 import { createComment } from '../controllers/comment';
 import auth from '../middlewares/authenticator';
@@ -25,6 +26,14 @@ router.post('/', auth, createPost);
  * @method POST
  */
 router.post('/c/:postId', auth, createComment);
+
+/**
+ * Toogle the user like of a post
+ * @route /api/posts/like/:postId
+ * @param {String} postId post id
+ * @method PUT
+ */
+router.put('/like/:postId', auth, toogleLike);
 
 /**
  * Retrieves all posts by a given user
