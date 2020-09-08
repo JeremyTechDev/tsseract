@@ -6,6 +6,13 @@ const { JWT_KEY } = process.env;
 
 type IDecoded = { id: string } | null;
 
+const codes = [
+  'Access denied. No credentials provided.',
+  'Access denied. Corrupt credentials.',
+  'Access denied. Non-existent user.',
+  'Access denied. The current user is not allowed to perform this action.',
+];
+
 /**
  * Authenticate and ensures that the user performing the action coincides with the credentials
  * @param req Express request object
@@ -17,29 +24,19 @@ export const authenticate: RequestHandler = async (req, res, next) => {
     const token = req.signedCookies['tsseract-auth-token'];
     const userId = req.body.user || req.params.id; // id provided by the request
 
-    if (!token)
-      return res.status(401).send({
-        error: 'Access denied. No credentials provided.',
-      });
+    if (!token) return res.status(401).send({ error: codes[0] });
 
     const decodedUser = <IDecoded>jwt.verify(token, <string>JWT_KEY);
 
     if (!decodedUser || userId !== decodedUser.id)
-      return res
-        .status(403)
-        .send({ error: 'Access denied. Corrupt credentials' });
+      return res.status(403).send({ error: codes[1] });
 
     const user = (await User.findById(userId)) as IUser;
 
-    if (!user)
-      return res.status(404).send({ error: 'Access denied. Invalid User' });
+    if (!user) return res.status(404).send({ error: codes[2] });
 
-    if (!user._id.equals(decodedUser.id)) {
-      return res.status(403).send({
-        error:
-          'Access denied. The current user is not allowed to perform this action.',
-      });
-    }
+    if (!user._id.equals(decodedUser.id))
+      return res.status(403).send({ error: codes[3] });
 
     req.cookies.profile = user;
     next();
