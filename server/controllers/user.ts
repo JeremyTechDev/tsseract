@@ -95,20 +95,19 @@ export const retrieveUserByUsername: RequestHandler = async (req, res) => {
  */
 export const follow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const followById = req.cookies.user.id;
+  const followBy = req.cookies.profile;
 
   try {
     const followTo = (await User.findOne({
       username: followToUsername,
     })) as IUser;
-    const followBy = (await User.findById(followById)) as IUser;
 
     if (!followTo)
       return res
         .status(404)
         .send({ message: 'No user found with the given username' });
 
-    if (followTo._id.equals(followById!))
+    if (followTo._id.equals(followBy._id))
       return res
         .status(409)
         .send({ message: 'You cannot follow your own account' });
@@ -119,14 +118,14 @@ export const follow: RequestHandler = async (req, res) => {
         .send({ message: 'You already follow that account' });
 
     const newFollowBy = await User.findOneAndUpdate(
-      { _id: followById },
+      { _id: followBy._id },
       { $push: { following: followTo._id } },
       { new: true },
     );
 
     const newFollowTo = await User.findOneAndUpdate(
       { _id: followTo._id },
-      { $push: { followers: followById } },
+      { $push: { followers: followBy._id } },
       { new: true },
     );
 
@@ -144,20 +143,19 @@ export const follow: RequestHandler = async (req, res) => {
  */
 export const unfollow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const followById = req.cookies.user.id;
+  const followBy = req.cookies.profile;
 
   try {
     const followTo = (await User.findOne({
       username: followToUsername,
     })) as IUser;
-    const followBy = (await User.findById(followById)) as IUser;
 
     if (!followTo)
       return res
         .status(404)
         .send({ message: 'No user found with the given username' });
 
-    if (followTo._id.equals(followById!))
+    if (followTo._id.equals(followBy._id))
       return res
         .status(409)
         .send({ message: 'You cannot unfollow your own account' });
@@ -168,14 +166,14 @@ export const unfollow: RequestHandler = async (req, res) => {
         .send({ message: "You don't follow the given account" });
 
     const newFollowBy = await User.findOneAndUpdate(
-      { _id: followById },
+      { _id: followBy._id },
       { $pull: { following: followTo._id } },
       { new: true },
     );
 
     const newFollowTo = await User.findOneAndUpdate(
       { _id: followTo._id },
-      { $pull: { followers: followById } },
+      { $pull: { followers: followBy._id } },
       { new: true },
     );
 
@@ -193,7 +191,7 @@ export const unfollow: RequestHandler = async (req, res) => {
  */
 export const deleteUser: RequestHandler = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const { _id: userId } = req.cookies.profile;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
 
     if (!user)

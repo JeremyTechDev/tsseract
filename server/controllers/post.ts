@@ -12,7 +12,10 @@ import { findOrCreate as findOrCreateTag } from './tag';
  */
 export const createPost: RequestHandler = async (req, res) => {
   try {
-    const { error } = validatePost(req.body);
+    const { _id: userId } = req.cookies.profile;
+    const { error } = validatePost(
+      Object.assign(req.body, { user: userId.toString() }),
+    );
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     let createdTags: ITag[] = [];
@@ -44,6 +47,44 @@ export const createPost: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Retrieves all posts by a given user
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.cookies.profile User data
+ */
+export const getPostsBy: RequestHandler = async (req, res) => {
+  try {
+    const { _id: userId } = req.cookies.profile;
+
+    const posts = await Post.find({ user: userId });
+
+    res.send({ data: posts });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
+ * Retrieves all posts that of the accounts a user follows
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.cookies.profile User data
+ */
+export const getPostsFeed: RequestHandler = async (req, res) => {
+  try {
+    const { following } = req.cookies.profile;
+
+    const posts = await Promise.all(
+      following.map(async (user: string) => await Post.find({ user })),
+    );
+
+    res.send({ data: posts });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Deletes a post by id
  * @param {Object} req Express request
  * @param {Object} res Express response
@@ -51,7 +92,7 @@ export const createPost: RequestHandler = async (req, res) => {
  */
 export const deletePost: RequestHandler = async (req, res) => {
   try {
-    const postId = req.params.postId;
+    const { postId } = req.params;
     const post = (await Post.findByIdAndDelete(postId)) as IPost;
 
     if (!post)

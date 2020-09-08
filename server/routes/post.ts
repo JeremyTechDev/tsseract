@@ -1,9 +1,13 @@
 import express from 'express';
 
-import { createPost, deletePost } from '../controllers/post';
+import {
+  createPost,
+  deletePost,
+  getPostsBy,
+  getPostsFeed,
+} from '../controllers/post';
 import { createComment } from '../controllers/comment';
-import { authenticate } from '../middlewares/authenticator';
-import { authorizate } from '../middlewares/authorization';
+import auth from '../middlewares/authenticator';
 
 const router = express.Router();
 
@@ -12,7 +16,7 @@ const router = express.Router();
  * @route /api/posts/
  * @method POST
  */
-router.post('/', [authenticate, authorizate], createPost);
+router.post('/', auth, createPost);
 
 /**
  * Creates a new comment in a post
@@ -20,15 +24,30 @@ router.post('/', [authenticate, authorizate], createPost);
  * @param {String} postId post id
  * @method POST
  */
-router.post('/c/:postId', [authenticate, authorizate], createComment);
+router.post('/c/:postId', auth, createComment);
+
+/**
+ * Retrieves all posts by a given user
+ * @route /api/posts/by/:id
+ * @param {String} id user id
+ * @method GET
+ */
+router.get('/by/:id', auth, getPostsBy);
+
+/**
+ * Retrieves all posts that of the accounts a user follows
+ * @route /api/posts/feed/:id
+ * @param {String} id user id
+ * @method GET
+ */
+router.get('/feed/:id', auth, getPostsFeed);
 
 /**
  * Deletes a post by id
  * @route /api/posts/:id/:postId
- * @param id user id
  * @param postId post id
  * @method DELETE
  */
-router.delete('/:id/:postId', [authenticate, authorizate], deletePost);
+router.delete('/:postId', auth, deletePost);
 
 export default router;
