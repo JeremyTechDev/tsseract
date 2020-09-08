@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import User, { IUser } from '../models/user';
@@ -19,18 +19,16 @@ const codes = [
  * @param res Express response object
  * @param next Next middleware function
  */
-export const authenticate: RequestHandler = async (req, res, next) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.signedCookies['tsseract-auth-token'];
-    const userId = req.body.user || req.params.id; // id provided by the request
-
     if (!token) return res.status(401).send({ error: codes[0] });
 
     const decodedUser = <IDecoded>jwt.verify(token, <string>JWT_KEY);
 
-    if (!decodedUser || userId !== decodedUser.id)
-      return res.status(403).send({ error: codes[1] });
+    if (!decodedUser) return res.status(403).send({ error: codes[1] });
 
+    const { id: userId } = decodedUser;
     const user = (await User.findById(userId)) as IUser;
 
     if (!user) return res.status(404).send({ error: codes[2] });

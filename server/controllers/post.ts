@@ -12,7 +12,10 @@ import { findOrCreate as findOrCreateTag } from './tag';
  */
 export const createPost: RequestHandler = async (req, res) => {
   try {
-    const { error } = validatePost(req.body);
+    const { _id: userId } = req.cookies.profile;
+    const { error } = validatePost(
+      Object.assign(req.body, { user: userId.toString() }),
+    );
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     let createdTags: ITag[] = [];
@@ -51,7 +54,7 @@ export const createPost: RequestHandler = async (req, res) => {
  */
 export const getPostsBy: RequestHandler = async (req, res) => {
   try {
-    const { id: userId } = req.cookies.user;
+    const { _id: userId } = req.cookies.profile;
 
     const posts = await Post.find({ user: userId });
 
@@ -89,7 +92,7 @@ export const getPostsFeed: RequestHandler = async (req, res) => {
  */
 export const deletePost: RequestHandler = async (req, res) => {
   try {
-    const postId = req.params.postId;
+    const { postId } = req.params;
     const post = (await Post.findByIdAndDelete(postId)) as IPost;
 
     if (!post)

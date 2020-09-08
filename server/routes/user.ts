@@ -8,7 +8,7 @@ import {
   retrieveUserByUsername,
   unfollow,
 } from '../controllers/user';
-import { authenticate } from '../middlewares/authenticator';
+import auth from '../middlewares/authenticator';
 
 const router = express.Router();
 
@@ -41,7 +41,7 @@ router.get('/u/:username', retrieveUserByUsername);
  * @param {String} followToUsername the user's to follow username
  * @method PUT
  */
-router.put('/follow/:followToUsername', authenticate, follow);
+router.put('/follow/:followToUsername', auth, follow);
 
 /**
  * Unfollow a user
@@ -49,14 +49,13 @@ router.put('/follow/:followToUsername', authenticate, follow);
  * @param {String} followToUsername the user's to unfollow username
  * @method PUT
  */
-router.put('/unfollow/:followToUsername', authenticate, unfollow);
+router.put('/unfollow/:followToUsername', auth, unfollow);
 
 /**
  * Deletes a user by id
  * @route /api/users/:id
- * @param {String} id user id
  * @method DELETE
  */
-router.delete('/:id', authenticate, deleteUser);
+router.delete('/', auth, deleteUser);
 
 export default router;

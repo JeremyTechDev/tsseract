@@ -13,8 +13,11 @@ import { validateComment } from '../models/comment';
 export const createComment: RequestHandler = async (req, res) => {
   try {
     const { postId } = req.params;
+    const { _id: userId } = req.cookies.profile;
 
-    const { error } = validateComment(req.body);
+    const { error } = validateComment(
+      Object.assign(req.body, { user: userId.toString() }),
+    );
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     if (!mongoose.isValidObjectId(postId))
