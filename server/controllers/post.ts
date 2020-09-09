@@ -47,13 +47,13 @@ export const createPost: RequestHandler = async (req, res) => {
 };
 
 /**
- * Toogle the user like state of a post
+ * Toggle the user like state of a post
  * @param {Object} req Express request
  * @param {Object} res Express response
  * @param {Object} req.params.postId post id
  * @param {Object} req.cookies.profile._id user id
  */
-export const toogleLike: RequestHandler = async (req, res) => {
+export const toggleLike: RequestHandler = async (req, res) => {
   const { postId } = req.params;
   const { _id: userId } = req.cookies.profile;
 
