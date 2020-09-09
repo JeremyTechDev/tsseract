@@ -133,7 +133,6 @@ describe('Posts', () => {
       expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);
       expect(postWithComment.body.data.comments[0]).toMatchObject({
         ...newCommentPayload,
-        likes: 0,
       });
     });
   });
