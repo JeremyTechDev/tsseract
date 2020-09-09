@@ -24,9 +24,9 @@ export const postsSchema = new Schema({
     type: String,
   },
   likes: {
-    type: Number,
-    default: 0,
-    min: 0,
+    type: [Types.ObjectId],
+    ref: 'Users',
+    default: [],
   },
   comments: {
     type: [commentsSchema],
@@ -46,8 +46,8 @@ export interface IPost extends Document {
   title: string;
   body: string;
   cover: string;
-  likes: number;
   comments: [];
+  likes: Types.ObjectId[];
   tags: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
@@ -60,9 +60,9 @@ export const validatePost = <T>(post: T) => {
     user: Joi.string().regex(regex.objectId).required(),
     title: Joi.string().min(5).max(145).required(),
     body: Joi.string().required(),
-    likes: Joi.number().min(0),
     cover: Joi.string(),
     tags: Joi.array().items(Joi.string()),
+    likes: Joi.array().items(Joi.string().regex(regex.objectId)),
     comments: Joi.array().items(Joi.object()),
     updatedAt: Joi.date().timestamp(),
     createdAt: Joi.date().timestamp(),

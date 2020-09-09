@@ -36,11 +36,11 @@ describe('Posts', () => {
       const [cookie] = cookies;
 
       await request(SUT)
-        .delete(`/api/posts/${userId}/${postId}`)
+        .delete(`/api/posts/${postId}`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
       await request(SUT)
-        .delete(`/api/users/${userId}`)
+        .delete(`/api/users`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
       SUT.close();
@@ -133,7 +133,6 @@ describe('Posts', () => {
       expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);
       expect(postWithComment.body.data.comments[0]).toMatchObject({
         ...newCommentPayload,
-        likes: 0,
       });
     });
   });

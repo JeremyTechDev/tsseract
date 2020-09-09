@@ -24,11 +24,10 @@ describe('User', () => {
     });
 
     afterAll(async (done) => {
-      const userId = user.body.data._id;
       const [cookie] = cookies;
 
       await request(SUT)
-        .delete(`/api/users/${userId}`)
+        .delete(`/api/users/`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
       SUT.close();
