@@ -7,7 +7,7 @@ import {
   getPostsFeed,
   toggleLike,
 } from '../controllers/post';
-import { createComment } from '../controllers/comment';
+import { createComment, deleteComment } from '../controllers/comment';
 import auth from '../middlewares/authenticator';
 
 const router = express.Router();
@@ -26,6 +26,14 @@ router.post('/', auth, createPost);
  * @method POST
  */
 router.post('/c/:postId', auth, createComment);
+
+/**
+ * Deletes a comment in a post
+ * @route /api/posts/c/:commentId
+ * @param {String} commentId comment id
+ * @method DELETE
+ */
+router.delete('/c/:commentId', auth, deleteComment);
 
 /**
  * Toggle the user like of a post
