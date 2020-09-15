@@ -28,7 +28,7 @@ describe('Posts', () => {
       cookies = setCookie.parse(user);
       userId = user.body.data._id;
 
-      done();
+      SUT.listen(done);
     });
 
     afterAll(async (done) => {
@@ -43,8 +43,7 @@ describe('Posts', () => {
         .delete(`/api/users`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
-      SUT.close();
-      done();
+      SUT.close(done);
     });
 
     it('should create a new post with just one tag', async () => {

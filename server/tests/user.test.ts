@@ -20,7 +20,8 @@ describe('User', () => {
     beforeAll(async (done) => {
       user = await request(SUT).post('/api/users/').send(userPayload);
       cookies = setCookie.parse(user);
-      done();
+
+      SUT.listen(done);
     });
 
     afterAll(async (done) => {
@@ -30,8 +31,7 @@ describe('User', () => {
         .delete(`/api/users/`)
         .set('Cookie', [`tsseract-auth-token=${cookie.value}`]);
 
-      SUT.close();
-      done();
+      SUT.close(done);
     });
 
     it('should create a new user in the DB with the user properties', () => {

@@ -61,9 +61,11 @@ const init = (options: Options) => {
   }
 
   // start the server
-  server.listen(PORT, () =>
-    console.log(`🚀 Server running on port ${PORT}...`),
-  );
+  if (!isTesting) {
+    server.listen(PORT, () =>
+      console.log(`🚀 Server running on port ${PORT}...`),
+    );
+  }
 
   return server;
 };
