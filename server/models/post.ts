@@ -53,7 +53,7 @@ export interface IPost extends Document {
   updatedAt: Date;
 }
 
-export default model('Posts', postsSchema);
+export default model('Posts', postsSchema, 'posts');
 
 export const validatePost = <T>(post: T) => {
   const schema = Joi.object({

@@ -23,7 +23,7 @@ export interface ITag extends Document {
   _doc: Document;
 }
 
-export default model('Tags', tagSchema);
+export default model('Tags', tagSchema, 'tags');
 
 export const validateTags = (tags: string[]) => {
   const schema = Joi.object({
