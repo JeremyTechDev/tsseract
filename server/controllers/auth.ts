@@ -39,7 +39,7 @@ export const deauthenticate: RequestHandler = (req, res) => {
   const oldCookie = req.cookies.profile;
 
   res.clearCookie('tsseract-auth-token');
-  res.status(200).send({ data: { oldCookie } });
+  res.send({ data: { oldCookie } });
 };
 
 const validate = <T>(userData: T) => {

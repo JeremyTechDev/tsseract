@@ -15,18 +15,16 @@ describe('User', () => {
     email: 'admin_user_test@tsseract.com',
     birthDate: Date.now(),
   };
-  let user: any, cookies: any;
+  let user: any, cookie: any;
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
-    cookies = setCookie.parse(user);
+    cookie = setCookie.parse(user)[0];
 
     SUT.listen(done);
   });
 
   afterAll(async (done) => {
-    const [cookie] = cookies;
-
     await request(SUT)
       .delete(`/api/users/`)
       .set('Cookie', [`${cookie.name}=${cookie.value}`]);
@@ -35,8 +33,12 @@ describe('User', () => {
   });
 
   describe('POST:/api/users', () => {
-    it('should create a new user', () => {
+    it('should create a new authenticated user', () => {
       userProps.forEach((p) => expect(user.body.data).toHaveProperty(p));
+      expect(user.header).toHaveProperty('set-cookie');
+      expect(cookie).toHaveProperty('name');
+      expect(cookie).toHaveProperty('value');
+      expect(cookie.name).toEqual('tsseract-auth-token');
     });
 
     it('should not created a new user if any param is invalid', async () => {

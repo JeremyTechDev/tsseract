@@ -16,7 +16,10 @@ const init = () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-    .then(() => console.info(`📡 Connected to MongoDB (${TARGET_DB})`))
+    .then(() => {
+      if (NODE_ENV !== 'test')
+        console.info(`📡 Connected to MongoDB (${TARGET_DB})`);
+    })
     .catch((error: Error) =>
       console.warn('Error connecting to MongoDB', error.message),
     );
