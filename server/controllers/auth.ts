@@ -11,7 +11,7 @@ import cookieCreator from '../helpers/cookieCreator';
  * @param res Express response
  * @param req.body User data
  */
-export const auth: RequestHandler = async (req, res) => {
+export const authenticate: RequestHandler = async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
@@ -33,6 +33,13 @@ export const auth: RequestHandler = async (req, res) => {
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
+};
+
+export const deauthenticate: RequestHandler = (req, res) => {
+  const oldCookie = req.cookies.profile;
+
+  res.clearCookie('tsseract-auth-token');
+  res.status(200).send({ data: { oldCookie } });
 };
 
 const validate = <T>(userData: T) => {

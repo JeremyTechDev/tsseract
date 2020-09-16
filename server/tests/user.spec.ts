@@ -4,6 +4,8 @@ import setCookie from 'set-cookie-parser';
 
 import server from '../server';
 
+const userProperties = ['_id', 'birthDate', 'email', 'name', 'username'];
+
 describe('User', () => {
   const SUT = http.createServer(server({ dev: true }));
 
@@ -34,23 +36,28 @@ describe('User', () => {
       SUT.close(done);
     });
 
-    it('should create a new user in the DB with the user properties', () => {
-      expect(user.body.data).toHaveProperty('_id');
-      expect(user.body.data).toHaveProperty('birthDate');
-      expect(user.body.data).toHaveProperty('email');
-      expect(user.body.data).toHaveProperty('name');
-      expect(user.body.data).toHaveProperty('username');
+    it('should create a new user', () => {
+      userProperties.forEach((property) =>
+        expect(user.body.data).toHaveProperty(property),
+      );
     });
 
-    it('should set a cookie', () => {
-      expect(user.header).toHaveProperty('set-cookie');
+    it('should retrieve a user by username', async () => {
+      const users = await request(SUT).get(`/api/users/u/admin_user_test`);
+
+      userProperties.forEach((property) =>
+        expect(users.body.data).toHaveProperty(property),
+      );
+      expect(users.body.data.username).toBe('admin_user_test');
     });
 
-    test('should set tsseract-auth-token cookie', () => {
-      cookies.forEach((cookie: any) => {
-        expect(cookie).toHaveProperty('name');
-        expect(cookie.name).toEqual('tsseract-auth-token');
-      });
+    it('should retrieve a user by id', async () => {
+      const users = await request(SUT).get(`/api/users/${user.body.data._id}`);
+
+      userProperties.forEach((property) =>
+        expect(users.body.data).toHaveProperty(property),
+      );
+      expect(users.body.data.username).toBe('admin_user_test');
     });
   });
 });
