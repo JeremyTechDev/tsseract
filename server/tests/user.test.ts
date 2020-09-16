@@ -5,7 +5,7 @@ import setCookie from 'set-cookie-parser';
 import server from '../server';
 
 describe('User', () => {
-  const SUT = http.createServer(server({ isTesting: true, dev: true }));
+  const SUT = http.createServer(server({ dev: true }));
 
   describe('POST:/api/users', () => {
     const userPayload = {

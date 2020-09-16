@@ -10,10 +10,9 @@ import auth from './routes/auth';
 import user from './routes/user';
 import post from './routes/post';
 
-const { COOKIE_KEY, PORT = 8080 } = process.env;
+const { COOKIE_KEY, PORT = 8080, NODE_ENV } = process.env;
 
 interface Options {
-  isTesting?: boolean;
   dev?: boolean;
   appHandler?: any;
 }
@@ -24,8 +23,8 @@ interface Options {
  * @returns {app} Express application
  */
 const init = (options: Options) => {
-  const { isTesting = false, dev, appHandler } = options;
-  database({ isTesting });
+  const { dev, appHandler } = options;
+  database();
 
   const server = express();
 
@@ -61,9 +60,9 @@ const init = (options: Options) => {
   }
 
   // start the server
-  if (!isTesting) {
+  if (NODE_ENV !== 'test') {
     server.listen(PORT, () =>
-      console.log(`🚀 Server running on port ${PORT}...`),
+      console.info(`🚀 Server running on port ${PORT}...`),
     );
   }
 

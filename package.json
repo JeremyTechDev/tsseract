@@ -14,7 +14,7 @@
     "tsc:watch": "run-p tsc:watch:*",
     "start": "next start ./dist/client",
     "build": "next build",
-    "test": "jest --detectOpenHandles"
+    "test": "NODE_ENV=test && jest --detectOpenHandles"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
