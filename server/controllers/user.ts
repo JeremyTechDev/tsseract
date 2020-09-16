@@ -194,12 +194,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
     const { _id: userId } = req.cookies.profile;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
 
-    if (!user)
-      return res
-        .status(404)
-        .send({ error: 'No user found with the given username' });
-
-    res.send({ data: user });
+    res.status(204).send({ data: user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

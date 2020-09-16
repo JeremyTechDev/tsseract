@@ -6,10 +6,10 @@ import server from '../server';
 
 const userProperties = ['_id', 'birthDate', 'email', 'name', 'username'];
 
-describe('User', () => {
+describe('Auth', () => {
   const SUT = http.createServer(server({ dev: true }));
 
-  describe('POST:/api/users', () => {
+  describe('POST:/api/auth', () => {
     const userPayload = {
       name: 'Tsseract',
       username: 'admin_user_test',
