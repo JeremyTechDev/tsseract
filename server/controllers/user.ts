@@ -105,17 +105,15 @@ export const follow: RequestHandler = async (req, res) => {
     if (!followTo)
       return res
         .status(404)
-        .send({ message: 'No user found with the given username' });
+        .send({ error: 'No user found with the given username' });
 
     if (followTo._id.equals(followBy._id))
       return res
         .status(409)
-        .send({ message: 'You cannot follow your own account' });
+        .send({ error: 'You cannot follow your own account' });
 
     if (followBy.following.includes(followTo._id))
-      return res
-        .status(409)
-        .send({ message: 'You already follow that account' });
+      return res.status(409).send({ error: 'You already follow that account' });
 
     const newFollowBy = await User.findOneAndUpdate(
       { _id: followBy._id },
@@ -153,17 +151,17 @@ export const unfollow: RequestHandler = async (req, res) => {
     if (!followTo)
       return res
         .status(404)
-        .send({ message: 'No user found with the given username' });
+        .send({ error: 'No user found with the given username' });
 
     if (followTo._id.equals(followBy._id))
       return res
         .status(409)
-        .send({ message: 'You cannot unfollow your own account' });
+        .send({ error: 'You cannot unfollow your own account' });
 
     if (!followBy.following.includes(followTo._id))
       return res
         .status(409)
-        .send({ message: "You don't follow the given account" });
+        .send({ error: "You don't follow the given account" });
 
     const newFollowBy = await User.findOneAndUpdate(
       { _id: followBy._id },

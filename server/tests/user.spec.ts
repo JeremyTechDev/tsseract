@@ -15,19 +15,31 @@ describe('User', () => {
     email: 'admin_user_test@tsseract.com',
     birthDate: Date.now(),
   };
-  let user: any, cookie: any;
+  let user: any, secUser: any, cookie: any, secondCookie: any;
+  let cookieSet: [string];
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
     cookie = setCookie.parse(user)[0];
+    cookieSet = [`${cookie.name}=${cookie.value}`];
+
+    secUser = await request(SUT).post('/api/users/').send({
+      name: 'Second',
+      username: 'secondUser',
+      password: '12345678',
+      email: 'secondUser@tsseract.com',
+      birthDate: Date.now(),
+    });
+    secondCookie = setCookie.parse(secUser)[0];
 
     SUT.listen(done);
   });
 
   afterAll(async (done) => {
+    await request(SUT).delete(`/api/users/`).set('Cookie', cookieSet);
     await request(SUT)
       .delete(`/api/users/`)
-      .set('Cookie', [`${cookie.name}=${cookie.value}`]);
+      .set('Cookie', [`${secondCookie.name}=${secondCookie.value}`]);
 
     SUT.close(done);
   });
@@ -91,6 +103,88 @@ describe('User', () => {
 
       expect(user.status).toBe(404);
       expect(user.body).toHaveProperty('error');
+    });
+  });
+
+  describe('PUT:/api/users/follow/:followToUsername', () => {
+    it('should follow a user by username', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/follow/secondUser')
+        .set('Cookie', cookieSet);
+
+      const { data } = follow.body;
+      expect(data).toHaveProperty('following');
+      expect(data).toHaveProperty('follower');
+      expect(data.follower.followers).toContain(user.body.data._id);
+      expect(data.following.following).toContain(secUser.body.data._id);
+    });
+
+    it('should tell if the user is trying to follow an unexisting account', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/follow/noUserAtAll')
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(404);
+      expect(follow.body).toHaveProperty('error');
+    });
+
+    it('should not allow the user to follow their own account', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/follow/admin_user_test')
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(409);
+      expect(follow.body).toHaveProperty('error');
+    });
+
+    it('should not allow the user follow an account they already follow', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/follow/secondUser') // already following on first it()
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(409);
+      expect(follow.body).toHaveProperty('error');
+    });
+  });
+
+  describe('PUT:/unfollow/:followToUsername', () => {
+    it('should unfollow a user by username', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/unfollow/secondUser')
+        .set('Cookie', cookieSet);
+
+      const { data } = follow.body;
+      expect(data).toHaveProperty('following');
+      expect(data).toHaveProperty('follower');
+      expect(data.follower.followers).not.toContain(user.body.data._id);
+      expect(data.following.following).not.toContain(secUser.body.data._id);
+    });
+
+    it('should tell if the user is trying to unfollow an unexisting account', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/unfollow/noUserAtAll')
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(404);
+      expect(follow.body).toHaveProperty('error');
+    });
+
+    it('should not allow the user to unfollow their own account', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/unfollow/admin_user_test')
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(409);
+      expect(follow.body).toHaveProperty('error');
+    });
+
+    it('should not allow the user unfollow an account they do not follow', async () => {
+      const follow = await request(SUT)
+        .put('/api/users/unfollow/secondUser') // already unfollowed on first it()
+        .set('Cookie', cookieSet);
+
+      expect(follow.status).toBe(409);
+      expect(follow.body).toHaveProperty('error');
     });
   });
 

@@ -16,18 +16,18 @@ describe('Auth', () => {
     birthDate: Date.now(),
   };
   let user: any, cookie: any;
+  let cookieSet: [string];
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
     cookie = setCookie.parse(user)[0];
+    cookieSet = [`${cookie.name}=${cookie.value}`];
 
     SUT.listen(done);
   });
 
   afterAll(async (done) => {
-    await request(SUT)
-      .delete(`/api/users/`)
-      .set('Cookie', [`${cookie.name}=${cookie.value}`]);
+    await request(SUT).delete(`/api/users/`).set('Cookie', cookieSet);
 
     SUT.close(done);
   });
@@ -68,7 +68,7 @@ describe('Auth', () => {
     it('should deauthenticate a user and clear the auth token', async () => {
       const deauthUser: any = await request(SUT)
         .post('/api/auth/logout/')
-        .set('Cookie', [`${cookie.name}=${cookie.value}`]);
+        .set('Cookie', cookieSet);
       const [newCookie] = setCookie.parse(deauthUser);
 
       expect(deauthUser.header).toHaveProperty('set-cookie');
