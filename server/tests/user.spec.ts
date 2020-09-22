@@ -1,6 +1,6 @@
 import http from 'http';
 import request from 'supertest';
-import setCookie from 'set-cookie-parser';
+import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
@@ -15,7 +15,7 @@ describe('User', () => {
     email: 'admin_user_test@tsseract.com',
     birthDate: Date.now(),
   };
-  let user: any, secUser: any, cookie: any, secondCookie: any;
+  let user: any, secUser: any, cookie: Cookie, secondCookie: any;
   let cookieSet: [string];
 
   beforeAll(async (done) => {
