@@ -38,8 +38,7 @@ export const createUser: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(user._id);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    const { _id, name, username, email, birthDate, createdAt } = user;
-    res.send({ data: { _id, name, username, email, birthDate, createdAt } });
+    res.send({ data: user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

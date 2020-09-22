@@ -49,15 +49,14 @@ router.put('/like/:postId', auth, toggleLike);
  * @param {String} id user id
  * @method GET
  */
-router.get('/by/:id', auth, getPostsBy);
+router.get('/by/:id', getPostsBy);
 
 /**
  * Retrieves all posts that of the accounts a user follows
  * @route /api/posts/feed/:id
- * @param {String} id user id
  * @method GET
  */
-router.get('/feed/:id', auth, getPostsFeed);
+router.get('/feed/', auth, getPostsFeed);
 
 /**
  * Deletes a post by id
