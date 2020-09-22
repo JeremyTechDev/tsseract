@@ -88,7 +88,7 @@ export const toggleLike: RequestHandler = async (req, res) => {
  */
 export const getPostsBy: RequestHandler = async (req, res) => {
   try {
-    const { _id: userId } = req.cookies.profile;
+    const { id: userId } = req.params;
 
     const posts = await Post.find({ user: userId });
 
@@ -108,9 +108,7 @@ export const getPostsFeed: RequestHandler = async (req, res) => {
   try {
     const { following } = req.cookies.profile;
 
-    const posts = await Promise.all(
-      following.map(async (user: string) => await Post.find({ user })),
-    );
+    const posts = await Post.find({ user: { $in: following } });
 
     res.send({ data: posts });
   } catch (error) {

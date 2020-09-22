@@ -1,15 +1,14 @@
 import { connect } from 'mongoose';
-const { DB_NAME, DB_ADDRESS } = process.env;
+const { DB_NAME, DB_ADDRESS, NODE_ENV } = process.env;
 
 /**
  * Starts a connection with MongoDB
  * @param {object} options starting options
  * @returns {void}
  */
-const init = (options: { isTesting: boolean }) => {
-  const { isTesting } = options;
-  const PATH = !isTesting && Boolean(DB_ADDRESS) ? DB_ADDRESS : 'localhost';
-  const TARGET_DB = isTesting ? 'tsseract-db-test' : DB_NAME;
+const init = () => {
+  const PATH = NODE_ENV === 'production' ? DB_ADDRESS : 'localhost';
+  const TARGET_DB = NODE_ENV === 'test' ? 'tsseract-db-test' : DB_NAME;
 
   connect(`mongodb://${PATH}/${TARGET_DB}`, {
     useCreateIndex: true,
@@ -18,10 +17,11 @@ const init = (options: { isTesting: boolean }) => {
     useUnifiedTopology: true,
   })
     .then(() => {
-      if (!isTesting) console.log('📡 Connected to MongoDB...');
+      if (NODE_ENV !== 'test')
+        console.info(`📡 Connected to MongoDB (${TARGET_DB})`);
     })
     .catch((error: Error) =>
-      console.log('Error connecting to MongoDB', error.message),
+      console.warn('Error connecting to MongoDB', error.message),
     );
 };
 
