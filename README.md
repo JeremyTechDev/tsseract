@@ -85,35 +85,15 @@ You will need to have installed and running these technologies in order to run t
   git clone https://github.com/jeremy2918/tsseract-app.git
   ```
 
-- Install dependencies:
+- Install dependencies: `npm i`
 
-  ```
-  npm install
-  ```
+- Build the `dist` folder with the TypeScript compiler: `npm run tsc`
 
-- Build the `dist` folder:
+- To run the client side of the app: `npm run dev`
 
-  ```
-  npm run tsc
-  ```
+- To run the server of the app: `npm run server`
 
-- To run the client side of the app:
-
-  ```
-  npm run dev
-  ```
-
-- To run the server of the app:
-
-  ```
-  npm run server
-  ```
-
-- Or you can start both in development mode:
-
-  ```
-  npm run watch
-  ```
+- Or you can start both in development mode: `npm run watch`
 
 You should get the following logs on the console:
 
@@ -127,8 +107,6 @@ If you are making some changes to the project, make sure you run `npm run tsc` t
 ## Running the tests
 
 This app uses [Jest](https://jestjs.io/) as testing framework 🧑‍💻. To run tests, just run `npm test` in the console at the project directory.
-
-Tests are run before every push and as a [GitHub Action](https://github.com/jeremy2918/tsseract-app/actions).
 
 ## Built With
 
