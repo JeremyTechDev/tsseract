@@ -1,19 +1,17 @@
 # [Title](Trello-Card-URL)
 
-## Description
-
 <!-- Add a brief description for what this PR is going to accomplish -->
 
 ## Testing Steps
 
-- `git pull`
-- `git checkout ...`
+- Pull and checkout to this branch.
 - `npm install`
 - `npm run tsc`
-- `npm run dev:server`
+- `npm test` All test should be passing successfully.
+- `npm run watch`
 
 <!-- Include the necessary testing steps  -->
 
-## Changes
+## UI Changes
 
-<!-- Include Before and After Images in case of any design change -->
+<!-- Include images in case of any design change -->
