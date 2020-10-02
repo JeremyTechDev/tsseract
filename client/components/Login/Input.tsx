@@ -31,13 +31,14 @@ const Input: React.FC<Props> = ({
     <Grid item>
       <TextField
         className={classes.margin}
-        color="secondary"
+        color="primary"
         error={error}
         helperText={error && helperText}
         label={label}
         name={name || label.toLowerCase()}
         onChange={handleChange}
         variant="outlined"
+        required
         {...props}
       />
     </Grid>

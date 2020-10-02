@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import express, { Response } from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import helmet from 'helmet';
 
 import database from './database';
@@ -33,6 +34,7 @@ const init = (options: Options) => {
     server.use(helmet());
   }
 
+  if (dev) server.use(cors());
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
 

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 
 import Input from './Input';
-import useFetch from '../../hooks/useFetch';
 import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
@@ -21,10 +20,9 @@ interface Props {
 
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
-  const [response, handleFetch] = useFetch('/api/auth/', 'POST');
 
   const handleSubmit = async () => {
-    await handleFetch(user);
+    console.info('Submitted');
   };
 
   return (
@@ -50,7 +48,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
 
       <Button
         className={classes.btn}
-        color="secondary"
+        color="primary"
         onClick={handleSubmit}
         variant="contained"
       >
