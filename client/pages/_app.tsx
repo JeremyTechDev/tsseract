@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ThemeProvider } from '@material-ui/core';
 
+import AppContext from '../AppContext';
+import initialState from '../state';
+import reducer from '../reducer';
 import theme from '../theme';
 import '../../../scss/nprogress.scss';
 
+type Theme = 'light' | 'dark';
 interface Props {
   Component: React.FC;
   pageProps: object;
@@ -16,9 +20,8 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-type Theme = 'light' | 'dark';
-
 const App: React.FC<Props> = ({ Component, pageProps }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [currentTheme, setCurrentTheme] = useState<Theme>('light');
 
   useEffect(() => {
@@ -28,7 +31,9 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
 
   return (
     <ThemeProvider theme={theme(currentTheme)}>
-      <Component {...pageProps} />
+      <AppContext.Provider value={{ state, dispatch }}>
+        <Component {...pageProps} />
+      </AppContext.Provider>
     </ThemeProvider>
   );
 };

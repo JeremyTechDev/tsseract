@@ -34,9 +34,9 @@ const init = (options: Options) => {
     server.use(helmet());
   }
 
-  if (dev) server.use(cors());
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
+  if (dev) server.use(cors({ optionsSuccessStatus: 200, credentials: true }));
 
   // give all Next.js's requests to Next.js server
   if (appHandler) {
