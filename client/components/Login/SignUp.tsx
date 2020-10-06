@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
+import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
@@ -37,13 +38,13 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     rPassword: '',
     username: '',
   });
-  const [fetchResult, handleFetch] = useFetch('/api/users/', 'POST');
+  const { handleFetch } = useFetch('/api/users/', 'POST');
+  const { dispatch } = useContext(AppContext);
 
   const handleSubmit = () => {
     const errs = validate();
     setErrors(errs);
     setRequestError('');
-    fetchResult; //FIXME: remove
 
     const { name, username, email, password, birthDate } = user;
 
@@ -58,6 +59,10 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
       })
         .then((res) => {
           if (res?.response.ok) {
+            dispatch({
+              type: Types.SET_AUTH_TOKEN,
+              payload: { id: res.data.data._id },
+            });
             Router.push('/create-post');
           } else {
             setRequestError(res?.data.error);

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
 
+import AppContext from '../../context';
 import PreviewPost from './PreviewPost';
 import TabPanel from './TabPanel';
 import WritePost from './WritePost';
@@ -14,6 +15,7 @@ const PostForm: React.FC = () => {
   const [post, handleChange] = useForm({ title: '', content: '' });
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
+  const { state } = useContext(AppContext);
 
   return (
     <Container disableGutters maxWidth="xl">
@@ -55,6 +57,7 @@ const PostForm: React.FC = () => {
             className={classes.margin}
             color="primary"
             variant="contained"
+            onClick={() => console.table(state)}
           >
             Publish!
           </Button>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
 type RequestType = 'POST' | 'GET' | 'DELETE' | 'PUT';
-type ReturnItem = [
-  {},
-  (body?: {}) => Promise<{ response: Response; data: any } | undefined>,
-];
+type ReturnItem = {
+  data: object;
+  handleFetch: (body?: {}) => Promise<
+    { response: Response; data: any } | undefined
+  >;
+};
 
 const useFetch = (url: string, method: RequestType = 'GET'): ReturnItem => {
   const [data, setData] = useState({});
@@ -25,7 +27,7 @@ const useFetch = (url: string, method: RequestType = 'GET'): ReturnItem => {
     }
   };
 
-  return [data, handleFetch];
+  return { data, handleFetch };
 };
 
 export default useFetch;
