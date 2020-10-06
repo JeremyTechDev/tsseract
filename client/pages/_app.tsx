@@ -3,9 +3,9 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ThemeProvider } from '@material-ui/core';
 
-import AppContext from '../AppContext';
-import initialState from '../state';
-import reducer from '../reducer';
+import AppContext from '../context';
+import initialState from '../context/state';
+import reducer from '../context/reducer';
 import theme from '../theme';
 import '../../../scss/nprogress.scss';
 
