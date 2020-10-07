@@ -12,6 +12,8 @@
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,

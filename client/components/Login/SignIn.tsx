@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import Router from 'next/router';
 import { Typography, Grid, Button } from '@material-ui/core';
 
-import Input from './Input';
+import AppContext, { Types } from '../../context';
 import useFetch from '../../hooks/useFetch';
+import Input from './Input';
 import useStyles from './styles';
 
 type InputChangeEvent = React.ChangeEvent<
@@ -21,10 +23,35 @@ interface Props {
 
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
-  const [response, handleFetch] = useFetch('/api/auth/', 'POST');
+  const [requestError, setRequestError] = useState('');
+  const { dispatch } = useContext(AppContext);
+  const { handleFetch } = useFetch('/api/auth/', 'POST');
+
+  const handleClearAndChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setRequestError('');
+    handleChange(event);
+  };
 
   const handleSubmit = async () => {
-    await handleFetch(user);
+    const { username, password } = user;
+
+    handleFetch({ username, password })
+      .then((res) => {
+        if (res?.response.ok) {
+          dispatch({
+            type: Types.SET_AUTH_TOKEN,
+            payload: { id: res.data.data._id },
+          });
+          Router.push('/create-post');
+        } else {
+          setRequestError('Invalid username or password');
+        }
+      })
+      .catch((error) =>
+        alert(`Could not register the user\nError: ${error.message}`),
+      );
   };
 
   return (
@@ -34,14 +61,19 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
       </Typography>
 
       <form onSubmit={handleSubmit}>
+        {Boolean(requestError) && (
+          <Typography align="center" color="error" variant="subtitle1">
+            {requestError}
+          </Typography>
+        )}
         <Input
-          handleChange={handleChange}
+          handleChange={handleClearAndChange}
           label="Username"
           value={user.username}
         />
 
         <Input
-          handleChange={handleChange}
+          handleChange={handleClearAndChange}
           label="Password"
           type="password"
           value={user.password}
@@ -50,7 +82,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
 
       <Button
         className={classes.btn}
-        color="secondary"
+        color="primary"
         onClick={handleSubmit}
         variant="contained"
       >

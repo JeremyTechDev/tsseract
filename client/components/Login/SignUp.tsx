@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import Router from 'next/router';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
+import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
+import useFetch from '../../hooks/useFetch';
 
 type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
@@ -26,6 +29,7 @@ interface Props {
 const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const { validate } = useValidation(user);
+  const [requestError, setRequestError] = useState('');
   const [errors, setErrors] = useState<User>({
     birthDate: '',
     email: '',
@@ -34,9 +38,40 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     rPassword: '',
     username: '',
   });
+  const { handleFetch } = useFetch('/api/users/', 'POST');
+  const { dispatch } = useContext(AppContext);
 
   const handleSubmit = () => {
-    setErrors(validate());
+    const errs = validate();
+    setErrors(errs);
+    setRequestError('');
+
+    const { name, username, email, password, birthDate } = user;
+
+    // if no errors
+    if (!Boolean(Object.keys(errs).length)) {
+      handleFetch({
+        name,
+        username,
+        email,
+        password,
+        birthDate: new Date(birthDate).getTime(),
+      })
+        .then((res) => {
+          if (res?.response.ok) {
+            dispatch({
+              type: Types.SET_AUTH_TOKEN,
+              payload: { id: res.data.data._id },
+            });
+            Router.push('/create-post');
+          } else {
+            setRequestError(res?.data.error);
+          }
+        })
+        .catch((error) =>
+          alert(`Could not register the user\nError: ${error.message}`),
+        );
+    }
   };
 
   return (
@@ -45,6 +80,11 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         Sign Up to Tsseract
       </Typography>
       <form onSubmit={handleSubmit}>
+        {Boolean(requestError) && (
+          <Typography align="center" color="error" variant="subtitle1">
+            {requestError}
+          </Typography>
+        )}
         <Input
           error={Boolean(errors.name)}
           handleChange={handleChange}
@@ -91,16 +131,16 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           label="Birthday"
           name="birthDate"
           onChange={handleChange}
-          value={user.birthDate}
+          required
           type="date"
+          value={user.birthDate}
           variant="outlined"
-          placeholder=""
         />
       </form>
 
       <Button
         className={classes.btn}
-        color="secondary"
+        color="primary"
         onClick={handleSubmit}
         variant="contained"
       >

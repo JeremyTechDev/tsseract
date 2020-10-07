@@ -78,7 +78,7 @@ const Login = () => {
               {showSignUp
                 ? 'Already have an account?'
                 : "Don't have an account yet?"}
-              <Button color="secondary" onClick={handleViewChange}>
+              <Button color="primary" onClick={handleViewChange}>
                 {showSignUp ? 'Sign In' : 'Sign Up'}
               </Button>
             </Typography>

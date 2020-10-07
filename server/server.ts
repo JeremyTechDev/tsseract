@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import express, { Response } from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import helmet from 'helmet';
 
 import database from './database';
@@ -35,6 +36,7 @@ const init = (options: Options) => {
 
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
+  if (dev) server.use(cors({ optionsSuccessStatus: 200, credentials: true }));
 
   // give all Next.js's requests to Next.js server
   if (appHandler) {
