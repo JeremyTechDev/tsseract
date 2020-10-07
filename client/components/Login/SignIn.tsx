@@ -25,7 +25,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [requestError, setRequestError] = useState('');
   const { dispatch } = useContext(AppContext);
-  const { handleFetch } = useFetch('/api/auth/', 'POST');
+  const { handleFetch } = useFetch('/api/auth/login', 'POST');
 
   const handleClearAndChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

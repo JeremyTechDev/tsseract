@@ -21,7 +21,7 @@ router.post('/', auth, getTokenData);
  * @route /api/auth/login
  * @method POST
  */
-router.post('/login', authenticate);
+router.post('/login/', authenticate);
 
 /**
  * Deauthenticate a user
