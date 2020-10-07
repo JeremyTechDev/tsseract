@@ -35,8 +35,8 @@ type ActionMap<T extends { [index: string]: any }> = {
 };
 
 interface iPayload {
-  [Types.SET_AUTH_TOKEN]: { id: string };
-  [Types.REMOVE_AUTH_TOKEN]: { id: null };
+  [Types.SET_AUTH_TOKEN]: string;
+  [Types.REMOVE_AUTH_TOKEN]: null;
 }
 
 export default reducer;

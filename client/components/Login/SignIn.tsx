@@ -42,8 +42,9 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
         if (res?.response.ok) {
           dispatch({
             type: Types.SET_AUTH_TOKEN,
-            payload: { id: res.data.data._id },
+            payload: res.data.authToken,
           });
+          localStorage.setItem('tsseract-auth-token', res.data.authToken);
           Router.push('/create-post');
         } else {
           setRequestError('Invalid username or password');
