@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ThemeProvider } from '@material-ui/core';
+import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../context';
 import initialState from '../context/state';
@@ -46,7 +47,8 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
       }
     };
 
-    const authToken = localStorage.getItem('tsseract-auth-token');
+    const authToken = Cookie.get('tsseract-auth-token');
+    console.log('app', authToken);
     if (authToken) fetchAuthData(authToken);
   }, [currentTheme]);
 

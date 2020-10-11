@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
+import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../../context';
 import Input from './Input';
@@ -63,7 +64,9 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
               type: Types.SET_AUTH_TOKEN,
               payload: res.data.authToken,
             });
-            localStorage.setItem('tsseract-auth-token', res.data.authToken);
+            Cookie.set('tsseract-auth-token', res.data.authToken, {
+              expires: 7,
+            });
             Router.push('/create-post');
           } else {
             setRequestError(res?.data.error);
