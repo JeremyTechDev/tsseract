@@ -48,7 +48,6 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
     };
 
     const authToken = Cookie.get('tsseract-auth-token');
-    console.log('app', authToken);
     if (authToken) fetchAuthData(authToken);
   }, [currentTheme]);
 

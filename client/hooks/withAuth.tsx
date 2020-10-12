@@ -1,6 +1,12 @@
 import React from 'react';
 import Router from 'next/router';
 import Cookie from 'js-cookie';
+import { Response, Request } from 'express';
+
+interface iContext {
+  req: Request;
+  res: Response;
+}
 
 const redirect = (res: any, path: string) => {
   if (res) {
@@ -14,15 +20,18 @@ const redirect = (res: any, path: string) => {
 const withAuth = (WrappedComponent: any) => {
   const AuthComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
-  AuthComponent.getInitialProps = async ({ res }: { res: any }) => {
-    const authToken = Cookie.get('tsseract-auth-token');
+  AuthComponent.getInitialProps = async ({ req, res }: iContext) => {
+    const authToken = req
+      ? req.headers.cookie && req.headers.cookie.split('=')[1]
+      : Cookie.get('tsseract-auth-token');
 
     if (authToken) {
+      //FIXME: Change route on production
       const response = await fetch('http://localhost:8080/api/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'tsseract-auth-token': authToken,
+          'tsseract-auth-token': authToken || '',
         },
       });
       const data = await response.json();
@@ -36,10 +45,12 @@ const withAuth = (WrappedComponent: any) => {
         return { ...wrappedProps, userData: data };
       }
 
-      return { authToken };
+      return { user: data.data };
     } else {
       redirect(res, '/login');
     }
+
+    return { user: null };
   };
 
   return AuthComponent;
