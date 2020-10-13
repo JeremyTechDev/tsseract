@@ -1,20 +1,31 @@
 import express from 'express';
 
 import auth from '../middlewares/authenticator';
-import { authenticate, deauthenticate } from '../controllers/auth';
+import {
+  authenticate,
+  deauthenticate,
+  getTokenData,
+} from '../controllers/auth';
 
 const router = express.Router();
 
 /**
- * Authenticates a user
+ * Returns the user info within the auth token
  * @route /api/auth/
  * @method POST
  */
-router.post('/', authenticate);
+router.post('/', auth, getTokenData);
+
+/**
+ * Authenticates a user
+ * @route /api/auth/login
+ * @method POST
+ */
+router.post('/login/', authenticate);
 
 /**
  * Deauthenticate a user
- * @route /api/auth/
+ * @route /api/auth/logout
  * @method POST
  */
 router.post('/logout/', auth, deauthenticate);

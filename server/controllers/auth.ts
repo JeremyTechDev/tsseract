@@ -6,7 +6,7 @@ import User, { IUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
 
 /**
- * Creates a new user
+ * Authenticates a existing user
  * @param req Express request
  * @param res Express response
  * @param req.body User data
@@ -29,12 +29,27 @@ export const authenticate: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(user._id);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send({ data: user });
+    res.send({ data: user, authToken: cookie });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 };
 
+/**
+ * Returns the user info within the auth token
+ * @param req Express request
+ * @param res Express response
+ */
+export const getTokenData: RequestHandler = (req, res) => {
+  const { name, username, email, _id } = req.cookies.profile;
+  res.send({ data: { name, username, email, _id } });
+};
+
+/**
+ * Removes auth token
+ * @param req Express request
+ * @param res Express response
+ */
 export const deauthenticate: RequestHandler = (req, res) => {
   const oldCookie = req.cookies.profile;
 

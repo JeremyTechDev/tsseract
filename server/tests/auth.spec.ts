@@ -32,10 +32,26 @@ describe('Auth', () => {
     SUT.close(done);
   });
 
-  describe('POST:/api/auth/', () => {
+  describe('POST:/api/auth', () => {
+    it('should return the data of the authenticated user', async () => {
+      const authUser = await request(SUT)
+        .post('/api/auth')
+        .set('Cookie', cookieSet);
+
+      const { name, username, email } = userPayload;
+      expect(authUser.body.data).toMatchObject({
+        _id: user.body.data._id,
+        email,
+        name,
+        username,
+      });
+    });
+  });
+
+  describe('POST:/api/auth/login', () => {
     it('should authenticate a user with', async () => {
       const authUser = await request(SUT)
-        .post('/api/auth/')
+        .post('/api/auth/login')
         .send({ username: 'admin_user_test', password: 'Admin.1234' });
 
       expect(authUser.header).toHaveProperty('set-cookie');
@@ -47,7 +63,7 @@ describe('Auth', () => {
 
     it('should return a status code 400 if the username or password are invalid', async () => {
       const authUser = await request(SUT)
-        .post('/api/auth/')
+        .post('/api/auth/login')
         .send({ username: 'fake_user', password: 'invalid password' });
 
       expect(authUser.status).toBe(400);
@@ -56,7 +72,7 @@ describe('Auth', () => {
 
     it('should return a status code 400 if the username or password are incorrect', async () => {
       const authUser = await request(SUT)
-        .post('/api/auth/')
+        .post('/api/auth/login')
         .send({ username: 'admin_user_test', password: '12345678' });
 
       expect(authUser.status).toBe(400);
