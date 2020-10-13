@@ -2,8 +2,8 @@
  * Action Types
  */
 enum Types {
-  REMOVE_AUTH_TOKEN = 'REMOVE_AUTH_TOKEN',
-  SET_AUTH_TOKEN = 'SET_AUTH_TOKEN',
+  REMOVE_CREDENTIALS = 'REMOVE_CREDENTIALS',
+  SET_CREDENTIALS = 'SET_CREDENTIALS',
 }
 
 export default Types;

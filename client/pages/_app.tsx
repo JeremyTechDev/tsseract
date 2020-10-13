@@ -38,7 +38,7 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
         const { name, username, email, _id: id } = res.data.data;
 
         dispatch({
-          type: Types.SET_AUTH_TOKEN,
+          type: Types.SET_CREDENTIALS,
           payload: {
             authToken,
             user: { name, username, email, id },

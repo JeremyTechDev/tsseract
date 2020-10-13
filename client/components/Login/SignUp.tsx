@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         .then((res) => {
           if (res?.response.ok) {
             dispatch({
-              type: Types.SET_AUTH_TOKEN,
+              type: Types.SET_CREDENTIALS,
               payload: res.data.authToken,
             });
             Cookie.set('tsseract-auth-token', res.data.authToken, {
