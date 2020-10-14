@@ -32,15 +32,15 @@ describe('Auth', () => {
     SUT.close(done);
   });
 
-  describe('POST:/api/auth', () => {
+  describe('GET:/api/auth', () => {
     it('should return the data of the authenticated user', async () => {
       const authUser = await request(SUT)
-        .post('/api/auth')
+        .get('/api/auth')
         .set('Cookie', cookieSet);
 
       const { name, username, email } = userPayload;
-      expect(authUser.body.data).toMatchObject({
-        _id: user.body.data._id,
+      expect(authUser.body).toMatchObject({
+        _id: user.body.user._id,
         email,
         name,
         username,
@@ -58,7 +58,7 @@ describe('Auth', () => {
       expect(cookie).toHaveProperty('name');
       expect(cookie).toHaveProperty('value');
       expect(cookie.name).toEqual('tsseract-auth-token');
-      userProps.forEach((p) => expect(authUser.body.data).toHaveProperty(p));
+      userProps.forEach((p) => expect(authUser.body.user).toHaveProperty(p));
     });
 
     it('should return a status code 400 if the username or password are invalid', async () => {
@@ -88,7 +88,7 @@ describe('Auth', () => {
       const [newCookie] = setCookie.parse(deauthUser);
 
       expect(deauthUser.header).toHaveProperty('set-cookie');
-      expect(deauthUser.body.data).toHaveProperty('oldCookie');
+      expect(deauthUser.body).toHaveProperty('_id');
       expect(newCookie.name).toEqual('tsseract-auth-token');
       expect(newCookie.value).toEqual('');
     });

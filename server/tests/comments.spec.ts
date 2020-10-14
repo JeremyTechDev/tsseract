@@ -32,7 +32,7 @@ describe('Comments', () => {
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
-    userId = user.body.data._id;
+    userId = user.body.user._id;
 
     userPayload.user = userId;
     cookie = setCookie.parse(user)[0];
@@ -42,7 +42,7 @@ describe('Comments', () => {
   });
 
   afterAll(async (done) => {
-    const postId = post.body.data._id;
+    const postId = post.body._id;
 
     await request(SUT).delete(`/api/posts/${postId}`).set('Cookie', cookieSet);
 
@@ -70,12 +70,12 @@ describe('Comments', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post(`/api/posts/c/${post.body.data._id}`)
+        .post(`/api/posts/c/${post.body._id}`)
         .set('Cookie', cookieSet)
         .send(newCommentPayload);
 
-      expect(postWithComment.body.data.comments.length).toBeGreaterThan(0);
-      expect(postWithComment.body.data.comments[0]).toMatchObject({
+      expect(postWithComment.body.comments.length).toBeGreaterThan(0);
+      expect(postWithComment.body.comments[0]).toMatchObject({
         ...newCommentPayload,
       });
     });
@@ -98,7 +98,7 @@ describe('Comments', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post(`/api/posts/c/${post.body.data._id}`)
+        .post(`/api/posts/c/${post.body._id}`)
         .set('Cookie', cookieSet)
         .send(newCommentPayload);
 
@@ -178,15 +178,15 @@ describe('Comments', () => {
       };
 
       const postWithComment = await request(SUT)
-        .post(`/api/posts/c/${post.body.data._id}`)
+        .post(`/api/posts/c/${post.body._id}`)
         .set('Cookie', cookieSet)
         .send(newCommentPayload);
 
       const deletedComment = await request(SUT)
-        .delete(`/api/posts/c/${postWithComment.body.data.comments[0]._id}`)
+        .delete(`/api/posts/c/${postWithComment.body.comments[0]._id}`)
         .set('Cookie', cookieSet);
 
-      expect(deletedComment.body.data.comments.length).toBe(0);
+      expect(deletedComment.body.comments.length).toBe(0);
     });
 
     it('should return status 404 if no comments where found with the given comment id', async () => {
@@ -207,12 +207,12 @@ describe('Comments', () => {
       };
 
       await request(SUT)
-        .post(`/api/posts/c/${post.body.data._id}`)
+        .post(`/api/posts/c/${post.body._id}`)
         .set('Cookie', cookieSet)
         .send(newCommentPayload);
 
       const deletedComment = await request(SUT)
-        .delete(`/api/posts/c/${post.body.data._id}`) // should be comment id
+        .delete(`/api/posts/c/${post.body._id}`) // should be comment id
         .set('Cookie', cookieSet);
 
       expect(deletedComment.body).toHaveProperty('error');

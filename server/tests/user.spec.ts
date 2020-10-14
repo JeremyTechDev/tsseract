@@ -46,7 +46,7 @@ describe('User', () => {
 
   describe('POST:/api/users', () => {
     it('should create a new authenticated user', () => {
-      userProps.forEach((p) => expect(user.body.data).toHaveProperty(p));
+      userProps.forEach((p) => expect(user.body.user).toHaveProperty(p));
       expect(user.header).toHaveProperty('set-cookie');
       expect(cookie).toHaveProperty('name');
       expect(cookie).toHaveProperty('value');
@@ -73,11 +73,11 @@ describe('User', () => {
   describe('GET:/api/users/:id', () => {
     it('should retrieve a user by id', async () => {
       const newUser = await request(SUT).get(
-        `/api/users/${user.body.data._id}`,
+        `/api/users/${user.body.user._id}`,
       );
 
-      userProps.forEach((p) => expect(newUser.body.data).toHaveProperty(p));
-      expect(newUser.body.data.username).toBe('admin_user_test');
+      userProps.forEach((p) => expect(newUser.body).toHaveProperty(p));
+      expect(newUser.body.username).toBe('admin_user_test');
     });
 
     it('should return a status 404 if no user is found with the given id', async () => {
@@ -94,12 +94,12 @@ describe('User', () => {
     it('should retrieve a user by username', async () => {
       const user = await request(SUT).get(`/api/users/u/admin_user_test`);
 
-      userProps.forEach((p) => expect(user.body.data).toHaveProperty(p));
-      expect(user.body.data.username).toBe('admin_user_test');
+      userProps.forEach((p) => expect(user.body).toHaveProperty(p));
+      expect(user.body.username).toBe('admin_user_test');
     });
 
     it('should return a status 404 if no user is found with the given username', async () => {
-      const user = await request(SUT).get(`/api/users/u/unexisteningUser`);
+      const user = await request(SUT).get(`/api/users/u/inexistentUser`);
 
       expect(user.status).toBe(404);
       expect(user.body).toHaveProperty('error');
@@ -112,14 +112,14 @@ describe('User', () => {
         .put('/api/users/follow/secondUser')
         .set('Cookie', cookieSet);
 
-      const { data } = follow.body;
-      expect(data).toHaveProperty('following');
-      expect(data).toHaveProperty('follower');
-      expect(data.follower.followers).toContain(user.body.data._id);
-      expect(data.following.following).toContain(secUser.body.data._id);
+      const { body } = follow;
+      expect(body).toHaveProperty('following');
+      expect(body).toHaveProperty('follower');
+      expect(body.follower.followers).toContain(user.body.user._id);
+      expect(body.following.following).toContain(secUser.body.user._id);
     });
 
-    it('should tell if the user is trying to follow an unexisting account', async () => {
+    it('should tell if the user is trying to follow an inexistent account', async () => {
       const follow = await request(SUT)
         .put('/api/users/follow/noUserAtAll')
         .set('Cookie', cookieSet);
@@ -153,14 +153,14 @@ describe('User', () => {
         .put('/api/users/unfollow/secondUser')
         .set('Cookie', cookieSet);
 
-      const { data } = follow.body;
-      expect(data).toHaveProperty('following');
-      expect(data).toHaveProperty('follower');
-      expect(data.follower.followers).not.toContain(user.body.data._id);
-      expect(data.following.following).not.toContain(secUser.body.data._id);
+      const { body } = follow;
+      expect(body).toHaveProperty('following');
+      expect(body).toHaveProperty('follower');
+      expect(body.follower.followers).not.toContain(user.body.user._id);
+      expect(body.following.following).not.toContain(secUser.body.user._id);
     });
 
-    it('should tell if the user is trying to unfollow an unexisting account', async () => {
+    it('should tell if the user is trying to unfollow an inexistent account', async () => {
       const follow = await request(SUT)
         .put('/api/users/unfollow/noUserAtAll')
         .set('Cookie', cookieSet);
@@ -203,7 +203,7 @@ describe('User', () => {
         .delete(`/api/users/`)
         .set('Cookie', [`${newCookie.name}=${newCookie.value}`]);
 
-      expect(deleted.status).toBe(204);
+      expect(deleted.status).toBe(200);
     });
   });
 });
