@@ -42,7 +42,7 @@ describe('Posts', () => {
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
-    userId = user.body.data._id;
+    userId = user.body.user._id;
     userPayload.user = userId;
     const cookie = setCookie.parse(user)[0];
     cookieSet = [`${cookie.name}=${cookie.value}`];
@@ -55,7 +55,7 @@ describe('Posts', () => {
   });
 
   afterAll(async (done) => {
-    const postId = post.body.data._id;
+    const postId = post.body._id;
 
     await request(SUT).delete(`/api/posts/${postId}`).set('Cookie', cookieSet);
 
@@ -77,8 +77,8 @@ describe('Posts', () => {
         .set('Cookie', cookieSet)
         .send(newPostPayload);
 
-      expect(post.body.data.tags.length).toBe(1);
-      expect(post.body.data).toMatchObject({
+      expect(post.body.tags.length).toBe(1);
+      expect(post.body).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -95,8 +95,8 @@ describe('Posts', () => {
         .set('Cookie', cookieSet)
         .send(newPostPayload);
 
-      expect(post.body.data.tags.length).toBe(3);
-      expect(post.body.data).toMatchObject({
+      expect(post.body.tags.length).toBe(3);
+      expect(post.body).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -144,8 +144,8 @@ describe('Posts', () => {
         .set('Cookie', cookieSet)
         .send(newPostPayload);
 
-      expect(post.body.data.tags.length).toBe(0);
-      expect(post.body.data).toMatchObject({
+      expect(post.body.tags.length).toBe(0);
+      expect(post.body).toMatchObject({
         ...postPayload,
         user: userId,
       });
@@ -155,18 +155,18 @@ describe('Posts', () => {
   describe('PUT:/api/posts/like/:postId', () => {
     it('should like a post (add the user id to the likes array)', async () => {
       const likedPost = await request(SUT)
-        .put(`/api/posts/like/${post.body.data._id}`)
+        .put(`/api/posts/like/${post.body._id}`)
         .set('Cookie', cookieSet);
 
-      expect(likedPost.body.data.likes).toContain(userId);
+      expect(likedPost.body.likes).toContain(userId);
     });
 
     it('should unlike a post (remove the user id to the likes array)', async () => {
       const likedPost = await request(SUT)
-        .put(`/api/posts/like/${post.body.data._id}`)
+        .put(`/api/posts/like/${post.body._id}`)
         .set('Cookie', cookieSet);
 
-      expect(likedPost.body.data.likes).not.toContain(userId);
+      expect(likedPost.body.likes).not.toContain(userId);
     });
   });
 
@@ -176,7 +176,7 @@ describe('Posts', () => {
         .get(`/api/posts/by/${userId}`)
         .set('Cookie', cookieSet);
 
-      const errorOnRequest = postsBy.body.data.some(
+      const errorOnRequest = postsBy.body.some(
         ({ user }: { user: string }) => user !== userId,
       );
 
@@ -185,10 +185,10 @@ describe('Posts', () => {
 
     it('should return an empty array if the user was not found', async () => {
       const postsBy = await request(SUT)
-        .get(`/api/posts/by/${post.body.data._id}`) // should be userId
+        .get(`/api/posts/by/${post.body._id}`) // should be userId
         .set('Cookie', cookieSet);
 
-      expect(postsBy.body.data.length).toBe(0);
+      expect(postsBy.body.length).toBe(0);
     });
   });
 
@@ -210,8 +210,8 @@ describe('Posts', () => {
         .get(`/api/posts/feed/`)
         .set('Cookie', cookieSet);
 
-      const errorOnRequest = feed.body.data.some(
-        ({ user }: { user: string }) => user !== secondUser.body.data._id,
+      const errorOnRequest = feed.body.some(
+        ({ user }: { user: string }) => user !== secondUser.body.user._id,
       );
 
       expect(errorOnRequest).toBe(false);
@@ -226,11 +226,11 @@ describe('Posts', () => {
         .send(postPayload);
 
       const deletedPost = await request(SUT)
-        .delete(`/api/posts/${postToDelete.body.data._id}`)
+        .delete(`/api/posts/${postToDelete.body._id}`)
         .set('Cookie', cookieSet);
 
       expect(deletedPost.status).toBe(200);
-      expect(deletedPost.body.data).toMatchObject(postPayload);
+      expect(deletedPost.body).toMatchObject(postPayload);
     });
 
     it('should return status 404 if no post was found with the given id', async () => {

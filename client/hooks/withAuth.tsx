@@ -27,8 +27,8 @@ const withAuth = (WrappedComponent: any) => {
 
     if (authToken) {
       //FIXME: Change route on production
-      const response = await fetch('http://localhost:8080/api/auth', {
-        method: 'POST',
+      const response = await fetch('http://localhost:8080/api/auth/', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'tsseract-auth-token': authToken || '',
@@ -36,16 +36,16 @@ const withAuth = (WrappedComponent: any) => {
       });
       const data = await response.json();
 
-      if (!response || !data || !data.data || !data.data._id) {
+      if (!response || !data || !data._id) {
         redirect(res, '/login');
       } else if (WrappedComponent.getInitialProps) {
         const wrappedProps = await WrappedComponent.getInitialProps({
-          userData: data,
+          userData: data.user,
         });
-        return { ...wrappedProps, userData: data };
+        return { ...wrappedProps, userData: data.user };
       }
 
-      return { user: data.data };
+      return { user: data.user };
     } else {
       redirect(res, '/login');
     }

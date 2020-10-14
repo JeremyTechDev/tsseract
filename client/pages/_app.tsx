@@ -35,7 +35,7 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
       const res = await handleFetch({}, { 'tsseract-auth-token': authToken });
 
       if (res?.response.ok) {
-        const { name, username, email, _id: id } = res.data.data;
+        const { name, username, email, _id: id } = res.data;
 
         dispatch({
           type: Types.SET_CREDENTIALS,

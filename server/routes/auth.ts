@@ -12,9 +12,9 @@ const router = express.Router();
 /**
  * Returns the user info within the auth token
  * @route /api/auth/
- * @method POST
+ * @method GET
  */
-router.post('/', auth, getTokenData);
+router.get('/', auth, getTokenData);
 
 /**
  * Authenticates a user
