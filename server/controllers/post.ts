@@ -40,7 +40,7 @@ export const createPost: RequestHandler = async (req, res) => {
     const post = new Post({ ...req.body, tags: createdTags }) as IPost;
     await post.save();
 
-    return res.send({ data: post });
+    return res.send(post);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -74,7 +74,7 @@ export const toggleLike: RequestHandler = async (req, res) => {
       { new: true },
     );
 
-    res.send({ data: newPost });
+    res.send(newPost);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -92,7 +92,7 @@ export const getPostsBy: RequestHandler = async (req, res) => {
 
     const posts = await Post.find({ user: userId });
 
-    res.send({ data: posts });
+    res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -110,7 +110,7 @@ export const getPostsFeed: RequestHandler = async (req, res) => {
 
     const posts = await Post.find({ user: { $in: following } });
 
-    res.send({ data: posts });
+    res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -132,7 +132,7 @@ export const deletePost: RequestHandler = async (req, res) => {
         .status(404)
         .send({ error: 'No posts found with the given id' });
 
-    res.send({ data: post });
+    res.send(post);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

@@ -38,7 +38,7 @@ export const createUser: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(user._id);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send({ data: user, authToken: cookie });
+    res.send({ user, authToken: cookie });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -58,7 +58,7 @@ export const retrieveUser: RequestHandler = async (req, res) => {
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
-    res.send({ data: user });
+    res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -80,7 +80,7 @@ export const retrieveUserByUsername: RequestHandler = async (req, res) => {
         .status(404)
         .send({ error: 'No user found with the given username' });
 
-    res.send({ data: user });
+    res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -126,7 +126,7 @@ export const follow: RequestHandler = async (req, res) => {
       { new: true },
     );
 
-    res.send({ data: { following: newFollowBy, follower: newFollowTo } });
+    res.send({ following: newFollowBy, follower: newFollowTo });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -174,7 +174,7 @@ export const unfollow: RequestHandler = async (req, res) => {
       { new: true },
     );
 
-    res.send({ data: { following: newFollowBy, follower: newFollowTo } });
+    res.send({ following: newFollowBy, follower: newFollowTo });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -191,7 +191,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
     const { _id: userId } = req.cookies.profile;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
 
-    res.status(204).send({ data: user });
+    res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
