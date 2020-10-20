@@ -3,6 +3,8 @@ import Router from 'next/router';
 import Cookie from 'js-cookie';
 import { Response, Request } from 'express';
 
+import getAuthToken from '../helpers/getAuthToken';
+
 interface iContext {
   req: Request;
   res: Response;
@@ -21,9 +23,7 @@ const withAuth = (WrappedComponent: any) => {
   const AuthComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
   AuthComponent.getInitialProps = async ({ req, res }: iContext) => {
-    const authToken = req
-      ? req.headers.cookie && req.headers.cookie.split('=')[1]
-      : Cookie.get('tsseract-auth-token');
+    const authToken = getAuthToken(req);
 
     if (authToken) {
       //FIXME: Change route on production

@@ -25,7 +25,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 const App: React.FC<Props> = ({ Component, pageProps }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [currentTheme, setCurrentTheme] = useState<Theme>('light');
-  const { handleFetch } = useFetch('/api/auth/', 'POST');
+  const { handleFetch } = useFetch('/api/auth/', 'GET');
 
   useEffect(() => {
     const newTheme: Theme = localStorage.getItem('theme') as Theme;
