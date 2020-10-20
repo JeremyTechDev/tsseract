@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'next/router';
-import Cookie from 'js-cookie';
 import { Response, Request } from 'express';
 
 import getAuthToken from '../helpers/getAuthToken';
