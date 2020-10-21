@@ -1,10 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
+import { Types } from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 import User, { IUser } from '../models/user';
 const { JWT_KEY } = process.env;
 
-type IDecoded = { id: string } | null;
+interface IDecoded {
+  name: string;
+  username: string;
+  email: string;
+  _id: Types.ObjectId;
+  followers: Types.ObjectId[];
+  following: Types.ObjectId[];
+}
 
 const codes = [
   'Access denied. No credentials provided.',
@@ -21,21 +29,20 @@ const codes = [
  */
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token =
-      req.signedCookies['tsseract-auth-token'] ||
-      req.headers['tsseract-auth-token'];
+    const token = req.signedCookies['tsseract-auth-token'];
     if (!token) return res.status(401).send({ error: codes[0] });
 
     const decodedUser = <IDecoded>jwt.verify(token, <string>JWT_KEY);
 
     if (!decodedUser) return res.status(403).send({ error: codes[1] });
 
-    const { id: userId } = decodedUser;
+    const { _id: userId } = decodedUser;
+    console.log(decodedUser);
     const user = (await User.findById(userId)) as IUser;
 
     if (!user) return res.status(404).send({ error: codes[2] });
 
-    if (!user._id.equals(decodedUser.id))
+    if (!user._id.equals(userId))
       return res.status(403).send({ error: codes[3] });
 
     req.cookies.profile = user;

@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
 
-import AppContext from '../../context';
 import PreviewPost from './PreviewPost';
 import TabPanel from './TabPanel';
 import WritePost from './WritePost';
 import useForm from '../../hooks/useForm';
-import useFetch from '../../hooks/useFetch';
 
 import useStyles from './styles';
 
@@ -16,8 +15,6 @@ const PostForm: React.FC = () => {
   const [post, handleChange] = useForm({ title: '', content: '' });
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
-  const { state } = useContext(AppContext);
-  const { handleFetch } = useFetch('/api/posts', 'POST');
 
   const handleSubmit = () => {
     const { title, content } = post;
@@ -28,12 +25,10 @@ const PostForm: React.FC = () => {
       );
     }
 
-    handleFetch(
-      { title, body: content, cover: coverImg },
-      { 'tsseract-auth-token': state.authToken },
-    )
-      .then(({ response }) => alert(response.status))
-      .catch((err) => alert(err.message));
+    axios
+      .post('/api/posts', { title, body: content, cover: coverImg })
+      .then((response) => alert(response.status))
+      .catch((err) => console.error(err));
   };
 
   return (

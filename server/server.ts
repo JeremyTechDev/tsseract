@@ -36,7 +36,15 @@ const init = (options: Options) => {
 
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
-  if (dev) server.use(cors({ optionsSuccessStatus: 200, credentials: true }));
+  if (dev) {
+    server.use(
+      cors({
+        credentials: true,
+        optionsSuccessStatus: 200,
+        origin: 'http://localhost:3000',
+      }),
+    );
+  }
 
   // give all Next.js's requests to Next.js server
   if (appHandler) {

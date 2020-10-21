@@ -2,9 +2,9 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ThemeProvider } from '@material-ui/core';
-import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../context';
+import { getUserProfile } from '../lib/auth';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
 import theme from '../theme';
@@ -29,26 +29,17 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
     const newTheme: Theme = localStorage.getItem('theme') as Theme;
     if (newTheme) setCurrentTheme(newTheme);
 
-    const fetchAuthData = async (authToken: string) => {
-      const res = await fetch('http://localhost:8080/api/auth', {
-        headers: { 'tsseract-auth-token': authToken },
-      }).then((res) => res.json());
-
-      if (res && res._id) {
-        const { name, username, email, _id: id } = res;
-
+    const fetchAuthData = async () => {
+      const data = await getUserProfile();
+      if (data && data._id) {
         dispatch({
           type: Types.SET_CREDENTIALS,
-          payload: {
-            authToken,
-            user: { name, username, email, id },
-          },
+          payload: data,
         });
       }
     };
 
-    const authToken = Cookie.get('tsseract-auth-token');
-    if (authToken) fetchAuthData(authToken);
+    fetchAuthData();
   }, [currentTheme]);
 
   return (
