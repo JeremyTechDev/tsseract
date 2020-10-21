@@ -42,7 +42,7 @@ describe('Posts', () => {
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
-    userId = user.body.user._id;
+    userId = user.body._id;
     userPayload.user = userId;
     const cookie = setCookie.parse(user)[0];
     cookieSet = [`${cookie.name}=${cookie.value}`];
@@ -211,7 +211,7 @@ describe('Posts', () => {
         .set('Cookie', cookieSet);
 
       const errorOnRequest = feed.body.some(
-        ({ user }: { user: string }) => user !== secondUser.body.user._id,
+        ({ user }: { user: string }) => user !== secondUser.body._id,
       );
 
       expect(errorOnRequest).toBe(false);

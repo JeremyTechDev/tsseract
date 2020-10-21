@@ -32,7 +32,7 @@ describe('Comments', () => {
 
   beforeAll(async (done) => {
     user = await request(SUT).post('/api/users/').send(userPayload);
-    userId = user.body.user._id;
+    userId = user.body._id;
 
     userPayload.user = userId;
     cookie = setCookie.parse(user)[0];

@@ -4,7 +4,14 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
-const userProps = ['_id', 'birthDate', 'email', 'name', 'username'];
+const userProps = [
+  '_id',
+  'email',
+  'name',
+  'username',
+  'following',
+  'followers',
+];
 
 describe('User', () => {
   const SUT = http.createServer(server({ dev: true }));
@@ -46,7 +53,7 @@ describe('User', () => {
 
   describe('POST:/api/users', () => {
     it('should create a new authenticated user', () => {
-      userProps.forEach((p) => expect(user.body.user).toHaveProperty(p));
+      userProps.forEach((p) => expect(user.body).toHaveProperty(p));
       expect(user.header).toHaveProperty('set-cookie');
       expect(cookie).toHaveProperty('name');
       expect(cookie).toHaveProperty('value');
@@ -72,9 +79,7 @@ describe('User', () => {
 
   describe('GET:/api/users/:id', () => {
     it('should retrieve a user by id', async () => {
-      const newUser = await request(SUT).get(
-        `/api/users/${user.body.user._id}`,
-      );
+      const newUser = await request(SUT).get(`/api/users/${user.body._id}`);
 
       userProps.forEach((p) => expect(newUser.body).toHaveProperty(p));
       expect(newUser.body.username).toBe('admin_user_test');
@@ -115,8 +120,8 @@ describe('User', () => {
       const { body } = follow;
       expect(body).toHaveProperty('following');
       expect(body).toHaveProperty('follower');
-      expect(body.follower.followers).toContain(user.body.user._id);
-      expect(body.following.following).toContain(secUser.body.user._id);
+      expect(body.follower.followers).toContain(user.body._id);
+      expect(body.following.following).toContain(secUser.body._id);
     });
 
     it('should tell if the user is trying to follow an inexistent account', async () => {
@@ -156,8 +161,8 @@ describe('User', () => {
       const { body } = follow;
       expect(body).toHaveProperty('following');
       expect(body).toHaveProperty('follower');
-      expect(body.follower.followers).not.toContain(user.body.user._id);
-      expect(body.following.following).not.toContain(secUser.body.user._id);
+      expect(body.follower.followers).not.toContain(user.body._id);
+      expect(body.following.following).not.toContain(secUser.body._id);
     });
 
     it('should tell if the user is trying to unfollow an inexistent account', async () => {
