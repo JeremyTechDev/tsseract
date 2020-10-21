@@ -37,7 +37,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     if (!decodedUser) return res.status(403).send({ error: codes[1] });
 
     const { _id: userId } = decodedUser;
-    console.log(decodedUser);
     const user = (await User.findById(userId)) as IUser;
 
     if (!user) return res.status(404).send({ error: codes[2] });
