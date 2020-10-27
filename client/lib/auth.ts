@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Router from 'next/router';
+import cookie from 'js-cookie';
 import { NextPageContext } from 'next';
 import { ServerResponse, IncomingMessage } from 'http';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8080';
-const WINDOW_USER_SCRIPT_VARIABLE = '__TSSERACT_AUTH_TOKEN__';
 
 export const getServerSideToken = (req: IncomingMessage) => {
   const cookies = req.headers.cookie || '';
@@ -17,21 +17,13 @@ export const getServerSideToken = (req: IncomingMessage) => {
       cookies.lastIndexOf('tsseract-auth-token='),
     );
 
-    return fullToken.split('=')[1].split(';')[0] || {};
+    return fullToken.split('=')[1].split(';')[0] || null;
   }
   return null;
 };
 
 export const getClientSideToken = () => {
-  if (typeof window !== 'undefined') {
-    const authToken = window[WINDOW_USER_SCRIPT_VARIABLE] || {};
-    return authToken;
-  }
-  return {};
-};
-
-export const getUserScript = (user: {}) => {
-  return `${WINDOW_USER_SCRIPT_VARIABLE} = ${JSON.stringify(user)};`;
+  return cookie.get('tsseract-auth-token');
 };
 
 export const authInitialProps = (isPrivateRoute: boolean) => ({
@@ -63,9 +55,8 @@ export const loginUser = async (user: {
 }) => {
   try {
     const { data } = await axios.post('/api/auth/login', user);
-    if (typeof window !== 'undefined') {
-      window[WINDOW_USER_SCRIPT_VARIABLE] = data || {};
-    }
+    cookie.set('tsseract-auth-token', data || null);
+
     return data;
   } catch (error) {
     console.error(error);
@@ -75,9 +66,7 @@ export const loginUser = async (user: {
 
 export const logoutUser = async () => {
   try {
-    if (typeof window !== 'undefined') {
-      window[WINDOW_USER_SCRIPT_VARIABLE] = {};
-    }
+    cookie.remove('tsseract-auth-token');
     await axios.post('/api/auth/logout');
     Router.push('/login');
   } catch (error) {

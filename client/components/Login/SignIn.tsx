@@ -49,6 +49,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           setRequestError('Invalid username or password');
         } else {
           console.error(err);
+          alert(`Could not register the user\nError: ${err.message}`);
         }
       });
   };
