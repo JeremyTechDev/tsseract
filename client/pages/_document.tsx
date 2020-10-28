@@ -15,7 +15,7 @@ export default class MyDocument extends Document {
       ? await getServerSideToken(ctx.req)
       : await getClientSideToken();
 
-    return { ...props, user: { ...userData } };
+    return { ...props, user: userData };
   }
 
   render() {
