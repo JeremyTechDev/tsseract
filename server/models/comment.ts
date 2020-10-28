@@ -17,13 +17,6 @@ export const commentsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-export interface IComment extends Document {
-  user: Types.ObjectId;
-  body: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export const validateComment = <T>(comment: T) => {
   const schema = Joi.object({
     user: Joi.string().regex(regex.objectId).required(),

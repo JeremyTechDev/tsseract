@@ -2,8 +2,9 @@ import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import Joi from '@hapi/joi';
 
-import User, { IUser } from '../models/user';
+import User from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
+import { iUser } from '../types';
 
 /**
  * Authenticates a existing user
@@ -18,7 +19,7 @@ export const authenticate: RequestHandler = async (req, res) => {
 
     const { username, password } = req.body;
 
-    const user = (await User.findOne({ username })) as IUser;
+    const user = (await User.findOne({ username })) as iUser;
     if (!user)
       return res.status(400).send({ error: 'Invalid username or password' });
 

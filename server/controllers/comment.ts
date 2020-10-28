@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
 import mongoose from 'mongoose';
 
-import Post, { IPost } from '../models/post';
-import { validateComment, IComment } from '../models/comment';
+import Post from '../models/post';
+import { validateComment } from '../models/comment';
+import { iComment, iPost } from '../types';
 
 /**
  * Creates a new comment in a post
@@ -27,7 +28,7 @@ export const createComment: RequestHandler = async (req, res) => {
       postId,
       { $push: { comments: req.body } },
       { new: true },
-    )) as IPost;
+    )) as iPost;
 
     if (!post)
       return res.status(404).send({ error: 'No post found with the given id' });
@@ -49,20 +50,20 @@ export const deleteComment: RequestHandler = async (req, res) => {
   const { _id: userId } = req.cookies.profile;
 
   try {
-    const post = (await Post.findOne({ 'comments._id': commentId })) as IPost;
+    const post = (await Post.findOne({ 'comments._id': commentId })) as iPost;
 
     if (!post)
       return res
         .status(404)
         .send({ error: 'No post found with the given comment id' });
 
-    post.comments.forEach(async (comment: IComment) => {
+    post.comments.forEach(async (comment: iComment) => {
       if (comment.user.equals(userId) && comment._id.equals(commentId)) {
         const newPost = (await Post.findByIdAndUpdate(
           post._id,
           { $pull: { comments: { _id: commentId } } },
           { new: true },
-        )) as IPost;
+        )) as iPost;
 
         return res.send(newPost);
       }

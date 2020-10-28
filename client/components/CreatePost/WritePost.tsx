@@ -10,12 +10,9 @@ import {
 
 import UploadImage from './UploadImg';
 import CoverImgModal from '../CoverImgModal';
+import { InputChangeEvent } from '../../types';
 
 import useStyles from './styles';
-
-type InputChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
 
 interface Props {
   children?: React.ReactNode;

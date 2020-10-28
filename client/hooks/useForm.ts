@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
 type ReturnItem = (event: InputChangeEvent) => void;
-type InputChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
+import { InputChangeEvent } from '../types';
 
 const useForm = <T>(initialValues: T): [T, ReturnItem] => {
   const [values, setValues] = useState(initialValues);

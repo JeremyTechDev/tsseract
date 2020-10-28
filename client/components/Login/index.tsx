@@ -15,18 +15,10 @@ import SignUp from './SignUp';
 import getRandomImg from '../../helpers/getRandomImg';
 import useForm from '../../hooks/useForm';
 import useStyles from './styles';
-
-interface BgData {
-  color?: string;
-  description?: string;
-  img: string;
-  link?: string;
-  name?: string;
-  raw?: string;
-}
+import { iBackgroundImageData } from '../../types';
 
 const Login = () => {
-  const [bgData, setBgData] = useState<BgData>({ img: '' });
+  const [bgData, setBgData] = useState<iBackgroundImageData>({ img: '' });
   const [loading, setLoading] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [user, handleChange] = useForm({
