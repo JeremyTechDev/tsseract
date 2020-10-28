@@ -7,22 +7,10 @@ import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
-
-type InputChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
-
-type User = {
-  birthDate: string;
-  email: string;
-  name: string;
-  password: string;
-  rPassword: string;
-  username: string;
-};
+import { iSignUpUser, InputChangeEvent } from '../../types';
 
 interface Props {
-  user: User;
+  user: iSignUpUser;
   handleChange: (event: InputChangeEvent) => void;
 }
 
@@ -30,7 +18,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const { validate } = useValidation(user);
   const [requestError, setRequestError] = useState('');
-  const [errors, setErrors] = useState<User>({
+  const [errors, setErrors] = useState<iSignUpUser>({
     birthDate: '',
     email: '',
     name: '',

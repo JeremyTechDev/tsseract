@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
 
-import Post, { IPost, validatePost } from '../models/post';
-import { ITag, validateTags } from '../models/tag';
+import Post, { validatePost } from '../models/post';
+import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
+import { iTag, iPost } from '../types';
 
 /**
  * Creates a new post
@@ -18,13 +19,13 @@ export const createPost: RequestHandler = async (req, res) => {
     );
     if (error) return res.status(400).send({ error: error.details[0].message });
 
-    let createdTags: ITag[] = [];
+    let createdTags: iTag[] = [];
     if (req.body.tags && req.body.tags.length) {
       const tagsError = validateTags(req.body.tags);
       if (tagsError)
         return res.status(400).send({ error: 'Invalid tag or tags' });
 
-      createdTags = <ITag[]>await Promise.all(
+      createdTags = <iTag[]>await Promise.all(
         req.body.tags.map(async (tagName: string) => {
           return await findOrCreateTag(tagName);
         }),
@@ -37,7 +38,7 @@ export const createPost: RequestHandler = async (req, res) => {
       }
     }
 
-    const post = new Post({ ...req.body, tags: createdTags }) as IPost;
+    const post = new Post({ ...req.body, tags: createdTags }) as iPost;
     await post.save();
 
     return res.send(post);
@@ -58,7 +59,7 @@ export const toggleLike: RequestHandler = async (req, res) => {
   const { _id: userId } = req.cookies.profile;
 
   try {
-    const post = (await Post.findById(postId)) as IPost;
+    const post = (await Post.findById(postId)) as iPost;
 
     if (!post)
       return res
@@ -125,7 +126,7 @@ export const getPostsFeed: RequestHandler = async (req, res) => {
 export const deletePost: RequestHandler = async (req, res) => {
   try {
     const { postId } = req.params;
-    const post = (await Post.findByIdAndDelete(postId)) as IPost;
+    const post = (await Post.findByIdAndDelete(postId)) as iPost;
 
     if (!post)
       return res

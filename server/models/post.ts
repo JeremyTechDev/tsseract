@@ -41,18 +41,6 @@ export const postsSchema = new Schema({
   updatedAt: { type: Date, default: new Date() },
 });
 
-export interface IPost extends Document {
-  user: Types.ObjectId;
-  title: string;
-  body: string;
-  cover: string;
-  comments: [];
-  likes: Types.ObjectId[];
-  tags: Types.ObjectId[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export default model('Posts', postsSchema, 'posts');
 
 export const validatePost = <T>(post: T) => {

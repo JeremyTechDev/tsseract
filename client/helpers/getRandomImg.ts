@@ -1,13 +1,6 @@
-interface Data {
-  color?: string;
-  description?: string;
-  img: string;
-  link?: string;
-  name?: string;
-  raw?: string;
-}
+import { iBackgroundImageData } from '../types';
 
-const getRandomImg = async (): Promise<Data> => {
+const getRandomImg = async (): Promise<iBackgroundImageData> => {
   const target = `https://api.unsplash.com/photos/random/?orientation=landscape&client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
 
   try {

@@ -53,18 +53,6 @@ const userSchema = new Schema({
   },
 });
 
-export interface IUser extends Document {
-  name: string;
-  username: string;
-  password: string;
-  email: string;
-  birthDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  followers: Types.ObjectId[];
-  following: Types.ObjectId[];
-}
-
 export default model('Users', userSchema);
 
 export const validateUser = <T>(user: T) => {

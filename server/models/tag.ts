@@ -17,12 +17,6 @@ export const tagSchema = new Schema({
   },
 });
 
-export interface ITag extends Document {
-  name: string;
-  popularity: number;
-  _doc: Document;
-}
-
 export default model('Tags', tagSchema, 'tags');
 
 export const validateTags = (tags: string[]) => {

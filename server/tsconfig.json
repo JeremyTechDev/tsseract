@@ -13,6 +13,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "noEmit": false
+    "noEmit": false,
+    "typeRoots": ["./types", "../node_modules/@types"]
   }
 }

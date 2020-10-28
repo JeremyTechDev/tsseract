@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 
-import User, { IUser, validateUser } from '../models/user';
+import User, { validateUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
+import { iUser } from '../types';
 
 // to select all the user data but their password
 const SELECT =
@@ -32,7 +33,7 @@ export const createUser: RequestHandler = async (req, res) => {
 
     Object.assign(req.body, { password: hashedPassword });
 
-    const user = new User({ ...req.body }) as IUser;
+    const user = new User({ ...req.body }) as iUser;
     await user.save();
 
     const userToken = {
@@ -108,7 +109,7 @@ export const follow: RequestHandler = async (req, res) => {
   try {
     const followTo = (await User.findOne({
       username: followToUsername,
-    })) as IUser;
+    })) as iUser;
 
     if (!followTo)
       return res
@@ -154,7 +155,7 @@ export const unfollow: RequestHandler = async (req, res) => {
   try {
     const followTo = (await User.findOne({
       username: followToUsername,
-    })) as IUser;
+    })) as iUser;
 
     if (!followTo)
       return res

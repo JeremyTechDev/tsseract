@@ -6,18 +6,10 @@ import AppContext, { Types } from '../../context';
 import { loginUser } from '../../lib/auth';
 import Input from './Input';
 import useStyles from './styles';
-
-type InputChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
-
-type User = {
-  password: string;
-  username: string;
-};
+import { InputChangeEvent, iSignInUser } from '../../types';
 
 interface Props {
-  user: User;
+  user: iSignInUser;
   handleChange: (event: InputChangeEvent) => void;
 }
 

@@ -14,10 +14,7 @@ import {
 import { BrokenImage } from '@material-ui/icons';
 
 import useStyles from './styles';
-
-type InputChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement
->;
+import { InputChangeEvent } from '../../types';
 
 interface T {
   img: string;
