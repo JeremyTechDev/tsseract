@@ -2,13 +2,12 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ThemeProvider } from '@material-ui/core';
-import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../context';
+import { getUserProfile } from '../lib/auth';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
 import theme from '../theme';
-import useFetch from '../hooks/useFetch';
 import '../../../scss/nprogress.scss';
 
 type Theme = 'light' | 'dark';
@@ -25,30 +24,22 @@ Router.events.on('routeChangeError', () => NProgress.done());
 const App: React.FC<Props> = ({ Component, pageProps }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [currentTheme, setCurrentTheme] = useState<Theme>('light');
-  const { handleFetch } = useFetch('/api/auth/', 'POST');
 
   useEffect(() => {
     const newTheme: Theme = localStorage.getItem('theme') as Theme;
     if (newTheme) setCurrentTheme(newTheme);
 
-    const fetchAuthData = async (authToken: string) => {
-      const res = await handleFetch({}, { 'tsseract-auth-token': authToken });
-
-      if (res?.response.ok) {
-        const { name, username, email, _id: id } = res.data;
-
+    const fetchAuthData = async () => {
+      const data = await getUserProfile();
+      if (data && data._id) {
         dispatch({
           type: Types.SET_CREDENTIALS,
-          payload: {
-            authToken,
-            user: { name, username, email, id },
-          },
+          payload: data,
         });
       }
     };
 
-    const authToken = Cookie.get('tsseract-auth-token');
-    if (authToken) fetchAuthData(authToken);
+    fetchAuthData();
   }, [currentTheme]);
 
   return (

@@ -1,7 +1,23 @@
 import React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, {
+  DocumentContext,
+  Head,
+  Main,
+  NextScript,
+} from 'next/document';
 
-export default class extends Document {
+import { getServerSideToken, getClientSideToken } from '../lib/auth';
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const props = await Document.getInitialProps(ctx);
+    const userData = ctx.req
+      ? await getServerSideToken(ctx.req)
+      : await getClientSideToken();
+
+    return { ...props, user: { ...userData } };
+  }
+
   render() {
     return (
       <html lang="en-US">

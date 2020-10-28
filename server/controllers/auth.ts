@@ -26,10 +26,19 @@ export const authenticate: RequestHandler = async (req, res) => {
     if (!isValidPassword)
       return res.status(400).send({ error: 'Invalid username or password' });
 
-    const { cookie, cookieConfig } = cookieCreator(user._id);
+    const userToken = {
+      _id: user._id,
+      email: user.email,
+      followers: user.followers,
+      following: user.following,
+      name: user.name,
+      username: user.username,
+    };
+
+    const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send({ user, authToken: cookie });
+    res.send(userToken);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -41,8 +50,15 @@ export const authenticate: RequestHandler = async (req, res) => {
  * @param res Express response
  */
 export const getTokenData: RequestHandler = (req, res) => {
-  const { name, username, email, _id } = req.cookies.profile;
-  res.send({ name, username, email, _id });
+  const {
+    _id,
+    email,
+    followers,
+    following,
+    name,
+    username,
+  } = req.cookies.profile;
+  res.send({ name, username, email, _id, followers, following });
 };
 
 /**

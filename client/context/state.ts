@@ -3,13 +3,16 @@
  */
 export interface iState {
   isAuthenticated: boolean;
-  authToken: string | null;
-  user: {
-    email: string;
-    id: string;
-    name: string;
-    username: string;
-  } | null;
+  user:
+    | {}
+    | {
+        email: string;
+        _id: string;
+        name: string;
+        username: string;
+        followers: string[];
+        following: string[];
+      };
 }
 
 /**
@@ -17,8 +20,7 @@ export interface iState {
  */
 const initialState: iState = {
   isAuthenticated: false,
-  authToken: null,
-  user: null,
+  user: {},
 };
 
 export default initialState;

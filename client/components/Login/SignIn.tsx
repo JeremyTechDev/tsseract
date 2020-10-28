@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Typography, Grid, Button } from '@material-ui/core';
-import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../../context';
-import useFetch from '../../hooks/useFetch';
+import { loginUser } from '../../lib/auth';
 import Input from './Input';
 import useStyles from './styles';
 
@@ -26,7 +25,6 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [requestError, setRequestError] = useState('');
   const { dispatch } = useContext(AppContext);
-  const { handleFetch } = useFetch('/api/auth/login', 'POST');
 
   const handleClearAndChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -38,22 +36,22 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const handleSubmit = async () => {
     const { username, password } = user;
 
-    handleFetch({ username, password })
-      .then((res) => {
-        if (res?.response.ok) {
-          dispatch({
-            type: Types.SET_CREDENTIALS,
-            payload: res.data.authToken,
-          });
-          Cookie.set('tsseract-auth-token', res.data.authToken, { expires: 7 });
-          Router.push('/create-post');
-        } else {
-          setRequestError('Invalid username or password');
-        }
+    loginUser({ username, password })
+      .then((data) => {
+        dispatch({
+          type: Types.SET_CREDENTIALS,
+          payload: data,
+        });
+        Router.push('/create-post');
       })
-      .catch((error) =>
-        alert(`Could not register the user\nError: ${error.message}`),
-      );
+      .catch((err) => {
+        if (err.status !== 500) {
+          setRequestError('Invalid username or password');
+        } else {
+          console.error(err);
+          alert(`Could not register the user\nError: ${err.message}`);
+        }
+      });
   };
 
   return (

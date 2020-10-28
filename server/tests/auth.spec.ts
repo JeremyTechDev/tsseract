@@ -4,7 +4,14 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
-const userProps = ['_id', 'birthDate', 'email', 'name', 'username'];
+const userProps = [
+  '_id',
+  'email',
+  'name',
+  'username',
+  'following',
+  'followers',
+];
 
 describe('Auth', () => {
   const SUT = http.createServer(server({ dev: true }));
@@ -40,7 +47,7 @@ describe('Auth', () => {
 
       const { name, username, email } = userPayload;
       expect(authUser.body).toMatchObject({
-        _id: user.body.user._id,
+        _id: user.body._id,
         email,
         name,
         username,
@@ -58,7 +65,7 @@ describe('Auth', () => {
       expect(cookie).toHaveProperty('name');
       expect(cookie).toHaveProperty('value');
       expect(cookie.name).toEqual('tsseract-auth-token');
-      userProps.forEach((p) => expect(authUser.body.user).toHaveProperty(p));
+      userProps.forEach((p) => expect(authUser.body).toHaveProperty(p));
     });
 
     it('should return a status code 400 if the username or password are invalid', async () => {

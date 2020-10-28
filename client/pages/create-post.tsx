@@ -1,10 +1,11 @@
 import React from 'react';
+import { NextPage } from 'next';
 
 import Layout from '../components/Layout';
 import CreatePost from '../components/CreatePost';
-import withAuth from '../hooks/withAuth';
+import { authInitialProps } from '../lib/auth';
 
-const CreatePostPage: React.FC = () => {
+const CreatePostPage: NextPage<{}> = () => {
   return (
     <Layout title="Write a post">
       <CreatePost />
@@ -12,4 +13,5 @@ const CreatePostPage: React.FC = () => {
   );
 };
 
-export default withAuth(CreatePostPage);
+CreatePostPage.getInitialProps = authInitialProps(true);
+export default CreatePostPage;

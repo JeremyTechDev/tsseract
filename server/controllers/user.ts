@@ -35,10 +35,19 @@ export const createUser: RequestHandler = async (req, res) => {
     const user = new User({ ...req.body }) as IUser;
     await user.save();
 
-    const { cookie, cookieConfig } = cookieCreator(user._id);
+    const userToken = {
+      _id: user._id,
+      email: user.email,
+      followers: user.followers,
+      following: user.following,
+      name: user.name,
+      username: user.username,
+    };
+
+    const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send({ user, authToken: cookie });
+    res.send(userToken);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

@@ -1,13 +1,12 @@
 import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import Router from 'next/router';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
-import Cookie from 'js-cookie';
 
 import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
-import useFetch from '../../hooks/useFetch';
 
 type InputChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement
@@ -39,7 +38,6 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     rPassword: '',
     username: '',
   });
-  const { handleFetch } = useFetch('/api/users/', 'POST');
   const { dispatch } = useContext(AppContext);
 
   const handleSubmit = () => {
@@ -51,30 +49,27 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
 
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
-      handleFetch({
-        name,
-        username,
-        email,
-        password,
-        birthDate: new Date(birthDate).getTime(),
-      })
-        .then((res) => {
-          if (res?.response.ok) {
+      axios
+        .post('/api/users/', {
+          name,
+          username,
+          email,
+          password,
+          birthDate: new Date(birthDate).getTime(),
+        })
+        .then(({ data, status }) => {
+          if (status === 200) {
             dispatch({
               type: Types.SET_CREDENTIALS,
-              payload: res.data.authToken,
+              payload: data,
             });
-            Cookie.set('tsseract-auth-token', res.data.authToken, {
-              expires: 7,
-            });
+
             Router.push('/create-post');
           } else {
-            setRequestError(res?.data.error);
+            setRequestError(data.error);
           }
         })
-        .catch((error) =>
-          alert(`Could not register the user\nError: ${error.message}`),
-        );
+        .catch((error) => setRequestError(error.response.data.error));
     }
   };
 

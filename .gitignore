@@ -29,3 +29,6 @@ yarn-error.log*
 
 # dist
 dist
+
+# VS Code Configuration
+.vscode

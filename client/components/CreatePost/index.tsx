@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
 
@@ -14,6 +15,21 @@ const PostForm: React.FC = () => {
   const [post, handleChange] = useForm({ title: '', content: '' });
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
+
+  const handleSubmit = () => {
+    const { title, content } = post;
+
+    if (!title || !content || !coverImg) {
+      return alert(
+        'Make sure you a cover, a nice title and some content before you publish your post!',
+      );
+    }
+
+    axios
+      .post('/api/posts', { title, body: content, cover: coverImg })
+      .then((response) => alert(response.status))
+      .catch((err) => console.error(err));
+  };
 
   return (
     <Container disableGutters maxWidth="xl">
@@ -55,6 +71,7 @@ const PostForm: React.FC = () => {
             className={classes.margin}
             color="primary"
             variant="contained"
+            onClick={handleSubmit}
           >
             Publish!
           </Button>

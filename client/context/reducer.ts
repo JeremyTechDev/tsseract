@@ -13,14 +13,12 @@ const reducer = (state: iState, action: iAction) => {
 
   switch (type) {
     case Types.SET_CREDENTIALS:
-      Object.assign(state, { isAuthenticated: true, ...payload });
+      state.isAuthenticated = true;
+      state.user = payload;
       return state;
     case Types.REMOVE_CREDENTIALS:
-      Object.assign(state, {
-        authToken: null,
-        isAuthenticated: false,
-        user: null,
-      });
+      state.isAuthenticated = false;
+      state.user = {};
       return state;
     default:
       return state;
@@ -38,15 +36,14 @@ type ActionMap<T extends { [index: string]: any }> = {
 
 interface iPayload {
   [Types.SET_CREDENTIALS]: {
-    authToken: string | null;
-    user: {
-      email: string;
-      id: string;
-      name: string;
-      username: string;
-    } | null;
+    email: string;
+    _id: string;
+    name: string;
+    username: string;
+    followers: string[];
+    following: string[];
   };
-  [Types.REMOVE_CREDENTIALS]: null;
+  [Types.REMOVE_CREDENTIALS]: {};
 }
 
 export default reducer;
