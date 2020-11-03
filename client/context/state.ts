@@ -13,6 +13,7 @@ export interface iState {
         followers: string[];
         following: string[];
       };
+  theme: 'light' | 'dark';
 }
 
 /**
@@ -21,6 +22,7 @@ export interface iState {
 const initialState: iState = {
   isAuthenticated: false,
   user: {},
+  theme: 'light',
 };
 
 export default initialState;

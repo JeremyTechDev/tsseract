@@ -20,6 +20,9 @@ const reducer = (state: iState, action: iAction) => {
       state.isAuthenticated = false;
       state.user = {};
       return state;
+    case Types.SET_THEME:
+      state.theme = payload;
+      return state;
     default:
       return state;
   }
@@ -35,6 +38,7 @@ type ActionMap<T extends { [index: string]: any }> = {
 };
 
 interface iPayload {
+  [Types.SET_THEME]: 'light' | 'dark';
   [Types.SET_CREDENTIALS]: {
     email: string;
     _id: string;
