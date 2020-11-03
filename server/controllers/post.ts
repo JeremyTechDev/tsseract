@@ -48,6 +48,23 @@ export const createPost: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Returns a given amount of posts from all users
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ */
+export const retrieveAll: RequestHandler = async (req, res) => {
+  const { limit = 50 } = req.query;
+
+  try {
+    const posts = await Post.find().limit(+limit);
+
+    res.send(posts);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Toggle the user like state of a post
  * @param {Object} req Express request
  * @param {Object} res Express response
