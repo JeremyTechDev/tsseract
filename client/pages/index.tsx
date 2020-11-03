@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import { NextPage } from 'next';
 import { Grid, Button } from '@material-ui/core';
 
 import Layout from '../components/Layout';
 
-const App: React.FC = () => {
+const App: NextPage<{}> = () => {
   return (
     <Layout title="Tsseract App">
       <Grid container>
@@ -22,4 +23,5 @@ const App: React.FC = () => {
     </Layout>
   );
 };
+
 export default App;

@@ -23,50 +23,25 @@ export default class MyDocument extends Document {
       <html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
-          <link rel="manifest" href="./static/manifest.json" />
-
-          <meta name="mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <link rel="manifest" href="./manifest.json" />
+          <link rel="icon" href="./tsseract.ico" />
+          <link rel="apple-touch-icon" href="./tsseract.ico" />
+          <meta name="author" content="Jeremy Muñoz" />
+          <meta name="theme-color" content="#f13c20" />
+          <meta
+            name="description"
+            content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
+          />
           <meta name="application-name" content="Tsseract" />
           <meta name="apple-mobile-web-app-title" content="Tsseract" />
-          <meta name="theme-color" content="#f6404f" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="msapplication-navbutton-color" content="#f6404f" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
           <meta name="msapplication-starturl" content="/" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-
-          <link
-            rel="icon"
-            type="image/png"
-            href="/static/Icon-bottom/logo_size.jpg"
-          />
-          <link
-            rel="apple-touch-icon"
-            type="image/png"
-            href="/static/Icon-bottom/logo_size.jpg"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            href="/static/Icon-bottom/logo_size_invert.jpg"
-          />
-          <link
-            rel="apple-touch-icon"
-            type="image/png"
-            href="/static/Icon-bottom/logo_size_invert.jpg"
-          />
-
-          <meta
-            name="description"
-            content="Tsseract in a social media app were can create content and earn money 💸 with it."
-          />
-          <meta name="author" content="Jeremy Muñoz" />
 
           <link
             href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
