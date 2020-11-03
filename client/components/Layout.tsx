@@ -13,9 +13,10 @@ interface Props {
 }
 
 const useStyles = makeStyles({
+  header: { marginBottom: '10px' },
+  logo: { height: '12vh' },
   margin: { minHeight: '100vh' },
-  spacing: { margin: '0 10px' },
-  logo: { height: '15vh' },
+  spacing: { margin: '0 15px' },
 });
 
 const Layout: React.FC<Props> = ({ children, title, displayNav }) => {
@@ -31,7 +32,7 @@ const Layout: React.FC<Props> = ({ children, title, displayNav }) => {
       </Head>
 
       {displayNav && (
-        <Paper elevation={3} square>
+        <Paper className={classes.header} elevation={3} square>
           <Grid container alignItems="center" justify="space-around">
             <Grid item>
               <img
