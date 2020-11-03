@@ -89,6 +89,8 @@ You will need to have installed and running these technologies in order to run t
 
 - Build the `dist` folder with the TypeScript compiler: `npm run tsc`
 
+- Copy the `static` files into the `dist` folder (linux only): `npm run copy-files:linux`
+
 - To run the client side of the app: `npm run dev`
 
 - To run the server of the app: `npm run server`

@@ -1,18 +1,19 @@
 {
   "name": "Tsseract",
-  "short_name": "Tsseract",
-  "description": "Tsseract in a social media app were can create content and earn money 💸 with it.",
+  "description": "Social media app to share your knowledge on ant topic and earn money 💸 with it.",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#f6404f",
+  "theme_color": "#f13c20",
+  "background_color": "#303030",
+  "orientation": "any",
   "icons": [
     {
-      "src": "./static/Icon-bottom/logo_size.jpg",
+      "src": "/Main-bottom/logo_transparent_background.png",
       "type": "image/png"
     },
     {
-      "src": "./static/Icon-bottom/logo_size_invert.jpg",
+      "src": "/Main-aside/logo_transparent_background.png",
       "type": "image/png"
     }
   ]
