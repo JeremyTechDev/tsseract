@@ -2,6 +2,7 @@ import React from 'react';
 import Document, {
   DocumentContext,
   Head,
+  Html,
   Main,
   NextScript,
 } from 'next/document';
@@ -20,7 +21,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <html lang="en-US">
+      <Html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
           <link rel="manifest" href="./manifest.json" />
@@ -52,7 +53,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
