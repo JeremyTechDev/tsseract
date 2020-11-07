@@ -2,6 +2,7 @@ import React from 'react';
 import Document, {
   DocumentContext,
   Head,
+  Html,
   Main,
   NextScript,
   Html,
