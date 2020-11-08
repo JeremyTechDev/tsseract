@@ -14,6 +14,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noEmit": false,
-    "typeRoots": ["./types", "../node_modules/@types"]
+    "typeRoots": ["@types", "../node_modules/@types"]
   }
 }

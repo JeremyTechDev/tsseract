@@ -5,7 +5,6 @@ import Document, {
   Html,
   Main,
   NextScript,
-  Html,
 } from 'next/document';
 
 import { getServerSideToken, getClientSideToken } from '../lib/auth';

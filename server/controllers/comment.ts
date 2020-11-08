@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 import Post from '../models/post';
 import { validateComment } from '../models/comment';
-import { iComment, iPost } from '../types';
+import { iComment, iPost } from '../@types';
 
 /**
  * Creates a new comment in a post

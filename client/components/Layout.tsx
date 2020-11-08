@@ -40,6 +40,7 @@ const Layout: React.FC<Props> = ({ children, title, displayNav }) => {
                 src={`/Main-aside/${
                   theme === 'dark' ? 'white_' : ''
                 }logo_transparent_background.png`}
+                alt="Tsseract logo"
               />
             </Grid>
             <Grid />

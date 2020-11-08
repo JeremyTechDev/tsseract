@@ -1,5 +1,5 @@
 import Tag from '../models/tag';
-import { iTag } from '../types';
+import { iTag } from '../@types';
 
 /**
  * Creates or finds a tag by name

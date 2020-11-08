@@ -3,7 +3,7 @@ import { RequestHandler } from 'express';
 import Post, { validatePost } from '../models/post';
 import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
-import { iTag, iPost } from '../types';
+import { iTag, iPost } from '../@types';
 
 /**
  * Creates a new post
@@ -56,7 +56,10 @@ export const retrieveAll: RequestHandler = async (req, res) => {
   const { limit = 50 } = req.query;
 
   try {
-    const posts = await Post.find().limit(+limit);
+    const posts = await Post.find()
+      .limit(+limit)
+      .populate('user', '_id name username')
+      .sort({ createdAt: 'desc' });
 
     res.send(posts);
   } catch (error) {

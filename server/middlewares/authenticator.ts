@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user';
-import { iAuthenticatedUser, iUser } from '../types';
+import { iAuthenticatedUser, iUser } from '../@types';
 const { JWT_KEY } = process.env;
 
 const codes = [

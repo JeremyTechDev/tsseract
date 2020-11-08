@@ -7,7 +7,7 @@ import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
-import { iSignUpUser, InputChangeEvent } from '../../types';
+import { iSignUpUser, InputChangeEvent } from '../../@types';
 
 interface Props {
   user: iSignUpUser;

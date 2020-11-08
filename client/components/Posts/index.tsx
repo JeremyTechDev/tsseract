@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
+
+import Card from './Card';
+import { iPost } from '../../@types';
 
 axios.defaults.baseURL = 'http://localhost:8080';
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<iPost[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get('/api/posts/');
+      const { data } = await axios.get('/api/posts/?limit=3');
 
       setPosts(data);
     };
@@ -19,9 +22,13 @@ const Posts = () => {
 
   return (
     <Container disableGutters maxWidth="md">
-      <Grid container>
-        <Typography variant="h4">Posts</Typography>
-      </Grid>
+      <Typography gutterBottom variant="h2">
+        Posts
+      </Typography>
+
+      {posts.map((post) => (
+        <Card key={post._id} post={post} />
+      ))}
     </Container>
   );
 };
