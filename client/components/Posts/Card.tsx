@@ -4,7 +4,8 @@ import { Favorite as Like, Comment } from '@material-ui/icons';
 
 import useStyles from './styles';
 import PostInfo from './PostInfo';
-import { iPost } from '../../@types';
+import Tag from './Tag';
+import { iPost, iTag } from '../../@types';
 
 interface Props {
   post: iPost;
@@ -12,7 +13,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, createdAt, likes } = post;
+  const { cover, user, title, createdAt, likes, tags } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
@@ -37,25 +38,36 @@ const Card: React.FC<Props> = ({ post }: Props) => {
         </Container>
       )}
 
-      <Container className={classes.contentBtns}>
-        <Button
-          className={classes.btn}
-          color="primary"
-          startIcon={<Like />}
-          variant="contained"
-        >
-          {likes.length} likes
-        </Button>
+      <Grid container justify="space-between" className={classes.contentBtns}>
+        <Grid item>
+          <Grid container>
+            {tags.map((tag: iTag) => (
+              <Grid item>
+                <Tag key={tag._id} tag={tag} />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Button
+            className={classes.btn}
+            color="primary"
+            startIcon={<Like />}
+            variant="contained"
+          >
+            {likes.length} likes
+          </Button>
 
-        <Button
-          className={classes.btn}
-          color="primary"
-          startIcon={<Comment />}
-          variant="contained"
-        >
-          Add a comment
-        </Button>
-      </Container>
+          <Button
+            className={classes.btn}
+            color="primary"
+            startIcon={<Comment />}
+            variant="contained"
+          >
+            Add a comment
+          </Button>
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

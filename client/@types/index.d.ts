@@ -32,8 +32,14 @@ export interface iPost {
   cover: string;
   createdAt: string;
   likes: string[];
-  tags: string[];
+  tags: iTag[];
   title: string;
   updatedAt: string;
   user: { name: string; _id: string; username: string };
+}
+
+export interface iTag {
+  _id: string;
+  name: string;
+  popularity: number;
 }
