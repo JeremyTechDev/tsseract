@@ -1,4 +1,4 @@
-import { iBackgroundImageData } from '../types';
+import { iBackgroundImageData } from '../@types';
 
 const getRandomImg = async (): Promise<iBackgroundImageData> => {
   const target = `https://api.unsplash.com/photos/random/?orientation=landscape&client_id=${process.env.UNSPLASH_ACCESS_KEY}`;

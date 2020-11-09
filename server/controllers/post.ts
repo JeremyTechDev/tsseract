@@ -3,7 +3,7 @@ import { RequestHandler } from 'express';
 import Post, { validatePost } from '../models/post';
 import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
-import { iTag, iPost } from '../types';
+import { iTag, iPost } from '../@types';
 
 /**
  * Creates a new post
@@ -42,6 +42,28 @@ export const createPost: RequestHandler = async (req, res) => {
     await post.save();
 
     return res.send(post);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
+ * Returns a given amount of posts from all users
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ */
+export const retrieveAll: RequestHandler = async (req, res) => {
+  const { limit = 50 } = req.query;
+
+  try {
+    const posts = (await Post.find()
+      .limit(+limit)
+      .populate('user', '_id name username')
+      .populate('likes', '_id name username')
+      .populate('tags')
+      .sort({ createdAt: 'desc' })) as iPost[];
+
+    res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

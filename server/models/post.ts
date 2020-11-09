@@ -1,4 +1,4 @@
-import { Schema, Types, Document, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import Joi from '@hapi/joi';
 
 import { commentsSchema } from './comment';
@@ -23,20 +23,24 @@ export const postsSchema = new Schema({
   cover: {
     type: String,
   },
-  likes: {
-    type: [Types.ObjectId],
-    ref: 'Users',
-    default: [],
-  },
+  likes: [
+    {
+      type: Types.ObjectId,
+      ref: 'Users',
+      default: [],
+    },
+  ],
   comments: {
     type: [commentsSchema],
     default: [],
   },
-  tags: {
-    type: [Types.ObjectId],
-    ref: 'Tags',
-    default: [],
-  },
+  tags: [
+    {
+      type: Types.ObjectId,
+      ref: 'Tags',
+      default: [],
+    },
+  ],
   createdAt: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },
 });

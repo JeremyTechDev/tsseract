@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Typography, Link } from '@material-ui/core';
 
 import useStyles from './styles';
-import { iBackgroundImageData } from '../../types';
+import { iBackgroundImageData } from '../../@types';
 
 interface Props {
   children?: React.ReactNode;

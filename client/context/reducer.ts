@@ -9,16 +9,17 @@ import { iState } from './state';
  * @param action.payload new data to store
  */
 const reducer = (state: iState, action: iAction) => {
-  const { type, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case Types.SET_CREDENTIALS:
       state.isAuthenticated = true;
-      state.user = payload;
+      state.user = action.payload;
       return state;
     case Types.REMOVE_CREDENTIALS:
       state.isAuthenticated = false;
       state.user = {};
+      return state;
+    case Types.SET_THEME:
+      state.theme = action.payload;
       return state;
     default:
       return state;
@@ -35,6 +36,7 @@ type ActionMap<T extends { [index: string]: any }> = {
 };
 
 interface iPayload {
+  [Types.SET_THEME]: 'light' | 'dark';
   [Types.SET_CREDENTIALS]: {
     email: string;
     _id: string;

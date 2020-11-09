@@ -1,4 +1,4 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import Joi from '@hapi/joi';
 
 import regex from '../helpers/regex';

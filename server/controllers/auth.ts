@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 
 import User from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
-import { iUser } from '../types';
+import { iUser } from '../@types';
 
 /**
  * Authenticates a existing user

@@ -6,7 +6,7 @@ import AppContext, { Types } from '../../context';
 import { loginUser } from '../../lib/auth';
 import Input from './Input';
 import useStyles from './styles';
-import { InputChangeEvent, iSignInUser } from '../../types';
+import { InputChangeEvent, iSignInUser } from '../../@types';
 
 interface Props {
   user: iSignInUser;

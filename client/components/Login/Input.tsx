@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 
 import useStyles from './styles';
-import { InputChangeEvent } from '../../types';
+import { InputChangeEvent } from '../../@types';
 
 interface Props {
   label: string;

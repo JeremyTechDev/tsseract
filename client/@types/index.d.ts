@@ -24,3 +24,22 @@ export interface iSignInUser {
   password: string;
   username: string;
 }
+
+export interface iPost {
+  _id: string;
+  body: string;
+  comments: string[];
+  cover: string;
+  createdAt: string;
+  likes: string[];
+  tags: iTag[];
+  title: string;
+  updatedAt: string;
+  user: { name: string; _id: string; username: string };
+}
+
+export interface iTag {
+  _id: string;
+  name: string;
+  popularity: number;
+}

@@ -28,12 +28,15 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const newTheme: Theme = localStorage.getItem('theme') as Theme;
-    if (newTheme) setCurrentTheme(newTheme);
+    if (newTheme) {
+      setCurrentTheme(newTheme);
+      dispatch({ type: Types.SET_THEME, payload: newTheme });
+    }
 
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles?.parentElement?.removeChild(jssStyles);
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
     }
 
     const fetchAuthData = async () => {

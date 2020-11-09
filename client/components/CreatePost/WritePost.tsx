@@ -10,7 +10,7 @@ import {
 
 import UploadImage from './UploadImg';
 import CoverImgModal from '../CoverImgModal';
-import { InputChangeEvent } from '../../types';
+import { InputChangeEvent } from '../../@types';
 
 import useStyles from './styles';
 

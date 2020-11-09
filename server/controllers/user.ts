@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 import User, { validateUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
-import { iUser } from '../types';
+import { iUser } from '../@types';
 
 // to select all the user data but their password
 const SELECT =

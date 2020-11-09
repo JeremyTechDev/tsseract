@@ -2,6 +2,7 @@ import express from 'express';
 
 import {
   createPost,
+  retrieveAll,
   deletePost,
   getPostsBy,
   getPostsFeed,
@@ -18,6 +19,13 @@ const router = express.Router();
  * @method POST
  */
 router.post('/', auth, createPost);
+
+/**
+ * Retrieves all posts
+ * @route /api/posts/
+ * @method GET
+ */
+router.get('/', retrieveAll);
 
 /**
  * Creates a new comment in a post

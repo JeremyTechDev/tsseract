@@ -152,6 +152,22 @@ describe('Posts', () => {
     });
   });
 
+  describe('GET:/api/posts/', () => {
+    it('should return all posts in the app (limit 50)', async () => {
+      const allPosts = await request(SUT).get('/api/posts/');
+
+      expect(allPosts.body).toHaveProperty('length');
+      expect(allPosts.body.length).toBeLessThanOrEqual(50);
+    });
+
+    it('should return the amount of posts passed in the "limit" argument', async () => {
+      const allPosts = await request(SUT).get('/api/posts/?limit=1');
+
+      expect(allPosts.body).toHaveProperty('length');
+      expect(allPosts.body.length).toBe(1);
+    });
+  });
+
   describe('PUT:/api/posts/like/:postId', () => {
     it('should like a post (add the user id to the likes array)', async () => {
       const likedPost = await request(SUT)

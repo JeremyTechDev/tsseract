@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { iAuthenticatedUser } from '../types';
+import { iAuthenticatedUser } from '../@types';
 
 const { JWT_KEY } = process.env;
 

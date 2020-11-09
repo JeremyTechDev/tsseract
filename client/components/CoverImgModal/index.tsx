@@ -14,7 +14,7 @@ import {
 import { BrokenImage } from '@material-ui/icons';
 
 import useStyles from './styles';
-import { InputChangeEvent } from '../../types';
+import { InputChangeEvent } from '../../@types';
 
 interface T {
   img: string;
