@@ -43,6 +43,20 @@ export default class MyDocument extends Document {
             content="black-translucent"
           />
           <meta name="msapplication-starturl" content="/" />
+          <meta property="og:site_name" content="Tsseract" />
+          <meta property="og:title" content="Tsseract" />
+          <meta property="og:url" content="http://tsseract.io" />
+          <meta
+            property="og:description"
+            content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
+          />
+          <meta
+            property="og:image"
+            itemProp="image"
+            content="./Square-bottom/logo_size.jpg"
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:updated_time" content="1604951865715" />
 
           <link
             href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
