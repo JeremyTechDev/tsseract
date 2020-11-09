@@ -38,8 +38,13 @@ const Card: React.FC<Props> = ({ post }: Props) => {
         </Container>
       )}
 
-      <Grid container justify="space-between" className={classes.contentBtns}>
-        <Grid item>
+      <Grid
+        className={classes.contentBtns}
+        container
+        justify="space-between"
+        spacing={2}
+      >
+        <Grid item xs={12} sm={6}>
           <Grid container>
             {tags.map((tag: iTag) => (
               <Grid item>
@@ -48,7 +53,8 @@ const Card: React.FC<Props> = ({ post }: Props) => {
             ))}
           </Grid>
         </Grid>
-        <Grid item>
+
+        <Grid item xs={12} sm={6} container justify="flex-end">
           <Button
             className={classes.btn}
             color="primary"
