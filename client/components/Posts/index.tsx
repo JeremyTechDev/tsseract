@@ -12,7 +12,7 @@ const Posts = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get('/api/posts/?limit=3');
+      const { data } = await axios.get('/api/posts/');
 
       setPosts(data);
     };
