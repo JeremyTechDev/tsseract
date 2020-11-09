@@ -56,10 +56,12 @@ export const retrieveAll: RequestHandler = async (req, res) => {
   const { limit = 50 } = req.query;
 
   try {
-    const posts = await Post.find()
+    const posts = (await Post.find()
       .limit(+limit)
       .populate('user', '_id name username')
-      .sort({ createdAt: 'desc' });
+      .populate('likes', '_id name username')
+      .populate('tags')
+      .sort({ createdAt: 'desc' })) as iPost[];
 
     res.send(posts);
   } catch (error) {
