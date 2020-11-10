@@ -2,10 +2,11 @@ import express from 'express';
 
 import {
   createPost,
-  retrieveAll,
   deletePost,
+  findById,
   getPostsBy,
   getPostsFeed,
+  retrieveAll,
   toggleLike,
 } from '../controllers/post';
 import { createComment, deleteComment } from '../controllers/comment';
@@ -26,6 +27,13 @@ router.post('/', auth, createPost);
  * @method GET
  */
 router.get('/', retrieveAll);
+
+/**
+ * Retrieves a post by id
+ * @route /api/posts/:postId
+ * @method GET
+ */
+router.get('/id/:postId', findById);
 
 /**
  * Creates a new comment in a post

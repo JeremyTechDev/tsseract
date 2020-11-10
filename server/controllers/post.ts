@@ -70,6 +70,29 @@ export const retrieveAll: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Retrieves a post found by id
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} req.params.postId post id
+ */
+export const findById: RequestHandler = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post)
+      return res
+        .status(404)
+        .send({ error: 'No post found with the given id.' });
+
+    return res.send(post);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Toggle the user like state of a post
  * @param {Object} req Express request
  * @param {Object} res Express response
