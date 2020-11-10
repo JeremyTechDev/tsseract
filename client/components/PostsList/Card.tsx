@@ -1,6 +1,13 @@
 import React from 'react';
-import { Paper, Grid, Container, Button } from '@material-ui/core';
+import {
+  Button,
+  CardActionArea,
+  Container,
+  Grid,
+  Paper,
+} from '@material-ui/core';
 import { Favorite as Like, Comment } from '@material-ui/icons';
+import Link from 'next/link';
 
 import useStyles from './styles';
 import PostInfo from './PostInfo';
@@ -13,30 +20,34 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, createdAt, likes, tags } = post;
+  const { cover, user, title, createdAt, likes, tags, _id } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
-      {(cover && (
-        <Container className={classes.coverContainer}>
-          <img className={classes.coverImg} src={cover} alt={title} />
+      <CardActionArea>
+        <Link href={`/post/${_id}`}>
+          {(cover && (
+            <Container className={classes.coverContainer}>
+              <img className={classes.coverImg} src={cover} alt={title} />
 
-          <Grid
-            container
-            justify="flex-start"
-            alignItems="flex-end"
-            className={classes.coverContent}
-          >
-            <Grid item className={classes.padding}>
+              <Grid
+                container
+                justify="flex-start"
+                alignItems="flex-end"
+                className={classes.coverContent}
+              >
+                <Grid item className={classes.padding}>
+                  <PostInfo user={user} title={title} createdAt={createdAt} />
+                </Grid>
+              </Grid>
+            </Container>
+          )) || (
+            <Container className={classes.padding}>
               <PostInfo user={user} title={title} createdAt={createdAt} />
-            </Grid>
-          </Grid>
-        </Container>
-      )) || (
-        <Container className={classes.padding}>
-          <PostInfo user={user} title={title} createdAt={createdAt} />
-        </Container>
-      )}
+            </Container>
+          )}
+        </Link>
+      </CardActionArea>
 
       <Grid
         className={classes.contentBtns}

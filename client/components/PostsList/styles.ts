@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   coverContainer: {
     margin: '0 auto',
     padding: 0,
@@ -17,6 +17,10 @@ const useStyles = makeStyles({
     top: 0,
     background:
       'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.7) 100%)',
+  },
+  avatar: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
   padding: {
     padding: 20,
@@ -36,6 +40,6 @@ const useStyles = makeStyles({
     borderRadius: 2,
     fontWeight: 900,
   },
-});
+}));
 
 export default useStyles;

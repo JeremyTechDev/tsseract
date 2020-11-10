@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Layout from '../components/Layout';
-import Posts from '../components/Posts';
+import Posts from '../components/PostsList';
 
 const LoginPage: React.FC = () => {
   return (
