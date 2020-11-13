@@ -1,32 +1,37 @@
 import React from 'react';
-import Axios from 'axios';
 import { NextPage } from 'next';
-
-Axios.defaults.baseURL = 'http://localhost:8080';
+import ErrorPage from 'next/error';
 
 import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
 import { iPost } from '../../@types';
 
 interface Props {
-  post: { data: iPost };
+  post?: iPost;
+  error?: { statusCode: number };
 }
 
-const Post: NextPage<Props> = ({ post: { data } }: Props) => {
-  return (
-    <Layout title={data.title} displayNav>
-      <PostPage post={data} />
+const Post: NextPage<Props> = ({ post, error }: Props) => {
+  return post ? (
+    <Layout title={post.title} displayNav>
+      <PostPage post={post} />
     </Layout>
+  ) : (
+    <ErrorPage statusCode={error?.statusCode || 500} />
   );
 };
 
 Post.getInitialProps = async ({ query }) => {
   const { postId } = query;
 
-  const res = await fetch(`/api/posts/id/${postId}`);
+  const res = await fetch(`http://localhost:8080/api/posts/id/${postId}`);
   const data = await res.json();
 
-  return { post: data.data };
+  if (data.error) {
+    return { error: { ...data.error, statusCode: res.status } };
+  }
+
+  return { post: data };
 };
 
 export default Post;

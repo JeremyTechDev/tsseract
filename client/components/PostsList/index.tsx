@@ -1,25 +1,14 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, Typography } from '@material-ui/core';
 
 import Card from './Card';
 import { iPost } from '../../@types';
 
-axios.defaults.baseURL = 'http://localhost:8080';
+interface Props {
+  posts: iPost[];
+}
 
-const Posts = () => {
-  const [posts, setPosts] = useState<iPost[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get('/api/posts/');
-
-      setPosts(data);
-    };
-
-    fetchData();
-  }, []);
-
+const Posts: React.FC<Props> = ({ posts }: Props) => {
   return (
     <Container disableGutters maxWidth="md">
       <Typography gutterBottom variant="h2">

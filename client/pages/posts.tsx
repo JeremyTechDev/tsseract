@@ -1,13 +1,29 @@
 import React from 'react';
+import { NextPage } from 'next';
 
 import Layout from '../components/Layout';
 import Posts from '../components/PostsList';
+import { iPost } from '../@types';
 
-const LoginPage: React.FC = () => {
+interface Props {
+  posts: iPost[];
+}
+
+const PostList: NextPage<Props> = ({ posts }: Props) => {
   return (
     <Layout title="Tsseract App - Posts" displayNav>
-      <Posts />
+      <Posts posts={posts} />
     </Layout>
   );
 };
-export default LoginPage;
+
+PostList.getInitialProps = async () => {
+  const res = await fetch('http://localhost:8080/api/posts/');
+  const data = await res.json();
+
+  // TODO: handle error or no posts
+
+  return { posts: data };
+};
+
+export default PostList;

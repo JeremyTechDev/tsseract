@@ -27,6 +27,7 @@ const Tags: React.FC<Props> = ({ tag }: Props) => {
     <Typography
       className={classes.tag}
       color="textPrimary"
+      key={tag._id}
       variant="body1"
       style={{
         backgroundColor: colors[Math.floor(Math.random() * colors.length)],

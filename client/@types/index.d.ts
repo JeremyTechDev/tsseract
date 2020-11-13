@@ -25,17 +25,31 @@ export interface iSignInUser {
   username: string;
 }
 
+export interface iUser {
+  _id: string;
+  name: string;
+  username: string;
+}
+
 export interface iPost {
   _id: string;
   body: string;
-  comments: string[];
+  comments: iComment[];
   cover: string;
   createdAt: string;
   likes: string[];
   tags: iTag[];
   title: string;
   updatedAt: string;
-  user: { name: string; _id: string; username: string };
+  user: iUser;
+}
+
+export interface iComment {
+  _id: string;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  user: iUser;
 }
 
 export interface iTag {

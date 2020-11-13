@@ -47,7 +47,7 @@ const Layout: React.FC<Props> = ({ children, title, displayNav }) => {
             <Grid item>
               {/* <Button className={classes.spacing}>Log Out</Button> */}
 
-              <Link href="create-post">
+              <Link href="/create-post">
                 <Button
                   className={classes.spacing}
                   color="primary"
