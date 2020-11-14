@@ -22,6 +22,17 @@ const styles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
+  commentBox: {
+    backgroundColor: 'transparent',
+    border: '1px solid #ccc',
+    borderRadius: 10,
+    resize: 'vertical',
+    width: '100%',
+    padding: 10,
+    color: theme.palette.type === 'dark' ? '#fff' : '#000',
+    fontSize: 16,
+    fontWeight: 500,
+  },
 }));
 
 export default styles;

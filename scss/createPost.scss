@@ -23,7 +23,8 @@
     white-space: pre-wrap;
   }
 
-  img {
+  img,
+  p > img {
     border-radius: $radius;
     display: block;
     margin: 0 auto;

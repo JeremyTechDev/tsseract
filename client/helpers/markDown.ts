@@ -20,7 +20,10 @@ marked.options({
 export const markDown = (text: string) => {
   const withEmoji = emoji.emojify(text);
   const withMarkDown = marked(withEmoji);
-  const sanitized = dompurify.sanitize(withMarkDown);
-
-  return { __html: sanitized };
+  try {
+    const sanitized = dompurify.sanitize(withMarkDown || '');
+    return { __html: sanitized };
+  } catch (error) {
+    return { __html: withMarkDown };
+  }
 };

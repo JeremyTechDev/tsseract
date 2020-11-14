@@ -58,31 +58,33 @@ const Card: React.FC<Props> = ({ post }: Props) => {
         <Grid item xs={12} sm={6}>
           <Grid container>
             {tags.map((tag: iTag) => (
-              <Grid item>
-                <Tag tag={tag} />
-              </Grid>
+              <Tag tag={tag} />
             ))}
           </Grid>
         </Grid>
 
         <Grid item xs={12} sm={6} container justify="flex-end">
-          <Button
-            className={classes.btn}
-            color="primary"
-            startIcon={<Like />}
-            variant="contained"
-          >
-            {likes.length} likes
-          </Button>
+          <Link href={`/post/${_id}`}>
+            <Button
+              className={classes.btn}
+              color="primary"
+              startIcon={<Like />}
+              variant="contained"
+            >
+              {likes.length} likes
+            </Button>
+          </Link>
 
-          <Button
-            className={classes.btn}
-            color="primary"
-            startIcon={<Comment />}
-            variant="contained"
-          >
-            Add a comment
-          </Button>
+          <Link href={`/post/${_id}`}>
+            <Button
+              className={classes.btn}
+              color="primary"
+              startIcon={<Comment />}
+              variant="contained"
+            >
+              Add a comment
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Paper>

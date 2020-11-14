@@ -22,7 +22,6 @@ PostList.getInitialProps = async () => {
   const data = await res.json();
 
   // TODO: handle error or no posts
-
   return { posts: data };
 };
 

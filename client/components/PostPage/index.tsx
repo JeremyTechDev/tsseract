@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Container,
@@ -7,10 +7,11 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { iPost } from '../../@types';
+import { iPost, iTag } from '../../@types';
 import { markDown } from '../../helpers/markDown';
 import Comment from './Comment';
 import parseDate from '../../helpers/parseDate';
+import CommentBox from './CommentBox';
 import Tag from '../PostsList/Tag';
 import useStyles from './styles';
 import '../../../../scss/createPost.scss';
@@ -21,7 +22,8 @@ interface Props {
 
 const PostPage: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, title, body, tags, comments, user, createdAt } = post;
+  const [comments, setComments] = useState(post.comments);
+  const { cover, title, body, tags, user, createdAt } = post;
 
   return (
     <Container className={classes.root} maxWidth="md">
@@ -46,11 +48,15 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
         </Grid>
       </Grid>
 
-      {tags.map((tag) => (
-        <Tag tag={tag} />
-      ))}
+      <Grid item xs={12} sm={6} className={classes.commentBody}>
+        <Grid container>
+          {tags.map((tag: iTag) => (
+            <Tag tag={tag} />
+          ))}
+        </Grid>
+      </Grid>
 
-      <Divider light />
+      <Divider light className={classes.divider} />
 
       <div
         className="preview__result"
@@ -63,9 +69,15 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
         Discussion
       </Typography>
 
-      {comments.map((comment) => (
-        <Comment comment={comment} />
-      ))}
+      <CommentBox post={post} setComments={setComments} />
+
+      {comments.length !== 0 ? (
+        comments.map((comment) => <Comment comment={comment} />)
+      ) : (
+        <Typography className={classes.divider} variant="body1" align="center">
+          Be the first one to comment!
+        </Typography>
+      )}
     </Container>
   );
 };

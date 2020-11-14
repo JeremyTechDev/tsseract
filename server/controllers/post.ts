@@ -81,7 +81,8 @@ export const findById: RequestHandler = async (req, res) => {
   try {
     const post = await Post.findById(postId)
       .populate('user', '_id name username')
-      .populate('comments.user', '_id name username');
+      .populate('comments.user', '_id name username')
+      .populate('tags');
 
     if (!post)
       return res
