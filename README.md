@@ -1,7 +1,5 @@
-# Tsseract 🌐
-
 <p align="center">
-  <img src='./static/Main-aside/logo_transparent_background.png' height='100' /> 
+  <img src='./static/Main-aside/logo_transparent_background.png' height='200' /> 
 </p>
 
 Tsseract in a social media app were can create content and earn money 💸 with it.
@@ -89,7 +87,7 @@ You will need to have installed and running these technologies in order to run t
 
 - Build the `dist` folder with the TypeScript compiler: `npm run tsc`
 
-- Copy the `static` files into the `dist` folder (linux only): `npm run copy-files:linux`
+- Copy the `static` files into the `dist` folder: `npm run copy-files`
 
 - To run the client side of the app: `npm run dev`
 
@@ -104,7 +102,7 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `npm run tsc` to start the TypeScript compilation on watch mode.
+If you are making some changes to the project, make sure you run `npm run tsc:watch` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 
@@ -115,6 +113,7 @@ This app uses [Jest](https://jestjs.io/) as testing framework 🧑‍💻. To ru
 - [NodeJS](https://nodejs.org/es/) - Dependencies Management
 - [React](https://es.reactjs.org/) - The Web Framework
 - [NextJS](https://nextjs.org/) - React Framework
+- [Material-UI](https://material-ui.com/) - Components design
 - [Express](https://expressjs.com/es/) - API service framework
 - [MongoDB](https://www.mongodb.com/es) - Database storage
 - [SASS](https://sass-lang.com/) - Styles Framework
