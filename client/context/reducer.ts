@@ -16,7 +16,7 @@ const reducer = (state: iState, action: iAction) => {
       return state;
     case Types.REMOVE_CREDENTIALS:
       state.isAuthenticated = false;
-      state.user = {};
+      state.user = null;
       return state;
     case Types.SET_THEME:
       state.theme = action.payload;

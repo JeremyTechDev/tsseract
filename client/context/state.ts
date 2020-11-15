@@ -3,16 +3,14 @@
  */
 export interface iState {
   isAuthenticated: boolean;
-  user:
-    | {}
-    | {
-        email: string;
-        _id: string;
-        name: string;
-        username: string;
-        followers: string[];
-        following: string[];
-      };
+  user: null | {
+    email: string;
+    _id: string;
+    name: string;
+    username: string;
+    followers: string[];
+    following: string[];
+  };
   theme: 'light' | 'dark';
 }
 
@@ -21,7 +19,7 @@ export interface iState {
  */
 const initialState: iState = {
   isAuthenticated: false,
-  user: {},
+  user: null,
   theme: 'light',
 };
 

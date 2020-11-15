@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Grid, TextareaAutosize, Avatar, Button } from '@material-ui/core';
 
-axios.defaults.baseURL = 'http://localhost:8080';
-
+import AppContext from '../../context';
 import useStyles from './styles';
 import { iPost, iComment } from '../../@types';
+
+axios.defaults.baseURL = 'http://localhost:8080';
 
 interface Props {
   post: iPost;
@@ -14,6 +15,7 @@ interface Props {
 
 const CommentBox: React.FC<Props> = ({ post, setComments }) => {
   const classes = useStyles();
+  const { state } = useContext(AppContext);
   const [body, setBody] = useState('');
 
   const handleSubmit = () => {
@@ -24,16 +26,20 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
         setBody('');
       })
       .catch((error) => {
-        alert('Ops! Something went wrong, we could not save your comment :c');
+        if (error.response.status === 401) {
+          alert('You need to log in to your account to be able to comment');
+        } else {
+          alert('Ops! Something went wrong, we could not save your comment :c');
+        }
         console.error(error);
       });
   };
 
-  return (
+  return state.isAuthenticated ? (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={3} alignItems="flex-start" justify="center">
         <Grid item xs={1} container justify="flex-end">
-          <Avatar className={classes.avatar}>J</Avatar>
+          <Avatar className={classes.avatar}>{state.user?.name[0]}</Avatar>
         </Grid>
 
         <Grid item xs={9}>
@@ -58,7 +64,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
         </Grid>
       </Grid>
     </form>
-  );
+  ) : null;
 };
 
 export default CommentBox;
