@@ -26,9 +26,11 @@ export const createComment: RequestHandler = async (req, res) => {
 
     const post = (await Post.findByIdAndUpdate(
       postId,
-      { $push: { comments: req.body } },
+      { $push: { comments: { $each: [req.body], $position: 0 } } },
       { new: true },
-    )) as iPost;
+    )
+      .populate('user', '_id name username')
+      .populate('comments.user', '_id name username')) as iPost;
 
     if (!post)
       return res.status(404).send({ error: 'No post found with the given id' });

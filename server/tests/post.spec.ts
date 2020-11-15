@@ -168,6 +168,23 @@ describe('Posts', () => {
     });
   });
 
+  describe('GET:/api/posts/:postId', () => {
+    it('should return a post found by its id', async () => {
+      const postFound = await request(SUT).get(
+        `/api/posts/id/${post.body._id}`,
+      );
+
+      expect(postFound.body._id).toBe(post.body._id);
+    });
+
+    it('should return 404 if no post with the given id was found', async () => {
+      const postFound = await request(SUT).get(`/api/posts/id/${userId}`); // should be post id
+
+      expect(postFound.status).toBe(404);
+      expect(postFound.body).toHaveProperty('error');
+    });
+  });
+
   describe('PUT:/api/posts/like/:postId', () => {
     it('should like a post (add the user id to the likes array)', async () => {
       const likedPost = await request(SUT)

@@ -64,20 +64,13 @@ describe('Comments', () => {
         .set('Cookie', cookieSet)
         .send(newPostPayload);
 
-      const newCommentPayload = {
-        user: userId,
-        body: 'Test comment',
-      };
-
       const postWithComment = await request(SUT)
         .post(`/api/posts/c/${post.body._id}`)
         .set('Cookie', cookieSet)
-        .send(newCommentPayload);
+        .send({ body: 'Test comment' });
 
       expect(postWithComment.body.comments.length).toBeGreaterThan(0);
-      expect(postWithComment.body.comments[0]).toMatchObject({
-        ...newCommentPayload,
-      });
+      expect(postWithComment.body.comments[0].body).toBe('Test comment');
     });
 
     it('should return a status 400 if the comment is invalid', async () => {

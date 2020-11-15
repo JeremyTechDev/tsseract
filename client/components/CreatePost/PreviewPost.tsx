@@ -27,9 +27,8 @@ const PreviewPost: React.FC<Props> = ({ coverImg, post }) => {
       </Typography>
 
       {(post.content && (
-        <Typography
+        <div
           className="preview__result"
-          component="pre"
           dangerouslySetInnerHTML={markDown(post.content)}
         />
       )) || (

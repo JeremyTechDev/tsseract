@@ -63,7 +63,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body style={{ margin: 0 }}>
+        <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
           <NextScript />
         </body>
