@@ -12,10 +12,11 @@ const styles = makeStyles((theme) => ({
   },
   divider: { margin: '50px auto' },
   commentContainer: {
-    border: '1px solid grey',
-    padding: 15,
-    margin: '15px auto',
+    border: '1px solid #ccc',
     borderRadius: 4,
+    margin: '15px auto',
+    padding: 15,
+    width: '85%',
   },
   commentBody: { marginTop: 15 },
   avatar: {
@@ -26,12 +27,12 @@ const styles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     border: '1px solid #ccc',
     borderRadius: 10,
-    resize: 'vertical',
-    width: '100%',
-    padding: 10,
     color: theme.palette.type === 'dark' ? '#fff' : '#000',
     fontSize: 16,
     fontWeight: 500,
+    padding: 10,
+    resize: 'vertical',
+    width: '100%',
   },
 }));
 

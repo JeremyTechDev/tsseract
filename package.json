@@ -12,7 +12,7 @@
     "tsc:watch:server": "tsc -p ./server -w",
     "tsc": "run-p tsc:client tsc:server",
     "tsc:watch": "run-p tsc:watch:*",
-    "copy-files:linux": "cp -vr ./static/. dist/client/public/",
+    "copy-files": "cp -vr ./static/. dist/client/public/",
     "start": "next start ./dist/client",
     "build": "next build",
     "test": "NODE_ENV=test && jest --detectOpenHandles"

@@ -11,7 +11,7 @@ interface Props {
 
 const PostList: NextPage<Props> = ({ posts }: Props) => {
   return (
-    <Layout title="Tsseract App - Posts" displayNav>
+    <Layout title="Tsseract App - Posts" displayNav displayFooter>
       <Posts posts={posts} />
     </Layout>
   );

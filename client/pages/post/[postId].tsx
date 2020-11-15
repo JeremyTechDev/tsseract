@@ -13,7 +13,7 @@ interface Props {
 
 const Post: NextPage<Props> = ({ post, error }: Props) => {
   return post ? (
-    <Layout title={post.title} displayNav>
+    <Layout title={post.title} displayNav displayFooter>
       <PostPage post={post} />
     </Layout>
   ) : (
