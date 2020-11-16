@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 
 import Layout from '../components/Layout';
 import Posts from '../components/PostsList';
+import { baseURL } from '../lib/config';
 import { iPost } from '../@types';
 
 interface Props {
@@ -18,7 +19,7 @@ const PostList: NextPage<Props> = ({ posts }: Props) => {
 };
 
 PostList.getInitialProps = async () => {
-  const res = await fetch('http://localhost:8080/api/posts/');
+  const res = await fetch(baseURL + '/api/posts/');
   const data = await res.json();
 
   // TODO: handle error or no posts

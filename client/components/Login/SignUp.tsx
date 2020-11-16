@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import Router from 'next/router';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 
@@ -8,6 +7,8 @@ import Input from './Input';
 import useValidation from '../../hooks/useValidation';
 import useStyles from './styles';
 import { iSignUpUser, InputChangeEvent } from '../../@types';
+import { baseURL } from '../../lib/config';
+import requestOptions from '../../helpers/requestOptions';
 
 interface Props {
   user: iSignUpUser;
@@ -37,16 +38,19 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
 
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
-      axios
-        .post('/api/users/', {
+      fetch(
+        baseURL + '/api/users/',
+        requestOptions({
           name,
           username,
           email,
           password,
           birthDate: new Date(birthDate).getTime(),
-        })
-        .then(({ data, status }) => {
-          if (status === 200) {
+        }),
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.error) {
             dispatch({
               type: Types.SET_CREDENTIALS,
               payload: data,
@@ -57,7 +61,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
             setRequestError(data.error);
           }
         })
-        .catch((error) => setRequestError(error.response.data.error));
+        .catch((error) => console.error(error.message));
     }
   };
 
