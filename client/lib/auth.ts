@@ -1,11 +1,10 @@
-import axios from 'axios';
 import Router from 'next/router';
 import cookie from 'js-cookie';
 import { NextPageContext } from 'next';
 import { ServerResponse, IncomingMessage } from 'http';
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8080';
+import { baseURL } from './config';
+import requestOptions from '../helpers/requestOptions';
 
 export const getServerSideToken = (req: IncomingMessage) => {
   const cookies = req.headers.cookie || '';
@@ -23,7 +22,8 @@ export const getServerSideToken = (req: IncomingMessage) => {
 };
 
 export const getClientSideToken = () => {
-  return cookie.get('tsseract-auth-token');
+  const cookieData = cookie.get('tsseract-auth-token');
+  return cookieData ? JSON.parse(cookieData) : null;
 };
 
 export const authInitialProps = (isPrivateRoute: boolean) => ({
@@ -54,8 +54,12 @@ export const loginUser = async (user: {
   password: string;
 }) => {
   try {
-    const { data } = await axios.post('/api/auth/login', user);
-    cookie.set('tsseract-auth-token', data || null);
+    const res = await fetch(baseURL + '/api/auth/login', requestOptions(user));
+    const data = await res.json();
+
+    if (!data.error) {
+      cookie.set('tsseract-auth-token', data || null);
+    }
 
     return data;
   } catch (error) {
@@ -67,7 +71,7 @@ export const loginUser = async (user: {
 export const logoutUser = async () => {
   try {
     cookie.remove('tsseract-auth-token');
-    await axios.post('/api/auth/logout');
+    await fetch(baseURL + '/api/auth/logout', requestOptions({}, 'POST'));
     Router.push('/login');
   } catch (error) {
     console.error(error);
@@ -77,7 +81,9 @@ export const logoutUser = async () => {
 
 export const getUserProfile = async () => {
   try {
-    const { data } = await axios.get('/api/auth/');
+    const res = await fetch(baseURL + '/api/auth/');
+    const data = await res.json();
+
     return data;
   } catch (error) {
     console.error(error);

@@ -3,18 +3,24 @@ import { Grid, Button, TextField, Fab } from '@material-ui/core';
 import { Assignment, AssignmentTurnedIn } from '@material-ui/icons';
 
 import CoverImgModal from '../CoverImgModal';
-import useCopyToClipBoard from '../../hooks/useCopyToClipBoard';
 import useStyles from './styles';
 
 const UploadImage: React.FC = () => {
   const classes = useStyles();
   const [currImg, setCurrImg] = useState('');
   const [showImgModal, setShowImgModal] = useState(false);
-  const [isCopied, handleCopy] = useCopyToClipBoard(2000);
+  const [isCopied, setIsCopied] = useState(false);
 
   const openImgModal = () => {
     setCurrImg('');
     setShowImgModal(true);
+  };
+
+  const copyToClipboard = () => {
+    if (navigator && navigator.clipboard) {
+      navigator.clipboard.writeText(currImg);
+      setIsCopied(true);
+    }
   };
 
   return (
@@ -37,7 +43,7 @@ const UploadImage: React.FC = () => {
       <Fab
         color="secondary"
         disabled={!currImg}
-        onClick={() => handleCopy(currImg)}
+        onClick={copyToClipboard}
         size="small"
         title="Copy Markdown for Image"
       >
