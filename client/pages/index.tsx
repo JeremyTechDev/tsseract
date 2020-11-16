@@ -4,6 +4,7 @@ import { Grid, Button } from '@material-ui/core';
 import Link from 'next/link';
 
 import Layout from '../components/Layout';
+import { authInitialProps } from '../lib/auth';
 
 const App: NextPage<{}> = () => {
   return (
@@ -18,5 +19,7 @@ const App: NextPage<{}> = () => {
     </Layout>
   );
 };
+
+App.getInitialProps = authInitialProps(false);
 
 export default App;

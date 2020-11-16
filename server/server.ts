@@ -42,6 +42,7 @@ const init = (options: Options) => {
         credentials: true,
         optionsSuccessStatus: 200,
         origin: 'http://localhost:3000',
+        exposedHeaders: ['tsseract-auth-token'],
       }),
     );
   }

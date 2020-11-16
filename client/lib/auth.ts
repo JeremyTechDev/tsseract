@@ -31,8 +31,7 @@ export const authInitialProps = (isPrivateRoute: boolean) => ({
   res,
 }: NextPageContext) => {
   const authToken = req ? getServerSideToken(req) : getClientSideToken();
-  const currentPath = req ? req.url : window.location.pathname;
-  if (isPrivateRoute && !authToken && currentPath !== '/login') {
+  if (isPrivateRoute && !authToken) {
     return redirectUser(res, '/login');
   }
 
@@ -57,14 +56,14 @@ export const loginUser = async (user: {
     const res = await fetch(baseURL + '/api/auth/login', requestOptions(user));
     const data = await res.json();
 
-    if (!data.error) {
-      cookie.set('tsseract-auth-token', data || null);
-    }
+    // if (!data.error) {
+    //   cookie.set('tsseract-auth-token', data, { expires: 7 });
+    // }
 
     return data;
   } catch (error) {
     console.error(error);
-    return {};
+    return { error };
   }
 };
 
@@ -79,14 +78,18 @@ export const logoutUser = async () => {
   }
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (token?: string) => {
   try {
-    const res = await fetch(baseURL + '/api/auth/');
+    const res = await fetch(baseURL + '/api/auth/', {
+      headers: {
+        'tsseract-auth-token': token || '',
+      },
+    });
     const data = await res.json();
 
     return data;
   } catch (error) {
     console.error(error);
-    return {};
+    return { error: 'si' };
   }
 };

@@ -3,8 +3,6 @@ import { Types, Document } from 'mongoose';
 export interface iAuthenticatedUser {
   _id: any;
   email: string;
-  followers: Types.ObjectId[];
-  following: Types.ObjectId[];
   name: string;
   username: string;
 }
