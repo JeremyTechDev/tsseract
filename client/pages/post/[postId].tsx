@@ -4,16 +4,18 @@ import ErrorPage from 'next/error';
 
 import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
-import { iPost } from '../../@types';
+import { authInitialProps } from '../../lib/auth';
+import { iPost, authType } from '../../@types';
 
 interface Props {
   post?: iPost;
   error?: { statusCode: number };
+  authData: authType;
 }
 
-const Post: NextPage<Props> = ({ post, error }: Props) => {
+const Post: NextPage<Props> = ({ post, error, authData }: Props) => {
   return post ? (
-    <Layout title={post.title} displayNav displayFooter>
+    <Layout title={post.title} authData={authData} displayNav displayFooter>
       <PostPage post={post} />
     </Layout>
   ) : (
@@ -21,17 +23,15 @@ const Post: NextPage<Props> = ({ post, error }: Props) => {
   );
 };
 
-Post.getInitialProps = async ({ query }) => {
-  const { postId } = query;
+Post.getInitialProps = async (ctx) => {
+  const { postId } = ctx.query;
 
-  const res = await fetch(`http://localhost:8080/api/posts/id/${postId}`);
-  const data = await res.json();
+  const { user } = await authInitialProps()(ctx);
+  const data = await fetch(
+    `http://localhost:8080/api/posts/id/${postId}`,
+  ).then((res) => res.json());
 
-  if (data.error) {
-    return { error: { ...data.error, statusCode: res.status } };
-  }
-
-  return { post: data };
+  return { post: data, authData: user };
 };
 
 export default Post;

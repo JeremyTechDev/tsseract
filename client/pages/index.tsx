@@ -5,10 +5,15 @@ import Link from 'next/link';
 
 import Layout from '../components/Layout';
 import { authInitialProps } from '../lib/auth';
+import { authType } from '../@types';
 
-const App: NextPage<{}> = () => {
+interface Props {
+  user: authType;
+}
+
+const App: NextPage<Props> = ({ user }) => {
   return (
-    <Layout title="Tsseract App" displayFooter displayNav>
+    <Layout title="Tsseract App" authData={user} displayFooter displayNav>
       <Grid container>
         <Link href="/posts">
           <Button variant="contained" color="primary">
@@ -20,6 +25,6 @@ const App: NextPage<{}> = () => {
   );
 };
 
-App.getInitialProps = authInitialProps(false);
+App.getInitialProps = authInitialProps();
 
 export default App;

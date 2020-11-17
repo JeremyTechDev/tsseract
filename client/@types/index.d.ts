@@ -27,6 +27,7 @@ export interface iSignInUser {
 
 export interface iUser {
   _id: string;
+  email: string;
   name: string;
   username: string;
 }
@@ -57,3 +58,5 @@ export interface iTag {
   name: string;
   popularity: number;
 }
+
+export type authType = { user: iUser | null; from: string; error?: string };

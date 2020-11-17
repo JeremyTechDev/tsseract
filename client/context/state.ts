@@ -1,16 +1,11 @@
+import { iUser } from '../@types';
+
 /**
  * Context State TypeScript Interface
  */
 export interface iState {
   isAuthenticated: boolean;
-  user: null | {
-    email: string;
-    _id: string;
-    name: string;
-    username: string;
-    followers: string[];
-    following: string[];
-  };
+  user: iUser | null;
   theme: 'light' | 'dark';
 }
 

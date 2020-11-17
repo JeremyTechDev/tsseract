@@ -1,5 +1,6 @@
 import Types from './types';
 import { iState } from './state';
+import { iUser } from '../@types';
 
 /**
  * Main Context Reducer
@@ -11,7 +12,7 @@ import { iState } from './state';
 const reducer = (state: iState, action: iAction) => {
   switch (action.type) {
     case Types.SET_CREDENTIALS:
-      state.isAuthenticated = true;
+      state.isAuthenticated = Boolean(action.payload);
       state.user = action.payload;
       return state;
     case Types.REMOVE_CREDENTIALS:
@@ -37,14 +38,7 @@ type ActionMap<T extends { [index: string]: any }> = {
 
 interface iPayload {
   [Types.SET_THEME]: 'light' | 'dark';
-  [Types.SET_CREDENTIALS]: {
-    email: string;
-    _id: string;
-    name: string;
-    username: string;
-    followers: string[];
-    following: string[];
-  };
+  [Types.SET_CREDENTIALS]: iUser | null;
   [Types.REMOVE_CREDENTIALS]: {};
 }
 

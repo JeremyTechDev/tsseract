@@ -32,7 +32,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
       if (!data.error) {
         dispatch({
           type: Types.SET_CREDENTIALS,
-          payload: data,
+          payload: data.user || null,
         });
         Router.push('/create-post');
       } else {

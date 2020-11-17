@@ -50,10 +50,10 @@ const init = (options: Options) => {
   // give all Next.js's requests to Next.js server
   if (appHandler) {
     server.get('/_next/*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
     server.get('/static/*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
   }
 
@@ -61,12 +61,11 @@ const init = (options: Options) => {
   server.use('/api/users', user);
   server.use('/api/posts', post);
   server.use('/api/auth', auth);
-  server.get('/', (_, res: Response) => res.send('Tsseract App'));
 
   // let next handle the default route
   if (appHandler) {
     server.get('*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
   }
 
