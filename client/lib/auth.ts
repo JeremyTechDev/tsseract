@@ -38,7 +38,7 @@ export const getClientSideToken = (): authType => {
   return { user: null, error: 'User variable was not found', from: 'client' };
 };
 
-export const getUserScript = (user: iUser) => {
+export const getUserScript = (user: iUser | null) => {
   return `${WINDOW_USER_SCRIPT} = ${JSON.stringify(user)}`;
 };
 
@@ -54,7 +54,7 @@ export const authInitialProps = (isPrivateRoute = false) => async ({
     redirect(res, '/login');
   }
 
-  return { user: auth.user };
+  return { user: auth };
 };
 
 type userType = { username: string; password: string };

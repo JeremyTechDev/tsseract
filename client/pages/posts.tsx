@@ -29,7 +29,6 @@ PostList.getInitialProps = async (ctx) => {
   const { user } = await authInitialProps()(ctx);
   const data = await fetch(baseURL + '/api/posts/').then((res) => res.json());
 
-  // TODO: handle error or no posts
   return { posts: data, authData: user };
 };
 

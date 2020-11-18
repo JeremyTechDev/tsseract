@@ -31,7 +31,8 @@ const Layout: React.FC<Props> = ({
   } = useContext(AppContext);
 
   useEffect(() => {
-    dispatch({ type: Types.SET_CREDENTIALS, payload: authData.user || null });
+    console.log(authData);
+    dispatch({ type: Types.SET_CREDENTIALS, payload: authData.user });
   }, []);
 
   const logo = `/Main-aside/${

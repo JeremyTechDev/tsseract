@@ -6,20 +6,20 @@ import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
 import { authInitialProps } from '../../lib/auth';
 import { iPost, authType } from '../../@types';
+import { baseURL } from '../../lib/config';
 
 interface Props {
   post?: iPost;
-  error?: { statusCode: number };
   authData: authType;
 }
 
-const Post: NextPage<Props> = ({ post, error, authData }: Props) => {
-  return post ? (
+const Post: NextPage<Props> = ({ post, authData }) => {
+  return post && post._id ? (
     <Layout title={post.title} authData={authData} displayNav displayFooter>
       <PostPage post={post} />
     </Layout>
   ) : (
-    <ErrorPage statusCode={error?.statusCode || 500} />
+    <ErrorPage statusCode={404} />
   );
 };
 
@@ -27,9 +27,9 @@ Post.getInitialProps = async (ctx) => {
   const { postId } = ctx.query;
 
   const { user } = await authInitialProps()(ctx);
-  const data = await fetch(
-    `http://localhost:8080/api/posts/id/${postId}`,
-  ).then((res) => res.json());
+  const data = await fetch(`${baseURL}/api/posts/id/${postId}`).then((res) =>
+    res.json(),
+  );
 
   return { post: data, authData: user };
 };

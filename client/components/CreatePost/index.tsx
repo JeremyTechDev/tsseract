@@ -20,11 +20,11 @@ const PostForm: React.FC = () => {
   const handleSubmit = () => {
     const { title, content } = post;
 
-    // if (!title || !content || !coverImg) {
-    //   return alert(
-    //     'Make sure you a cover, a nice title and some content before you publish your post!',
-    //   );
-    // }
+    if (!title || !content || !coverImg) {
+      return alert(
+        'Make sure you a cover, a nice title and some content before you publish your post!',
+      );
+    }
 
     fetch(
       baseURL + '/api/posts',

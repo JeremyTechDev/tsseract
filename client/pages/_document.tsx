@@ -8,18 +8,18 @@ import Document, {
 } from 'next/document';
 
 import { getServerSideToken, getUserScript } from '../lib/auth';
-import { iUser } from '../@types';
+import { authType } from '../@types';
 
-export default class MyDocument extends Document<{ user: iUser }> {
+export default class MyDocument extends Document<{ userData: authType }> {
   static async getInitialProps(ctx: DocumentContext) {
     const props = await Document.getInitialProps(ctx);
     const userData = getServerSideToken(ctx.req);
 
-    return { ...props, user: userData };
+    return { ...props, userData };
   }
 
   render() {
-    const { user } = this.props;
+    const { userData } = this.props;
 
     return (
       <Html lang="en-US">
@@ -66,7 +66,9 @@ export default class MyDocument extends Document<{ user: iUser }> {
         </Head>
         <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
-          <script dangerouslySetInnerHTML={{ __html: getUserScript(user) }} />
+          <script
+            dangerouslySetInnerHTML={{ __html: getUserScript(userData.user) }}
+          />
           <NextScript />
         </body>
       </Html>
