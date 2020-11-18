@@ -28,22 +28,17 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const handleSubmit = async () => {
     const { username, password } = user;
 
-    loginUser({ username, password })
-      .then((data) => {
+    loginUser({ username, password }).then((data) => {
+      if (!data.error) {
         dispatch({
           type: Types.SET_CREDENTIALS,
-          payload: data,
+          payload: data.user || null,
         });
         Router.push('/create-post');
-      })
-      .catch((err) => {
-        if (err.status !== 500) {
-          setRequestError('Invalid username or password');
-        } else {
-          console.error(err);
-          alert(`Could not register the user\nError: ${err.message}`);
-        }
-      });
+      } else {
+        setRequestError(data.error);
+      }
+    });
   };
 
   return (

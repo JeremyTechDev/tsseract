@@ -1,8 +1,7 @@
 require('dotenv').config();
 
-import express, { Response } from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import helmet from 'helmet';
 
 import database from './database';
@@ -36,23 +35,14 @@ const init = (options: Options) => {
 
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
-  if (dev) {
-    server.use(
-      cors({
-        credentials: true,
-        optionsSuccessStatus: 200,
-        origin: 'http://localhost:3000',
-      }),
-    );
-  }
 
   // give all Next.js's requests to Next.js server
   if (appHandler) {
     server.get('/_next/*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
     server.get('/static/*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
   }
 
@@ -60,12 +50,11 @@ const init = (options: Options) => {
   server.use('/api/users', user);
   server.use('/api/posts', post);
   server.use('/api/auth', auth);
-  server.get('/', (_, res: Response) => res.send('Tsseract App'));
 
   // let next handle the default route
   if (appHandler) {
     server.get('*', (req, res) => {
-      appHandler(req, res);
+      return appHandler(req, res);
     });
   }
 

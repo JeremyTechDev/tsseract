@@ -1,86 +1,96 @@
-import axios from 'axios';
 import Router from 'next/router';
-import cookie from 'js-cookie';
 import { NextPageContext } from 'next';
-import { ServerResponse, IncomingMessage } from 'http';
+import { ServerResponse } from 'http';
+import jwt from 'jsonwebtoken';
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8080';
+import { baseURL } from './config';
+import requestOptions from '../helpers/requestOptions';
+import { iUser, authType } from '../@types';
 
-export const getServerSideToken = (req: IncomingMessage) => {
-  const cookies = req.headers.cookie || '';
-  const isTokenSet = cookies.indexOf('tsseract-auth-token');
+const WINDOW_USER_SCRIPT = '__TSS_USER__';
 
-  if (isTokenSet !== -1) {
-    const fullToken = cookies?.substring(
-      cookies.lastIndexOf('') + 1,
-      cookies.lastIndexOf('tsseract-auth-token='),
+export const getServerSideToken = (req: any): authType => {
+  const { signedCookies } = req;
+
+  if (!signedCookies || !signedCookies['tsseract-auth-token']) {
+    return { user: null, error: 'Token was not found', from: 'server' };
+  }
+
+  try {
+    const decodedUser = <iUser>(
+      jwt.verify(
+        signedCookies['tsseract-auth-token'],
+        <string>process.env.JWT_KEY,
+      )
     );
 
-    return fullToken.split('=')[1].split(';')[0] || null;
+    return { user: decodedUser, from: 'server' };
+  } catch (error) {
+    return { user: null, error, from: 'server' };
   }
-  return null;
 };
 
-export const getClientSideToken = () => {
-  return cookie.get('tsseract-auth-token');
+export const getClientSideToken = (): authType => {
+  if (typeof window !== 'undefined') {
+    const user: iUser = window[WINDOW_USER_SCRIPT] || {};
+    return { user, from: 'client' };
+  }
+  return { user: null, error: 'User variable was not found', from: 'client' };
 };
 
-export const authInitialProps = (isPrivateRoute: boolean) => ({
+export const getUserScript = (user: iUser | null) => {
+  return `${WINDOW_USER_SCRIPT} = ${JSON.stringify(user)}`;
+};
+
+export const authInitialProps = (isPrivateRoute = false) => async ({
   req,
   res,
 }: NextPageContext) => {
-  const authToken = req ? getServerSideToken(req) : getClientSideToken();
-  const currentPath = req ? req.url : window.location.pathname;
-  if (isPrivateRoute && !authToken && currentPath !== '/login') {
-    return redirectUser(res, '/login');
+  const auth: authType = req
+    ? await getServerSideToken(req)
+    : getClientSideToken();
+
+  if (isPrivateRoute && auth && !auth.user) {
+    redirect(res, '/login');
   }
 
-  return { authToken };
+  return { user: auth };
 };
 
-const redirectUser = (res: ServerResponse | undefined, path: string) => {
-  if (res) {
-    res.writeHead(302, { Location: path });
-    res.end();
-    return {};
-  }
-  Router.replace(path);
-  return {};
-};
-
-export const loginUser = async (user: {
-  username: string;
-  password: string;
-}) => {
+type userType = { username: string; password: string };
+export const loginUser = async (user: userType) => {
   try {
-    const { data } = await axios.post('/api/auth/login', user);
-    cookie.set('tsseract-auth-token', data || null);
+    const res = await fetch(baseURL + '/api/auth/login', requestOptions(user));
+    const data: iUser = await res.json();
 
-    return data;
+    if (typeof window !== 'undefined') {
+      window[WINDOW_USER_SCRIPT] = data || {};
+    }
+
+    return { user: data };
   } catch (error) {
     console.error(error);
-    return {};
+    return { error };
   }
 };
 
 export const logoutUser = async () => {
+  if (typeof window !== 'undefined') {
+    window[WINDOW_USER_SCRIPT] = {};
+  }
+
   try {
-    cookie.remove('tsseract-auth-token');
-    await axios.post('/api/auth/logout');
+    await fetch(baseURL + '/api/auth/logout', requestOptions({}, 'POST'));
     Router.push('/login');
   } catch (error) {
     console.error(error);
-    return {};
   }
 };
 
-export const getUserProfile = async () => {
-  try {
-    const { data } = await axios.get('/api/auth/');
-    return data;
-  } catch (error) {
-    console.error(error);
-    return {};
+const redirect = (res: ServerResponse | undefined, path: string) => {
+  if (res) {
+    res.writeHead(302, { Location: path });
+    res.end();
   }
+  Router.replace(path);
 };

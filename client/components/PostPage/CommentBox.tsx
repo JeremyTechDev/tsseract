@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { Grid, TextareaAutosize, Avatar, Button } from '@material-ui/core';
 
 import AppContext from '../../context';
 import useStyles from './styles';
 import { iPost, iComment } from '../../@types';
-
-axios.defaults.baseURL = 'http://localhost:8080';
+import requestOptions from '../../helpers/requestOptions';
+import { baseURL } from '../../lib/config';
 
 interface Props {
   post: iPost;
@@ -19,8 +18,8 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
   const [body, setBody] = useState('');
 
   const handleSubmit = () => {
-    axios
-      .post(`/api/posts/c/${post._id}`, { body })
+    fetch(`${baseURL}/api/posts/c/${post._id}`, requestOptions({ body }))
+      .then((res) => res.json())
       .then(({ data }: { data: iPost }) => {
         setComments(data.comments);
         setBody('');

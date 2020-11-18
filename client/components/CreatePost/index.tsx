@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
 
@@ -6,6 +5,8 @@ import PreviewPost from './PreviewPost';
 import TabPanel from './TabPanel';
 import WritePost from './WritePost';
 import useForm from '../../hooks/useForm';
+import { baseURL } from '../../lib/config';
+import requestOptions from '../../helpers/requestOptions';
 
 import useStyles from './styles';
 
@@ -25,8 +26,10 @@ const PostForm: React.FC = () => {
       );
     }
 
-    axios
-      .post('/api/posts', { title, body: content, cover: coverImg })
+    fetch(
+      baseURL + '/api/posts',
+      requestOptions({ title, body: content, cover: coverImg }),
+    )
       .then((response) => alert(response.status))
       .catch((err) => console.error(err));
   };

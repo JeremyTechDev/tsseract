@@ -30,8 +30,6 @@ export const authenticate: RequestHandler = async (req, res) => {
     const userToken = {
       _id: user._id,
       email: user.email,
-      followers: user.followers,
-      following: user.following,
       name: user.name,
       username: user.username,
     };
@@ -51,15 +49,9 @@ export const authenticate: RequestHandler = async (req, res) => {
  * @param res Express response
  */
 export const getTokenData: RequestHandler = (req, res) => {
-  const {
-    _id,
-    email,
-    followers,
-    following,
-    name,
-    username,
-  } = req.cookies.profile;
-  res.send({ name, username, email, _id, followers, following });
+  const { _id, email, name, username } = req.cookies.profile;
+
+  res.send({ name, username, email, _id });
 };
 
 /**

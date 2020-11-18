@@ -1,25 +1,26 @@
 import React from 'react';
 import Document, {
-  DocumentContext,
   Head,
   Html,
   Main,
   NextScript,
+  DocumentContext,
 } from 'next/document';
 
-import { getServerSideToken, getClientSideToken } from '../lib/auth';
+import { getServerSideToken, getUserScript } from '../lib/auth';
+import { authType } from '../@types';
 
-export default class MyDocument extends Document {
+export default class MyDocument extends Document<{ userData: authType }> {
   static async getInitialProps(ctx: DocumentContext) {
     const props = await Document.getInitialProps(ctx);
-    const userData = ctx.req
-      ? await getServerSideToken(ctx.req)
-      : await getClientSideToken();
+    const userData = getServerSideToken(ctx.req);
 
-    return { ...props, user: userData };
+    return { ...props, userData };
   }
 
   render() {
+    const { userData } = this.props;
+
     return (
       <Html lang="en-US">
         <Head>
@@ -65,6 +66,9 @@ export default class MyDocument extends Document {
         </Head>
         <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
+          <script
+            dangerouslySetInnerHTML={{ __html: getUserScript(userData.user) }}
+          />
           <NextScript />
         </body>
       </Html>

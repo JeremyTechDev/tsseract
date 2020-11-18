@@ -4,14 +4,7 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
-const userProps = [
-  '_id',
-  'email',
-  'name',
-  'username',
-  'following',
-  'followers',
-];
+const userProps = ['_id', 'email', 'name', 'username'];
 
 describe('Auth', () => {
   const SUT = http.createServer(server({ dev: true }));
