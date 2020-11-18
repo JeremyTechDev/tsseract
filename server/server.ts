@@ -1,8 +1,7 @@
 require('dotenv').config();
 
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
 
 import database from './database';
 
@@ -23,15 +22,10 @@ interface Options {
  * @returns {app} Express application
  */
 const init = (options: Options) => {
-  const { dev, appHandler } = options;
+  const { appHandler } = options;
   database();
 
   const server = express();
-
-  // production only
-  if (!dev) {
-    server.use(helmet());
-  }
 
   server.use(express.json());
   server.use(cookieParser(COOKIE_KEY));
