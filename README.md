@@ -89,11 +89,7 @@ You will need to have installed and running these technologies in order to run t
 
 - Copy the `static` files into the `dist` folder: `npm run copy-files`
 
-- To run the client side of the app: `npm run dev`
-
-- To run the server of the app: `npm run server`
-
-- Or you can start both in development mode: `npm run watch`
+- To start the app in development mode: `npm run server`
 
 You should get the following logs on the console:
 
@@ -102,7 +98,7 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `npm run tsc:watch` to start the TypeScript compilation on watch mode.
+If you are making some changes to the project, make sure you run `npm run tsc:w` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 

@@ -3,18 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next ./dist/client",
+    "client": "next ./dist/client",
     "server": "nodemon --config nodemon.json ./dist/server",
-    "watch": "run-p dev server",
+    "tsc": "run-p tsc:client tsc:server",
+    "tsc:w": "run-p tsc:watch:*",
     "tsc:client": "tsc -p ./client",
     "tsc:server": "tsc -p ./server",
-    "tsc:watch:client": "tsc -p ./client -w",
-    "tsc:watch:server": "tsc -p ./server -w",
-    "tsc": "run-p tsc:client tsc:server",
-    "tsc:watch": "run-p tsc:watch:*",
+    "tsc:w:client": "tsc -p ./client -w",
+    "tsc:w:server": "tsc -p ./server -w",
     "copy-files": "cp -vr ./static/. dist/client/public/",
-    "start": "next start ./dist/client",
-    "build": "next build",
     "test": "NODE_ENV=test && jest --detectOpenHandles"
   },
   "dependencies": {
