@@ -61,6 +61,7 @@
     "@types/supertest": "^2.0.10",
     "babel-plugin-styled-components": "^1.11.1",
     "eslint": "^7.4.0",
+    "eslint-config-airbnb": "^18.2.1",
     "husky": "^4.2.5",
     "jest": "^26.4.2",
     "lint-staged": "^10.2.7",

@@ -51,7 +51,7 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
       <Grid item xs={12} sm={6} className={classes.commentBody}>
         <Grid container>
           {tags.map((tag: iTag) => (
-            <Tag tag={tag} />
+            <Tag key={tag._id} tag={tag} />
           ))}
         </Grid>
       </Grid>
@@ -71,8 +71,12 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
 
       <CommentBox post={post} setComments={setComments} />
 
+      <Divider light className={classes.divider} />
+
       {comments.length !== 0 ? (
-        comments.map((comment) => <Comment comment={comment} />)
+        comments.map((comment) => (
+          <Comment key={comment._id} comment={comment} />
+        ))
       ) : (
         <Typography className={classes.divider} variant="body1" align="center">
           Be the first one to comment!

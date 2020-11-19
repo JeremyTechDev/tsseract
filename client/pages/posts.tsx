@@ -26,7 +26,7 @@ const PostList: NextPage<Props> = ({ posts, authData }) => {
 };
 
 PostList.getInitialProps = async (ctx) => {
-  const { user } = await authInitialProps()(ctx);
+  const { user } = await authInitialProps(true)(ctx);
   const data = await fetch(baseURL + '/api/posts/').then((res) => res.json());
 
   return { posts: data, authData: user };

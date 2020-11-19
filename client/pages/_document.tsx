@@ -6,16 +6,34 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
+import { ServerStyleSheets } from '@material-ui/core/styles';
 
-import { getServerSideToken, getUserScript } from '../lib/auth';
+import theme from '../theme';
 import { authType } from '../@types';
+import { getServerSideToken, getUserScript } from '../lib/auth';
 
 export default class MyDocument extends Document<{ userData: authType }> {
   static async getInitialProps(ctx: DocumentContext) {
-    const props = await Document.getInitialProps(ctx);
     const userData = getServerSideToken(ctx.req);
+    const initialProps = await Document.getInitialProps(ctx);
 
-    return { ...props, userData };
+    const sheets = new ServerStyleSheets();
+    const originalRenderPage = ctx.renderPage;
+
+    ctx.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+      });
+
+    return {
+      userData,
+      ...initialProps,
+      // Styles fragment is rendered after the app and page rendering finish.
+      styles: [
+        ...React.Children.toArray(initialProps.styles),
+        sheets.getStyleElement(),
+      ],
+    };
   }
 
   render() {
@@ -29,7 +47,10 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
           <meta name="author" content="Jeremy Muñoz" />
-          <meta name="theme-color" content="#f13c20" />
+          <meta
+            name="theme-color"
+            content={theme('dark').palette.primary.main}
+          />
           <meta
             name="description"
             content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
@@ -66,10 +87,10 @@ export default class MyDocument extends Document<{ userData: authType }> {
         </Head>
         <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
+          <NextScript />
           <script
             dangerouslySetInnerHTML={{ __html: getUserScript(userData.user) }}
           />
-          <NextScript />
         </body>
       </Html>
     );

@@ -31,7 +31,6 @@ const Layout: React.FC<Props> = ({
   } = useContext(AppContext);
 
   useEffect(() => {
-    console.log(authData);
     dispatch({ type: Types.SET_CREDENTIALS, payload: authData.user });
   }, []);
 
