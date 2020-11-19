@@ -7,6 +7,7 @@ import {
   Hidden,
   Typography,
 } from '@material-ui/core';
+import { useRouter } from 'next/router';
 
 import ImgInfo from './ImgInfo';
 import SignIn from './SignIn';
@@ -20,8 +21,9 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ bgData }) => {
+  const router = useRouter();
   const classes = useStyles({ bg: bgData.img });
-  const [showSignUp, setShowSignUp] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(router.query.view === 'signUp');
   const [user, handleChange] = useForm({
     birthDate: '',
     email: '',
