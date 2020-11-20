@@ -37,9 +37,10 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── docker-compose.yml          # Image dependencies file
     ├── Dockerfile                  # Image file
     ├── .jest.config.js             # Jest config file
-    ├── .next-env.d.ts              # Next environment file
     ├── License                     # MIT License
+    ├── .next-env.d.ts              # Next environment file
     ├── next.config.js              # NextJS configuration file
+    ├── nodemon.jon                 # Nodemon configuration file
     ├── package-lock.json           # Dependencies tree
     ├── package.json                # Dependencies management file
     └── README.md                   # ReadMe file
@@ -75,7 +76,7 @@ You will need to have installed and running these technologies in order to run t
 - [MongoDB](https://www.mongodb.com/es) - Database Storage
 - [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
-📌 **To run the app with npm. You need to make sure that the env variable `DB_ADDRESS` is empty or set to `localhost`.**
+📌 **Make sure that the env variable `DB_ADDRESS` is empty or set to `localhost` on development mode.**
 
 - Clone the repo:
 
@@ -83,7 +84,7 @@ You will need to have installed and running these technologies in order to run t
   git clone https://github.com/jeremy2918/tsseract-app.git
   ```
 
-- Install dependencies: `npm i`
+- Install dependencies: `npm install`
 
 - Build the `dist` folder with the TypeScript compiler: `npm run tsc`
 
@@ -98,7 +99,9 @@ You should get the following logs on the console:
 📡 Connected to MongoDB...
 ```
 
-If you are making some changes to the project, make sure you run `npm run tsc:w` to start the TypeScript compilation on watch mode.
+- You should be able to go to [http://localhost:8080/](http://localhost:8080/) and see the application running.
+
+> If you are making some changes to the project, you should run `npm run tsc:w` to start the TypeScript compilation on watch mode.
 
 ## Running the tests
 
