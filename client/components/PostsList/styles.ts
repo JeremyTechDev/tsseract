@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
+  fontColor: {
+    color: theme.palette.type === 'dark' ? '#000' : '#fff',
+  },
   padding: {
     padding: 20,
   },
@@ -35,10 +38,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 5px',
   },
   tag: {
+    borderRadius: 2,
+    color: '#fff',
+    fontWeight: 900,
     margin: 2,
     padding: '2px 6px 4px',
-    borderRadius: 2,
-    fontWeight: 900,
   },
 }));
 

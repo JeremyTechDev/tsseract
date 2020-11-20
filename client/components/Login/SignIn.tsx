@@ -34,7 +34,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           type: Types.SET_CREDENTIALS,
           payload: data.user || null,
         });
-        Router.push('/create-post');
+        Router.push('/posts');
       } else {
         setRequestError(data.error);
       }

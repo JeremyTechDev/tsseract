@@ -15,7 +15,6 @@ import { getServerSideToken, getUserScript } from '../lib/auth';
 export default class MyDocument extends Document<{ userData: authType }> {
   static async getInitialProps(ctx: DocumentContext) {
     const userData = getServerSideToken(ctx.req);
-    const initialProps = await Document.getInitialProps(ctx);
 
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
@@ -24,6 +23,8 @@ export default class MyDocument extends Document<{ userData: authType }> {
       originalRenderPage({
         enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       });
+
+    const initialProps = await Document.getInitialProps(ctx);
 
     return {
       userData,

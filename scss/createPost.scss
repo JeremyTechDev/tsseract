@@ -2,6 +2,7 @@
 
 .preview__result {
   padding: 10px;
+  font-size: 18px;
 
   code {
     background-color: $dark;
@@ -29,5 +30,6 @@
     display: block;
     margin: 0 auto;
     max-width: 100%;
+    min-width: 100%;
   }
 }

@@ -20,11 +20,12 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
   const handleSubmit = () => {
     fetch(`${baseURL}/api/posts/c/${post._id}`, requestOptions({ body }))
       .then((res) => res.json())
-      .then(({ data }: { data: iPost }) => {
+      .then((data: iPost) => {
         setComments(data.comments);
         setBody('');
       })
       .catch((error) => {
+        console.log(error);
         if (error.response.status === 401) {
           alert('You need to log in to your account to be able to comment');
         } else {
