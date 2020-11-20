@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
+import Router from 'next/router';
 
 import PreviewPost from './PreviewPost';
 import TabPanel from './TabPanel';
@@ -30,7 +31,7 @@ const PostForm: React.FC = () => {
       baseURL + '/api/posts',
       requestOptions({ title, body: content, cover: coverImg }),
     )
-      .then((response) => alert(response.status))
+      .then(() => Router.push('/posts'))
       .catch((err) => console.error(err));
   };
 

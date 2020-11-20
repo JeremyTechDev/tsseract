@@ -14,7 +14,7 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <div className={classes.fontColor}>
       <Grid spacing={1} container alignItems="center">
         <Grid item>
           <Avatar className={classes.avatar}>
@@ -31,7 +31,7 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
       </Grid>
 
       <Typography variant="h3">{title}</Typography>
-    </React.Fragment>
+    </div>
   );
 };
 

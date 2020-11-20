@@ -39,8 +39,8 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
 
   return (
     <ThemeProvider theme={getTheme(currentTheme)}>
+      <CssBaseline />
       <AppContext.Provider value={{ state, dispatch }}>
-        <CssBaseline />
         <Component {...pageProps} />
       </AppContext.Provider>
     </ThemeProvider>

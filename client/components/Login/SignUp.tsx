@@ -56,7 +56,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
               payload: data,
             });
 
-            Router.push('/create-post');
+            Router.push('/posts');
           } else {
             setRequestError(data.error);
           }

@@ -20,7 +20,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
   const handleSubmit = () => {
     fetch(`${baseURL}/api/posts/c/${post._id}`, requestOptions({ body }))
       .then((res) => res.json())
-      .then(({ data }: { data: iPost }) => {
+      .then((data: iPost) => {
         setComments(data.comments);
         setBody('');
       })

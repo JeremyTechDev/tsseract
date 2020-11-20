@@ -6,7 +6,7 @@
     "client": "next ./dist/client",
     "server": "nodemon --config nodemon.json ./dist/server",
     "tsc": "run-p tsc:client tsc:server",
-    "tsc:w": "run-p tsc:watch:*",
+    "tsc:w": "run-p tsc:w:*",
     "tsc:client": "tsc -p ./client",
     "tsc:server": "tsc -p ./server",
     "tsc:w:client": "tsc -p ./client -w",
