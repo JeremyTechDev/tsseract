@@ -15,9 +15,13 @@ const Posts: React.FC<Props> = ({ posts }: Props) => {
         Posts
       </Typography>
 
-      {posts.map((post) => (
-        <Card key={post._id} post={post} />
-      ))}
+      {posts.length !== 0 ? (
+        posts.map((post) => <Card key={post._id} post={post} />)
+      ) : (
+        <Typography align="center" variant="subtitle1">
+          There are no posts on you feed right now
+        </Typography>
+      )}
     </Container>
   );
 };

@@ -81,7 +81,7 @@ export const logoutUser = async () => {
 
   try {
     await fetch(baseURL + '/api/auth/logout', requestOptions({}, 'POST'));
-    Router.push('/login');
+    Router.push('/');
   } catch (error) {
     console.error(error);
   }

@@ -35,7 +35,7 @@ const Layout: React.FC<Props> = ({
   }, []);
 
   const logo = `/Main-aside/${
-    theme === 'dark' && 'white_'
+    theme === 'dark' ? 'white_' : ''
   }logo_transparent_background.png`;
 
   return (
@@ -47,7 +47,7 @@ const Layout: React.FC<Props> = ({
       {displayNav && (
         <Paper className={classes.header} elevation={3} square>
           <Grid container alignItems="center" justify="space-around">
-            <Link href="/">
+            <Link href={!authData.error ? '/posts' : '/'}>
               <img className={classes.logo} src={logo} alt="Tsseract logo" />
             </Link>
             <Grid />
