@@ -25,6 +25,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
         setBody('');
       })
       .catch((error) => {
+        console.log(error);
         if (error.response.status === 401) {
           alert('You need to log in to your account to be able to comment');
         } else {
