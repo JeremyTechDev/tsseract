@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "highlight.js": "^10.1.2",
+    "is-hotkey": "^0.1.6",
     "jsonwebtoken": "^8.5.1",
     "marked": "^1.1.1",
     "mongoose": "^5.9.16",
@@ -35,7 +36,9 @@
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "set-cookie-parser": "^2.4.6"
+    "set-cookie-parser": "^2.4.6",
+    "slate": "^0.59.0",
+    "slate-react": "^0.59.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

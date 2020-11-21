@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
   },
+  noBorder: { border: 'none' },
+  toolbar: { marginTop: 10 },
 }));
 
 export default useStyles;

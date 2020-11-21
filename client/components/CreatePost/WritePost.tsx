@@ -11,6 +11,7 @@ import {
 import UploadImage from './UploadImg';
 import CoverImgModal from '../CoverImgModal';
 import { InputChangeEvent } from '../../@types';
+import RichEditor from './RichEditor';
 
 import useStyles from './styles';
 
@@ -76,14 +77,7 @@ const WritePost: React.FC<Props> = ({
         <UploadImage />
       </Paper>
 
-      <TextareaAutosize
-        name="content"
-        className={classes.bodyTextArea}
-        defaultValue={post.content}
-        onChange={handleChange}
-        placeholder="Write you post content here..."
-        rowsMin={10}
-      />
+      <RichEditor />
 
       <Typography variant="caption" align="right">
         Markdown supported
