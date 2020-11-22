@@ -29,6 +29,7 @@ export const HOTKEYS = {
   'mod+shift+2': 'heading-two',
   'mod+shift+7': 'numbered-list',
   'mod+shift+8': 'bulleted-list',
+  'mod+shift+.': 'block-quote',
 };
 
 type LeafType = {

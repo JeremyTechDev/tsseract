@@ -27,7 +27,7 @@ const styles = makeStyles(({ palette }) => {
       fontSize: 20,
       fontStyle: 'oblique',
       margin: '1.5em 10px',
-      padding: '0.5em 10px',
+      padding: '7px 10px',
     },
   };
 });

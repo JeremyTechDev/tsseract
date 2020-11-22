@@ -60,7 +60,7 @@ export const tools: ToolType[] = [
     format: 'block-quote',
     icon: <FormatQuote />,
     isBlock: true,
-    shortcut: '',
+    shortcut: 'Ctrl+Shift+.',
   },
   {
     format: 'numbered-list',
