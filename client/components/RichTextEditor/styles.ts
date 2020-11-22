@@ -1,0 +1,35 @@
+import { makeStyles } from '@material-ui/core';
+
+const fontSize = 18;
+
+const styles = makeStyles(({ palette }) => {
+  const color = palette.getContrastText('#2a363b');
+
+  return {
+    editable: { fontSize },
+    noBorder: { border: 'none' },
+    toolbar: { marginTop: 7 },
+    bold: { fontWeight: 900, fontSize },
+    code: {
+      backgroundColor: '#2a363b',
+      borderRadius: 4,
+      color,
+      fontFamily: 'Source Code Pro',
+      fontSize: 14,
+      overflowX: 'auto',
+      padding: '2px 6px',
+      whiteSpace: 'pre-wrap',
+    },
+    quote: {
+      background: '#2a363b',
+      borderLeft: `10px solid ${color}`,
+      color,
+      fontSize: 20,
+      fontStyle: 'oblique',
+      margin: '1.5em 10px',
+      padding: '0.5em 10px',
+    },
+  };
+});
+
+export default styles;

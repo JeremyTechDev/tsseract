@@ -8,10 +8,10 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import UploadImage from './UploadImg';
-import CoverImgModal from '../CoverImgModal';
 import { InputChangeEvent } from '../../@types';
-import RichEditor from './RichEditor';
+import CoverImgModal from '../CoverImgModal';
+import RichTextEditor from '../RichTextEditor';
+import UploadImage from './UploadImg';
 
 import useStyles from './styles';
 
@@ -77,7 +77,7 @@ const WritePost: React.FC<Props> = ({
         <UploadImage />
       </Paper>
 
-      <RichEditor />
+      <RichTextEditor />
 
       <Typography variant="caption" align="right">
         Markdown supported
