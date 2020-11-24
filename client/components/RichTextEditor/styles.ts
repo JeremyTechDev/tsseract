@@ -6,9 +6,9 @@ const styles = makeStyles(({ palette }) => {
   const color = palette.getContrastText('#2a363b');
 
   return {
-    editable: { fontSize },
+    editable: { fontSize, padding: '7px 0' },
     noBorder: { border: 'none' },
-    toolbar: { marginTop: 7 },
+    toolbar: { margin: '7px auto' },
     bold: { fontWeight: 900, fontSize },
     code: {
       backgroundColor: '#2a363b',

@@ -1,13 +1,18 @@
 import React, { ReactNode } from 'react';
 import { ReactEditor } from 'slate-react';
 import { Editor, Transforms } from 'slate';
+import { Typography, Link } from '@material-ui/core';
 
 import { Bold, Code, Quote, Heading1, Heading2 } from './Components';
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
-type EditorType = Editor & ReactEditor;
+export type EditorType = Editor & ReactEditor;
 
 export type FormatType =
+  | 'align-left'
+  | 'align-right'
+  | 'align-center'
+  | 'align-justify'
   | 'paragraph'
   | 'bold'
   | 'bulleted-list'
@@ -18,7 +23,8 @@ export type FormatType =
   | 'block-quote'
   | 'numbered-list'
   | 'underline'
-  | 'list-item';
+  | 'list-item'
+  | 'link';
 
 export const HOTKEYS = {
   'mod+b': 'bold',
@@ -30,6 +36,10 @@ export const HOTKEYS = {
   'mod+shift+7': 'numbered-list',
   'mod+shift+8': 'bulleted-list',
   'mod+shift+.': 'block-quote',
+  'mod+shift+L': 'align-left',
+  'mod+shift+E': 'align-center',
+  'mod+shift+R': 'align-right',
+  'mod+shift+j': 'align-justify',
 };
 
 type LeafType = {
@@ -47,7 +57,7 @@ export const Leaf = ({ attributes, children, leaf }: LeafType) => {
 };
 
 type ElementType = {
-  element: { type: FormatType };
+  element: { type: FormatType; url?: string };
   children: ReactNode;
   attributes: unknown;
 };
@@ -65,8 +75,22 @@ export const Element = ({ attributes, children, element }: ElementType) => {
       return <ul {...attributes}>{children}</ul>;
     case 'numbered-list':
       return <ol {...attributes}>{children}</ol>;
+    case 'align-center':
+      return <Typography align="center">{children}</Typography>;
+    case 'align-right':
+      return <Typography align="right">{children}</Typography>;
+    case 'align-justify':
+      return <Typography align="justify">{children}</Typography>;
+    case 'align-left':
+      return <Typography align="left">{children}</Typography>;
+    case 'link':
+      return (
+        <Link {...attributes} href={element.url}>
+          {children}
+        </Link>
+      );
     default:
-      return <p {...attributes}>{children}</p>;
+      return <Typography align="left">{children}</Typography>;
   }
 };
 
@@ -114,7 +138,7 @@ export const isMarkActive = (editor: EditorType, format: FormatType) => {
 
 export const initialValue = [
   {
-    type: 'paragraph',
+    type: 'align-left',
     children: [{ text: '' }],
   },
 ];

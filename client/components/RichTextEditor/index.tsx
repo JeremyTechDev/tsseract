@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Editable, withReact, useSlate, Slate } from 'slate-react';
 import { createEditor, Node } from 'slate';
 import { Tooltip } from '@material-ui/core';
@@ -9,7 +9,6 @@ import {
   Element,
   FormatType,
   HOTKEYS,
-  initialValue,
   isBlockActive,
   isMarkActive,
   Leaf,
@@ -17,21 +16,31 @@ import {
   toggleMark,
 } from './Slate';
 import useStyles from './styles';
+import { withLinks, LinkButton } from './Link';
 import { ToolType, tools } from './Tools';
 
 interface Props {
   readOnly?: boolean;
+  value: Node[];
+  setValue?: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
-const RichTextExample: React.FC<Props> = ({ readOnly = false }) => {
+const RichTextEditor: React.FC<Props> = ({
+  value,
+  setValue,
+  readOnly = false,
+}) => {
   const classes = useStyles();
-  const [value, setValue] = useState<Node[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
-  const editor = useMemo(() => withReact(createEditor()), []);
+  const editor = useMemo(() => withLinks(withReact(createEditor())), []);
 
   return (
-    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={setValue ? (value) => setValue(value) : () => {}}
+    >
       {!readOnly && (
         <ToggleButtonGroup className={classes.toolbar}>
           {tools.map((tool) => (
@@ -41,16 +50,19 @@ const RichTextExample: React.FC<Props> = ({ readOnly = false }) => {
               tool={tool}
             />
           ))}
+          <LinkButton />
         </ToggleButtonGroup>
       )}
       <Editable
         autoFocus
         className={classes.editable}
+        name="content"
         placeholder="Enter your post content here..."
         readOnly={readOnly}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         spellCheck
+        // cols={30}
         onKeyDown={(event) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
@@ -90,4 +102,4 @@ const Toggle = ({ tool, className }: ToggleType) => {
   );
 };
 
-export default RichTextExample;
+export default RichTextEditor;

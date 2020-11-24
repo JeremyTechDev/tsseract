@@ -1,26 +1,32 @@
 import React, { useState } from 'react';
-import { Button, Container, Grid, Paper, Tab, Tabs } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  TextareaAutosize,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import Router from 'next/router';
+import { Node } from 'slate';
 
-import PreviewPost from './PreviewPost';
-import TabPanel from './TabPanel';
-import WritePost from './WritePost';
-import useForm from '../../hooks/useForm';
 import { baseURL } from '../../lib/config';
+import { initialValue } from '../RichTextEditor/Slate';
 import requestOptions from '../../helpers/requestOptions';
+import CoverImgModal from '../CoverImgModal';
+import RichTextEditor from '../RichTextEditor';
 
 import useStyles from './styles';
 
 const PostForm: React.FC = () => {
   const classes = useStyles();
-  const [tab, setTab] = useState(0);
-  const [post, handleChange] = useForm({ title: '', content: '' });
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState<Node[]>(initialValue);
 
   const handleSubmit = () => {
-    const { title, content } = post;
-
     if (!title || !content || !coverImg) {
       return alert(
         'Make sure you a cover, a nice title and some content before you publish your post!',
@@ -29,9 +35,13 @@ const PostForm: React.FC = () => {
 
     fetch(
       baseURL + '/api/posts',
-      requestOptions({ title, body: content, cover: coverImg }),
+      requestOptions({ title, body: JSON.stringify(content), cover: coverImg }),
     )
-      .then(() => Router.push('/posts'))
+      .then(({ status }) => {
+        status !== 200
+          ? alert('Sorry, an error ocurred while saving your post')
+          : Router.push('/posts');
+      })
       .catch((err) => console.error(err));
   };
 
@@ -42,31 +52,53 @@ const PostForm: React.FC = () => {
 
         <Grid item xs={12} md={6}>
           <Paper square elevation={2}>
-            <Tabs
-              centered
-              indicatorColor="primary"
-              onChange={(_, newTab) => setTab(newTab)}
-              textColor="primary"
-              value={tab}
-            >
-              <Tab label="Edit" />
-              <Tab label="Preview" />
-            </Tabs>
+            <Grid justify="space-between" container>
+              {(coverImg && (
+                <Tooltip placement="top" title="Click to change">
+                  <img
+                    alt="Cover Image"
+                    className={classes.coverImg}
+                    src={coverImg}
+                    onClick={() => setShowCoverImg(true)}
+                  />
+                </Tooltip>
+              )) || (
+                <Button
+                  className={classes.margin}
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setShowCoverImg(true)}
+                >
+                  Cover image
+                </Button>
+              )}
+              <Typography variant="caption">{125 - title.length}</Typography>
+            </Grid>
 
-            <TabPanel value={tab} index={0}>
-              <WritePost
-                coverImg={coverImg}
-                handleChange={handleChange}
-                post={post}
-                setCoverImg={setCoverImg}
-                setShowCoverImg={setShowCoverImg}
-                showCoverImg={showCoverImg}
+            <TextareaAutosize
+              className={classes.titleTextArea}
+              defaultValue={title}
+              maxLength={125}
+              name="title"
+              onChange={({ target }) => setTitle(target.value)}
+              placeholder="Add your post title here..."
+            />
+
+            <Typography className={classes.margin} variant="subtitle1">
+              Add up to 5 tags...
+            </Typography>
+
+            <Container className={classes.richEditor}>
+              <RichTextEditor value={content} setValue={setContent} />
+            </Container>
+
+            {showCoverImg && (
+              <CoverImgModal
+                img={coverImg}
+                open={setShowCoverImg}
+                setImg={setCoverImg}
               />
-            </TabPanel>
-
-            <TabPanel value={tab} index={1}>
-              <PreviewPost post={post} coverImg={coverImg} />
-            </TabPanel>
+            )}
           </Paper>
         </Grid>
 
