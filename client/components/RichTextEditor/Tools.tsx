@@ -23,7 +23,7 @@ export interface ToolType {
   shortcut: string;
 }
 
-export const tools: ToolType[] = [
+export const alignments: ToolType[] = [
   {
     format: 'align-left',
     icon: <FormatAlignLeft />,
@@ -48,6 +48,9 @@ export const tools: ToolType[] = [
     isBlock: true,
     shortcut: 'Justify (Ctrl+Alt+J)',
   },
+];
+
+export const tools: ToolType[] = [
   {
     format: 'bold',
     icon: <FormatBold />,

@@ -3,7 +3,7 @@ import { ReactEditor } from 'slate-react';
 import { Editor, Transforms } from 'slate';
 import { Typography, Link } from '@material-ui/core';
 
-import { Bold, Code, Quote, Heading1, Heading2 } from './Components';
+import { Bold, Code, Quote, Heading1, Heading2, Image } from './Components';
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 export type EditorType = Editor & ReactEditor;
@@ -24,7 +24,8 @@ export type FormatType =
   | 'numbered-list'
   | 'underline'
   | 'list-item'
-  | 'link';
+  | 'link'
+  | 'image';
 
 export const HOTKEYS = {
   'mod+b': 'bold',
@@ -61,7 +62,8 @@ type ElementType = {
   children: ReactNode;
   attributes: unknown;
 };
-export const Element = ({ attributes, children, element }: ElementType) => {
+export const Element = (props: ElementType) => {
+  const { attributes, children, element } = props;
   switch (element.type) {
     case 'block-quote':
       return <Quote {...attributes}>{children}</Quote>;
@@ -83,6 +85,8 @@ export const Element = ({ attributes, children, element }: ElementType) => {
       return <Typography align="justify">{children}</Typography>;
     case 'align-left':
       return <Typography align="left">{children}</Typography>;
+    case 'image':
+      return <Image {...props} />;
     case 'link':
       return (
         <Link {...attributes} href={element.url}>
@@ -116,11 +120,9 @@ export const toggleBlock = (editor: EditorType, format: FormatType) => {
 export const toggleMark = (editor: EditorType, format: FormatType) => {
   const isActive = isMarkActive(editor, format);
 
-  if (isActive) {
-    Editor.removeMark(editor, format);
-  } else {
-    Editor.addMark(editor, format, true);
-  }
+  isActive
+    ? Editor.removeMark(editor, format)
+    : Editor.addMark(editor, format, true);
 };
 
 export const isBlockActive = (editor: EditorType, format: FormatType) => {

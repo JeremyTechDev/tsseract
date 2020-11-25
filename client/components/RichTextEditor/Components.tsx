@@ -35,3 +35,15 @@ export const Heading1: React.FC<ComponentType> = ({ children }) => {
 export const Heading2: React.FC<ComponentType> = ({ children }) => {
   return <Typography variant="h5">{children}</Typography>;
 };
+
+export const Image = ({ attributes, children, element }: any) => {
+  const classes = useStyles();
+  return (
+    <div {...attributes}>
+      <div contentEditable={false}>
+        <img className={classes.contentImage} src={element.url} />
+      </div>
+      {children}
+    </div>
+  );
+};

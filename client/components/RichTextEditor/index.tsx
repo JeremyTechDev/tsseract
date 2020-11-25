@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Editable, withReact, useSlate, Slate } from 'slate-react';
 import { createEditor, Node } from 'slate';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, Typography, Grid } from '@material-ui/core';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 import isHotkey from 'is-hotkey';
 
@@ -16,8 +16,8 @@ import {
   toggleMark,
 } from './Slate';
 import useStyles from './styles';
-import { withLinks, LinkButton } from './Link';
-import { ToolType, tools } from './Tools';
+import { ToolType, tools, alignments } from './Tools';
+import { withLinks, withImages, LinkButton, ImageButton } from './Links';
 
 interface Props {
   readOnly?: boolean;
@@ -33,7 +33,10 @@ const RichTextEditor: React.FC<Props> = ({
   const classes = useStyles();
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
-  const editor = useMemo(() => withLinks(withReact(createEditor())), []);
+  const editor = useMemo(
+    () => withImages(withLinks(withReact(createEditor()))),
+    [],
+  );
 
   return (
     <Slate
@@ -42,17 +45,34 @@ const RichTextEditor: React.FC<Props> = ({
       onChange={setValue ? (value) => setValue(value) : () => {}}
     >
       {!readOnly && (
-        <ToggleButtonGroup className={classes.toolbar}>
-          {tools.map((tool) => (
-            <Toggle
-              key={tool.format}
-              className={classes.noBorder}
-              tool={tool}
-            />
-          ))}
-          <LinkButton />
-        </ToggleButtonGroup>
+        <Grid container justify="flex-start">
+          <ToggleButtonGroup className={classes.toolbar}>
+            {alignments.map((align) => (
+              <Toggle
+                key={align.format}
+                className={classes.noBorder}
+                tool={align}
+              />
+            ))}
+          </ToggleButtonGroup>
+
+          <ToggleButtonGroup className={classes.toolbar}>
+            {tools.map((tool) => (
+              <Toggle
+                key={tool.format}
+                className={classes.noBorder}
+                tool={tool}
+              />
+            ))}
+          </ToggleButtonGroup>
+
+          <ToggleButtonGroup className={classes.toolbar}>
+            <LinkButton />
+            <ImageButton />
+          </ToggleButtonGroup>
+        </Grid>
       )}
+
       <Editable
         autoFocus
         className={classes.editable}
@@ -62,7 +82,6 @@ const RichTextEditor: React.FC<Props> = ({
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         spellCheck
-        // cols={30}
         onKeyDown={(event) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
@@ -84,7 +103,10 @@ const Toggle = ({ tool, className }: ToggleType) => {
   const { format, isBlock, icon, shortcut } = tool;
 
   return (
-    <Tooltip title={shortcut} arrow>
+    <Tooltip
+      arrow
+      title={<Typography variant="subtitle2">{shortcut}</Typography>}
+    >
       <ToggleButton
         className={className}
         value={format}

@@ -8,7 +8,7 @@ const styles = makeStyles(({ palette }) => {
   return {
     editable: { fontSize, padding: '7px 0' },
     noBorder: { border: 'none' },
-    toolbar: { margin: '7px auto' },
+    toolbar: { margin: '7px 3px' },
     bold: { fontWeight: 900, fontSize },
     code: {
       backgroundColor: '#2a363b',
@@ -28,6 +28,12 @@ const styles = makeStyles(({ palette }) => {
       fontStyle: 'oblique',
       margin: '1.5em 10px',
       padding: '7px 10px',
+    },
+    contentImage: {
+      display: 'block',
+      margin: '0 auto',
+      maxHeight: '20em',
+      maxWidth: '100%',
     },
   };
 });
