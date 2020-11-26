@@ -23,6 +23,19 @@ export const Code: React.FC<ComponentType> = ({ children }) => {
   );
 };
 
+export const CodeBlock: React.FC<ComponentType> = ({ children }) => {
+  const classes = useStyles();
+  return (
+    <Typography
+      className={classes.code}
+      component="pre"
+      style={{ borderRadius: 0 }}
+    >
+      {children}
+    </Typography>
+  );
+};
+
 export const Quote: React.FC<ComponentType> = ({ children }) => {
   const classes = useStyles();
   return <Typography className={classes.quote}>{children}</Typography>;

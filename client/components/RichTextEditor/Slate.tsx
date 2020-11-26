@@ -3,7 +3,15 @@ import { ReactEditor } from 'slate-react';
 import { Editor, Transforms } from 'slate';
 import { Typography, Link } from '@material-ui/core';
 
-import { Bold, Code, Quote, Heading1, Heading2, Image } from './Components';
+import {
+  Bold,
+  Code,
+  CodeBlock,
+  Heading1,
+  Heading2,
+  Image,
+  Quote,
+} from './Components';
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 export type EditorType = Editor & ReactEditor;
@@ -17,6 +25,7 @@ export type FormatType =
   | 'bold'
   | 'bulleted-list'
   | 'code'
+  | 'code-block'
   | 'heading-one'
   | 'heading-two'
   | 'italic'
@@ -32,6 +41,7 @@ export const HOTKEYS = {
   'mod+i': 'italic',
   'mod+u': 'underline',
   'mod+`': 'code',
+  'mod+shift+`': 'code-block',
   'mod+shift+1': 'heading-one',
   'mod+shift+2': 'heading-two',
   'mod+shift+7': 'numbered-list',
@@ -67,6 +77,8 @@ export const Element = (props: ElementType) => {
   switch (element.type) {
     case 'block-quote':
       return <Quote {...attributes}>{children}</Quote>;
+    case 'code-block':
+      return <CodeBlock {...attributes}>{children}</CodeBlock>;
     case 'heading-one':
       return <Heading1 {...attributes}>{children}</Heading1>;
     case 'heading-two':

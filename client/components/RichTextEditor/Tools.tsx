@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import {
   Code,
+  DeveloperMode,
   FormatAlignCenter,
   FormatAlignJustify,
   FormatAlignLeft,
@@ -74,6 +75,12 @@ export const tools: ToolType[] = [
     icon: <Code />,
     isBlock: false,
     shortcut: 'Inline Code (Ctrl+`)',
+  },
+  {
+    format: 'code-block',
+    icon: <DeveloperMode />,
+    isBlock: true,
+    shortcut: 'Block Code (Ctrl+Shift+`)',
   },
   {
     format: 'heading-one',
