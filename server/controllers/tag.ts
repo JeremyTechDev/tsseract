@@ -1,3 +1,5 @@
+import { RequestHandler } from 'express';
+
 import Tag from '../models/tag';
 import { iTag } from '../@types';
 
@@ -23,5 +25,23 @@ export const findOrCreate = async (tagName: string) => {
     return { ...newTag._doc, new: true };
   } catch (error) {
     return { error: error.message };
+  }
+};
+
+/**
+ * Returns a list of tag similar to the query
+ * @param {String} req.params.query the tag to find
+ */
+export const findTagLike: RequestHandler = async (req, res) => {
+  try {
+    const { query } = req.params;
+
+    const tagsLike = (await Tag.find({
+      name: new RegExp(query, 'i'),
+    }).limit(50)) as iTag[];
+
+    return res.send(tagsLike || []);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
   }
 };

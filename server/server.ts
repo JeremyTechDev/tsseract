@@ -8,6 +8,7 @@ import database from './database';
 import auth from './routes/auth';
 import user from './routes/user';
 import post from './routes/post';
+import tag from './routes/tag';
 
 const { COOKIE_KEY, PORT = 8080, NODE_ENV } = process.env;
 
@@ -44,6 +45,7 @@ const init = (options: Options) => {
   server.use('/api/users', user);
   server.use('/api/posts', post);
   server.use('/api/auth', auth);
+  server.use('/api/tags', tag);
 
   // let next handle the default route
   if (appHandler) {
