@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Grid,
@@ -6,7 +6,10 @@ import {
   TextareaAutosize,
   Tooltip,
   Typography,
+  TextField,
 } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { Label } from '@material-ui/icons';
 
 import UploadImage from './UploadImg';
 import CoverImgModal from '../CoverImgModal';
@@ -33,6 +36,15 @@ const WritePost: React.FC<Props> = ({
   showCoverImg,
 }) => {
   const classes = useStyles();
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagsSearchResults, setTagsSearchResults] = useState<string[]>([]);
+
+  const handleTagChange = (event: InputChangeEvent) => {
+    fetch(`/api/tags/like/${event.target.value}`)
+      .then((res) => res.json())
+      .then((data) => setTagsSearchResults(data))
+      .catch((err) => console.error(err));
+  };
 
   return (
     <React.Fragment>
@@ -68,9 +80,24 @@ const WritePost: React.FC<Props> = ({
         placeholder="Add your post title here..."
       />
 
-      <Typography className={classes.margin} variant="subtitle1">
-        Add up to 5 tags...
-      </Typography>
+      <Paper elevation={3}>
+        <Autocomplete
+          freeSolo
+          limitTags={4}
+          multiple
+          onChange={(_, options) => setTags([...options])}
+          options={tagsSearchResults}
+          value={tags}
+          renderInput={(params) => (
+            <TextField
+              className={classes.tagInput}
+              onChange={handleTagChange}
+              placeholder="Add up to 4 tags..."
+              {...params}
+            />
+          )}
+        />
+      </Paper>
 
       <Paper elevation={3}>
         <UploadImage />
