@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
   },
+  tagInput: {
+    border: 'none',
+    padding: 10,
+  },
 }));
 
 export default useStyles;

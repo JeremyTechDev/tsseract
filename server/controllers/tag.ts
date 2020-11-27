@@ -40,7 +40,9 @@ export const findTagLike: RequestHandler = async (req, res) => {
       name: new RegExp(query, 'i'),
     }).limit(50)) as iTag[];
 
-    return res.send(tagsLike || []);
+    const result = tagsLike.map((tag) => tag.name);
+
+    return res.send(result || []);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

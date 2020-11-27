@@ -58,7 +58,7 @@ const Card: React.FC<Props> = ({ post }: Props) => {
         <Grid item xs={12} sm={6}>
           <Grid container>
             {tags.map((tag: iTag) => (
-              <Tag tag={tag} />
+              <Tag key={tag._id} tag={tag} />
             ))}
           </Grid>
         </Grid>
