@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
   richEditor: {
     padding: '10px 8px 50px',
   },
+  tagInput: {
+    border: 'none',
+    padding: 10,
+  },
 }));
 
 export default useStyles;

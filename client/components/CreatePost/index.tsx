@@ -7,7 +7,9 @@ import {
   TextareaAutosize,
   Tooltip,
   Typography,
+  TextField,
 } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 import Router from 'next/router';
 import { Node } from 'slate';
 
@@ -16,6 +18,7 @@ import { initialValue } from '../RichTextEditor/Slate';
 import requestOptions from '../../helpers/requestOptions';
 import CoverImgModal from '../CoverImgModal';
 import RichTextEditor from '../RichTextEditor';
+import { InputChangeEvent } from '../../@types';
 
 import useStyles from './styles';
 
@@ -25,6 +28,16 @@ const PostForm: React.FC = () => {
   const [showCoverImg, setShowCoverImg] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState<Node[]>(initialValue);
+
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagsSearchResults, setTagsSearchResults] = useState<string[]>([]);
+
+  const handleTagChange = (event: InputChangeEvent) => {
+    fetch(`/api/tags/like/${event.target.value}`)
+      .then((res) => res.json())
+      .then((data) => setTagsSearchResults(data))
+      .catch((err) => console.error(err));
+  };
 
   const handleSubmit = () => {
     if (!title || !content || !coverImg) {
@@ -84,9 +97,24 @@ const PostForm: React.FC = () => {
               placeholder="Add your post title here..."
             />
 
-            <Typography className={classes.margin} variant="subtitle1">
-              Add up to 5 tags...
-            </Typography>
+            <Paper elevation={3}>
+              <Autocomplete
+                freeSolo
+                limitTags={4}
+                multiple
+                onChange={(_, options) => setTags([...options])}
+                options={tagsSearchResults}
+                value={tags}
+                renderInput={(params) => (
+                  <TextField
+                    className={classes.tagInput}
+                    onChange={handleTagChange}
+                    placeholder="Add up to 4 tags..."
+                    {...params}
+                  />
+                )}
+              />
+            </Paper>
 
             <Container className={classes.richEditor}>
               <RichTextEditor value={content} setValue={setContent} />
