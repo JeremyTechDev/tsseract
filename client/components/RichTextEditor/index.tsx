@@ -81,7 +81,6 @@ const RichTextEditor: React.FC<Props> = ({
         readOnly={readOnly}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        spellCheck
         onKeyDown={(event) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {

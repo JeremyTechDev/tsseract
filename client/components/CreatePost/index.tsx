@@ -28,7 +28,6 @@ const PostForm: React.FC = () => {
   const [showCoverImg, setShowCoverImg] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState<Node[]>(initialValue);
-
   const [tags, setTags] = useState<string[]>([]);
   const [tagsSearchResults, setTagsSearchResults] = useState<string[]>([]);
 
@@ -48,7 +47,12 @@ const PostForm: React.FC = () => {
 
     fetch(
       baseURL + '/api/posts',
-      requestOptions({ title, body: JSON.stringify(content), cover: coverImg }),
+      requestOptions({
+        body: JSON.stringify(content),
+        cover: coverImg,
+        tags: tags.splice(0, 4),
+        title,
+      }),
     )
       .then(({ status }) => {
         status !== 200
@@ -100,17 +104,22 @@ const PostForm: React.FC = () => {
             <Paper elevation={3}>
               <Autocomplete
                 freeSolo
+                getLimitTagsText={() => ''}
                 limitTags={4}
                 multiple
+                ChipProps={{
+                  color: 'secondary',
+                }}
                 onChange={(_, options) => setTags([...options])}
                 options={tagsSearchResults}
                 value={tags}
                 renderInput={(params) => (
                   <TextField
+                    {...params}
                     className={classes.tagInput}
                     onChange={handleTagChange}
                     placeholder="Add up to 4 tags..."
-                    {...params}
+                    variant="outlined"
                   />
                 )}
               />
