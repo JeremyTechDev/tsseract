@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-import express, { RequestHandler } from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 
 import database from './database';
