@@ -81,8 +81,13 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta property="og:type" content="website" />
           <meta property="og:updated_time" content="1604951865715" />
 
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
         </Head>

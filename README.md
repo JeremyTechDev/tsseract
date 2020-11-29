@@ -15,7 +15,6 @@ Tsseract in a social media app were can create content and earn money 💸 with 
         ├── hooks                       # Custom React Hooks
         ├── pages                       # NextJS Pages
         └── theme                       # MaterialUI theme
-    ├── scss                        # SCSS files
     ├── server                      # App Restful API
         ├── controllers                 # Database controllers
         ├── helpers                     # Helpers folder
@@ -115,7 +114,6 @@ This app uses [Jest](https://jestjs.io/) as testing framework 🧑‍💻. To ru
 - [Material-UI](https://material-ui.com/) - Components design
 - [Express](https://expressjs.com/es/) - API service framework
 - [MongoDB](https://www.mongodb.com/es) - Database storage
-- [SASS](https://sass-lang.com/) - Styles Framework
 - [Jest](https://jestjs.io/) - Testing Framework
 
 ## Authors

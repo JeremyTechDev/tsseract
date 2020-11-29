@@ -8,13 +8,12 @@ import {
 } from '@material-ui/core';
 
 import { iPost, iTag } from '../../@types';
-import { markDown } from '../../helpers/markDown';
 import Comment from './Comment';
-import parseDate from '../../helpers/parseDate';
 import CommentBox from './CommentBox';
+import parseDate from '../../helpers/parseDate';
+import RichTextEditor from '../RichTextEditor';
 import Tag from '../PostsList/Tag';
 import useStyles from './styles';
-import '../../../../scss/createPost.scss';
 
 interface Props {
   post: iPost;
@@ -58,10 +57,7 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
 
       <Divider light className={classes.divider} />
 
-      <div
-        className="preview__result"
-        dangerouslySetInnerHTML={markDown(body)}
-      />
+      <RichTextEditor readOnly value={JSON.parse(body)} />
 
       <Divider className={classes.divider} light />
 

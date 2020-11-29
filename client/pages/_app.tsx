@@ -1,25 +1,18 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import NextProgress from 'nextjs-progressbar';
 import { NextPage } from 'next';
-import Router from 'next/router';
-import NProgress from 'nprogress';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import AppContext, { Types } from '../context';
 import getTheme from '../theme';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
-import '../../../scss/nprogress.scss';
 
 type Theme = 'light' | 'dark';
 interface Props {
   Component: React.FC;
   pageProps: object;
 }
-
-NProgress.configure({ showSpinner: false });
-Router.events.on('routeChangeStart', () => NProgress.start());
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
 
 const App: NextPage<Props> = ({ Component, pageProps }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -40,6 +33,7 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={getTheme(currentTheme)}>
       <CssBaseline />
+      <NextProgress color={getTheme(currentTheme).palette.primary.main} />
       <AppContext.Provider value={{ state, dispatch }}>
         <Component {...pageProps} />
       </AppContext.Provider>

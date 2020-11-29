@@ -14,20 +14,13 @@ const useStyles = makeStyles((theme) => ({
     resize: 'none',
     width: 'calc(100% - 15px)',
   },
-  bodyTextArea: {
-    background: 'none',
-    border: 'none',
-    color: theme.palette.type === 'dark' ? '#fff' : '#000',
-    fontSize: 16,
-    fontWeight: 500,
-    margin: '10px',
-    resize: 'none',
-    width: 'calc(100% - 15px)',
-  },
   coverImg: {
     borderRadius: '4px 4px 0 0',
     objectFit: 'cover',
     width: '100%',
+  },
+  richEditor: {
+    padding: '10px 8px 50px',
   },
   tagInput: {
     border: 'none',

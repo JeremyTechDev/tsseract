@@ -61,7 +61,11 @@ type userType = { username: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
     const res = await fetch(baseURL + '/api/auth/login', requestOptions(user));
-    const data: iUser = await res.json();
+    const data: iUser & { error: string } = await res.json();
+
+    if (data.error) {
+      return { error: data.error };
+    }
 
     if (typeof window !== 'undefined') {
       window[WINDOW_USER_SCRIPT] = data || {};

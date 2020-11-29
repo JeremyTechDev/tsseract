@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
   fontColor: {
-    color: theme.palette.type === 'dark' ? '#000' : '#fff',
+    color: '#fff',
   },
   padding: {
     padding: 20,
