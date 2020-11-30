@@ -11,6 +11,7 @@
     "tsc:server": "tsc -p ./server",
     "tsc:w:client": "tsc -p ./client -w",
     "tsc:w:server": "tsc -p ./server -w",
+    "seed": "node dist/server/seeders/index.js",
     "copy-files": "cp -vr ./static/. dist/client/public/",
     "test": "NODE_ENV=test && jest --detectOpenHandles"
   },
