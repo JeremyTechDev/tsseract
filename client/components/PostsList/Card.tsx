@@ -71,7 +71,7 @@ const Card: React.FC<Props> = ({ post }: Props) => {
               startIcon={<Like />}
               variant="contained"
             >
-              {likes.length} likes
+              {likes.length} like{likes.length !== 1 && 's'}
             </Button>
           </Link>
 
