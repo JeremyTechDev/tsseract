@@ -91,6 +91,8 @@ You will need to have installed and running these technologies in order to run t
 
 - To start the app in development mode: `npm run server`
 
+- You can seed the database with some dummy data by running: `npm run seed`
+
 You should get the following logs on the console:
 
 ```
