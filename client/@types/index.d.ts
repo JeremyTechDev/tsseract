@@ -30,6 +30,7 @@ export interface iUser {
   email: string;
   name: string;
   username: string;
+  error?: string;
 }
 
 export interface iPost {
