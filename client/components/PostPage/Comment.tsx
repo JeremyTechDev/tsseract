@@ -1,5 +1,12 @@
 import React from 'react';
-import { Container, Grid, Typography, Avatar } from '@material-ui/core';
+import Link from 'next/link';
+import {
+  Avatar,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from '@material-ui/core';
 
 import { iComment } from '../../@types';
 import useStyles from './styles';
@@ -20,7 +27,11 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
           <Grid container spacing={2} alignItems="center">
             <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
             <Grid item>
-              <Typography variant="subtitle1">{user.name}</Typography>
+              <Link href={`/user/${user.username}`}>
+                <MuiLink color="textPrimary" variant="subtitle1">
+                  {user.name}
+                </MuiLink>
+              </Link>
             </Grid>
           </Grid>
         </Grid>

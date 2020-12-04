@@ -1,11 +1,13 @@
 import React from 'react';
-import { Avatar, Grid, Typography } from '@material-ui/core';
+import Link from 'next/link';
+import { Avatar, Link as MuiLink, Grid, Typography } from '@material-ui/core';
 
 import useStyles from './styles';
 import parseDate from '../../helpers/parseDate';
+import { iUser } from '../../@types';
 
 interface Props {
-  user: { name: string };
+  user: iUser;
   createdAt: string;
   title: string;
 }
@@ -23,7 +25,11 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
         </Grid>
 
         <Grid item>
-          <Typography variant="h5">{user.name}</Typography>
+          <Link href={`/user/${user.username}`}>
+            <MuiLink color="textPrimary" variant="h5">
+              {user.name}
+            </MuiLink>
+          </Link>
           <Typography gutterBottom variant="subtitle2">
             {parseDate(createdAt)}
           </Typography>

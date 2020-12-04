@@ -34,7 +34,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
       });
   };
 
-  return state.isAuthenticated ? (
+  return state.user ? (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={3} alignItems="flex-start" justify="center">
         <Grid item xs={1} container justify="flex-end">

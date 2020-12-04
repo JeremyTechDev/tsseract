@@ -4,18 +4,19 @@ import Error from 'next/error';
 import Layout from '../../components/Layout';
 import UserPage from '../../components/UserPage';
 import { authInitialProps } from '../../lib/auth';
-import { authType, iUser } from '../../@types';
+import { authType, iPost, iUser } from '../../@types';
 import { baseURL } from '../../lib/config';
 
 interface Props {
   user: iUser;
+  posts: iPost[];
   authData: authType;
 }
 
-const User: NextPage<Props> = ({ user, authData }) => {
+const User: NextPage<Props> = ({ user, posts, authData }) => {
   return !user.error ? (
     <Layout authData={authData} title={user.name} displayNav displayFooter>
-      <UserPage user={user} />
+      <UserPage user={user} posts={posts} />
     </Layout>
   ) : (
     <Error statusCode={404} />
@@ -23,14 +24,19 @@ const User: NextPage<Props> = ({ user, authData }) => {
 };
 
 User.getInitialProps = async (ctx) => {
-  const { userId } = ctx.query;
+  const { username } = ctx.query;
 
   const { user: authData } = await authInitialProps()(ctx);
-  const user = await fetch(`${baseURL}/api/users/${userId}`).then((res) =>
+  const user = await fetch(`${baseURL}/api/users/u/${username}`).then((res) =>
     res.json(),
   );
 
-  return { user, authData };
+  const posts = await fetch(`${baseURL}/api/posts/by/${user._id}`).then((res) =>
+    res.json(),
+  );
+  console.log(posts);
+
+  return { user, authData, posts };
 };
 
 export default User;

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   Avatar,
   Container,
   Divider,
   Grid,
   Typography,
+  Link as MuiLink,
 } from '@material-ui/core';
 
 import { iPost, iTag } from '../../@types';
@@ -37,7 +39,11 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
           <Grid container spacing={2} alignItems="center">
             <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
             <Grid item>
-              <Typography variant="subtitle1">{user.name}</Typography>
+              <Link href={`/user/${user.username}`}>
+                <MuiLink color="textPrimary" variant="subtitle1">
+                  {user.name}
+                </MuiLink>
+              </Link>
             </Grid>
           </Grid>
         </Grid>
@@ -66,8 +72,6 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
       </Typography>
 
       <CommentBox post={post} setComments={setComments} />
-
-      <Divider light className={classes.divider} />
 
       {comments.length !== 0 ? (
         comments.map((comment) => (
