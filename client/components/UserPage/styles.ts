@@ -11,7 +11,7 @@ const styles = makeStyles((theme) => ({
     height: theme.spacing(15),
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
-    margin: '10px 0',
+    // margin: '10px 0',
   },
   divider: {
     margin: '15px auto',

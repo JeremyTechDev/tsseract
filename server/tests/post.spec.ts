@@ -5,6 +5,7 @@ import setCookie from 'set-cookie-parser';
 import server from '../server';
 
 interface iUser {
+  _id?: string;
   birthDate: number;
   email: string;
   name: string;
@@ -210,7 +211,7 @@ describe('Posts', () => {
         .set('Cookie', cookieSet);
 
       const errorOnRequest = postsBy.body.some(
-        ({ user }: { user: string }) => user !== userId,
+        ({ user }: { user: iUser }) => user._id !== userId,
       );
 
       expect(errorOnRequest).toBe(false);

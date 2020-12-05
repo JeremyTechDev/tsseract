@@ -30,6 +30,8 @@ export interface iUser {
   email: string;
   name: string;
   username: string;
+  followers: iUser[];
+  following: iUser[];
   error?: string;
 }
 
