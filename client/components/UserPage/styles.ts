@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 const styles = makeStyles((theme) => ({
   user: {
     position: 'fixed',
-    top: 150,
+    top: '14vh',
     left: '15%',
   },
   avatar: {

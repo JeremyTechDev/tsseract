@@ -19,8 +19,8 @@ const UserPage: React.FC<Props> = ({ user, posts }) => {
 
   return (
     <Grid container>
-      <Grid item xs={3} />
-      <Grid item xs={1} className={classes.user}>
+      <Grid item md={4} sm={1} />
+      <Grid item md={1} sm={2} className={classes.user}>
         <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
 
         <Divider className={classes.divider} />
@@ -40,7 +40,7 @@ const UserPage: React.FC<Props> = ({ user, posts }) => {
         ))}
       </Grid>
 
-      <Grid item xs={7}>
+      <Grid item md={6} sm={8}>
         {panel === 'posts' && <PostsList posts={posts} />}
         <Grid container>
           {panel === 'following'
@@ -65,7 +65,7 @@ const UserPage: React.FC<Props> = ({ user, posts }) => {
             : null}
         </Grid>
       </Grid>
-      <Grid item xs={2} />
+      <Grid item md={2} sm={1} />
     </Grid>
   );
 };
