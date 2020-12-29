@@ -139,7 +139,10 @@ export const getPostsBy: RequestHandler = async (req, res) => {
   try {
     const { id: userId } = req.params;
 
-    const posts = await Post.find({ user: userId });
+    const posts = await Post.find({ user: userId })
+      .populate('user', '_id name username')
+      .populate('comments.user', '_id name username')
+      .populate('tags');
 
     res.send(posts);
   } catch (error) {

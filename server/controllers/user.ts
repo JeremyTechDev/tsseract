@@ -64,7 +64,11 @@ export const retrieveUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.findById(userId).select(SELECT);
+    const user = await User.findById(userId)
+      .select(SELECT)
+      .populate('following', SELECT)
+      .populate('followers', SELECT);
+
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
@@ -83,7 +87,10 @@ export const retrieveUser: RequestHandler = async (req, res) => {
 export const retrieveUserByUsername: RequestHandler = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username }).select(SELECT);
+    const user = await User.findOne({ username })
+      .select(SELECT)
+      .populate('following', SELECT)
+      .populate('followers', SELECT);
 
     if (!user)
       return res
