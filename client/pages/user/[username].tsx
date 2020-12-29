@@ -34,7 +34,6 @@ User.getInitialProps = async (ctx) => {
   const posts = await fetch(`${baseURL}/api/posts/by/${user._id}`).then((res) =>
     res.json(),
   );
-  console.log(posts);
 
   return { user, authData, posts };
 };
