@@ -15,7 +15,6 @@ const LoginPage: NextPage<Props> = ({ bgData }) => {
 
 LoginPage.getInitialProps = async () => {
   const bgData = await getRandomImg();
-
   return { bgData };
 };
 

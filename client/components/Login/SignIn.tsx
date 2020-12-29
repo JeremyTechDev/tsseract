@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Router from 'next/router';
-import { Typography, Grid, Button } from '@material-ui/core';
+import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 
 import AppContext, { Types } from '../../context';
 import { loginUser } from '../../lib/auth';
@@ -16,6 +16,7 @@ interface Props {
 const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [requestError, setRequestError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AppContext);
 
   const handleClearAndChange = (
@@ -27,6 +28,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
 
   const handleSubmit = async () => {
     const { username, password } = user;
+    setLoading(true);
 
     loginUser({ username, password }).then((data) => {
       if (!data.error) {
@@ -37,6 +39,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
         Router.push('/posts');
       } else {
         setRequestError(data.error);
+        setLoading(false);
       }
     });
   };
@@ -47,34 +50,40 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
         Sign In to Tsseract
       </Typography>
 
-      <form onSubmit={handleSubmit}>
-        {Boolean(requestError) && (
-          <Typography align="center" color="error" variant="subtitle1">
-            {requestError}
-          </Typography>
-        )}
-        <Input
-          handleChange={handleClearAndChange}
-          label="Username"
-          value={user.username}
-        />
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <React.Fragment>
+          <form onSubmit={handleSubmit}>
+            {Boolean(requestError) && (
+              <Typography align="center" color="error" variant="subtitle1">
+                {requestError}
+              </Typography>
+            )}
+            <Input
+              handleChange={handleClearAndChange}
+              label="Username"
+              value={user.username}
+            />
 
-        <Input
-          handleChange={handleClearAndChange}
-          label="Password"
-          type="password"
-          value={user.password}
-        />
-      </form>
+            <Input
+              handleChange={handleClearAndChange}
+              label="Password"
+              type="password"
+              value={user.password}
+            />
+          </form>
 
-      <Button
-        className={classes.btn}
-        color="primary"
-        onClick={handleSubmit}
-        variant="contained"
-      >
-        Sign In
-      </Button>
+          <Button
+            className={classes.btn}
+            color="primary"
+            onClick={handleSubmit}
+            variant="contained"
+          >
+            Sign In
+          </Button>
+        </React.Fragment>
+      )}
     </Grid>
   );
 };

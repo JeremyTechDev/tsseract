@@ -32,7 +32,7 @@ export const getServerSideToken = (req: any): authType => {
 
 export const getClientSideToken = (): authType => {
   if (typeof window !== 'undefined') {
-    const user: iUser = window[WINDOW_USER_SCRIPT] || {};
+    const user: iUser = window[WINDOW_USER_SCRIPT] || null;
     return { user, from: 'client' };
   }
   return { user: null, error: 'User variable was not found', from: 'client' };
