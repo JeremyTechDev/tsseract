@@ -22,26 +22,22 @@ const UserCard: React.FC<Props> = ({ user }) => {
 
   return (
     <Card>
-      <Grid container>
-        <CardMedia>
-          <Avatar variant="rounded" className={classes.avatar}>
-            {user.name[0]}
-          </Avatar>
-        </CardMedia>
+      <MuiLink color="textPrimary">
+        <Link href={`/user/${user.username}`}>
+          <Grid container>
+            <CardMedia>
+              <Avatar variant="rounded" className={classes.avatar}>
+                {user.name[0]}
+              </Avatar>
+            </CardMedia>
 
-        <CardContent>
-          <MuiLink color="textPrimary">
-            <Link href={`/user/${user.username}`}>
+            <CardContent>
               <Typography>@{user.username}</Typography>
-            </Link>
-          </MuiLink>
-          <MuiLink color="textPrimary">
-            <Link href={`/user/${user.username}`}>
               <Typography variant="h4">{user.name}</Typography>
-            </Link>
-          </MuiLink>
-        </CardContent>
-      </Grid>
+            </CardContent>
+          </Grid>
+        </Link>
+      </MuiLink>
     </Card>
   );
 };

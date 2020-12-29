@@ -24,16 +24,14 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
     <Container className={classes.commentContainer}>
       <Grid container justify="space-between">
         <Grid item>
-          <Grid container spacing={2} alignItems="center">
-            <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
-            <Grid item>
-              <Link href={`/user/${user.username}`}>
-                <MuiLink color="textPrimary" variant="subtitle1">
-                  {user.name}
-                </MuiLink>
-              </Link>
-            </Grid>
-          </Grid>
+          <Link href={`/user/${user.username}`}>
+            <MuiLink color="textPrimary" variant="subtitle1">
+              <Grid container spacing={2} alignItems="center">
+                <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+                <Grid item>{user.name}</Grid>
+              </Grid>
+            </MuiLink>
+          </Link>
         </Grid>
 
         <Grid item>

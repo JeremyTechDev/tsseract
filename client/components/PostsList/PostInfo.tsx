@@ -17,24 +17,24 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
 
   return (
     <div className={classes.fontColor}>
-      <Grid spacing={1} container alignItems="center">
-        <Grid item>
-          <Avatar className={classes.avatar}>
-            {user.name[0].toUpperCase()}
-          </Avatar>
-        </Grid>
+      <Link href={`/user/${user.username}`}>
+        <MuiLink color="textPrimary" variant="h5">
+          <Grid spacing={1} container alignItems="center">
+            <Grid item>
+              <Avatar className={classes.avatar}>
+                {user.name[0].toUpperCase()}
+              </Avatar>
+            </Grid>
 
-        <Grid item>
-          <Link href={`/user/${user.username}`}>
-            <MuiLink color="textPrimary" variant="h5">
+            <Grid item>
               {user.name}
-            </MuiLink>
-          </Link>
-          <Typography gutterBottom variant="subtitle2">
-            {parseDate(createdAt)}
-          </Typography>
-        </Grid>
-      </Grid>
+              <Typography gutterBottom variant="subtitle2">
+                {parseDate(createdAt)}
+              </Typography>
+            </Grid>
+          </Grid>
+        </MuiLink>
+      </Link>
 
       <Typography variant="h3">{title}</Typography>
     </div>
