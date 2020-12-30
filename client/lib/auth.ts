@@ -3,7 +3,6 @@ import { NextPageContext } from 'next';
 import { ServerResponse } from 'http';
 import jwt from 'jsonwebtoken';
 
-import { baseURL } from './config';
 import requestOptions from '../helpers/requestOptions';
 import { iUser, authType } from '../@types';
 
@@ -60,7 +59,7 @@ export const authInitialProps = (isPrivateRoute = false) => async ({
 type userType = { username: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
-    const res = await fetch(baseURL + '/api/auth/login', requestOptions(user));
+    const res = await fetch('/api/auth/login', requestOptions(user));
     const data: iUser & { error: string } = await res.json();
 
     if (data.error) {
@@ -84,7 +83,7 @@ export const logoutUser = async () => {
   }
 
   try {
-    await fetch(baseURL + '/api/auth/logout', requestOptions({}, 'POST'));
+    await fetch('/api/auth/logout', requestOptions({}, 'POST'));
     Router.push('/');
   } catch (error) {
     console.error(error);

@@ -7,7 +7,6 @@ import AppContext, { Types } from '../context';
 import getTheme from '../theme';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
-import { baseURL } from '../lib/config';
 
 type Theme = 'light' | 'dark';
 interface Props {
@@ -22,7 +21,7 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(baseURL + '/api/auth');
+        const res = await fetch('/api/auth');
 
         if (res.status === 200) {
           const authData = await res.json();

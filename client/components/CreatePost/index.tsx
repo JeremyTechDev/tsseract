@@ -13,7 +13,6 @@ import { Autocomplete } from '@material-ui/lab';
 import Router from 'next/router';
 import { Node } from 'slate';
 
-import { baseURL } from '../../lib/config';
 import { initialValue } from '../RichTextEditor/Slate';
 import requestOptions from '../../helpers/requestOptions';
 import CoverImgModal from '../CoverImgModal';
@@ -46,7 +45,7 @@ const PostForm: React.FC = () => {
     }
 
     fetch(
-      baseURL + '/api/posts',
+      '/api/posts',
       requestOptions({
         body: JSON.stringify(content),
         cover: coverImg,

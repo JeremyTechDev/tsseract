@@ -25,7 +25,6 @@ import parseDate from '../../helpers/parseDate';
 import RichTextEditor from '../RichTextEditor';
 import Tag from '../PostsList/Tag';
 import useStyles from './styles';
-import { baseURL } from '../../lib/config';
 import requestOptions from '../../helpers/requestOptions';
 
 interface Props {
@@ -43,7 +42,7 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
   const { _id, body, cover, createdAt, tags, title, user } = post;
 
   const toggleLike = () => {
-    fetch(`${baseURL}/api/posts/like/${_id}`, requestOptions({}, 'PUT'))
+    fetch(`/api/posts/like/${_id}`, requestOptions({}, 'PUT'))
       .then(() => {
         if (isLiked) {
           setLikes((prev) => prev.splice(0, 1));
@@ -61,7 +60,7 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
     );
 
     if (confirmation) {
-      fetch(`${baseURL}/api/posts/${post._id}`, requestOptions({}, 'DELETE'))
+      fetch(`/api/posts/${post._id}`, requestOptions({}, 'DELETE'))
         .then((res) => {
           if (res.status === 200) {
             Router.replace('/posts');

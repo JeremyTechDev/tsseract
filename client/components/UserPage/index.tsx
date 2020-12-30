@@ -7,7 +7,6 @@ import { iPost, iUser } from '../../@types';
 import PostsList from '../PostsList/index';
 import useStyles from './styles';
 import UserList from './UserList';
-import { baseURL } from '../../lib/config';
 import requestOptions from '../../helpers/requestOptions';
 import { logoutUser } from '../../lib/auth';
 
@@ -33,7 +32,7 @@ const UserPage: React.FC<Props> = ({
 
   const toggleFollow = () => {
     fetch(
-      `${baseURL}/api/users/toggle-follow/${user.username}`,
+      `/api/users/toggle-follow/${user.username}`,
       requestOptions({}, 'PUT'),
     )
       .then((res) => res.json())
@@ -55,7 +54,7 @@ const UserPage: React.FC<Props> = ({
     );
 
     if (confirmation) {
-      fetch(`${baseURL}/api/users`, requestOptions({}, 'DELETE'))
+      fetch('/api/users', requestOptions({}, 'DELETE'))
         .then((res) => res.json())
         .then(() => logoutUser())
         .catch((err) => console.error(err));

@@ -8,7 +8,6 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { baseURL } from '../../lib/config';
 import { iSignUpUser, InputChangeEvent } from '../../@types';
 import { loginUser } from '../../lib/auth';
 import AppContext, { Types } from '../../context';
@@ -48,7 +47,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
       fetch(
-        baseURL + '/api/users/',
+        '/api/users/',
         requestOptions({
           name,
           username,

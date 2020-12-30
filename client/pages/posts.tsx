@@ -4,7 +4,6 @@ import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import Posts from '../components/PostsList';
 import { authInitialProps } from '../lib/auth';
-import { baseURL } from '../lib/config';
 import { authType, iPost } from '../@types';
 
 interface Props {
@@ -27,7 +26,7 @@ const PostList: NextPage<Props> = ({ posts, authData }) => {
 
 PostList.getInitialProps = async (ctx) => {
   const { user } = await authInitialProps(true)(ctx);
-  const data = await fetch(baseURL + '/api/posts/').then((res) => res.json());
+  const data = await fetch('/api/posts/').then((res) => res.json());
 
   return { posts: data, authData: user };
 };
