@@ -2,9 +2,14 @@
   "name": "tsseract",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.17.0",
+    "npm": "6.14.8"
+  },
   "scripts": {
     "client": "next ./dist/client",
     "server": "nodemon --config nodemon.json ./dist/server",
+    "build:": "next build ./dist/client",
     "tsc": "run-p tsc:client tsc:server",
     "tsc:w": "run-p tsc:w:*",
     "tsc:client": "tsc -p ./client",
@@ -13,7 +18,8 @@
     "tsc:w:server": "tsc -p ./server -w",
     "seed": "node dist/server/seeder.js",
     "copy-files": "cp -vr ./static/. dist/client/public/",
-    "test": "NODE_ENV=test && jest --detectOpenHandles"
+    "test": "NODE_ENV=test && jest --detectOpenHandles",
+    "heroku-postbuild": "npm install && npm run tsc && npx next build ./dist/client && npm run copy-files"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
