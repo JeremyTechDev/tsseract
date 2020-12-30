@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Badge,
-  IconButton,
-  CardActionArea,
-  Container,
-  Grid,
-  Paper,
-} from '@material-ui/core';
-import { Favorite as Like, Comment } from '@material-ui/icons';
+import { CardActionArea, Container, Grid, Paper } from '@material-ui/core';
 import Link from 'next/link';
 
 import useStyles from './styles';
@@ -21,7 +13,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, comments, createdAt, likes, tags, _id } = post;
+  const { cover, user, title, createdAt, tags, _id } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
@@ -62,28 +54,6 @@ const Card: React.FC<Props> = ({ post }: Props) => {
               <Tag key={tag._id} tag={tag} />
             ))}
           </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={6} container justify="flex-end">
-          <Link href={`/post/${_id}`}>
-            <IconButton title="Like" className={classes.btn} color="primary">
-              <Badge badgeContent={likes.length} color="primary">
-                <Like />
-              </Badge>
-            </IconButton>
-          </Link>
-
-          <Link href={`/post/${_id}`}>
-            <IconButton
-              className={classes.btn}
-              color="primary"
-              title="Add Comment"
-            >
-              <Badge badgeContent={comments.length} color="primary">
-                <Comment />
-              </Badge>
-            </IconButton>
-          </Link>
         </Grid>
       </Grid>
     </Paper>
