@@ -3,10 +3,9 @@ import express from 'express';
 import {
   createUser,
   deleteUser,
-  follow,
   retrieveUser,
   retrieveUserByUsername,
-  unfollow,
+  toggleFollow,
 } from '../controllers/user';
 import auth from '../middlewares/authenticator';
 
@@ -36,24 +35,16 @@ router.get('/:id', retrieveUser);
 router.get('/u/:username', retrieveUserByUsername);
 
 /**
- * Follow a user
- * @route /api/users/follow/:followToUsername
+ * Toggles the follow state of two related users
+ * @route /api/users/toggle-follow/:followToUsername
  * @param {String} followToUsername the user's to follow username
  * @method PUT
  */
-router.put('/follow/:followToUsername', auth, follow);
+router.put('/toggle-follow/:followToUsername', auth, toggleFollow);
 
 /**
- * Unfollow a user
- * @route /api/users/unfollow/:followToUsername
- * @param {String} followToUsername the user's to unfollow username
- * @method PUT
- */
-router.put('/unfollow/:followToUsername', auth, unfollow);
-
-/**
- * Deletes a user by id
- * @route /api/users/:id
+ * Deletes the authenticated user
+ * @route /api/users/
  * @method DELETE
  */
 router.delete('/', auth, deleteUser);

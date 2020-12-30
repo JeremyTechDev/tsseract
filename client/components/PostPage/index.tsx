@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, createRef } from 'react';
+import Router from 'next/router';
 import Link from 'next/link';
 import {
   Avatar,
+  Badge,
+  Button,
   Container,
   Divider,
   Grid,
-  Typography,
+  IconButton,
   Link as MuiLink,
+  Typography,
 } from '@material-ui/core';
+import {
+  Comment as CommentIcon,
+  Favorite as Liked,
+  FavoriteBorder as NotLiked,
+} from '@material-ui/icons';
 
 import { iPost, iTag } from '../../@types';
 import Comment from './Comment';
@@ -16,15 +25,51 @@ import parseDate from '../../helpers/parseDate';
 import RichTextEditor from '../RichTextEditor';
 import Tag from '../PostsList/Tag';
 import useStyles from './styles';
+import { baseURL } from '../../lib/config';
+import requestOptions from '../../helpers/requestOptions';
 
 interface Props {
   post: iPost;
+  isSelfPost: boolean;
+  isLikedProp: boolean | null;
 }
 
-const PostPage: React.FC<Props> = ({ post }: Props) => {
+const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
   const classes = useStyles();
   const [comments, setComments] = useState(post.comments);
-  const { cover, title, body, tags, user, createdAt } = post;
+  const [isLiked, setIsLiked] = useState(isLikedProp);
+  const [likes, setLikes] = useState(post.likes);
+  const commentBoxRef = createRef<HTMLTextAreaElement>();
+  const { _id, body, cover, createdAt, tags, title, user } = post;
+
+  const toggleLike = () => {
+    fetch(`${baseURL}/api/posts/like/${_id}`, requestOptions({}, 'PUT'))
+      .then(() => {
+        if (isLiked) {
+          setLikes((prev) => prev.splice(0, 1));
+        } else {
+          setLikes((prev) => ['authUser', ...prev]);
+        }
+        setIsLiked((prev) => !prev);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const deletePost = () => {
+    const confirmation = confirm(
+      'Are you sure you want to delete this post?\nYou cannot undo this action',
+    );
+
+    if (confirmation) {
+      fetch(`${baseURL}/api/posts/${post._id}`, requestOptions({}, 'DELETE'))
+        .then((res) => {
+          if (res.status === 200) {
+            Router.replace('/posts');
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
 
   return (
     <Container className={classes.root} maxWidth="md">
@@ -36,7 +81,7 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
 
       <Grid container justify="space-between">
         <Grid item>
-          <Link href={`/user/${user.username}`}>
+          <Link href={`/profile/${user.username}`}>
             <MuiLink color="textPrimary" variant="subtitle1">
               <Grid container spacing={2} alignItems="center">
                 <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
@@ -51,13 +96,45 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
         </Grid>
       </Grid>
 
-      <Grid item xs={12} sm={6} className={classes.commentBody}>
-        <Grid container>
-          {tags.map((tag: iTag) => (
-            <Tag key={tag._id} tag={tag} />
-          ))}
+      <Grid container justify="space-between">
+        <Grid item xs={12} sm={6} className={classes.commentBody}>
+          <Grid container>
+            {tags.map((tag: iTag) => (
+              <Tag key={tag._id} tag={tag} />
+            ))}
+          </Grid>
+        </Grid>
+
+        <Grid>
+          <IconButton
+            onClick={toggleLike}
+            title={isLiked ? 'Unlike' : 'Like'}
+            color="primary"
+          >
+            <Badge badgeContent={likes.length} color="primary">
+              {isLiked ? <Liked /> : <NotLiked />}
+            </Badge>
+          </IconButton>
+
+          <IconButton
+            color="primary"
+            onClick={() => commentBoxRef.current?.focus()}
+            title="Add Comment"
+          >
+            <Badge badgeContent={comments.length} color="primary">
+              <CommentIcon />
+            </Badge>
+          </IconButton>
         </Grid>
       </Grid>
+
+      {isSelfPost && (
+        <Grid container justify="flex-end">
+          <Button onClick={deletePost} color="primary">
+            Delete Post
+          </Button>
+        </Grid>
+      )}
 
       <Divider light className={classes.divider} />
 
@@ -69,7 +146,7 @@ const PostPage: React.FC<Props> = ({ post }: Props) => {
         Discussion
       </Typography>
 
-      <CommentBox post={post} setComments={setComments} />
+      <CommentBox ref={commentBoxRef} post={post} setComments={setComments} />
 
       {comments.length !== 0 ? (
         comments.map((comment) => (

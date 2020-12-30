@@ -4,10 +4,24 @@ import bcrypt from 'bcrypt';
 import User, { validateUser } from '../models/user';
 import cookieCreator from '../helpers/cookieCreator';
 import { iUser } from '../@types';
+import arrayToObj from '../helpers/arrayToObj';
 
 // to select all the user data but their password
 const SELECT =
   '_id name username email birthDate createdAt followers following';
+
+const output = (user: iUser) => {
+  return {
+    _id: user.id,
+    birthDate: user.birthDate,
+    createdAt: user.createdAt,
+    email: user.email,
+    followers: arrayToObj(user.followers, '_id'),
+    following: arrayToObj(user.following, '_id'),
+    name: user.name,
+    username: user.username,
+  };
+};
 
 /**
  * Creates a new user
@@ -39,8 +53,6 @@ export const createUser: RequestHandler = async (req, res) => {
     const userToken = {
       _id: user._id,
       email: user.email,
-      followers: user.followers,
-      following: user.following,
       name: user.name,
       username: user.username,
     };
@@ -64,15 +76,15 @@ export const retrieveUser: RequestHandler = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.findById(userId)
+    const user = (await User.findById(userId)
       .select(SELECT)
       .populate('following', SELECT)
-      .populate('followers', SELECT);
+      .populate('followers', SELECT)) as iUser;
 
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
-    res.send(user);
+    res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -87,31 +99,31 @@ export const retrieveUser: RequestHandler = async (req, res) => {
 export const retrieveUserByUsername: RequestHandler = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username })
+    const user = (await User.findOne({ username })
       .select(SELECT)
       .populate('following', SELECT)
-      .populate('followers', SELECT);
+      .populate('followers', SELECT)) as iUser;
 
     if (!user)
       return res
         .status(404)
         .send({ error: 'No user found with the given username' });
 
-    res.send(user);
+    res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 };
 
 /**
- * Follow a user
+ * Toggles the follow state in two users
  * @param {Object} req Express request
  * @param {Object} res Express response
- * @param {String} res.params.followToUsername user to follow
+ * @param {String} res.params.followToUsername user to toggle follow
  */
-export const follow: RequestHandler = async (req, res) => {
+export const toggleFollow: RequestHandler = async (req, res) => {
   const { followToUsername } = req.params;
-  const followBy = req.cookies.profile;
+  const followBy: iUser = req.cookies.profile;
 
   try {
     const followTo = (await User.findOne({
@@ -128,70 +140,43 @@ export const follow: RequestHandler = async (req, res) => {
         .status(409)
         .send({ error: 'You cannot follow your own account' });
 
-    if (followBy.following.includes(followTo._id))
-      return res.status(409).send({ error: 'You already follow that account' });
+    // If the auth user already follows the account, unfollow
+    let newFollowBy: iUser, newFollowTo: iUser, action: 'follow' | 'unfollow';
+    if (followBy.following.includes(followTo._id)) {
+      // Remove the followTo user from the followBy following list
+      newFollowBy = (await User.findOneAndUpdate(
+        { _id: followBy._id },
+        { $pull: { following: followTo._id } },
+        { new: true },
+      )) as iUser;
 
-    const newFollowBy = await User.findOneAndUpdate(
-      { _id: followBy._id },
-      { $push: { following: followTo._id } },
-      { new: true },
-    );
+      // Remove the follower (followBy) from the followTo user
+      newFollowTo = (await User.findOneAndUpdate(
+        { _id: followTo._id },
+        { $pull: { followers: followBy._id } },
+        { new: true },
+      )) as iUser;
 
-    const newFollowTo = await User.findOneAndUpdate(
-      { _id: followTo._id },
-      { $push: { followers: followBy._id } },
-      { new: true },
-    );
+      action = 'unfollow';
+    } else {
+      // Add the new following (followTo) to followBy user
+      newFollowBy = (await User.findOneAndUpdate(
+        { _id: followBy._id },
+        { $push: { following: followTo._id } },
+        { new: true },
+      )) as iUser;
 
-    res.send({ following: newFollowBy, follower: newFollowTo });
-  } catch (error) {
-    return res.status(500).send({ error: error.message });
-  }
-};
+      // Add the new follower (followBy) to the followTo user
+      newFollowTo = (await User.findOneAndUpdate(
+        { _id: followTo._id },
+        { $push: { followers: followBy._id } },
+        { new: true },
+      )) as iUser;
 
-/**
- * Unfollow a user
- * @param {Object} req Express request
- * @param {Object} res Express response
- * @param {String} res.params.followToUsername user to unfollow
- */
-export const unfollow: RequestHandler = async (req, res) => {
-  const { followToUsername } = req.params;
-  const followBy = req.cookies.profile;
+      action = 'follow';
+    }
 
-  try {
-    const followTo = (await User.findOne({
-      username: followToUsername,
-    })) as iUser;
-
-    if (!followTo)
-      return res
-        .status(404)
-        .send({ error: 'No user found with the given username' });
-
-    if (followTo._id.equals(followBy._id))
-      return res
-        .status(409)
-        .send({ error: 'You cannot unfollow your own account' });
-
-    if (!followBy.following.includes(followTo._id))
-      return res
-        .status(409)
-        .send({ error: "You don't follow the given account" });
-
-    const newFollowBy = await User.findOneAndUpdate(
-      { _id: followBy._id },
-      { $pull: { following: followTo._id } },
-      { new: true },
-    );
-
-    const newFollowTo = await User.findOneAndUpdate(
-      { _id: followTo._id },
-      { $pull: { followers: followBy._id } },
-      { new: true },
-    );
-
-    res.send({ following: newFollowBy, follower: newFollowTo });
+    res.send({ following: newFollowBy, follower: newFollowTo, action });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

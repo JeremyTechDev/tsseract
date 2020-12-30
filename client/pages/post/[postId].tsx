@@ -16,7 +16,11 @@ interface Props {
 const Post: NextPage<Props> = ({ post, authData }) => {
   return post && post._id ? (
     <Layout title={post.title} authData={authData} displayNav displayFooter>
-      <PostPage post={post} />
+      <PostPage
+        post={post}
+        isSelfPost={post.user._id === authData.user?._id}
+        isLikedProp={authData.user && post.likes.includes(authData.user?._id)}
+      />
     </Layout>
   ) : (
     <ErrorPage statusCode={404} />

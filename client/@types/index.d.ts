@@ -25,13 +25,20 @@ export interface iSignInUser {
   username: string;
 }
 
+export interface iUserToken {
+  _id: string;
+  email: string;
+  name: string;
+  username: string;
+}
+
 export interface iUser {
   _id: string;
   email: string;
   name: string;
   username: string;
-  followers: iUser[];
-  following: iUser[];
+  followers: object;
+  following: object;
   error?: string;
 }
 
@@ -62,4 +69,8 @@ export interface iTag {
   popularity: number;
 }
 
-export type authType = { user: iUser | null; from: string; error?: string };
+export type authType = {
+  user: iUser | null;
+  from?: string;
+  error?: string;
+};

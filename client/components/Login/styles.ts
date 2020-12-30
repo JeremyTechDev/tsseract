@@ -31,6 +31,9 @@ const useStyles = makeStyles({
     opacity: 0.8,
     padding: 10,
   },
+  progress: {
+    color: '#fff',
+  },
 });
 
 export default useStyles;

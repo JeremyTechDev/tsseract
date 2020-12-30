@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  CardActionArea,
-  Container,
-  Grid,
-  Paper,
-} from '@material-ui/core';
-import { Favorite as Like, Comment } from '@material-ui/icons';
+import { CardActionArea, Container, Grid, Paper } from '@material-ui/core';
 import Link from 'next/link';
 
 import useStyles from './styles';
@@ -20,7 +13,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, createdAt, likes, tags, _id } = post;
+  const { cover, user, title, createdAt, tags, _id } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
@@ -61,30 +54,6 @@ const Card: React.FC<Props> = ({ post }: Props) => {
               <Tag key={tag._id} tag={tag} />
             ))}
           </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={6} container justify="flex-end">
-          <Link href={`/post/${_id}`}>
-            <Button
-              className={classes.btn}
-              color="primary"
-              startIcon={<Like />}
-              variant="contained"
-            >
-              {likes.length} like{likes.length !== 1 && 's'}
-            </Button>
-          </Link>
-
-          <Link href={`/post/${_id}`}>
-            <Button
-              className={classes.btn}
-              color="primary"
-              startIcon={<Comment />}
-              variant="contained"
-            >
-              Add a comment
-            </Button>
-          </Link>
         </Grid>
       </Grid>
     </Paper>

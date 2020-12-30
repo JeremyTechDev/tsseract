@@ -5,6 +5,7 @@ const styles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     borderRadius: 7,
     paddingTop: 25,
+    paddingBottom: 25,
   },
   img: {
     borderRadius: 7,

@@ -10,9 +10,10 @@ import { baseURL } from '../../lib/config';
 interface Props {
   post: iPost;
   setComments: React.Dispatch<React.SetStateAction<iComment[]>>;
+  ref: React.RefObject<HTMLTextAreaElement>;
 }
 
-const CommentBox: React.FC<Props> = ({ post, setComments }) => {
+const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
   const classes = useStyles();
   const { state } = useContext(AppContext);
   const [body, setBody] = useState('');
@@ -46,6 +47,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments }) => {
             className={classes.commentBox}
             onChange={({ target }) => setBody(target.value)}
             placeholder="Have something to add?"
+            ref={ref}
             rowsMin={6}
             value={body}
           />

@@ -4,14 +4,7 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
-const userProps = [
-  '_id',
-  'email',
-  'name',
-  'username',
-  'following',
-  'followers',
-];
+const userProps = ['_id', 'email', 'name', 'username'];
 
 describe('User', () => {
   const SUT = http.createServer(server({ dev: true }));
@@ -82,7 +75,7 @@ describe('User', () => {
       const newUser = await request(SUT).get(`/api/users/${user.body._id}`);
 
       userProps.forEach((p) => expect(newUser.body).toHaveProperty(p));
-      expect(newUser.body.username).toBe('admin_user_test');
+      expect(newUser.body._id).toBe(user.body._id);
     });
 
     it('should return a status 404 if no user is found with the given id', async () => {
@@ -111,22 +104,22 @@ describe('User', () => {
     });
   });
 
-  describe('PUT:/api/users/follow/:followToUsername', () => {
-    it('should follow a user by username', async () => {
+  describe('PUT:/api/users/toggle-follow/:followToUsername', () => {
+    it('should follow a user that is not being followed by the auth user', async () => {
       const follow = await request(SUT)
-        .put('/api/users/follow/secondUser')
+        .put('/api/users/toggle-follow/secondUser')
         .set('Cookie', cookieSet);
 
-      const { body } = follow;
-      expect(body).toHaveProperty('following');
-      expect(body).toHaveProperty('follower');
-      expect(body.follower.followers).toContain(user.body._id);
-      expect(body.following.following).toContain(secUser.body._id);
+      expect(follow.body).toHaveProperty('following');
+      expect(follow.body).toHaveProperty('follower');
+      expect(follow.body.follower.followers).toContain(user.body._id);
+      expect(follow.body.following.following).toContain(secUser.body._id);
+      expect(follow.body.action).toBe('follow');
     });
 
     it('should tell if the user is trying to follow an inexistent account', async () => {
       const follow = await request(SUT)
-        .put('/api/users/follow/noUserAtAll')
+        .put('/api/users/toggle-follow/noUserAtAll')
         .set('Cookie', cookieSet);
 
       expect(follow.status).toBe(404);
@@ -135,61 +128,23 @@ describe('User', () => {
 
     it('should not allow the user to follow their own account', async () => {
       const follow = await request(SUT)
-        .put('/api/users/follow/admin_user_test')
+        .put('/api/users/toggle-follow/admin_user_test')
         .set('Cookie', cookieSet);
 
       expect(follow.status).toBe(409);
       expect(follow.body).toHaveProperty('error');
     });
 
-    it('should not allow the user follow an account they already follow', async () => {
+    it('should unfollow a user that is already followed by the auth user', async () => {
       const follow = await request(SUT)
-        .put('/api/users/follow/secondUser') // already following on first it()
+        .put('/api/users/toggle-follow/secondUser')
         .set('Cookie', cookieSet);
 
-      expect(follow.status).toBe(409);
-      expect(follow.body).toHaveProperty('error');
-    });
-  });
-
-  describe('PUT:/unfollow/:followToUsername', () => {
-    it('should unfollow a user by username', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/unfollow/secondUser')
-        .set('Cookie', cookieSet);
-
-      const { body } = follow;
-      expect(body).toHaveProperty('following');
-      expect(body).toHaveProperty('follower');
-      expect(body.follower.followers).not.toContain(user.body._id);
-      expect(body.following.following).not.toContain(secUser.body._id);
-    });
-
-    it('should tell if the user is trying to unfollow an inexistent account', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/unfollow/noUserAtAll')
-        .set('Cookie', cookieSet);
-
-      expect(follow.status).toBe(404);
-      expect(follow.body).toHaveProperty('error');
-    });
-
-    it('should not allow the user to unfollow their own account', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/unfollow/admin_user_test')
-        .set('Cookie', cookieSet);
-
-      expect(follow.status).toBe(409);
-      expect(follow.body).toHaveProperty('error');
-    });
-
-    it('should not allow the user unfollow an account they do not follow', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/unfollow/secondUser') // already unfollowed on first it()
-        .set('Cookie', cookieSet);
-
-      expect(follow.status).toBe(409);
-      expect(follow.body).toHaveProperty('error');
+      expect(follow.body).toHaveProperty('following');
+      expect(follow.body).toHaveProperty('follower');
+      expect(follow.body.follower.followers).not.toContain(user.body._id);
+      expect(follow.body.following.following).not.toContain(secUser.body._id);
+      expect(follow.body.action).toBe('unfollow');
     });
   });
 
