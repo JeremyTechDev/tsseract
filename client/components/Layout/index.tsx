@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Paper, Button, Typography } from '@material-ui/core';
 import { PostAdd, Face } from '@material-ui/icons';
 
-import AppContext, { Types } from '../../context';
+import AppContext from '../../context';
 import useStyles from './styles';
 import { authType } from '../../@types';
 import { logoutUser } from '../../lib/auth';
@@ -27,12 +27,7 @@ const Layout: React.FC<Props> = ({
   const classes = useStyles();
   const {
     state: { theme },
-    dispatch,
   } = useContext(AppContext);
-
-  useEffect(() => {
-    dispatch({ type: Types.SET_CREDENTIALS, payload: authData.user });
-  }, []);
 
   const logo = `/Main-aside/${
     theme === 'dark' ? 'white_' : ''
