@@ -30,7 +30,6 @@ Tsseract in a social media app were can create content and earn money 💸 with 
     ├── .babelrc                    # Babel custom config file
     ├── .dockerignore               # Docker ignored files
     ├── .env.sample                 # Environment variables file
-    ├── .eslintrc.js                # ESLint config file
     ├── .gitignore                  # Git ignored files
     ├── .prettierrc                 # Prettier config file
     ├── docker-compose.yml          # Image dependencies file
@@ -75,8 +74,6 @@ You will need to have installed and running these technologies in order to run t
 - [MongoDB](https://www.mongodb.com/es) - Database Storage
 - [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
 
-📌 **Make sure that the env variable `DB_ADDRESS` is empty or set to `localhost` on development mode.**
-
 - Clone the repo:
 
   ```
@@ -89,7 +86,7 @@ You will need to have installed and running these technologies in order to run t
 
 - Copy the `static` files into the `dist` folder: `npm run copy-files`
 
-- To start the app in development mode: `npm run server`
+- To start the app in development mode: `npm run dev`
 
 - You can seed the database with some dummy data by running: `npm run seed`
 

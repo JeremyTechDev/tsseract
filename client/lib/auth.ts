@@ -84,7 +84,7 @@ export const logoutUser = async () => {
 
   try {
     await postRequest('/auth/logout');
-    Router.push('/');
+    Router.replace('/');
   } catch (error) {
     console.error(error);
   }

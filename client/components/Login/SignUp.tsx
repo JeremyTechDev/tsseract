@@ -136,6 +136,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           type="date"
           value={user.birthDate}
           variant="outlined"
+          defaultValue=""
         />
       </form>
 

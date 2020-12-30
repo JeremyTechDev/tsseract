@@ -85,13 +85,13 @@ const PostForm: React.FC = () => {
                   Cover image
                 </Button>
               )}
-              <Typography variant="caption">{125 - title.length}</Typography>
+              <Typography variant="caption">{100 - title.length}</Typography>
             </Grid>
 
             <TextareaAutosize
               className={classes.titleTextArea}
               defaultValue={title}
-              maxLength={125}
+              maxLength={100}
               name="title"
               onChange={({ target }) => setTitle(target.value)}
               placeholder="Add your post title here..."

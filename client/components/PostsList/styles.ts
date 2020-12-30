@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     margin: '15px auto',
+    minHeight: 250,
   },
   btn: {
     margin: '0 5px',
