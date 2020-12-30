@@ -14,7 +14,7 @@ import { iComment } from '../../@types';
 import useStyles from './styles';
 import parseDate from '../../helpers/parseDate';
 import { Delete } from '@material-ui/icons';
-import requestOptions from '../../helpers/requestOptions';
+import { deleteRequest } from '../../lib/fetch';
 
 interface Props {
   comment: iComment;
@@ -34,7 +34,7 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
     );
 
     if (confirmation) {
-      fetch(`/api/posts/c/${_id}`, requestOptions({}, 'DELETE'))
+      deleteRequest(`/posts/c/${_id}`)
         .then((res) => {
           if (res.status === 200) {
             setIsVisible(false);

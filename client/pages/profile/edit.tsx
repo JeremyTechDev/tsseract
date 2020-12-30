@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import EditPage from '../../components/UserPage/EditPage';
 import { authInitialProps } from '../../lib/auth';
 import { authType, iUser } from '../../@types';
+import { getRequest } from '../../lib/fetch';
 
 interface Props {
   user: authType;
@@ -21,7 +22,7 @@ const Edit: NextPage<Props> = ({ user, profile }) => {
 Edit.getInitialProps = async (ctx) => {
   const { user } = await authInitialProps(true)(ctx);
 
-  const profile = await fetch(`/api/users/${user.user?._id}`).then((res) =>
+  const profile = await getRequest(`/users/${user.user?._id}`).then((res) =>
     res.json(),
   );
 

@@ -14,10 +14,10 @@ import Router from 'next/router';
 import { Node } from 'slate';
 
 import { initialValue } from '../RichTextEditor/Slate';
-import requestOptions from '../../helpers/requestOptions';
 import CoverImgModal from '../CoverImgModal';
 import RichTextEditor from '../RichTextEditor';
 import { InputChangeEvent } from '../../@types';
+import { getRequest, postRequest } from '../../lib/fetch';
 
 import useStyles from './styles';
 
@@ -31,7 +31,7 @@ const PostForm: React.FC = () => {
   const [tagsSearchResults, setTagsSearchResults] = useState<string[]>([]);
 
   const handleTagChange = (event: InputChangeEvent) => {
-    fetch(`/api/tags/like/${event.target.value}`)
+    getRequest(`/tags/like/${event.target.value}`)
       .then((res) => res.json())
       .then((data) => setTagsSearchResults(data))
       .catch((err) => console.error(err));
@@ -44,15 +44,12 @@ const PostForm: React.FC = () => {
       );
     }
 
-    fetch(
-      '/api/posts',
-      requestOptions({
-        body: JSON.stringify(content),
-        cover: coverImg,
-        tags: tags.splice(0, 4),
-        title,
-      }),
-    )
+    postRequest('/posts', {
+      body: JSON.stringify(content),
+      cover: coverImg,
+      tags: tags.splice(0, 4),
+      title,
+    })
       .then(({ status }) => {
         status !== 200
           ? alert('Sorry, an error ocurred while saving your post')

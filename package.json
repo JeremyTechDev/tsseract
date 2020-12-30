@@ -8,9 +8,8 @@
   },
   "scripts": {
     "start": "node ./dist/server",
-    "client": "next ./dist/client",
-    "server": "nodemon --config nodemon.json ./dist/server",
-    "build:": "next build ./dist/client",
+    "build": "next build ./dist/client",
+    "dev": "nodemon --config nodemon.json ./dist/server",
     "tsc": "run-p tsc:client tsc:server",
     "tsc:w": "run-p tsc:w:*",
     "tsc:client": "tsc -p ./client",

@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
 import { authInitialProps } from '../../lib/auth';
 import { iPost, authType } from '../../@types';
+import { getRequest } from '../../lib/fetch';
 
 interface Props {
   post?: iPost;
@@ -30,7 +31,9 @@ Post.getInitialProps = async (ctx) => {
   const { postId } = ctx.query;
 
   const { user } = await authInitialProps()(ctx);
-  const data = await fetch(`/api/posts/id/${postId}`).then((res) => res.json());
+  const data = await getRequest(`/posts/id/${postId}`).then((res) =>
+    res.json(),
+  );
 
   return { post: data, authData: user };
 };

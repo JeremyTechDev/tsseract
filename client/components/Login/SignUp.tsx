@@ -12,9 +12,9 @@ import { iSignUpUser, InputChangeEvent } from '../../@types';
 import { loginUser } from '../../lib/auth';
 import AppContext, { Types } from '../../context';
 import Input from './Input';
-import requestOptions from '../../helpers/requestOptions';
 import useStyles from './styles';
 import useValidation from '../../hooks/useValidation';
+import { postRequest } from '../../lib/fetch';
 
 interface Props {
   user: iSignUpUser;
@@ -46,16 +46,13 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
 
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
-      fetch(
-        '/api/users/',
-        requestOptions({
-          name,
-          username,
-          email,
-          password,
-          birthDate: new Date(birthDate).getTime(),
-        }),
-      )
+      postRequest('/users/', {
+        name,
+        username,
+        email,
+        password,
+        birthDate: new Date(birthDate).getTime(),
+      })
         .then((res) => res.json())
         .then((data) => {
           if (!data.error) {

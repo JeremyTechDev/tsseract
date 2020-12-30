@@ -3,8 +3,8 @@ import { NextPageContext } from 'next';
 import { ServerResponse } from 'http';
 import jwt from 'jsonwebtoken';
 
-import requestOptions from '../helpers/requestOptions';
 import { iUser, authType } from '../@types';
+import { postRequest } from '../lib/fetch';
 
 const WINDOW_USER_SCRIPT = '__TSS_USER__';
 
@@ -59,7 +59,7 @@ export const authInitialProps = (isPrivateRoute = false) => async ({
 type userType = { username: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
-    const res = await fetch('/api/auth/login', requestOptions(user));
+    const res = await postRequest('/auth/login', user);
     const data: iUser & { error: string } = await res.json();
 
     if (data.error) {
@@ -83,7 +83,7 @@ export const logoutUser = async () => {
   }
 
   try {
-    await fetch('/api/auth/logout', requestOptions({}, 'POST'));
+    await postRequest('/auth/logout');
     Router.push('/');
   } catch (error) {
     console.error(error);
