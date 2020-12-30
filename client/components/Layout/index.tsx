@@ -61,7 +61,7 @@ const Layout: React.FC<Props> = ({
                   <Button onClick={logoutUser} className={classes.spacing}>
                     Log Out
                   </Button>
-                  <Link href={`/user/${authData.user.username}`}>
+                  <Link href={`/profile/${authData.user.username}`}>
                     <Button
                       color="primary"
                       endIcon={<Face />}

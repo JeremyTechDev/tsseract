@@ -43,8 +43,8 @@ router.get('/u/:username', retrieveUserByUsername);
 router.put('/toggle-follow/:followToUsername', auth, toggleFollow);
 
 /**
- * Deletes a user by id
- * @route /api/users/:id
+ * Deletes the authenticated user
+ * @route /api/users/
  * @method DELETE
  */
 router.delete('/', auth, deleteUser);

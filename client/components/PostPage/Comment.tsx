@@ -24,7 +24,7 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
     <Container className={classes.commentContainer}>
       <Grid container justify="space-between">
         <Grid item>
-          <Link href={`/user/${user.username}`}>
+          <Link href={`/profile/${user.username}`}>
             <MuiLink color="textPrimary" variant="subtitle1">
               <Grid container spacing={2} alignItems="center">
                 <Avatar className={classes.avatar}>{user.name[0]}</Avatar>

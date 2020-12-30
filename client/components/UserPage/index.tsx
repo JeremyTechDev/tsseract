@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Avatar, Button, Divider, Grid, Typography } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
@@ -8,6 +9,7 @@ import useStyles from './styles';
 import UserList from './UserList';
 import { baseURL } from '../../lib/config';
 import requestOptions from '../../helpers/requestOptions';
+import { logoutUser } from '../../lib/auth';
 
 interface Props {
   user: iUser;
@@ -47,6 +49,19 @@ const UserPage: React.FC<Props> = ({
       .catch((err) => console.error(err));
   };
 
+  const deleteUser = () => {
+    const confirmation = confirm(
+      'Are you sure you want to close this account?\nYou cannot undo this action',
+    );
+
+    if (confirmation) {
+      fetch(`${baseURL}/api/users`, requestOptions({}, 'DELETE'))
+        .then((res) => res.json())
+        .then(() => logoutUser())
+        .catch((err) => console.error(err));
+    }
+  };
+
   return (
     <Grid container>
       <Grid item md={4} sm={1} />
@@ -72,14 +87,22 @@ const UserPage: React.FC<Props> = ({
         <Divider className={classes.divider} />
 
         {(isProfile && (
-          <Button color="secondary" variant="contained" endIcon={<Edit />}>
-            Edit
-          </Button>
+          <Link href="/profile/edit">
+            <Button color="secondary" variant="contained" endIcon={<Edit />}>
+              Edit
+            </Button>
+          </Link>
         )) || (
           <Button onClick={toggleFollow} variant="contained" color="secondary">
             {isFollowing ? 'Unfollow' : 'Follow'}
           </Button>
         )}
+
+        <Grid item>
+          <Button onClick={deleteUser} color="primary">
+            Close Account
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid item md={6} sm={8}>

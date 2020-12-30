@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  Button,
+  Badge,
+  IconButton,
   CardActionArea,
   Container,
   Grid,
@@ -20,7 +21,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, createdAt, likes, tags, _id } = post;
+  const { cover, user, title, comments, createdAt, likes, tags, _id } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
@@ -65,25 +66,23 @@ const Card: React.FC<Props> = ({ post }: Props) => {
 
         <Grid item xs={12} sm={6} container justify="flex-end">
           <Link href={`/post/${_id}`}>
-            <Button
-              className={classes.btn}
-              color="primary"
-              startIcon={<Like />}
-              variant="contained"
-            >
-              {likes.length} like{likes.length !== 1 && 's'}
-            </Button>
+            <IconButton title="Like" className={classes.btn} color="primary">
+              <Badge badgeContent={likes.length} color="primary">
+                <Like />
+              </Badge>
+            </IconButton>
           </Link>
 
           <Link href={`/post/${_id}`}>
-            <Button
+            <IconButton
               className={classes.btn}
               color="primary"
-              startIcon={<Comment />}
-              variant="contained"
+              title="Add Comment"
             >
-              Add a comment
-            </Button>
+              <Badge badgeContent={comments.length} color="primary">
+                <Comment />
+              </Badge>
+            </IconButton>
           </Link>
         </Grid>
       </Grid>

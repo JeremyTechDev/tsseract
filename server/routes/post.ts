@@ -75,8 +75,8 @@ router.get('/by/:id', getPostsBy);
 router.get('/feed/', auth, getPostsFeed);
 
 /**
- * Deletes a post by id
- * @route /api/posts/:id/:postId
+ * Delete a post by id
+ * @route /api/posts/:postId
  * @param postId post id
  * @method DELETE
  */
