@@ -50,40 +50,41 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
         Sign In to Tsseract
       </Typography>
 
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <React.Fragment>
-          <form onSubmit={handleSubmit}>
-            {Boolean(requestError) && (
-              <Typography align="center" color="error" variant="subtitle1">
-                {requestError}
-              </Typography>
-            )}
-            <Input
-              handleChange={handleClearAndChange}
-              label="Username"
-              value={user.username}
-            />
+      <form onSubmit={handleSubmit}>
+        <Grid container direction="column" alignItems="center">
+          {Boolean(requestError) && (
+            <Typography align="center" color="error" variant="subtitle1">
+              {requestError}
+            </Typography>
+          )}
+          <Input
+            handleChange={handleClearAndChange}
+            label="Username"
+            value={user.username}
+          />
 
-            <Input
-              handleChange={handleClearAndChange}
-              label="Password"
-              type="password"
-              value={user.password}
-            />
-          </form>
+          <Input
+            handleChange={handleClearAndChange}
+            label="Password"
+            type="password"
+            value={user.password}
+          />
+        </Grid>
+      </form>
 
-          <Button
-            className={classes.btn}
-            color="primary"
-            onClick={handleSubmit}
-            variant="contained"
-          >
-            Sign In
-          </Button>
-        </React.Fragment>
-      )}
+      <Button
+        className={classes.btn}
+        color="primary"
+        onClick={handleSubmit}
+        variant="contained"
+        disabled={loading}
+      >
+        {loading ? (
+          <CircularProgress className={classes.progress} size={24} />
+        ) : (
+          'Sign In'
+        )}
+      </Button>
     </Grid>
   );
 };

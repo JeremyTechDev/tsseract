@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Paper, Button, Typography } from '@material-ui/core';
-import { PostAdd } from '@material-ui/icons';
+import { PostAdd, Face } from '@material-ui/icons';
 
 import AppContext, { Types } from '../../context';
 import useStyles from './styles';
@@ -57,9 +57,20 @@ const Layout: React.FC<Props> = ({
                   <Button className={classes.spacing}>Log In</Button>
                 </Link>
               ) : (
-                <Button onClick={logoutUser} className={classes.spacing}>
-                  Log Out
-                </Button>
+                <React.Fragment>
+                  <Button onClick={logoutUser} className={classes.spacing}>
+                    Log Out
+                  </Button>
+                  <Link href={`/user/${authData.user.username}`}>
+                    <Button
+                      color="primary"
+                      endIcon={<Face />}
+                      variant="contained"
+                    >
+                      Profile
+                    </Button>
+                  </Link>
+                </React.Fragment>
               )}
 
               <Link href="/create-post">

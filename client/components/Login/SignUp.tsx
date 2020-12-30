@@ -8,13 +8,14 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import { baseURL } from '../../lib/config';
+import { iSignUpUser, InputChangeEvent } from '../../@types';
+import { loginUser } from '../../lib/auth';
 import AppContext, { Types } from '../../context';
 import Input from './Input';
-import useValidation from '../../hooks/useValidation';
-import useStyles from './styles';
-import { iSignUpUser, InputChangeEvent } from '../../@types';
-import { baseURL } from '../../lib/config';
 import requestOptions from '../../helpers/requestOptions';
+import useStyles from './styles';
+import useValidation from '../../hooks/useValidation';
 
 interface Props {
   user: iSignUpUser;
@@ -70,7 +71,10 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
             setLoading(false);
           }
         })
+        .then(() => loginUser({ username, password }))
         .catch((error) => console.error(error.message));
+    } else {
+      setLoading(false);
     }
   };
 
@@ -80,79 +84,78 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
         Sign Up to Tsseract
       </Typography>
 
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <React.Fragment>
-          <form onSubmit={handleSubmit}>
-            {Boolean(requestError) && (
-              <Typography align="center" color="error" variant="subtitle1">
-                {requestError}
-              </Typography>
-            )}
-            <Input
-              error={Boolean(errors.name)}
-              handleChange={handleChange}
-              helperText={errors.name}
-              label="Name"
-              value={user.name}
-            />
-            <Input
-              error={Boolean(errors.username)}
-              handleChange={handleChange}
-              helperText={errors.username}
-              label="Username"
-              value={user.username}
-            />
-            <Input
-              error={Boolean(errors.email)}
-              handleChange={handleChange}
-              helperText={errors.email}
-              label="Email"
-              type="email"
-              value={user.email}
-            />
-            <Input
-              error={Boolean(errors.password)}
-              handleChange={handleChange}
-              helperText={errors.password}
-              label="Password"
-              type="password"
-              value={user.password}
-            />
-            <Input
-              error={Boolean(errors.rPassword)}
-              handleChange={handleChange}
-              helperText={errors.rPassword}
-              label="Repeat Password"
-              name="rPassword"
-              type="password"
-              value={user.rPassword}
-            />
-            <TextField
-              className={classes.margin}
-              error={Boolean(errors.birthDate)}
-              helperText={errors.birthDate}
-              label="Birthday"
-              name="birthDate"
-              onChange={handleChange}
-              required
-              type="date"
-              value={user.birthDate}
-              variant="outlined"
-            />
-          </form>
+      <form onSubmit={handleSubmit}>
+        {Boolean(requestError) && (
+          <Typography align="center" color="error" variant="subtitle1">
+            {requestError}
+          </Typography>
+        )}
+        <Input
+          error={Boolean(errors.name)}
+          handleChange={handleChange}
+          helperText={errors.name}
+          label="Name"
+          value={user.name}
+        />
+        <Input
+          error={Boolean(errors.username)}
+          handleChange={handleChange}
+          helperText={errors.username}
+          label="Username"
+          value={user.username}
+        />
+        <Input
+          error={Boolean(errors.email)}
+          handleChange={handleChange}
+          helperText={errors.email}
+          label="Email"
+          type="email"
+          value={user.email}
+        />
+        <Input
+          error={Boolean(errors.password)}
+          handleChange={handleChange}
+          helperText={errors.password}
+          label="Password"
+          type="password"
+          value={user.password}
+        />
+        <Input
+          error={Boolean(errors.rPassword)}
+          handleChange={handleChange}
+          helperText={errors.rPassword}
+          label="Repeat Password"
+          name="rPassword"
+          type="password"
+          value={user.rPassword}
+        />
+        <TextField
+          className={classes.margin}
+          error={Boolean(errors.birthDate)}
+          helperText={errors.birthDate}
+          label="Birthday"
+          name="birthDate"
+          onChange={handleChange}
+          required
+          type="date"
+          value={user.birthDate}
+          variant="outlined"
+        />
+      </form>
 
-          <Button
-            className={classes.btn}
-            color="primary"
-            onClick={handleSubmit}
-            variant="contained"
-          >
-            Sign Up
-          </Button>
-        </React.Fragment>
-      )}
+      <Button
+        className={classes.btn}
+        color="primary"
+        disabled={loading}
+        onClick={handleSubmit}
+        variant="contained"
+      >
+        {loading ? (
+          <CircularProgress className={classes.progress} size={24} />
+        ) : (
+          'Sign Up'
+        )}
+      </Button>
     </Grid>
   );
 };

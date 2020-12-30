@@ -33,7 +33,10 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={getTheme(currentTheme)}>
       <CssBaseline />
-      <NextProgress color={getTheme(currentTheme).palette.primary.main} />
+      <NextProgress
+        color={getTheme(currentTheme).palette.primary.main}
+        options={{ showSpinner: false }}
+      />
       <AppContext.Provider value={{ state, dispatch }}>
         <Component {...pageProps} />
       </AppContext.Provider>

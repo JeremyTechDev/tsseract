@@ -6,6 +6,9 @@ const styles = makeStyles((theme) => ({
     position: 'fixed',
     top: '14vh',
   },
+  userCard: {
+    margin: 5,
+  },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
