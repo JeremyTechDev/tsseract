@@ -5,7 +5,7 @@ import Layout from '../../components/Layout';
 import UserPage from '../../components/UserPage';
 import { authInitialProps } from '../../lib/auth';
 import { authType, iPost, iUser } from '../../@types';
-import { baseURL } from '../../lib/config';
+import { getRequest } from '../../lib/fetch';
 
 interface Props {
   user: iUser;
@@ -32,15 +32,15 @@ User.getInitialProps = async (ctx) => {
   const { username } = ctx.query;
 
   const { user: authUser } = await authInitialProps()(ctx);
-  const authData = await fetch(
-    `${baseURL}/api/users/${authUser.user?._id}`,
+  const authData = await getRequest(
+    `/users/${authUser.user?._id}`,
   ).then((res) => res.json());
 
-  const user = await fetch(`${baseURL}/api/users/u/${username}`).then((res) =>
+  const user = await getRequest(`/users/u/${username}`).then((res) =>
     res.json(),
   );
 
-  const posts = await fetch(`${baseURL}/api/posts/by/${user._id}`).then((res) =>
+  const posts = await getRequest(`/posts/by/${user._id}`).then((res) =>
     res.json(),
   );
 

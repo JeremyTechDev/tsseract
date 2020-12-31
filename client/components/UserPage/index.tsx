@@ -7,9 +7,8 @@ import { iPost, iUser } from '../../@types';
 import PostsList from '../PostsList/index';
 import useStyles from './styles';
 import UserList from './UserList';
-import { baseURL } from '../../lib/config';
-import requestOptions from '../../helpers/requestOptions';
 import { logoutUser } from '../../lib/auth';
+import { putRequest, deleteRequest } from '../../lib/fetch';
 
 interface Props {
   user: iUser;
@@ -32,10 +31,7 @@ const UserPage: React.FC<Props> = ({
   const [user, setUser] = useState(userProp);
 
   const toggleFollow = () => {
-    fetch(
-      `${baseURL}/api/users/toggle-follow/${user.username}`,
-      requestOptions({}, 'PUT'),
-    )
+    putRequest(`/users/toggle-follow/${user.username}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.action === 'unfollow') {
@@ -55,7 +51,7 @@ const UserPage: React.FC<Props> = ({
     );
 
     if (confirmation) {
-      fetch(`${baseURL}/api/users`, requestOptions({}, 'DELETE'))
+      deleteRequest('/users')
         .then((res) => res.json())
         .then(() => logoutUser())
         .catch((err) => console.error(err));

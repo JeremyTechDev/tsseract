@@ -2,9 +2,14 @@
   "name": "tsseract",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.17.0",
+    "npm": "6.14.8"
+  },
   "scripts": {
-    "client": "next ./dist/client",
-    "server": "nodemon --config nodemon.json ./dist/server",
+    "start": "node ./dist/server",
+    "build": "next build ./dist/client",
+    "dev": "nodemon --config nodemon.json ./dist/server",
     "tsc": "run-p tsc:client tsc:server",
     "tsc:w": "run-p tsc:w:*",
     "tsc:client": "tsc -p ./client",
@@ -13,7 +18,8 @@
     "tsc:w:server": "tsc -p ./server -w",
     "seed": "node dist/server/seeder.js",
     "copy-files": "cp -vr ./static/. dist/client/public/",
-    "test": "NODE_ENV=test && jest --detectOpenHandles"
+    "test": "NODE_ENV=test && jest --detectOpenHandles",
+    "heroku-postbuild": "npm i && run-s tsc build copy-files"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -30,10 +36,8 @@
     "mongoose": "^5.9.16",
     "next": "^10.0.0",
     "nextjs-progressbar": "0.0.7",
-    "node-emoji": "^1.10.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "set-cookie-parser": "^2.4.6",
+    "react-dom": "^17.0.1",
     "slate": "^0.59.0",
     "slate-react": "^0.59.0"
   },
@@ -42,19 +46,16 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.7",
     "@types/faker": "^5.1.4",
-    "@types/hapi__joi": "^17.1.4",
-    "@types/jest": "^26.0.13",
+    "@types/hapi__joi": "^17.1.6",
+    "@types/jest": "^26.0.19",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/material-ui": "^0.21.8",
     "@types/mongoose": "^5.7.31",
     "@types/node": "^14.0.22",
-    "@types/node-emoji": "^1.8.1",
     "@types/react": "^16.9.43",
     "@types/set-cookie-parser": "0.0.6",
     "@types/supertest": "^2.0.10",
     "babel-plugin-styled-components": "^1.11.1",
-    "eslint": "^7.4.0",
-    "eslint-config-airbnb": "^18.2.1",
     "faker": "^5.1.0",
     "husky": "^4.2.5",
     "jest": "^26.4.2",
@@ -63,23 +64,14 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
+    "set-cookie-parser": "^2.4.6",
     "supertest": "^4.0.2",
     "typescript": "^3.9.6"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && lint-staged",
       "pre-push": "npm test"
     }
-  },
-  "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

@@ -1,6 +1,6 @@
 require('dotenv').config();
 import { connect } from 'mongoose';
-const { DB_NAME, DB_ADDRESS, NODE_ENV } = process.env;
+const { DB_NAME, NODE_ENV, MONGO_UI } = process.env;
 
 /**
  * Starts a connection with MongoDB
@@ -8,10 +8,10 @@ const { DB_NAME, DB_ADDRESS, NODE_ENV } = process.env;
  * @returns {void}
  */
 const init = () => {
-  const PATH = NODE_ENV === 'production' ? DB_ADDRESS : 'localhost';
+  const prod = NODE_ENV === 'production';
   const TARGET_DB = NODE_ENV === 'test' ? 'tsseract-db-test' : DB_NAME;
 
-  return connect(`mongodb://${PATH}/${TARGET_DB}`, {
+  return connect(prod ? <string>MONGO_UI : `mongodb://localhost/${TARGET_DB}`, {
     useCreateIndex: true,
     useFindAndModify: false,
     useNewUrlParser: true,
@@ -19,7 +19,9 @@ const init = () => {
   })
     .then(() => {
       if (NODE_ENV !== 'test')
-        console.info(`📡 Connected to MongoDB (${TARGET_DB})`);
+        console.info(
+          `📡 Connected to MongoDB (${prod ? MONGO_UI : TARGET_DB})`,
+        );
     })
     .catch((error: Error) =>
       console.warn('Error connecting to MongoDB', error.message),

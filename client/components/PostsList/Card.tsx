@@ -1,6 +1,7 @@
 import React from 'react';
 import { CardActionArea, Container, Grid, Paper } from '@material-ui/core';
 import Link from 'next/link';
+import isURL from 'is-url';
 
 import useStyles from './styles';
 import PostInfo from './PostInfo';
@@ -19,7 +20,7 @@ const Card: React.FC<Props> = ({ post }: Props) => {
     <Paper className={classes.paper} elevation={5}>
       <CardActionArea>
         <Link href={`/post/${_id}`}>
-          {(cover && (
+          {(isURL(cover) && (
             <Container className={classes.coverContainer}>
               <img className={classes.coverImg} src={cover} alt={title} />
 

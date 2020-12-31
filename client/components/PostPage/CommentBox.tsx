@@ -4,8 +4,7 @@ import { Grid, TextareaAutosize, Avatar, Button } from '@material-ui/core';
 import AppContext from '../../context';
 import useStyles from './styles';
 import { iPost, iComment } from '../../@types';
-import requestOptions from '../../helpers/requestOptions';
-import { baseURL } from '../../lib/config';
+import { postRequest } from '../../lib/fetch';
 
 interface Props {
   post: iPost;
@@ -19,7 +18,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
   const [body, setBody] = useState('');
 
   const handleSubmit = () => {
-    fetch(`${baseURL}/api/posts/c/${post._id}`, requestOptions({ body }))
+    postRequest(`/posts/c/${post._id}`, { body })
       .then((res) => res.json())
       .then((data: iPost) => {
         setComments(data.comments);

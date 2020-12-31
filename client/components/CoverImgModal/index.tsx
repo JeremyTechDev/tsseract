@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { BrokenImage } from '@material-ui/icons';
+import isURL from 'is-url';
 
 import useStyles from './styles';
 import { InputChangeEvent } from '../../@types';
@@ -26,7 +27,6 @@ interface T {
 const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
   const classes = useStyles();
   const [caption, setCaption] = useState('');
-  const [imgFound, setImgFound] = useState(Boolean(img));
 
   const save = () => {
     if (requireCaption) setImg(`![alt text](${img} "${caption}")`);
@@ -34,18 +34,11 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
   };
 
   const handleCaption = (event: InputChangeEvent) => {
-    const { value: caption } = event.target;
-
-    setCaption(caption);
+    setCaption(event.target.value);
   };
 
   const handleImage = (event: InputChangeEvent) => {
-    const { value: url } = event.target;
-
-    setImg(url);
-    setImgFound(Boolean(url));
-
-    // setImgFound(imgExists(url)); wanted change
+    setImg(event.target.value);
   };
 
   const clearImg = () => {
@@ -77,7 +70,7 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
 
           {img && (
             <React.Fragment>
-              {(imgFound && (
+              {(isURL(img) && (
                 <img alt="Image" className={classes.coverImg} src={img} />
               )) || (
                 <Grid
@@ -111,7 +104,7 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
 
               <Button
                 color="primary"
-                disabled={(requireCaption && !caption) || !imgFound || !img}
+                disabled={!isURL(img)}
                 onClick={save}
                 variant="contained"
               >
