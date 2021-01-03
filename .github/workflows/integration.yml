@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        
+
       - name: Run TypeScript Compiler
         run: npm run tsc
 
@@ -34,3 +34,4 @@ jobs:
           CI: true
           DB_NAME: ${{ secrets.DB_NAME }}
           JWT_KEY: ${{ secrets.JWT_KEY }}
+          COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
