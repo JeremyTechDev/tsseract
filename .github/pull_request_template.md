@@ -7,7 +7,7 @@
 - Pull and checkout to this branch.
 - `npm install`
 - `npm run tsc`
-- `npm test` All test should be passing successfully.
+- `npm test` All tests should be passing successfully.
 - `npm run watch`
 
 <!-- Include the necessary testing steps  -->

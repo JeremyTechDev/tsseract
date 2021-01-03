@@ -45,7 +45,7 @@ Tsseract in a social media app were can create content and earn money 💸 with 
 
 ## Getting Started 🚀
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. Check out the [docs](docs/index.md) for more info about the API endpoints.
 
 ### Prerequisites
 
