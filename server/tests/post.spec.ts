@@ -176,6 +176,7 @@ describe('Posts', () => {
       );
 
       expect(postFound.body._id).toBe(post.body._id);
+      expect(postFound.body.interactions).toBe(1);
     });
 
     it('should return 404 if no post with the given id was found', async () => {
@@ -193,6 +194,7 @@ describe('Posts', () => {
         .set('Cookie', cookieSet);
 
       expect(likedPost.body.likes).toContain(userId);
+      expect(likedPost.body.interactions).toBe(2);
     });
 
     it('should unlike a post (remove the user id to the likes array)', async () => {
@@ -201,6 +203,7 @@ describe('Posts', () => {
         .set('Cookie', cookieSet);
 
       expect(likedPost.body.likes).not.toContain(userId);
+      expect(likedPost.body.interactions).toBe(3);
     });
   });
 

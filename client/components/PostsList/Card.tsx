@@ -1,5 +1,11 @@
 import React from 'react';
-import { CardActionArea, Container, Grid, Paper } from '@material-ui/core';
+import {
+  CardActionArea,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import Link from 'next/link';
 import isURL from 'is-url';
 
@@ -14,7 +20,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ post }: Props) => {
   const classes = useStyles();
-  const { cover, user, title, createdAt, tags, _id } = post;
+  const { cover, user, title, createdAt, tags, _id, interactions } = post;
 
   return (
     <Paper className={classes.paper} elevation={5}>
@@ -44,6 +50,7 @@ const Card: React.FC<Props> = ({ post }: Props) => {
       </CardActionArea>
 
       <Grid
+        alignItems="center"
         className={classes.contentBtns}
         container
         justify="space-between"
@@ -56,6 +63,16 @@ const Card: React.FC<Props> = ({ post }: Props) => {
             ))}
           </Grid>
         </Grid>
+
+        {interactions ? (
+          <Grid item>
+            <Typography variant="overline">
+              {`${interactions} ${
+                interactions === 1 ? 'interaction' : 'interactions'
+              }`}
+            </Typography>
+          </Grid>
+        ) : null}
       </Grid>
     </Paper>
   );

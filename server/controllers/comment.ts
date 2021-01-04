@@ -26,7 +26,10 @@ export const createComment: RequestHandler = async (req, res) => {
 
     const post = (await Post.findByIdAndUpdate(
       postId,
-      { $push: { comments: { $each: [req.body], $position: 0 } } },
+      {
+        $push: { comments: { $each: [req.body], $position: 0 } },
+        $inc: { interactions: 1 },
+      },
       { new: true },
     )
       .populate('user', '_id name username')

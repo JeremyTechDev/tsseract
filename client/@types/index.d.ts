@@ -49,6 +49,7 @@ export interface iPost {
   cover: string;
   createdAt: string;
   likes: string[];
+  interactions: number;
   tags: iTag[];
   title: string;
   updatedAt: string;
