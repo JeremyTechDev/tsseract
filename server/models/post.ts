@@ -23,6 +23,11 @@ export const postsSchema = new Schema({
   cover: {
     type: String,
   },
+  interactions: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
   likes: [
     {
       type: Types.ObjectId,
@@ -55,6 +60,7 @@ export const validatePost = <T>(post: T) => {
     cover: Joi.string(),
     tags: Joi.array().items(Joi.string()),
     likes: Joi.array().items(Joi.string().regex(regex.objectId)),
+    interactions: Joi.number().min(0),
     comments: Joi.array().items(Joi.object()),
     updatedAt: Joi.date().timestamp(),
     createdAt: Joi.date().timestamp(),

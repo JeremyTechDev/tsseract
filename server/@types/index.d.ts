@@ -21,6 +21,7 @@ export interface iPost extends Document {
   cover: string;
   comments: [];
   likes: Types.ObjectId[];
+  interactions: Number;
   tags: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;

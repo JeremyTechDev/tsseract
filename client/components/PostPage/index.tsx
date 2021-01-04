@@ -39,7 +39,7 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(post.likes);
   const commentBoxRef = createRef<HTMLTextAreaElement>();
-  const { _id, body, cover, createdAt, tags, title, user } = post;
+  const { _id, body, cover, createdAt, tags, title, user, interactions } = post;
 
   const toggleLike = () => {
     putRequest(`/posts/like/${_id}`)
@@ -127,13 +127,19 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
         </Grid>
       </Grid>
 
-      {isSelfPost && (
-        <Grid container justify="flex-end">
+      <Grid container justify="space-between">
+        <Typography variant="overline">
+          {`${interactions} ${
+            interactions === 1 ? 'interaction' : 'interactions'
+          }`}
+        </Typography>
+
+        {isSelfPost && (
           <Button onClick={deletePost} color="primary">
             Delete Post
           </Button>
-        </Grid>
-      )}
+        )}
+      </Grid>
 
       <Divider light className={classes.divider} />
 

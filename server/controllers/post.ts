@@ -79,10 +79,14 @@ export const findById: RequestHandler = async (req, res) => {
   const { postId } = req.params;
 
   try {
-    const post = await Post.findById(postId)
+    const post = (await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { interactions: 1 } },
+      { new: true },
+    )
       .populate('user', '_id name username')
       .populate('comments.user', '_id name username')
-      .populate('tags');
+      .populate('tags')) as iPost;
 
     if (!post)
       return res
@@ -107,7 +111,9 @@ export const toggleLike: RequestHandler = async (req, res) => {
   const { _id: userId } = req.cookies.profile;
 
   try {
-    const post = (await Post.findById(postId)) as iPost;
+    const post = (await Post.findByIdAndUpdate(postId, {
+      $inc: { interactions: 1 },
+    })) as iPost;
 
     if (!post)
       return res
