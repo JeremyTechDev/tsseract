@@ -71,6 +71,7 @@ describe('Comments', () => {
 
       expect(postWithComment.body.comments.length).toBeGreaterThan(0);
       expect(postWithComment.body.comments[0].body).toBe('Test comment');
+      expect(postWithComment.body.interactions).toBe(1);
     });
 
     it('should return a status 400 if the comment is invalid', async () => {
