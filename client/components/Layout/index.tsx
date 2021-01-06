@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Grid, Paper, Button, Typography } from '@material-ui/core';
 import { PostAdd, Face } from '@material-ui/icons';
 
-import AppContext from '../../context';
+import AppContext, { Types } from '../../context';
 import useStyles from './styles';
 import { authType } from '../../@types';
 import { logoutUser } from '../../lib/auth';
@@ -26,12 +26,18 @@ const Layout: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
   const {
-    state: { theme },
+    state: { theme, isAuthenticated, user },
+    dispatch,
   } = useContext(AppContext);
 
   const logo = `/Main-aside/${
     theme === 'dark' ? 'white_' : ''
   }logo_transparent_background.png`;
+
+  const handleLogOut = () => {
+    dispatch({ type: Types.SET_CREDENTIALS, payload: null });
+    logoutUser();
+  };
 
   return (
     <Paper className={classes.margin} square elevation={0}>
@@ -47,16 +53,16 @@ const Layout: React.FC<Props> = ({
             </Link>
             <Grid />
             <Grid item>
-              {!authData.user ? (
+              {!isAuthenticated ? (
                 <Link href="/login">
                   <Button className={classes.spacing}>Log In</Button>
                 </Link>
               ) : (
                 <React.Fragment>
-                  <Button onClick={logoutUser} className={classes.spacing}>
+                  <Button onClick={handleLogOut} className={classes.spacing}>
                     Log Out
                   </Button>
-                  <Link href={`/profile/${authData.user.username}`}>
+                  <Link href={`/profile/${user?.username}`}>
                     <Button
                       color="primary"
                       endIcon={<Face />}
