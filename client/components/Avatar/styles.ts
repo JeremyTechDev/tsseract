@@ -4,7 +4,7 @@ const styles = makeStyles((theme) => ({
   boxColor: {
     backgroundColor: theme.palette.grey[600],
     height: '60vh',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   bubbleColor: {
     width: 75,

@@ -1,28 +1,35 @@
-export interface iType {
+interface iType {
   type: string;
   text?: string;
   colorCode?: string;
   shared?: boolean;
 }
-export const skins: iType[] = [
-  { type: 'Tanned' },
-  { type: 'Yellow' },
-  { type: 'Pale' },
-  { type: 'Light' },
-  { type: 'Brown' },
-  { type: 'DarkBrown', text: 'Dark Brown' },
-  { type: 'Black' },
+
+export const tabsWithColors = {
+  1: 'hairColor',
+  2: 'facialHairColor',
+  6: 'clotheColor',
+};
+
+export const labels = [
+  'Skin',
+  'Hair',
+  'Facial Hair',
+  'Eyes',
+  'Eyebrows',
+  'Mouth',
+  'Clothes',
+  'Accessories',
 ];
 
-export const hats = [
-  { type: 'Eyepatch' },
-  { type: 'Hat' },
-  { type: 'Hijab' },
-  { type: 'Turban' },
-  { type: 'WinterHat1' },
-  { type: 'WinterHat2' },
-  { type: 'WinterHat3' },
-  { type: 'WinterHat4' },
+export const skins: iType[] = [
+  { type: 'Tanned', colorCode: '#FD9841' },
+  { type: 'Yellow', colorCode: '#F8D25C' },
+  { type: 'Pale', colorCode: '#FFDBB4' },
+  { type: 'Light', colorCode: '#EDB98A' },
+  { type: 'Brown', colorCode: '#D08B5B' },
+  { type: 'DarkBrown', colorCode: '#AE5D29' },
+  { type: 'Black', colorCode: '#614335' },
 ];
 
 export const hairColors: iType[] = [
@@ -38,51 +45,51 @@ export const hairColors: iType[] = [
   { type: 'SilverGray', colorCode: '#E8E1E1', shared: false },
 ];
 export const hairs: iType[] = [
-  { type: 'NoHair', text: 'No hair' },
-  { type: 'LongHairBigHair', text: 'Long Hair Big Hair' },
-  { type: 'LongHairBob', text: 'Long Hair Bob' },
-  { type: 'LongHairBun', text: 'Long Hair Bun' },
-  { type: 'LongHairCurly', text: 'Long Hair Curly' },
-  { type: 'LongHairCurvy', text: 'Long Hair Curvy' },
-  { type: 'LongHairDreads', text: 'Long Hair Dreads' },
-  { type: 'LongHairFrida', text: 'Long Hair Frida' },
-  { type: 'LongHairFro', text: 'Long Hair Fro' },
-  { type: 'LongHairFroBand', text: 'Long Hair FroBand' },
-  { type: 'LongHairNotTooLong', text: 'Long Hair Not Too Long' },
-  { type: 'LongHairShavedSides', text: 'Long Hair Shaved Sides' },
-  { type: 'LongHairMiaWallace', text: 'Long Hair Mia Wallace' },
-  { type: 'LongHairStraight', text: 'Long Hair Straight' },
-  { type: 'LongHairStraight2', text: 'Long Hair Straight 2' },
-  { type: 'LongHairStraightStrand', text: 'Long Hair Straight Strand' },
-  { type: 'ShortHairDreads01', text: 'Short Hair Dreads 1' },
-  { type: 'ShortHairDreads02', text: 'Short Hair Dreads 2' },
-  { type: 'ShortHairFrizzle', text: 'Short Hair Frizzle' },
-  { type: 'ShortHairShaggyMullet', text: 'Short Hair Shaggy Mullet' },
-  { type: 'ShortHairShortCurly', text: 'Short Hair Short Curly' },
-  { type: 'ShortHairShortFlat', text: 'Short Hair Short Flat' },
-  { type: 'ShortHairShortRound', text: 'Short Hair Short Round' },
-  { type: 'ShortHairShortWaved', text: 'Short Hair Short Waved' },
-  { type: 'ShortHairSides', text: 'Short Hair Sides' },
-  { type: 'ShortHairTheCaesar', text: 'Short Hair The Caesar' },
+  { type: 'NoHair', text: 'Bald' },
+  { type: 'LongHairBigHair', text: 'Big Hair' },
+  { type: 'LongHairBob', text: 'Bob' },
+  { type: 'LongHairBun', text: 'Bun' },
+  { type: 'LongHairCurly', text: 'Curly' },
+  { type: 'LongHairCurvy', text: 'Curvy' },
+  { type: 'LongHairDreads', text: 'Dreads' },
+  { type: 'LongHairFrida', text: 'Frida' },
+  { type: 'LongHairFro', text: 'Fro' },
+  { type: 'LongHairFroBand', text: 'Fro Band' },
+  { type: 'LongHairNotTooLong', text: 'Not Too Long' },
+  { type: 'LongHairShavedSides', text: 'Shaved Sides' },
+  { type: 'LongHairMiaWallace', text: 'Mia Wallace' },
+  { type: 'LongHairStraight', text: 'Straight' },
+  { type: 'LongHairStraight2', text: 'Straight 2' },
+  { type: 'LongHairStraightStrand', text: 'Straight Strand' },
+  { type: 'ShortHairDreads01', text: 'Dreads 1' },
+  { type: 'ShortHairDreads02', text: 'Dreads 2' },
+  { type: 'ShortHairFrizzle', text: 'Frizzle' },
+  { type: 'ShortHairShaggyMullet', text: 'Shaggy Mullet' },
+  { type: 'ShortHairShortCurly', text: 'Curly' },
+  { type: 'ShortHairShortFlat', text: 'Flat' },
+  { type: 'ShortHairShortRound', text: 'Round' },
+  { type: 'ShortHairShortWaved', text: 'Waved' },
+  { type: 'ShortHairSides', text: 'Sides' },
+  { type: 'ShortHairTheCaesar', text: 'The Caesar' },
   {
     type: 'ShortHairTheCaesarSidePart',
-    text: 'Short Hair The Caesar Side Part',
+    text: 'The Caesar Side Part',
   },
 ];
 
 export const facialHairs: iType[] = [
-  { type: 'Black', text: 'No Facial Hair' },
-  { type: 'BeardMedium', text: 'Beard Medium' },
-  { type: 'BeardLight', text: 'Beard Light' },
-  { type: 'BeardMajestic', text: 'Beard Majestic' },
-  { type: 'MoustacheFancy', text: 'Moustache Fancy' },
-  { type: 'MoustacheMagnum', text: 'Moustache Magnum' },
+  { type: 'Black', text: 'None' },
+  { type: 'BeardMedium', text: 'Medium' },
+  { type: 'BeardLight', text: 'Light' },
+  { type: 'BeardMajestic', text: 'Majestic' },
+  { type: 'MoustacheFancy', text: 'Fancy Moustache' },
+  { type: 'MoustacheMagnum', text: 'Magnum Moustache' },
 ];
 
 export const eyes: iType[] = [
+  { type: 'Default' },
   { type: 'Close', text: 'Closed' },
   { type: 'Cry' },
-  { type: 'Default' },
   { type: 'Dizzy' },
   { type: 'EyeRoll', text: 'Eye Roll' },
   { type: 'Happy' },
@@ -95,23 +102,23 @@ export const eyes: iType[] = [
 ];
 
 export const eyebrows: iType[] = [
-  { type: 'Angry' },
-  { type: 'AngryNatural', text: 'Angry Natural' },
   { type: 'Default' },
-  { type: 'DefaultNatural', text: 'Default Natural' },
-  { type: 'FlatNatural', text: 'Flat Natural' },
-  { type: 'RaisedExcited', text: 'Raised Excited' },
-  { type: 'RaisedExcitedNatural', text: 'Raised Excited Natural' },
-  { type: 'SadConcerned', text: 'Sad Concerned' },
-  { type: 'SadConcernedNatural', text: 'Sad Concerned Natural' },
-  { type: 'UnibrowNatural', text: 'Unibrow Natural' },
+  { type: 'DefaultNatural', text: 'Natural' },
+  { type: 'Angry' },
+  { type: 'AngryNatural', text: 'Angry 2' },
+  { type: 'FlatNatural', text: 'Flat' },
+  { type: 'RaisedExcited', text: 'Raised' },
+  { type: 'RaisedExcitedNatural', text: 'Raised Excited' },
+  { type: 'SadConcerned', text: 'Sad' },
+  { type: 'SadConcernedNatural', text: 'Sad Concerned' },
+  { type: 'UnibrowNatural', text: 'Unibrow' },
   { type: 'UpDown', text: 'Up-Down' },
-  { type: 'UpDownNatural', text: 'Up-Down Natural' },
+  { type: 'UpDownNatural', text: 'Up-Down 2' },
 ];
 
 export const mouths: iType[] = [
-  { type: 'Concerned' },
   { type: 'Default' },
+  { type: 'Concerned' },
   { type: 'Disbelief' },
   { type: 'Eating' },
   { type: 'Grimace' },
@@ -127,9 +134,9 @@ export const mouths: iType[] = [
 export const accessories: iType[] = [
   { type: 'Blank', text: 'None' },
   { type: 'Kurt' },
-  { type: 'Prescription01', text: 'Prescription 1' },
-  { type: 'Prescription02', text: 'Prescription 2' },
-  { type: 'Round' },
+  { type: 'Prescription01', text: 'Wendy' },
+  { type: 'Prescription02', text: 'Bob' },
+  { type: 'Round', text: 'Harry Potter' },
   { type: 'Sunglasses' },
   { type: 'Wayfarers' },
 ];
@@ -158,7 +165,7 @@ export const clothes: iType[] = [
   { type: 'GraphicShirt', text: 'Graphic Shirt' },
   { type: 'Hoodie' },
   { type: 'Overall' },
-  { type: 'ShirtCrewNeck', text: 'Shirt Crew Neck' },
-  { type: 'ShirtScoopNeck', text: 'Shirt Scoop Neck' },
+  { type: 'ShirtCrewNeck', text: 'Crew Shirt' },
+  { type: 'ShirtScoopNeck', text: 'Scoop Shirt' },
   { type: 'ShirtVNeck', text: 'V-Shaped Shirt' },
 ];
