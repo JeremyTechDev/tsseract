@@ -11,6 +11,11 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
+  avatar: {
+    default: '',
+    trim: true,
+    type: String,
+  },
   username: {
     lowercase: true,
     maxlength: 50,
@@ -58,6 +63,7 @@ export default model('Users', userSchema);
 export const validateUser = <T>(user: T) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
+    avatar: Joi.string().trim(),
     username: Joi.string()
       .min(2)
       .max(50)

@@ -52,13 +52,11 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <script
             dangerouslySetInnerHTML={{
               __html: `
-            window.dataLayer = window.dataLayer || []
-            function gtag(){dataLayer.push(arguments)};
-
-            gtag('js', new Date());
-
-            gtag('config', '${GOOGLE_ANALYTICS_KEY}')
-          `,
+                window.dataLayer = window.dataLayer || []
+                function gtag(){dataLayer.push(arguments)};
+                gtag('js', new Date());
+                gtag('config', '${GOOGLE_ANALYTICS_KEY}')
+              `,
             }}
           />
 

@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import Joi from '@hapi/joi';
 import bcrypt from 'bcrypt';
 
 import User, { validateUser } from '../models/user';
@@ -8,7 +9,7 @@ import arrayToObj from '../helpers/arrayToObj';
 
 // to select all the user data but their password
 const SELECT =
-  '_id name username email birthDate createdAt followers following';
+  '_id name username email birthDate createdAt followers following avatar';
 
 const output = (user: iUser) => {
   return {
@@ -20,6 +21,7 @@ const output = (user: iUser) => {
     following: arrayToObj(user.following, '_id'),
     name: user.name,
     username: user.username,
+    avatar: user.avatar,
   };
 };
 
@@ -110,6 +112,40 @@ export const retrieveUserByUsername: RequestHandler = async (req, res) => {
         .send({ error: 'No user found with the given username' });
 
     res.send(output(user));
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
+ * Updates some fields of the given user
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ */
+export const updateUser: RequestHandler = async (req, res) => {
+  const { _id: userId } = req.cookies.profile;
+
+  const schema = Joi.object({
+    avatar: Joi.string().trim(),
+    name: Joi.string().trim().min(3).max(255),
+    email: Joi.string()
+      .email({ tlds: { allow: false } })
+      .min(2)
+      .max(255)
+      .trim(),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).send({ error: error.details[0].message });
+
+  try {
+    const user = (await User.findByIdAndUpdate(
+      userId,
+      { ...req.body },
+      { new: true },
+    )) as iUser;
+
+    return res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

@@ -6,6 +6,7 @@ import {
   retrieveUser,
   retrieveUserByUsername,
   toggleFollow,
+  updateUser,
 } from '../controllers/user';
 import auth from '../middlewares/authenticator';
 
@@ -25,6 +26,13 @@ router.post('/', createUser);
  * @method GET
  */
 router.get('/:id', retrieveUser);
+
+/**
+ * Updates the given attributes of a user
+ * @route /api/users
+ * @method put
+ */
+router.put('/', auth, updateUser);
 
 /**
  * Retrieve a user by username
