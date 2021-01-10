@@ -4,15 +4,10 @@ import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import CreatePost from '../components/CreatePost';
 import { authInitialProps } from '../lib/auth';
-import { authType } from '../@types';
 
-interface Props {
-  user: authType;
-}
-
-const CreatePostPage: NextPage<Props> = ({ user }) => {
+const CreatePostPage: NextPage = () => {
   return (
-    <Layout title="Write a post" authData={user} displayNav displayFooter>
+    <Layout title="Write a post">
       <CreatePost />
     </Layout>
   );

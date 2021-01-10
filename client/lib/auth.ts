@@ -9,16 +9,14 @@ import { postRequest } from '../lib/fetch';
 const WINDOW_USER_SCRIPT = '__TSS_USER__';
 
 export const getServerSideToken = (req: any): authType => {
-  const { signedCookies } = req;
-
-  if (!signedCookies || !signedCookies['tsseract-auth-token']) {
+  if (!req?.signedCookies || !req?.signedCookies['tsseract-auth-token']) {
     return { user: null, error: 'Token was not found', from: 'server' };
   }
 
   try {
     const decodedUser = <iUser>(
       jwt.verify(
-        signedCookies['tsseract-auth-token'],
+        req?.signedCookies['tsseract-auth-token'],
         <string>process.env.JWT_KEY,
       )
     );

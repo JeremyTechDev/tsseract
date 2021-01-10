@@ -1,12 +1,12 @@
 import React from 'react';
 import { NextPage } from 'next';
-import ErrorPage from 'next/error';
 
 import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
 import { authInitialProps } from '../../lib/auth';
 import { iPost, authType } from '../../@types';
 import { getRequest } from '../../lib/fetch';
+import ErrorPage from '../_error';
 
 interface Props {
   post?: iPost;
@@ -15,7 +15,7 @@ interface Props {
 
 const Post: NextPage<Props> = ({ post, authData }) => {
   return post && post._id ? (
-    <Layout title={post.title} authData={authData} displayNav displayFooter>
+    <Layout title={post.title}>
       <PostPage
         post={post}
         isSelfPost={post.user._id === authData.user?._id}

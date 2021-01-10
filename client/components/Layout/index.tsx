@@ -6,23 +6,20 @@ import { PostAdd, Face } from '@material-ui/icons';
 
 import AppContext, { Types } from '../../context';
 import useStyles from './styles';
-import { authType } from '../../@types';
 import { logoutUser } from '../../lib/auth';
 
 interface Props {
-  authData: authType;
   children?: React.ReactNode;
   displayFooter?: boolean;
   displayNav?: boolean;
-  title: string;
+  title?: string;
 }
 
 const Layout: React.FC<Props> = ({
-  authData,
   children,
-  displayFooter,
-  displayNav,
-  title,
+  displayFooter = true,
+  displayNav = true,
+  title = 'Tsseract',
 }) => {
   const classes = useStyles();
   const {
@@ -48,7 +45,7 @@ const Layout: React.FC<Props> = ({
       {displayNav && (
         <Paper className={classes.header} elevation={3} square>
           <Grid container alignItems="center" justify="space-around">
-            <Link href={!authData.error ? '/posts' : '/'}>
+            <Link href={isAuthenticated ? '/posts' : '/'}>
               <img className={classes.logo} src={logo} alt="Tsseract logo" />
             </Link>
             <Grid />

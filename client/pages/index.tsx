@@ -4,15 +4,10 @@ import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import LandingPage from '../components/LandingPage';
 import { authInitialProps } from '../lib/auth';
-import { authType } from '../@types';
 
-interface Props {
-  user: authType;
-}
-
-const App: NextPage<Props> = ({ user }) => {
+const App: NextPage = () => {
   return (
-    <Layout title="Tsseract" authData={user}>
+    <Layout title="Tsseract" displayFooter={false} displayNav={false}>
       <LandingPage />
     </Layout>
   );

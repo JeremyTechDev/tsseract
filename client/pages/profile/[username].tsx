@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
-import Error from 'next/error';
 
 import Layout from '../../components/Layout';
 import UserPage from '../../components/UserPage';
 import { authInitialProps } from '../../lib/auth';
 import { authType, iPost, iUser } from '../../@types';
 import { getRequest } from '../../lib/fetch';
+import Error from '../_error';
 
 interface Props {
   user: iUser;
@@ -15,7 +15,7 @@ interface Props {
 
 const User: NextPage<Props> = ({ user, posts, authData }) => {
   return !user.error ? (
-    <Layout authData={authData} title={user.name} displayNav displayFooter>
+    <Layout title={user.name}>
       <UserPage
         user={user}
         posts={posts}
