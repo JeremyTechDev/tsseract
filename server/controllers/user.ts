@@ -9,7 +9,7 @@ import arrayToObj from '../helpers/arrayToObj';
 
 // to select all the user data but their password
 const SELECT =
-  '_id name username email birthDate createdAt followers following';
+  '_id name username email birthDate createdAt followers following avatar';
 
 const output = (user: iUser) => {
   return {
@@ -21,6 +21,7 @@ const output = (user: iUser) => {
     following: arrayToObj(user.following, '_id'),
     name: user.name,
     username: user.username,
+    avatar: user.avatar,
   };
 };
 

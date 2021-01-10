@@ -13,10 +13,10 @@ interface Props {
 const AvatarPage: NextPage<Props> = ({ authData }) => {
   return (
     <Layout
-      title="Tsseract Avatar"
       authData={authData}
-      displayNav
       displayFooter
+      displayNav
+      title="Customize Avatar"
     >
       <Avatar />
     </Layout>

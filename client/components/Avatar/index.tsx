@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import Router from 'next/router';
 import { Grid, Button } from '@material-ui/core';
 import Avataaars from 'avataaars';
 
 import AvatarEditor from './Editor';
+import useStyles from './styles';
+import { putRequest } from '../../lib/fetch';
 
 const Avatar = () => {
+  const classes = useStyles();
   const [pieces, setPieces] = useState({
     accessoriesType: '',
     clotheColor: '',
@@ -18,6 +22,18 @@ const Avatar = () => {
     skinColor: '',
     topType: '',
   });
+
+  const handleSave = () => {
+    putRequest('/users', { avatar: JSON.stringify(pieces) })
+      .then((res) => {
+        if (res.status === 200) {
+          Router.replace('/profile');
+        } else {
+          console.error(res);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   const handleChange = (newProp: object) => {
     setPieces((prev) => Object.assign({}, prev, newProp));
@@ -44,7 +60,12 @@ const Avatar = () => {
           topType={pieces.topType}
         />
 
-        <Button variant="contained" color="primary">
+        <Button
+          className={classes.margin}
+          color="primary"
+          onClick={handleSave}
+          variant="contained"
+        >
           Save Avatar
         </Button>
       </Grid>

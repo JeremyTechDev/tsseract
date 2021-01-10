@@ -11,6 +11,7 @@ const styles = makeStyles((theme) => ({
     height: 75,
     borderRadius: '50%',
   },
+  margin: { margin: 10 },
 }));
 
 export default styles;
