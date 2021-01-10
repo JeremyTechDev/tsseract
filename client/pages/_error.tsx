@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { NextPage } from 'next';
 import {
   Button,
@@ -39,47 +40,62 @@ const errors = {
 interface Props {
   statusCode?: number;
 }
-const Error: NextPage<Props> = ({ statusCode }) => {
+const Error: NextPage<Props> = ({ statusCode = 404 }) => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      className={classes.root}
-      justify="center"
-      alignItems="center"
-    >
-      <Link href="/">
-        <img
-          className={classes.logo}
-          src="/Main-aside/white_logo_transparent_background.png"
-        />
-      </Link>
+    <React.Fragment>
+      <Head>
+        <title>
+          Tsseract - {statusCode === 404 ? 'Page not found' : 'Error'}
+        </title>
+      </Head>
 
-      <Avatar size="600px" avatar={avatar} />
-
-      <Grid item>
-        <Typography variant="h1">Ops!</Typography>
-        <Typography variant="h2">We can't seem to find</Typography>
-        <Typography variant="h2" paragraph>
-          the page you are looking for
-        </Typography>
-        {statusCode && (
-          <Typography variant="h5">
-            {statusCode}
-            {errors[statusCode || 0]}
-          </Typography>
-        )}
-
-        <Divider className={classes.divider} />
-
+      <Grid
+        container
+        className={classes.root}
+        justify="center"
+        alignItems="center"
+      >
         <Link href="/">
-          <Button color="primary" variant="contained">
-            Go back home
-          </Button>
+          <img
+            className={classes.logo}
+            src="/Main-aside/white_logo_transparent_background.png"
+          />
         </Link>
+
+        <Avatar size="600px" avatar={avatar} />
+
+        <Grid item>
+          <Typography variant="h1">Ops!</Typography>
+
+          <Typography variant="h2">
+            {statusCode === 404 ? "We can't seem to find" : 'An unexpected'}
+          </Typography>
+
+          <Typography variant="h2" paragraph>
+            {statusCode === 404
+              ? 'the page you are looking for'
+              : 'has occurred'}
+          </Typography>
+
+          {statusCode && (
+            <Typography variant="h5">
+              {statusCode}
+              {errors[statusCode || 0]}
+            </Typography>
+          )}
+
+          <Divider className={classes.divider} />
+
+          <Link href="/">
+            <Button color="primary" variant="contained">
+              Go back home
+            </Button>
+          </Link>
+        </Grid>
       </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 

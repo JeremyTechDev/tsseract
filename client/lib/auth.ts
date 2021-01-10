@@ -16,7 +16,7 @@ export const getServerSideToken = (req: any): authType => {
   try {
     const decodedUser = <iUser>(
       jwt.verify(
-        req?.signedCookies['tsseract-auth-token'],
+        req.signedCookies['tsseract-auth-token'],
         <string>process.env.JWT_KEY,
       )
     );
