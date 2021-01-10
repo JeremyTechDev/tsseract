@@ -4,32 +4,26 @@ import { NextPage } from 'next';
 import Layout from '../components/Layout';
 import Posts from '../components/PostsList';
 import { authInitialProps } from '../lib/auth';
-import { authType, iPost } from '../@types';
+import { iPost } from '../@types';
 import { getRequest } from '../lib/fetch';
 
 interface Props {
   posts: iPost[];
-  authData: authType;
 }
 
-const PostList: NextPage<Props> = ({ posts, authData }) => {
+const PostList: NextPage<Props> = ({ posts }) => {
   return (
-    <Layout
-      title="Tsseract App - Posts"
-      authData={authData}
-      displayNav
-      displayFooter
-    >
+    <Layout title="Tsseract App - Posts">
       <Posts posts={posts} />
     </Layout>
   );
 };
 
 PostList.getInitialProps = async (ctx) => {
-  const { user } = await authInitialProps(true)(ctx);
+  await authInitialProps(true)(ctx);
   const data = await getRequest('/posts/').then((res) => res.json());
 
-  return { posts: data, authData: user };
+  return { posts: data };
 };
 
 export default PostList;

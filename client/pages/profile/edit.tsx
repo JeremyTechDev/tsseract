@@ -13,7 +13,7 @@ interface Props {
 
 const Edit: NextPage<Props> = ({ user, profile }) => {
   return (
-    <Layout authData={user} title="Edit Profile" displayFooter displayNav>
+    <Layout title="Edit Profile">
       <EditPage profile={profile} user={user} />
     </Layout>
   );

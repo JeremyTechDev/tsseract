@@ -33,7 +33,7 @@ const Avatar = () => {
     putRequest('/users', { avatar: JSON.stringify(pieces) })
       .then((res) => {
         if (res.status === 200) {
-          Router.replace('/profile');
+          Router.replace(`/profile/${state.user?.username}`);
         } else {
           console.error(res);
         }
