@@ -2,7 +2,6 @@ import React, { useState, createRef } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import {
-  Avatar,
   Badge,
   Button,
   Container,
@@ -19,13 +18,14 @@ import {
 } from '@material-ui/icons';
 
 import { iPost, iTag } from '../../@types';
+import { putRequest, deleteRequest } from '../../lib/fetch';
+import Avatar from '../Avatar/Avatar';
 import Comment from './Comment';
 import CommentBox from './CommentBox';
 import parseDate from '../../helpers/parseDate';
 import RichTextEditor from '../RichTextEditor';
 import Tag from '../PostsList/Tag';
 import useStyles from './styles';
-import { putRequest, deleteRequest } from '../../lib/fetch';
 
 interface Props {
   post: iPost;
@@ -83,7 +83,7 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
           <Link href={`/profile/${user.username}`}>
             <MuiLink color="textPrimary" variant="subtitle1">
               <Grid container spacing={2} alignItems="center">
-                <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+                <Avatar avatar={user.avatar} />
                 <Grid item>{user.name}</Grid>
               </Grid>
             </MuiLink>

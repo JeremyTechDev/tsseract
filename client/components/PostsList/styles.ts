@@ -18,10 +18,6 @@ const useStyles = makeStyles((theme) => ({
     background:
       'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.7) 100%)',
   },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.getContrastText(theme.palette.secondary.main),
-  },
   fontColor: {
     color: '#fff',
   },

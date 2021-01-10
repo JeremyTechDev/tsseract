@@ -32,6 +32,7 @@ export const authenticate: RequestHandler = async (req, res) => {
       email: user.email,
       name: user.name,
       username: user.username,
+      avatar: user.avatar,
     };
 
     const { cookie, cookieConfig } = cookieCreator(userToken);
@@ -49,9 +50,9 @@ export const authenticate: RequestHandler = async (req, res) => {
  * @param res Express response
  */
 export const getTokenData: RequestHandler = (req, res) => {
-  const { _id, email, name, username } = req.cookies.profile;
+  const { _id, email, name, username, avatar } = req.cookies.profile;
 
-  res.send({ name, username, email, _id });
+  res.send({ name, username, email, _id, avatar });
 };
 
 /**

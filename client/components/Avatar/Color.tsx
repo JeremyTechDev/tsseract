@@ -9,7 +9,6 @@ interface Props {
 
 const Color: React.FC<Props> = ({ backgroundColor }) => {
   const classes = useStyles();
-
   return <Box style={{ backgroundColor }} className={classes.bubbleColor} />;
 };
 

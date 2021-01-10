@@ -36,6 +36,7 @@ export interface iUser {
   _id: string;
   email: string;
   name: string;
+  avatar: string;
   username: string;
   followers: object;
   following: object;

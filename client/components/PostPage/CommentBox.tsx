@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Grid, TextareaAutosize, Avatar, Button } from '@material-ui/core';
+import { Grid, TextareaAutosize, Button } from '@material-ui/core';
 
 import AppContext from '../../context';
+import Avatar from '../Avatar/Avatar';
 import useStyles from './styles';
 import { iPost, iComment } from '../../@types';
 import { postRequest } from '../../lib/fetch';
@@ -38,7 +39,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={3} alignItems="flex-start" justify="center">
         <Grid item xs={1} container justify="flex-end">
-          <Avatar className={classes.avatar}>{state.user?.name[0]}</Avatar>
+          <Avatar avatar={state.user.avatar} />
         </Grid>
 
         <Grid item xs={9}>

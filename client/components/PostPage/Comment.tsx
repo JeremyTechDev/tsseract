@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import {
-  Avatar,
   Container,
   IconButton,
   Grid,
@@ -9,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import Avatar from '../Avatar/Avatar';
 import AppContext from '../../context';
 import { iComment } from '../../@types';
 import useStyles from './styles';
@@ -50,7 +50,7 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
         <Link href={`/profile/${user.username}`}>
           <MuiLink color="textPrimary" variant="subtitle1">
             <Grid container spacing={2} alignItems="center">
-              <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+              <Avatar avatar={user.avatar} />
               <Grid item>{user.name}</Grid>
             </Grid>
           </MuiLink>

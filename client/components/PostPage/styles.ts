@@ -20,10 +20,6 @@ const styles = makeStyles((theme) => ({
     width: '85%',
   },
   commentBody: { marginTop: 15 },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.getContrastText(theme.palette.secondary.main),
-  },
   commentBox: {
     backgroundColor: 'transparent',
     border: '1px solid #ccc',

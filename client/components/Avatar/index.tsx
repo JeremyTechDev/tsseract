@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Grid, Button } from '@material-ui/core';
-import Avataaars from 'avataaars';
 
+import AppContext from '../../context';
 import AvatarEditor from './Editor';
+import AvatarPic from './Avatar';
 import useStyles from './styles';
 import { putRequest } from '../../lib/fetch';
 
 const Avatar = () => {
   const classes = useStyles();
-  const [pieces, setPieces] = useState({
-    accessoriesType: '',
-    clotheColor: '',
-    clotheType: '',
-    eyebrowType: '',
-    eyeType: '',
-    facialHairColor: '',
-    facialHairType: '',
-    hairColor: '',
-    mouthType: '',
-    skinColor: '',
-    topType: '',
-  });
+  const { state } = useContext(AppContext);
+  const [pieces, setPieces] = useState(
+    state.user?.avatar
+      ? JSON.parse(state.user?.avatar)
+      : {
+          accessoriesType: '',
+          clotheColor: '',
+          clotheType: '',
+          eyebrowType: '',
+          eyeType: '',
+          facialHairColor: '',
+          facialHairType: '',
+          hairColor: '',
+          mouthType: '',
+          skinColor: '',
+          topType: '',
+        },
+  );
 
   const handleSave = () => {
     putRequest('/users', { avatar: JSON.stringify(pieces) })
@@ -44,21 +50,7 @@ const Avatar = () => {
       <Grid item lg={1} md="auto" />
 
       <Grid item md={4} xs={12} container alignItems="center" justify="center">
-        <Avataaars
-          accessoriesType={pieces.accessoriesType}
-          avatarStyle="Circle"
-          clotheColor={pieces.clotheColor}
-          clotheType={pieces.clotheType}
-          eyebrowType={pieces.eyebrowType}
-          eyeType={pieces.eyeType}
-          facialHairColor={pieces.facialHairColor}
-          facialHairType={pieces.facialHairType}
-          hairColor={pieces.hairColor}
-          mouthType={pieces.mouthType}
-          skinColor={pieces.skinColor}
-          style={{ width: '100%' }}
-          topType={pieces.topType}
-        />
+        <AvatarPic size="550px" avatar={JSON.stringify(pieces)} />
 
         <Button
           className={classes.margin}

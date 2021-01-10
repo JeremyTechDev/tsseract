@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Avatar, Button, Divider, Grid, Typography } from '@material-ui/core';
+import { Button, Divider, Grid, Typography } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
 import { iPost, iUser } from '../../@types';
-import PostsList from '../PostsList/index';
-import useStyles from './styles';
-import UserList from './UserList';
 import { logoutUser } from '../../lib/auth';
 import { putRequest, deleteRequest } from '../../lib/fetch';
+import Avatar from '../Avatar/Avatar';
+import PostsList from '../PostsList/index';
+import UserList from './UserList';
+import useStyles from './styles';
 
 interface Props {
   user: iUser;
@@ -62,7 +63,11 @@ const UserPage: React.FC<Props> = ({
     <Grid container>
       <Grid item md={4} sm={1} />
       <Grid item md={1} sm={2} className={classes.user}>
-        <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+        <Link href="/avatar">
+          <Button title="Customize Avatar">
+            <Avatar size="150px" avatar={user.avatar} />
+          </Button>
+        </Link>
 
         <Divider className={classes.divider} />
 

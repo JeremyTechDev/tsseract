@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Avatar, Link as MuiLink, Grid, Typography } from '@material-ui/core';
+import { Link as MuiLink, Grid, Typography } from '@material-ui/core';
 
+import Avatar from '../Avatar/Avatar';
 import useStyles from './styles';
 import parseDate from '../../helpers/parseDate';
 import { iUser } from '../../@types';
@@ -21,9 +22,7 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
         <MuiLink color="textPrimary" variant="h5">
           <Grid spacing={1} container alignItems="center">
             <Grid item>
-              <Avatar className={classes.avatar}>
-                {user.name[0].toUpperCase()}
-              </Avatar>
+              <Avatar avatar={user.avatar} />
             </Grid>
 
             <Grid item>

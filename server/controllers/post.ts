@@ -5,6 +5,8 @@ import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
 import { iTag, iPost } from '../@types';
 
+const SELECT_USER = '_id name avatar username email';
+
 /**
  * Creates a new post
  * @param {Object} req Express request
@@ -58,8 +60,8 @@ export const retrieveAll: RequestHandler = async (req, res) => {
   try {
     const posts = (await Post.find()
       .limit(+limit)
-      .populate('user', '_id name username')
-      .populate('likes', '_id name username')
+      .populate('user', SELECT_USER)
+      .populate('likes', SELECT_USER)
       .populate('tags')
       .sort({ createdAt: 'desc' })) as iPost[];
 
@@ -84,8 +86,8 @@ export const findById: RequestHandler = async (req, res) => {
       { $inc: { interactions: 1 } },
       { new: true },
     )
-      .populate('user', '_id name username')
-      .populate('comments.user', '_id name username')
+      .populate('user', SELECT_USER)
+      .populate('comments.user', SELECT_USER)
       .populate('tags')) as iPost;
 
     if (!post)
@@ -146,8 +148,8 @@ export const getPostsBy: RequestHandler = async (req, res) => {
     const { id: userId } = req.params;
 
     const posts = await Post.find({ user: userId })
-      .populate('user', '_id name username')
-      .populate('comments.user', '_id name username')
+      .populate('user', SELECT_USER)
+      .populate('comments.user', SELECT_USER)
       .populate('tags');
 
     res.send(posts);

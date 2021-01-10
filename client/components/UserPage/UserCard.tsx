@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  Avatar,
   Card,
   CardContent,
   CardMedia,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import Avatar from '../Avatar/Avatar';
 import { iUser } from '../../@types';
 import useStyles from './styles';
 
@@ -26,9 +26,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
         <Link href={`/profile/${user.username}`}>
           <Grid container>
             <CardMedia>
-              <Avatar variant="rounded" className={classes.avatar}>
-                {user.name[0]}
-              </Avatar>
+              <Avatar avatar={user.avatar} />
             </CardMedia>
 
             <CardContent>
