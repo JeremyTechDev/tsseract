@@ -104,6 +104,33 @@ describe('User', () => {
     });
   });
 
+  describe('PUT:/api/users/', () => {
+    it('should update some fields of a user', async () => {
+      const user = await request(SUT)
+        .put('/api/users/')
+        .set('Cookie', cookieSet)
+        .send({ avatar: 'avatar' });
+
+      expect(user.status).toBe(200);
+      expect(user.body.avatar).toBe('avatar');
+      expect(user.body).toMatchObject({
+        email: userPayload.email,
+        name: userPayload.name,
+        username: userPayload.username,
+      });
+    });
+
+    it('should return 400 if an unchangeable field is set to change', async () => {
+      const user = await request(SUT)
+        .put('/api/users/')
+        .set('Cookie', cookieSet)
+        .send({ password: 'password' });
+
+      expect(user.status).toBe(400);
+      expect(user.body).toHaveProperty('error');
+    });
+  });
+
   describe('PUT:/api/users/toggle-follow/:followToUsername', () => {
     it('should follow a user that is not being followed by the auth user', async () => {
       const follow = await request(SUT)

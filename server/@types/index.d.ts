@@ -35,6 +35,7 @@ export interface iTag extends Document {
 
 export interface iUser extends Document {
   name: string;
+  avatar: string;
   username: string;
   password: string;
   email: string;
