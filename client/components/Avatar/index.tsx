@@ -42,7 +42,7 @@ const Avatar = () => {
   };
 
   const handleChange = (newProp: object) => {
-    setPieces((prev) => Object.assign({}, prev, newProp));
+    setPieces((prev: {}) => Object.assign({}, prev, newProp));
   };
 
   return (

@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const styles = makeStyles((theme) => ({
+const styles = makeStyles({
   user: {
     left: '15%',
     position: 'fixed',
@@ -12,6 +12,6 @@ const styles = makeStyles((theme) => ({
   divider: {
     margin: '15px auto',
   },
-}));
+});
 
 export default styles;

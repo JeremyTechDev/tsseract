@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   coverContainer: {
     margin: '0 auto',
     padding: 0,
@@ -41,6 +41,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 2,
     padding: '2px 6px 4px',
   },
-}));
+});
 
 export default useStyles;
