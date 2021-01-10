@@ -1,8 +1,23 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Grid, Paper, Button, Typography } from '@material-ui/core';
-import { PostAdd, Face } from '@material-ui/icons';
+import {
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  Link as MuiLink,
+  Box,
+  IconButton,
+} from '@material-ui/core';
+import {
+  AlternateEmail,
+  Face,
+  GitHub,
+  Favorite as Heart,
+  LinkedIn,
+  PostAdd,
+} from '@material-ui/icons';
 
 import AppContext, { Types } from '../../context';
 import useStyles from './styles';
@@ -89,17 +104,64 @@ const Layout: React.FC<Props> = ({
       <div className={classes.contentWrap}>{children}</div>
 
       {displayFooter && (
-        <Paper elevation={10} square className={classes.footer}>
-          <Grid container justify="center" alignItems="center">
-            <Typography
-              align="center"
-              className={classes.footerText}
-              variant="h1"
-            >
-              Tsseract
-            </Typography>
-          </Grid>
-        </Paper>
+        <Box className={classes.footer}>
+          <Paper elevation={20} square>
+            <Grid container justify="center" alignItems="center">
+              <Grid className={classes.footerTop} container justify="center">
+                <Grid item container justify="center" alignItems="center">
+                  <IconButton
+                    color="primary"
+                    href="https://github.com/jeremy2918"
+                  >
+                    <GitHub fontSize="large" />
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    href="https://linkedin.com/in/jeremy-munoz-torres"
+                  >
+                    <LinkedIn fontSize="large" />
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    href="mailto:jeremy2918@gmail.com"
+                  >
+                    <AlternateEmail fontSize="large" />
+                  </IconButton>
+                </Grid>
+
+                <Typography color="textSecondary">
+                  <Link href={isAuthenticated ? '/posts' : '/'}>
+                    <MuiLink color="inherit">Home</MuiLink>
+                  </Link>
+                  {' | '}
+                  <Link href="/posts">
+                    <MuiLink color="inherit">Posts</MuiLink>
+                  </Link>
+                  {' | '}
+                  <Link href={`/profile/${user?.username}`}>
+                    <MuiLink color="inherit">Profile</MuiLink>
+                  </Link>
+                  {' | '}
+                  <Link href="/create-post">
+                    <MuiLink color="inherit">Write a Post</MuiLink>
+                  </Link>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Paper square className={classes.footerBottom}>
+            <Grid container justify="center" alignItems="center">
+              <Typography variant="h5" align="center">
+                Crafted with
+              </Typography>
+              <Heart className={classes.heart} />
+              <Typography variant="h5" align="center">
+                by Jeremy
+              </Typography>
+            </Grid>
+          </Paper>
+        </Box>
       )}
     </Paper>
   );
