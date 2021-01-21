@@ -5,10 +5,11 @@ const styles = makeStyles((theme) => ({
   logo: { height: '12vh' },
   margin: { minHeight: '100vh' },
   spacing: { margin: '0 15px' },
-  contentWrap: { paddingBottom: '25vh' },
+  contentWrap: { paddingBottom: '30vh' },
   footer: {
-    position: 'absolute',
     bottom: 0,
+    height: '25vh',
+    position: 'absolute',
     width: '100%',
   },
   footerTop: { padding: '30px 0' },
