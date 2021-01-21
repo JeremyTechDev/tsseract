@@ -32,7 +32,7 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
           variant="scrollable"
         >
           {pieceItems.labels.map((label) => (
-            <Tab label={label} />
+            <Tab key={label} label={label} />
           ))}
         </Tabs>
       </Paper>

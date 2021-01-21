@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Button, Divider, Grid, Typography } from '@material-ui/core';
+import {
+  Button,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+  Theme,
+} from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
 import { iPost, iUser } from '../../@types';
@@ -30,6 +37,9 @@ const UserPage: React.FC<Props> = ({
   const [panel, setPanel] = useState<PanelType>('posts');
   const [isFollowing, setIsFollowing] = useState(isFollowingProp);
   const [user, setUser] = useState(userProp);
+  const largeScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up('md'),
+  );
 
   const toggleFollow = () => {
     putRequest(`/users/toggle-follow/${user.username}`)
@@ -61,8 +71,15 @@ const UserPage: React.FC<Props> = ({
 
   return (
     <Grid container>
-      <Grid item md={4} sm={1} />
-      <Grid item md={1} sm={2} className={classes.user}>
+      <Grid item md={1} sm="auto" />
+      <Grid
+        item
+        md={2}
+        sm={12}
+        container
+        alignItems="center"
+        direction="column"
+      >
         <Link href="/avatar">
           <Button title="Customize Avatar">
             <Avatar size="150px" avatar={user.avatar} />
@@ -76,14 +93,21 @@ const UserPage: React.FC<Props> = ({
 
         <Divider className={classes.divider} />
 
-        {panels.map((btn) => (
-          <Button
-            onClick={() => setPanel(btn)}
-            variant={panel === btn ? 'outlined' : 'text'}
-          >
-            {btn}
-          </Button>
-        ))}
+        <Grid
+          container
+          direction={largeScreen ? 'column' : 'row'}
+          justify="center"
+        >
+          {panels.map((btn) => (
+            <Button
+              key={btn}
+              onClick={() => setPanel(btn)}
+              variant={panel === btn ? 'outlined' : 'text'}
+            >
+              {btn}
+            </Button>
+          ))}
+        </Grid>
 
         <Divider className={classes.divider} />
 
@@ -106,12 +130,14 @@ const UserPage: React.FC<Props> = ({
         </Grid>
       </Grid>
 
-      <Grid item md={6} sm={8}>
+      <Grid item md={1} sm={1} />
+
+      <Grid item md={7} sm={10}>
         {panel === 'posts' && <PostsList posts={posts} />}
         {panel === 'following' && <UserList users={user.following} />}
         {panel === 'followers' && <UserList users={user.followers} />}
       </Grid>
-      <Grid item md={2} sm={1} />
+      <Grid item md={1} sm={1} />
     </Grid>
   );
 };
