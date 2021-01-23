@@ -18,24 +18,24 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
 
   return (
     <div className={classes.fontColor}>
-      <Link href={`/profile/${user.username}`}>
-        <MuiLink color="textPrimary" variant="h5">
-          <Grid spacing={1} container alignItems="center">
-            <Grid item>
-              <Avatar avatar={user.avatar} />
-            </Grid>
+      <Grid spacing={1} container alignItems="center">
+        <Link href={`/profile/${user.username}`}>
+          <Avatar avatar={user.avatar} />
+        </Link>
 
-            <Grid item>
+        <Grid item>
+          <Link href={`/profile/${user.username}`}>
+            <MuiLink color="textPrimary" variant="h5">
               {user.name}
-              <Typography gutterBottom variant="subtitle2">
-                {parseDate(createdAt)}
-              </Typography>
-            </Grid>
-          </Grid>
-        </MuiLink>
-      </Link>
+            </MuiLink>
+          </Link>
+          <Typography gutterBottom variant="subtitle2">
+            {parseDate(createdAt)}
+          </Typography>
+        </Grid>
+      </Grid>
 
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h4">{title}</Typography>
     </div>
   );
 };

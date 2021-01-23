@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import {
-  Container,
+  Divider,
   IconButton,
   Grid,
   Link as MuiLink,
   Typography,
+  Box,
 } from '@material-ui/core';
 
 import Avatar from '../Avatar/Avatar';
@@ -45,35 +46,39 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
   };
 
   return isVisible ? (
-    <Container className={classes.commentContainer}>
+    <>
       <Grid container justify="space-between">
         <Link href={`/profile/${user.username}`}>
           <MuiLink color="textPrimary" variant="subtitle1">
-            <Grid container spacing={2} alignItems="center">
+            <Grid container direction="row" alignItems="center">
               <Avatar avatar={user.avatar} />
-              <Grid item>{user.name}</Grid>
+              <Typography variant="h5">{user.name}</Typography>
             </Grid>
           </MuiLink>
         </Link>
 
-        <Grid container justify="flex-end" alignItems="center">
-          <Typography variant="subtitle2">{parseDate(createdAt)}</Typography>
-          {authUser && authUser._id === user._id && (
-            <IconButton
-              onClick={deleteComment}
-              size="small"
-              title="Delete Comment"
-            >
-              <Delete />
-            </IconButton>
-          )}
-        </Grid>
+        <Box>
+          <Grid container justify="flex-end" alignItems="center">
+            <Typography variant="subtitle2">{parseDate(createdAt)}</Typography>
+            {authUser && authUser._id === user._id && (
+              <IconButton
+                onClick={deleteComment}
+                size="small"
+                title="Delete Comment"
+              >
+                <Delete />
+              </IconButton>
+            )}
+          </Grid>
+        </Box>
       </Grid>
 
       <Typography className={classes.commentBody} variant="body1">
         {body}
       </Typography>
-    </Container>
+
+      <Divider className={classes.divider} variant="middle" />
+    </>
   ) : null;
 };
 
