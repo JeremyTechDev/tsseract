@@ -1,44 +1,32 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import App from 'next/app';
 import NextProgress from 'nextjs-progressbar';
-import { NextPage } from 'next';
 import {
   CssBaseline,
   ThemeProvider,
   responsiveFontSizes,
 } from '@material-ui/core';
+import type { AppContext as iAppContext } from 'next/app';
 
 import AppContext, { Types } from '../context';
 import getTheme from '../theme';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
 import { getRequest } from '../lib/fetch';
+import { iUser } from '../@types';
 
 type Theme = 'light' | 'dark';
 interface Props {
   Component: React.FC;
   pageProps: object;
+  authData: iUser | null;
 }
 
-const App: NextPage<Props> = ({ Component, pageProps }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const MyApp = ({ Component, pageProps, authData }: Props) => {
+  const [state, dispatch] = useReducer(reducer, initialState(authData));
   const [currentTheme, setCurrentTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await getRequest('/auth');
-
-        if (res.status === 200) {
-          const authData = await res.json();
-          dispatch({ type: Types.SET_CREDENTIALS, payload: authData });
-        } else {
-          dispatch({ type: Types.SET_CREDENTIALS, payload: null });
-        }
-      } catch (error) {
-        dispatch({ type: Types.SET_CREDENTIALS, payload: null });
-      }
-    })();
-
     const theme: Theme = (localStorage.getItem('theme') as Theme) || 'dark';
 
     setCurrentTheme(theme);
@@ -64,4 +52,14 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
   );
 };
 
-export default App;
+MyApp.getInitialProps = async (appContext: iAppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  const authData = await getRequest(
+    // @ts-ignore
+    `/auth?token=${appContext?.ctx?.req?.signedCookies?.['tsseract-auth-token']}`,
+  ).then((res) => res.json());
+
+  return { ...appProps, authData };
+};
+
+export default MyApp;
