@@ -36,9 +36,7 @@ const Card: React.FC<Props> = ({ post }: Props) => {
                 alignItems="flex-end"
                 className={classes.coverContent}
               >
-                <Grid item className={classes.padding}>
-                  <PostInfo user={user} title={title} createdAt={createdAt} />
-                </Grid>
+                <PostInfo user={user} title={title} createdAt={createdAt} />
               </Grid>
             </Container>
           )) || (

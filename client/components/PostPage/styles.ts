@@ -12,13 +12,6 @@ const styles = makeStyles((theme) => ({
     width: '100%',
   },
   divider: { margin: '50px auto' },
-  commentContainer: {
-    border: '1px solid #ccc',
-    borderRadius: 4,
-    margin: '15px auto',
-    padding: 15,
-    width: '85%',
-  },
   commentBody: { marginTop: 15 },
   commentBox: {
     backgroundColor: 'transparent',

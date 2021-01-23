@@ -21,7 +21,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.userCard}>
+    <Card className={classes.userCard} elevation={6}>
       <MuiLink color="textPrimary">
         <Link href={`/profile/${user.username}`}>
           <Grid container>

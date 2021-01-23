@@ -1,4 +1,3 @@
-import Router from 'next/router';
 import { NextPageContext } from 'next';
 import { ServerResponse } from 'http';
 import jwt from 'jsonwebtoken';
@@ -82,7 +81,7 @@ export const logoutUser = async () => {
 
   try {
     await postRequest('/auth/logout');
-    Router.replace('/');
+    window?.location?.replace('/');
   } catch (error) {
     console.error(error);
   }
@@ -93,5 +92,5 @@ const redirect = (res: ServerResponse | undefined, path: string) => {
     res.writeHead(302, { Location: path });
     res.end();
   }
-  Router.replace(path);
+  window?.location?.replace(path);
 };

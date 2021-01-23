@@ -12,10 +12,10 @@ export interface iState {
 /**
  * Initial State
  */
-const initialState: iState = {
-  isAuthenticated: false,
-  user: null,
-  theme: 'light',
-};
+const initialState = (user: iUser | null = null): iState => ({
+  isAuthenticated: Boolean(user),
+  user,
+  theme: 'dark',
+});
 
 export default initialState;

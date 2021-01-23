@@ -75,9 +75,9 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
       <Button
         className={classes.btn}
         color="primary"
+        disabled={loading}
         onClick={handleSubmit}
         variant="contained"
-        disabled={loading}
       >
         {loading ? (
           <CircularProgress className={classes.progress} size={24} />

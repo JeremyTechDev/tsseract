@@ -20,7 +20,7 @@ const codes = [
  */
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.signedCookies['tsseract-auth-token'];
+    const token = req.signedCookies['tsseract-auth-token'] || req.query.token;
 
     if (!token) return res.status(401).send({ error: codes[0] });
 

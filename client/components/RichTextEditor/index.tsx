@@ -1,7 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { Editable, withReact, useSlate, Slate } from 'slate-react';
 import { createEditor, Node } from 'slate';
-import { Tooltip, Typography, Grid } from '@material-ui/core';
+import {
+  Grid,
+  Theme,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 import isHotkey from 'is-hotkey';
 
@@ -37,6 +43,7 @@ const RichTextEditor: React.FC<Props> = ({
     () => withImages(withLinks(withReact(createEditor()))),
     [],
   );
+  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
   return (
     <Slate
@@ -45,8 +52,11 @@ const RichTextEditor: React.FC<Props> = ({
       onChange={setValue ? (value) => setValue(value) : () => {}}
     >
       {!readOnly && (
-        <Grid container justify="flex-start">
-          <ToggleButtonGroup className={classes.toolbar}>
+        <Grid container justify={small ? 'center' : 'flex-start'}>
+          <ToggleButtonGroup
+            className={classes.toolbar}
+            orientation={small ? 'vertical' : 'horizontal'}
+          >
             {alignments.map((align) => (
               <Toggle
                 key={align.format}
@@ -56,7 +66,10 @@ const RichTextEditor: React.FC<Props> = ({
             ))}
           </ToggleButtonGroup>
 
-          <ToggleButtonGroup className={classes.toolbar}>
+          <ToggleButtonGroup
+            className={classes.toolbar}
+            orientation={small ? 'vertical' : 'horizontal'}
+          >
             {tools.map((tool) => (
               <Toggle
                 key={tool.format}
@@ -66,7 +79,10 @@ const RichTextEditor: React.FC<Props> = ({
             ))}
           </ToggleButtonGroup>
 
-          <ToggleButtonGroup className={classes.toolbar}>
+          <ToggleButtonGroup
+            className={classes.toolbar}
+            orientation={small ? 'vertical' : 'horizontal'}
+          >
             <LinkButton />
             <ImageButton />
           </ToggleButtonGroup>

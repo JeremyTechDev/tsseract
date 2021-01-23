@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Button,
+  Container,
   Divider,
   Grid,
   Typography,
@@ -30,16 +31,22 @@ const panels: PanelType[] = ['posts', 'following', 'followers'];
 const UserPage: React.FC<Props> = ({
   isFollowing: isFollowingProp,
   isProfile,
-  posts,
+  posts: postsProp,
   user: userProp,
 }) => {
   const classes = useStyles();
   const [panel, setPanel] = useState<PanelType>('posts');
   const [isFollowing, setIsFollowing] = useState(isFollowingProp);
   const [user, setUser] = useState(userProp);
+  const [posts, setPosts] = useState(postsProp);
   const largeScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
+
+  useEffect(() => {
+    setUser(userProp);
+    setPosts(postsProp);
+  }, [userProp]);
 
   const toggleFollow = () => {
     putRequest(`/users/toggle-follow/${user.username}`)
@@ -133,10 +140,17 @@ const UserPage: React.FC<Props> = ({
       <Grid item md={1} sm={1} />
 
       <Grid item md={7} sm={10}>
-        {panel === 'posts' && <PostsList posts={posts} />}
-        {panel === 'following' && <UserList users={user.following} />}
-        {panel === 'followers' && <UserList users={user.followers} />}
+        <Container>
+          {panel === 'posts' && <PostsList posts={posts} />}
+          {panel === 'following' && (
+            <UserList view="Following" users={user.following} />
+          )}
+          {panel === 'followers' && (
+            <UserList view="Followers" users={user.followers} />
+          )}
+        </Container>
       </Grid>
+
       <Grid item md={1} sm={1} />
     </Grid>
   );

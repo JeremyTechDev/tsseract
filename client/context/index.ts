@@ -8,7 +8,7 @@ const AppContext = createContext<{
   state: iState;
   dispatch: React.Dispatch<iAction>;
 }>({
-  state: initialState,
+  state: initialState(),
   dispatch: () => null,
 });
 

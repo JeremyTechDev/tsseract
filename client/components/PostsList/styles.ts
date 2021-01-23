@@ -11,12 +11,13 @@ const useStyles = makeStyles({
     width: '100%',
   },
   coverContent: {
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    top: 0,
     background:
       'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.7) 100%)',
+    bottom: 0,
+    left: 0,
+    padding: 20,
+    position: 'absolute',
+    top: 0,
   },
   fontColor: {
     color: '#fff',

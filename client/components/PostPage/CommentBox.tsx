@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Grid, TextareaAutosize, Button } from '@material-ui/core';
+import { Grid, TextareaAutosize, Button, Divider } from '@material-ui/core';
 
 import AppContext from '../../context';
 import Avatar from '../Avatar/Avatar';
@@ -38,11 +38,11 @@ const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
   return state.user ? (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={3} alignItems="flex-start" justify="center">
-        <Grid item xs={1} container justify="flex-end">
+        <Grid item xs={12} md={1} container justify="center">
           <Avatar avatar={state.user.avatar} />
         </Grid>
 
-        <Grid item xs={9}>
+        <Grid item xs={12} md={9} container justify="center">
           <TextareaAutosize
             className={classes.commentBox}
             onChange={({ target }) => setBody(target.value)}
@@ -53,7 +53,7 @@ const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
           />
         </Grid>
 
-        <Grid item xs={2} container justify="center">
+        <Grid item xs={12} md={2} container justify="center">
           <Button
             disabled={body.trim().length === 0}
             color="secondary"
@@ -64,6 +64,8 @@ const CommentBox: React.FC<Props> = ({ post, setComments, ref }) => {
           </Button>
         </Grid>
       </Grid>
+
+      <Divider className={classes.divider} variant="middle" />
     </form>
   ) : null;
 };
