@@ -1,20 +1,30 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Box, Typography, Grid } from '@material-ui/core';
 
 import UserCard from './UserCard';
 
 interface Props {
   users: object;
+  view: 'Following' | 'Followers';
 }
 
-const UserList: React.FC<Props> = ({ users }) => {
+const UserList: React.FC<Props> = ({ users, view }) => {
+  const parsedUsers = Object.entries(users);
   return (
-    <Grid container>
-      {Object.entries(users).map(([key, user]) => {
-        return <UserCard key={key} user={user} />;
-      })}
-    </Grid>
+    <Box>
+      <Typography variant="h2">{view}</Typography>
+
+      {parsedUsers.length === 0 && (
+        <Typography>There are no users to display</Typography>
+      )}
+
+      <Grid container>
+        {parsedUsers.map(([key, user]) => {
+          return <UserCard key={key} user={user} />;
+        })}
+      </Grid>
+    </Box>
   );
 };
 
-export default UserList;
+export default React.memo(UserList);
