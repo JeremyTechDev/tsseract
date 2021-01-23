@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import NextProgress from 'nextjs-progressbar';
 import { NextPage } from 'next';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import {
+  CssBaseline,
+  ThemeProvider,
+  responsiveFontSizes,
+} from '@material-ui/core';
 
 import AppContext, { Types } from '../context';
 import getTheme from '../theme';
@@ -47,10 +51,10 @@ const App: NextPage<Props> = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={getTheme(currentTheme)}>
+    <ThemeProvider theme={responsiveFontSizes(getTheme(currentTheme))}>
       <CssBaseline />
       <NextProgress
-        color={getTheme(currentTheme).palette.primary.main}
+        color={getTheme(currentTheme).palette.secondary.main}
         options={{ showSpinner: false }}
       />
       <AppContext.Provider value={{ state, dispatch }}>
