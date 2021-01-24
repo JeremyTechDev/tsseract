@@ -33,6 +33,7 @@ const useStyles = makeStyles({
   progress: {
     color: '#fff',
   },
+  divider: { margin: '20px auto' },
 });
 
 export default useStyles;

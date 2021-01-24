@@ -5,17 +5,15 @@ import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useStyles from './styles';
-import * as Google from './GoogleLogin';
 import { InputChangeEvent, iSignInUser } from '../../@types';
 import { loginUser } from '../../lib/auth';
 
 interface Props {
   user: iSignInUser;
-  clientId: string;
   handleChange: (event: InputChangeEvent) => void;
 }
 
-const SignIn: React.FC<Props> = ({ user, handleChange, clientId }) => {
+const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const [requestError, setRequestError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -74,27 +72,19 @@ const SignIn: React.FC<Props> = ({ user, handleChange, clientId }) => {
         </Grid>
       </form>
 
-      <Grid item container justify="center">
-        <Google.Login
-          className={classes.btn}
-          clientId={clientId}
-          text="Sign In with Google"
-        />
-
-        <Button
-          className={classes.btn}
-          color="primary"
-          disabled={loading}
-          onClick={handleSubmit}
-          variant="contained"
-        >
-          {loading ? (
-            <CircularProgress className={classes.progress} size={24} />
-          ) : (
-            'Sign In'
-          )}
-        </Button>
-      </Grid>
+      <Button
+        className={classes.btn}
+        color="primary"
+        disabled={loading}
+        onClick={handleSubmit}
+        variant="contained"
+      >
+        {loading ? (
+          <CircularProgress className={classes.progress} size={24} />
+        ) : (
+          'Sign In'
+        )}
+      </Button>
     </Grid>
   );
 };

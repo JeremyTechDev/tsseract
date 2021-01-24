@@ -48,6 +48,46 @@ export const authenticate: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Authenticates a user that was created with Google Auth
+ * @param req Express request
+ * @param res Express response
+ */
+export const googleAuthenticate: RequestHandler = async (req, res) => {
+  const { googleId, email } = req.body;
+
+  try {
+    const { error } = validateGoogleUser(req.body);
+    if (error) return res.status(400).send({ error: error.details[0].message });
+
+    let user = (await User.findOne({ googleId })) as iUser;
+
+    if (!user) {
+      const emailIsTaken = await User.findOne({ email });
+      if (emailIsTaken)
+        return res.status(400).send({ error: 'Email already taken' });
+
+      user = new User({ ...req.body }) as iUser;
+      await user.save();
+    }
+
+    const userToken = {
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+      googleId: user.googleId,
+    };
+
+    const { cookie, cookieConfig } = cookieCreator(userToken);
+    res.cookie('tsseract-auth-token', cookie, cookieConfig);
+
+    res.send(userToken);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Returns the user info within the auth token
  * @param req Express request
  * @param res Express response
@@ -82,4 +122,19 @@ const validate = <T>(userData: T) => {
   });
 
   return schema.validate(userData);
+};
+
+const validateGoogleUser = <T>(user: T) => {
+  const schema = Joi.object({
+    name: Joi.string().min(1).max(255).trim().required(),
+    googleId: Joi.string().min(1).max(255).trim().required(),
+    email: Joi.string()
+      .email({ tlds: { allow: false } })
+      .min(2)
+      .max(255)
+      .trim()
+      .required(),
+  });
+
+  return schema.validate(user);
 };

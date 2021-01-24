@@ -74,6 +74,12 @@ export const loginUser = async (user: userType) => {
   }
 };
 
+export const loginUserGoogle = async (user: object) => {
+  if (typeof window !== 'undefined') {
+    window[WINDOW_USER_SCRIPT] = user || {};
+  }
+};
+
 export const logoutUser = async () => {
   if (typeof window !== 'undefined') {
     window[WINDOW_USER_SCRIPT] = {};

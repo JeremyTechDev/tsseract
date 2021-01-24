@@ -23,14 +23,14 @@ interface Props {
   user: iUser;
   posts: iPost[];
   isFollowing: boolean | null;
-  isProfile: boolean;
+  authUserId: string;
 }
 type PanelType = 'posts' | 'following' | 'followers';
 const panels: PanelType[] = ['posts', 'following', 'followers'];
 
 const UserPage: React.FC<Props> = ({
   isFollowing: isFollowingProp,
-  isProfile,
+  authUserId: authUserIdProp,
   posts: postsProp,
   user: userProp,
 }) => {
@@ -39,6 +39,7 @@ const UserPage: React.FC<Props> = ({
   const [isFollowing, setIsFollowing] = useState(isFollowingProp);
   const [user, setUser] = useState(userProp);
   const [posts, setPosts] = useState(postsProp);
+  const [authUserId, setAuthUserId] = useState(authUserIdProp);
   const largeScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
@@ -46,7 +47,8 @@ const UserPage: React.FC<Props> = ({
   useEffect(() => {
     setUser(userProp);
     setPosts(postsProp);
-  }, [userProp]);
+    setAuthUserId(authUserIdProp);
+  }, [userProp, postsProp, authUserIdProp]);
 
   const toggleFollow = () => {
     putRequest(`/users/toggle-follow/${user._id}`)
@@ -118,7 +120,7 @@ const UserPage: React.FC<Props> = ({
 
         <Divider className={classes.divider} />
 
-        {(isProfile && (
+        {(authUserId === user._id && (
           <Link href="/profile/edit">
             <Button color="secondary" variant="contained" endIcon={<Edit />}>
               Edit
@@ -130,11 +132,13 @@ const UserPage: React.FC<Props> = ({
           </Button>
         )}
 
-        <Grid item>
-          <Button onClick={deleteUser} color="primary">
-            Close Account
-          </Button>
-        </Grid>
+        {authUserId === user._id && (
+          <Grid item>
+            <Button onClick={deleteUser} color="primary">
+              Close Account
+            </Button>
+          </Grid>
+        )}
       </Grid>
 
       <Grid item md={1} sm={1} />

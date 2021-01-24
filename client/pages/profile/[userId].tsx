@@ -19,7 +19,7 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
       <UserPage
         user={user}
         posts={posts}
-        isProfile={user._id === authData.user?._id}
+        authUserId={authData.user?._id as string}
         isFollowing={authData.user && user._id in authData.user.following}
       />
     </Layout>

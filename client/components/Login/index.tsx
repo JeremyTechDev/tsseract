@@ -14,6 +14,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import useForm from '../../hooks/useForm';
 import useStyles from './styles';
+import GoogleLogin from './GoogleLogin';
 import { iBackgroundImageData } from '../../@types';
 
 interface Props {
@@ -45,20 +46,10 @@ const Login: React.FC<Props> = ({ bgData, clientId }) => {
       <Grid container item xs={false} md={4} alignItems="center">
         <Container className={classes.imgInfo}>
           {(showSignUp && (
-            <SignUp
-              clientId={clientId}
-              handleChange={handleChange}
-              user={user}
-            />
-          )) || (
-            <SignIn
-              clientId={clientId}
-              handleChange={handleChange}
-              user={user}
-            />
-          )}
+            <SignUp handleChange={handleChange} user={user} />
+          )) || <SignIn handleChange={handleChange} user={user} />}
 
-          <Divider light />
+          <Divider light className={classes.divider} />
 
           <Typography align="center">
             {showSignUp
@@ -68,6 +59,16 @@ const Login: React.FC<Props> = ({ bgData, clientId }) => {
               {showSignUp ? 'Sign In' : 'Sign Up'}
             </Button>
           </Typography>
+
+          <Divider light className={classes.divider} />
+
+          <Grid container direction="column" alignItems="center">
+            <Typography variant="caption" align="center">
+              or maybe
+            </Typography>
+
+            <GoogleLogin clientId={clientId} />
+          </Grid>
         </Container>
       </Grid>
 

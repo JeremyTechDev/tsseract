@@ -3,7 +3,6 @@ import Router from 'next/router';
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core';
 
 import AppContext, { Types } from '../../context';
-import * as Google from './GoogleLogin';
 import Input from './Input';
 import useStyles from './styles';
 import useValidation from '../../hooks/useValidation';
@@ -13,11 +12,10 @@ import { postRequest } from '../../lib/fetch';
 
 interface Props {
   user: iSignUpUser;
-  clientId: string;
   handleChange: (event: InputChangeEvent) => void;
 }
 
-const SignUp: React.FC<Props> = ({ user, handleChange, clientId }) => {
+const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const classes = useStyles({});
   const { validate } = useValidation(user);
   const [requestError, setRequestError] = useState('');
@@ -112,26 +110,19 @@ const SignUp: React.FC<Props> = ({ user, handleChange, clientId }) => {
         />
       </form>
 
-      <Grid item container justify="center">
-        <Google.Login
-          className={classes.btn}
-          clientId={clientId}
-          text="Sign Up with Google"
-        />
-        <Button
-          className={classes.btn}
-          color="primary"
-          disabled={loading}
-          onClick={handleSubmit}
-          variant="contained"
-        >
-          {loading ? (
-            <CircularProgress className={classes.progress} size={24} />
-          ) : (
-            'Sign Up'
-          )}
-        </Button>
-      </Grid>
+      <Button
+        className={classes.btn}
+        color="primary"
+        disabled={loading}
+        onClick={handleSubmit}
+        variant="contained"
+      >
+        {loading ? (
+          <CircularProgress className={classes.progress} size={24} />
+        ) : (
+          'Sign Up'
+        )}
+      </Button>
     </Grid>
   );
 };
