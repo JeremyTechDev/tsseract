@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Box,
   Grid,
@@ -40,10 +41,12 @@ const Header = () => {
       <Toolbar>
         <Grid container justify="space-around" alignItems="center">
           <Link href={isAuthenticated ? '/posts' : '/'}>
-            <img
+            <Image
               alt="Tsseract logo"
-              className={classes.logo}
+              height={100}
+              priority
               src="/Main-aside/white_logo_transparent_background.png"
+              width={238}
             />
           </Link>
 

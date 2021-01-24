@@ -2,25 +2,27 @@ import { makeStyles } from '@material-ui/core';
 
 const styles = makeStyles(({ palette, breakpoints }) => {
   const gradient = `-webkit-linear-gradient(top right, ${palette.primary.main}, ${palette.secondary.main})`;
-  const background =
-    'url(https://www.curtisdavid.com/wp-content/uploads/2014/12/shot1.png)';
 
   return {
-    root: {
-      background,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
+    img: {
       height: '100vh',
-      minWidth: '100%',
+      left: 0,
       overflow: 'hidden',
       position: 'fixed',
+      top: 0,
+      width: '100vw',
+      zIndex: 0,
     },
     mainWindow: {
       height: '70vh',
       minWidth: '100%',
+      position: 'relative',
+      top: 80,
     },
     control: {
-      margin: '35px 40px 35px 0',
+      position: 'absolute',
+      right: 50,
+      top: 50,
     },
     window: {
       background: 'transparent',
