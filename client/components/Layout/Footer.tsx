@@ -48,7 +48,7 @@ const Footer = () => {
                 <MuiLink color="inherit">Posts</MuiLink>
               </Link>
               {' | '}
-              <Link href={`/profile/${user?.username}`}>
+              <Link href={`/profile/${user?._id}`}>
                 <MuiLink color="inherit">Profile</MuiLink>
               </Link>
               {' | '}

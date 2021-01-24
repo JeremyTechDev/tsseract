@@ -49,7 +49,7 @@ const UserPage: React.FC<Props> = ({
   }, [userProp]);
 
   const toggleFollow = () => {
-    putRequest(`/users/toggle-follow/${user.username}`)
+    putRequest(`/users/toggle-follow/${user._id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.action === 'unfollow') {
@@ -95,7 +95,7 @@ const UserPage: React.FC<Props> = ({
 
         <Divider className={classes.divider} />
 
-        <Typography>@{user.username}</Typography>
+        <Typography>{user.email}</Typography>
         <Typography variant="h4">{user.name}</Typography>
 
         <Divider className={classes.divider} />

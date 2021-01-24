@@ -1,38 +1,32 @@
 import React, { useState, useContext } from 'react';
 import Router from 'next/router';
-import {
-  Button,
-  CircularProgress,
-  Grid,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Button, CircularProgress, Grid, Typography } from '@material-ui/core';
 
-import { iSignUpUser, InputChangeEvent } from '../../@types';
-import { loginUser } from '../../lib/auth';
 import AppContext, { Types } from '../../context';
+import * as Google from './GoogleLogin';
 import Input from './Input';
 import useStyles from './styles';
 import useValidation from '../../hooks/useValidation';
+import { iSignUpUser, InputChangeEvent } from '../../@types';
+import { loginUser } from '../../lib/auth';
 import { postRequest } from '../../lib/fetch';
 
 interface Props {
   user: iSignUpUser;
+  clientId: string;
   handleChange: (event: InputChangeEvent) => void;
 }
 
-const SignUp: React.FC<Props> = ({ user, handleChange }) => {
+const SignUp: React.FC<Props> = ({ user, handleChange, clientId }) => {
   const classes = useStyles({});
   const { validate } = useValidation(user);
   const [requestError, setRequestError] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<iSignUpUser>({
-    birthDate: '',
     email: '',
     name: '',
     password: '',
     rPassword: '',
-    username: '',
   });
   const { dispatch } = useContext(AppContext);
 
@@ -42,16 +36,14 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     setRequestError('');
     setLoading(true);
 
-    const { name, username, email, password, birthDate } = user;
+    const { name, email, password } = user;
 
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
       postRequest('/users/', {
         name,
-        username,
         email,
         password,
-        birthDate: new Date(birthDate).getTime(),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -67,7 +59,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
             setLoading(false);
           }
         })
-        .then(() => loginUser({ username, password }))
+        .then(() => loginUser({ email, password }))
         .catch((error) => console.error(error.message));
     } else {
       setLoading(false);
@@ -94,13 +86,6 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           value={user.name}
         />
         <Input
-          error={Boolean(errors.username)}
-          handleChange={handleChange}
-          helperText={errors.username}
-          label="Username"
-          value={user.username}
-        />
-        <Input
           error={Boolean(errors.email)}
           handleChange={handleChange}
           helperText={errors.email}
@@ -125,34 +110,28 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           type="password"
           value={user.rPassword}
         />
-        <TextField
-          className={classes.margin}
-          error={Boolean(errors.birthDate)}
-          helperText={errors.birthDate}
-          label="Birthday"
-          name="birthDate"
-          onChange={handleChange}
-          required
-          type="date"
-          value={user.birthDate}
-          variant="outlined"
-          defaultValue=""
-        />
       </form>
 
-      <Button
-        className={classes.btn}
-        color="primary"
-        disabled={loading}
-        onClick={handleSubmit}
-        variant="contained"
-      >
-        {loading ? (
-          <CircularProgress className={classes.progress} size={24} />
-        ) : (
-          'Sign Up'
-        )}
-      </Button>
+      <Grid item container justify="center">
+        <Google.Login
+          className={classes.btn}
+          clientId={clientId}
+          text="Sign Up with Google"
+        />
+        <Button
+          className={classes.btn}
+          color="primary"
+          disabled={loading}
+          onClick={handleSubmit}
+          variant="contained"
+        >
+          {loading ? (
+            <CircularProgress className={classes.progress} size={24} />
+          ) : (
+            'Sign Up'
+          )}
+        </Button>
+      </Grid>
     </Grid>
   );
 };

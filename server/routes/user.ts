@@ -45,7 +45,7 @@ router.get('/u/:googleId', retrieveUserByGoogleId);
 /**
  * Toggles the follow state of two related users
  * @route /api/users/toggle-follow/:followToId
- * @param {String} followToId the user's to follow username
+ * @param {String} followToId the user's to follow id
  * @method PUT
  */
 router.put('/toggle-follow/:followToId', auth, toggleFollow);

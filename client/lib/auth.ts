@@ -53,7 +53,7 @@ export const authInitialProps = (isPrivateRoute = false) => async ({
   return { user: auth };
 };
 
-type userType = { username: string; password: string };
+type userType = { email: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
     const res = await postRequest('/auth/login', user);

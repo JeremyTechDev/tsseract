@@ -24,11 +24,10 @@ const useStyles = makeStyles({
     transform: 'translate(-50%, -50%)',
   },
   imgInfo: {
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderRadius: 4,
     color: '#fff',
     margin: 5,
-    opacity: 0.8,
     padding: 10,
   },
   progress: {

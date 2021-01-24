@@ -53,7 +53,7 @@ const Header = () => {
                 <Button onClick={handleLogOut} className={classes.spacing}>
                   Log Out
                 </Button>
-                <Link href={`/profile/${user?.username}`}>
+                <Link href={`/profile/${user?._id}`}>
                   <Button
                     color="secondary"
                     endIcon={<Face />}
@@ -104,7 +104,7 @@ const Header = () => {
           <ListItemText>Log Out</ListItemText>
         </MenuItem>
 
-        <Link href={`/profile/${user?.username}`}>
+        <Link href={`/profile/${user?._id}`}>
           <MenuItem>
             <ListItemIcon>
               <Face />

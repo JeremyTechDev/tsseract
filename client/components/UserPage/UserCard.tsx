@@ -23,14 +23,13 @@ const UserCard: React.FC<Props> = ({ user }) => {
   return (
     <Card className={classes.userCard} elevation={6}>
       <MuiLink color="textPrimary">
-        <Link href={`/profile/${user.username}`}>
+        <Link href={`/profile/${user._id}`}>
           <Grid container>
             <CardMedia>
               <Avatar avatar={user.avatar} />
             </CardMedia>
 
             <CardContent>
-              <Typography>@{user.username}</Typography>
               <Typography variant="h4">{user.name}</Typography>
             </CardContent>
           </Grid>

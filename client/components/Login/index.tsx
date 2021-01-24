@@ -18,19 +18,18 @@ import { iBackgroundImageData } from '../../@types';
 
 interface Props {
   bgData: iBackgroundImageData;
+  clientId: string;
 }
 
-const Login: React.FC<Props> = ({ bgData }) => {
+const Login: React.FC<Props> = ({ bgData, clientId }) => {
   const router = useRouter();
   const classes = useStyles({ bg: bgData.img });
   const [showSignUp, setShowSignUp] = useState(router.query.view === 'signUp');
   const [user, handleChange] = useForm({
-    birthDate: '',
     email: '',
     name: '',
     password: '',
     rPassword: '',
-    username: '',
   });
 
   return (
@@ -46,8 +45,18 @@ const Login: React.FC<Props> = ({ bgData }) => {
       <Grid container item xs={false} md={4} alignItems="center">
         <Container className={classes.imgInfo}>
           {(showSignUp && (
-            <SignUp user={user} handleChange={handleChange} />
-          )) || <SignIn user={user} handleChange={handleChange} />}
+            <SignUp
+              clientId={clientId}
+              handleChange={handleChange}
+              user={user}
+            />
+          )) || (
+            <SignIn
+              clientId={clientId}
+              handleChange={handleChange}
+              user={user}
+            />
+          )}
 
           <Divider light />
 
