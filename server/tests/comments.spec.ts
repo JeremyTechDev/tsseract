@@ -5,12 +5,10 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 import server from '../server';
 
 interface iUser {
-  birthDate: number;
   email: string;
   name: string;
   password: string;
   user?: string;
-  username: string;
 }
 
 describe('Comments', () => {
@@ -18,10 +16,8 @@ describe('Comments', () => {
 
   const userPayload: iUser = {
     name: 'Tsseract',
-    username: 'admin_posts_test',
     password: 'Admin.1234',
     email: 'admin_posts_test@tsseract.com',
-    birthDate: Date.now(),
   };
   const postPayload = {
     title: 'Test Post',

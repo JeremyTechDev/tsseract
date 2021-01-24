@@ -8,20 +8,18 @@ import { iUser } from '../@types';
 import arrayToObj from '../helpers/arrayToObj';
 
 // to select all the user data but their password
-const SELECT =
-  '_id name username email birthDate createdAt followers following avatar';
+const SELECT = '_id googleId name email createdAt followers following avatar';
 
 const output = (user: iUser) => {
   return {
     _id: user.id,
-    birthDate: user.birthDate,
+    avatar: user.avatar,
     createdAt: user.createdAt,
     email: user.email,
     followers: arrayToObj(user.followers, '_id'),
     following: arrayToObj(user.following, '_id'),
+    googleId: user.googleId,
     name: user.name,
-    username: user.username,
-    avatar: user.avatar,
   };
 };
 
@@ -36,11 +34,8 @@ export const createUser: RequestHandler = async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
 
-    const isUsernameTaken = await User.findOne({ username: req.body.username });
     const isEmailTaken = await User.findOne({ email: req.body.email });
 
-    if (isUsernameTaken)
-      return res.status(409).send({ error: 'Username already taken' });
     if (isEmailTaken)
       return res.status(409).send({ error: 'Email already taken' });
 
@@ -56,7 +51,7 @@ export const createUser: RequestHandler = async (req, res) => {
       _id: user._id,
       email: user.email,
       name: user.name,
-      username: user.username,
+      googleId: user.googleId,
     };
 
     const { cookie, cookieConfig } = cookieCreator(userToken);
@@ -93,15 +88,15 @@ export const retrieveUser: RequestHandler = async (req, res) => {
 };
 
 /**
- * Retrieve a user by username
+ * Retrieve a user by googleId
  * @param {Object} req Express request
  * @param {Object} res Express response
- * @param {String} res.params.username User username
+ * @param {String} res.params.googleId User google id
  */
-export const retrieveUserByUsername: RequestHandler = async (req, res) => {
+export const retrieveUserByGoogleId: RequestHandler = async (req, res) => {
   try {
-    const { username } = req.params;
-    const user = (await User.findOne({ username })
+    const { googleId } = req.params;
+    const user = (await User.findOne({ googleId })
       .select(SELECT)
       .populate('following', SELECT)
       .populate('followers', SELECT)) as iUser;
@@ -109,7 +104,7 @@ export const retrieveUserByUsername: RequestHandler = async (req, res) => {
     if (!user)
       return res
         .status(404)
-        .send({ error: 'No user found with the given username' });
+        .send({ error: 'No user found with the given google id' });
 
     res.send(output(user));
   } catch (error) {
@@ -155,21 +150,17 @@ export const updateUser: RequestHandler = async (req, res) => {
  * Toggles the follow state in two users
  * @param {Object} req Express request
  * @param {Object} res Express response
- * @param {String} res.params.followToUsername user to toggle follow
+ * @param {String} res.params.followToId user to toggle follow
  */
 export const toggleFollow: RequestHandler = async (req, res) => {
-  const { followToUsername } = req.params;
+  const { followToId } = req.params;
   const followBy: iUser = req.cookies.profile;
 
   try {
-    const followTo = (await User.findOne({
-      username: followToUsername,
-    })) as iUser;
+    const followTo = (await User.findById(followToId)) as iUser;
 
     if (!followTo)
-      return res
-        .status(404)
-        .send({ error: 'No user found with the given username' });
+      return res.status(404).send({ error: 'No user found with the given id' });
 
     if (followTo._id.equals(followBy._id))
       return res

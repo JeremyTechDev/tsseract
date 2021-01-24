@@ -4,7 +4,7 @@ export interface iAuthenticatedUser {
   _id: any;
   email: string;
   name: string;
-  username: string;
+  googleId: string | null;
 }
 
 export interface iComment extends Document {
@@ -36,10 +36,9 @@ export interface iTag extends Document {
 export interface iUser extends Document {
   name: string;
   avatar: string;
-  username: string;
-  password: string;
+  googleId: string | null;
+  password: string | null;
   email: string;
-  birthDate: Date;
   createdAt: Date;
   updatedAt: Date;
   followers: Types.ObjectId[];

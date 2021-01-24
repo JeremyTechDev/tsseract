@@ -4,16 +4,14 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
 
-const userProps = ['_id', 'email', 'name', 'username'];
+const userProps = ['_id', 'email', 'name', 'googleId'];
 
 describe('Auth', () => {
   const SUT = http.createServer(server({ dev: true }));
   const userPayload = {
     name: 'Tsseract',
-    username: 'admin_user_test',
     password: 'Admin.1234',
     email: 'admin_user_test@tsseract.com',
-    birthDate: Date.now(),
   };
   let user: any, cookie: Cookie;
   let cookieSet: [string];
@@ -38,12 +36,12 @@ describe('Auth', () => {
         .get('/api/auth')
         .set('Cookie', cookieSet);
 
-      const { name, username, email } = userPayload;
+      const { name, email } = userPayload;
       expect(authUser.body).toMatchObject({
         _id: user.body._id,
         email,
         name,
-        username,
+        googleId: null,
       });
     });
   });
@@ -52,7 +50,7 @@ describe('Auth', () => {
     it('should authenticate a user with', async () => {
       const authUser = await request(SUT)
         .post('/api/auth/login')
-        .send({ username: 'admin_user_test', password: 'Admin.1234' });
+        .send({ email: userPayload.email, password: userPayload.password });
 
       expect(authUser.header).toHaveProperty('set-cookie');
       expect(cookie).toHaveProperty('name');
@@ -61,19 +59,19 @@ describe('Auth', () => {
       userProps.forEach((p) => expect(authUser.body).toHaveProperty(p));
     });
 
-    it('should return a status code 400 if the username or password are invalid', async () => {
+    it('should return a status code 400 if the email or password are invalid', async () => {
       const authUser = await request(SUT)
         .post('/api/auth/login')
-        .send({ username: 'fake_user', password: 'invalid password' });
+        .send({ email: 'test@email.com', password: 'invalid password' });
 
       expect(authUser.status).toBe(400);
       expect(authUser.body).toHaveProperty('error');
     });
 
-    it('should return a status code 400 if the username or password are incorrect', async () => {
+    it('should return a status code 400 if the email or password are incorrect', async () => {
       const authUser = await request(SUT)
         .post('/api/auth/login')
-        .send({ username: 'admin_user_test', password: '12345678' });
+        .send({ email: userPayload.email, password: '12345678' });
 
       expect(authUser.status).toBe(400);
       expect(authUser.body).toHaveProperty('error');

@@ -5,7 +5,7 @@ import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
 import { iTag, iPost } from '../@types';
 
-const SELECT_USER = '_id name avatar username email';
+const SELECT_USER = '_id name avatar googleId email';
 
 /**
  * Creates a new post
