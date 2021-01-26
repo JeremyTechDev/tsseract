@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { FiberManualRecord as Dot } from '@material-ui/icons';
 
@@ -9,7 +10,9 @@ const LandingPage = () => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.root}>
+    <Container>
+      <Image src="/landing.png" layout="fill" objectFit="cover" priority />
+
       <Grid container className={classes.control} justify="flex-end">
         <Link href="/login?view=signIn">
           <Button color="primary">Login</Button>

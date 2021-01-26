@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core';
 const styles = makeStyles((theme) => {
   return {
     header: { display: 'block', marginBottom: '13vh' },
-    logo: { height: '12vh' },
     margin: { minHeight: '100vh' },
     spacing: { margin: '0 15px' },
     contentWrap: (spaceUp = true) => ({
