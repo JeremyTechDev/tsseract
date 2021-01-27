@@ -43,6 +43,7 @@ const UserPage: React.FC<Props> = ({
   const largeScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('md'),
   );
+  const isSelfProfile = authUserId === user._id;
 
   useEffect(() => {
     setUser(userProp);
@@ -120,7 +121,7 @@ const UserPage: React.FC<Props> = ({
 
         <Divider className={classes.divider} />
 
-        {(authUserId === user._id && (
+        {(isSelfProfile && (
           <Link href="/profile/edit">
             <Button color="secondary" variant="contained" endIcon={<Edit />}>
               Edit
@@ -132,7 +133,7 @@ const UserPage: React.FC<Props> = ({
           </Button>
         )}
 
-        {authUserId === user._id && (
+        {isSelfProfile && (
           <Grid item>
             <Button onClick={deleteUser} color="primary">
               Close Account
