@@ -41,7 +41,7 @@ export const authenticate: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send(userToken);
+    return res.send(userToken);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -60,6 +60,7 @@ export const googleAuthenticate: RequestHandler = async (req, res) => {
     if (error) return res.status(400).send({ error: error.details[0].message });
 
     let user = (await User.findOne({ googleId })) as iUser;
+    const isNew = !Boolean(user);
 
     if (!user) {
       const emailIsTaken = await User.findOne({ email });
@@ -81,7 +82,7 @@ export const googleAuthenticate: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send(userToken);
+    return res.send(Object.assign({}, userToken, { isNew }));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -95,7 +96,7 @@ export const googleAuthenticate: RequestHandler = async (req, res) => {
 export const getTokenData: RequestHandler = (req, res) => {
   const { _id, email, name, googleId, avatar } = req.cookies.profile;
 
-  res.send({ name, googleId, email, _id, avatar });
+  return res.send({ name, googleId, email, _id, avatar });
 };
 
 /**
@@ -107,7 +108,7 @@ export const deauthenticate: RequestHandler = (req, res) => {
   const { name, googleId, email, _id } = req.cookies.profile;
 
   res.clearCookie('tsseract-auth-token');
-  res.send({ name, googleId, email, _id });
+  return res.send({ name, googleId, email, _id });
 };
 
 const validate = <T>(userData: T) => {

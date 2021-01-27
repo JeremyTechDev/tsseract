@@ -57,7 +57,7 @@ export const createUser: RequestHandler = async (req, res) => {
     const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    res.send(userToken);
+    return res.send(userToken);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -81,7 +81,7 @@ export const retrieveUser: RequestHandler = async (req, res) => {
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
-    res.send(output(user));
+    return res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -94,8 +94,9 @@ export const retrieveUser: RequestHandler = async (req, res) => {
  * @param {String} res.params.googleId User google id
  */
 export const retrieveUserByGoogleId: RequestHandler = async (req, res) => {
+  const { googleId } = req.params;
+
   try {
-    const { googleId } = req.params;
     const user = (await User.findOne({ googleId })
       .select(SELECT)
       .populate('following', SELECT)
@@ -106,7 +107,7 @@ export const retrieveUserByGoogleId: RequestHandler = async (req, res) => {
         .status(404)
         .send({ error: 'No user found with the given google id' });
 
-    res.send(output(user));
+    return res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -203,7 +204,7 @@ export const toggleFollow: RequestHandler = async (req, res) => {
       action = 'follow';
     }
 
-    res.send({ following: newFollowBy, follower: newFollowTo, action });
+    return res.send({ following: newFollowBy, follower: newFollowTo, action });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -220,7 +221,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
     const { _id: userId } = req.cookies.profile;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
 
-    res.send(user);
+    return res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

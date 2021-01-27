@@ -28,19 +28,19 @@ router.post('/', createUser);
 router.get('/:id', retrieveUser);
 
 /**
+ * Retrieve a user by google id
+ * @route /api/users/g/:googleId
+ * @param {String} googleId user googleId
+ * @method GET
+ */
+router.get('/g/:googleId', retrieveUserByGoogleId);
+
+/**
  * Updates the given attributes of a user
  * @route /api/users
  * @method put
  */
 router.put('/', auth, updateUser);
-
-/**
- * Retrieve a user by google id
- * @route /api/users/u/:googleId
- * @param {String} googleId user googleId
- * @method GET
- */
-router.get('/u/:googleId', retrieveUserByGoogleId);
 
 /**
  * Toggles the follow state of two related users

@@ -13,7 +13,12 @@ describe('User', () => {
     password: 'Admin.1234',
     email: 'admin_user_test@tsseract.com',
   };
-  let user: any, secUser: any, cookie: Cookie, secondCookie: any;
+  let user: any,
+    secUser: any,
+    googleUser: any,
+    cookie: Cookie,
+    secondCookie: Cookie,
+    googleCookie: Cookie;
   let cookieSet: [string];
 
   beforeAll(async (done) => {
@@ -28,6 +33,13 @@ describe('User', () => {
     });
     secondCookie = setCookie.parse(secUser)[0];
 
+    googleUser = await request(SUT).post('/api/auth/g/').send({
+      name: 'Google',
+      googleId: 'testGoogleId',
+      email: 'google@google.com',
+    });
+    googleCookie = setCookie.parse(googleUser)[0];
+
     SUT.listen(done);
   });
 
@@ -36,6 +48,9 @@ describe('User', () => {
     await request(SUT)
       .delete(`/api/users/`)
       .set('Cookie', [`${secondCookie.name}=${secondCookie.value}`]);
+    await request(SUT)
+      .delete(`/api/users/`)
+      .set('Cookie', [`${googleCookie.name}=${googleCookie.value}`]);
 
     SUT.close(done);
   });
@@ -84,22 +99,21 @@ describe('User', () => {
     });
   });
 
-  // FIXME
-  // describe('GET:/api/users/u/:googleId', () => {
-  //   it('should retrieve a user by googleId', async () => {
-  //     const user = await request(SUT).get(`/api/users/u/admin_user_test`);
+  describe('GET:/api/users/g/:googleId', () => {
+    it('should retrieve a user by googleId', async () => {
+      const user = await request(SUT).get('/api/users/g/testGoogleId');
 
-  //     userProps.forEach((p) => expect(user.body).toHaveProperty(p));
-  //     expect(user.body.googleId).toBe('admin_user_test');
-  //   });
+      userProps.forEach((p) => expect(user.body).toHaveProperty(p));
+      expect(user.body.googleId).toBe('testGoogleId');
+    });
 
-  //   it('should return a status 404 if no user is found with the given username', async () => {
-  //     const user = await request(SUT).get(`/api/users/u/inexistentUser`);
+    it('should return a status 404 if no user is found with the given google id', async () => {
+      const user = await request(SUT).get('/api/users/g/wrongTestGoogleId');
 
-  //     expect(user.status).toBe(404);
-  //     expect(user.body).toHaveProperty('error');
-  //   });
-  // });
+      expect(user.status).toBe(404);
+      expect(user.body).toHaveProperty('error');
+    });
+  });
 
   describe('PUT:/api/users/', () => {
     it('should update some fields of a user', async () => {
