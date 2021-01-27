@@ -20,7 +20,7 @@ export const authenticate: RequestHandler = async (req, res) => {
     const { email, password } = req.body;
 
     const user = (await User.findOne({ email })) as iUser;
-    if (!user)
+    if (!user || !user.password)
       return res.status(400).send({ error: 'Invalid email or password' });
 
     const isValidPassword = await bcrypt.compare(
