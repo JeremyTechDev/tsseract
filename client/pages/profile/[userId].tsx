@@ -19,7 +19,7 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
       <UserPage
         user={user}
         posts={posts}
-        isProfile={user._id === authData.user?._id}
+        authUserId={authData.user?._id as string}
         isFollowing={authData.user && user._id in authData.user.following}
       />
     </Layout>
@@ -29,16 +29,14 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
 };
 
 User.getInitialProps = async (ctx) => {
-  const { username } = ctx.query;
+  const { userId } = ctx.query;
 
   const { user: authUser } = await authInitialProps()(ctx);
   const authData = await getRequest(
     `/users/${authUser.user?._id}`,
   ).then((res) => res.json());
 
-  const user = await getRequest(`/users/u/${username}`).then((res) =>
-    res.json(),
-  );
+  const user = await getRequest(`/users/${userId}`).then((res) => res.json());
 
   const posts = await getRequest(`/posts/by/${user._id}`).then((res) =>
     res.json(),

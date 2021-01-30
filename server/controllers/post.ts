@@ -5,7 +5,7 @@ import { validateTags } from '../models/tag';
 import { findOrCreate as findOrCreateTag } from './tag';
 import { iTag, iPost } from '../@types';
 
-const SELECT_USER = '_id name avatar username email';
+const SELECT_USER = '_id name avatar googleId email';
 
 /**
  * Creates a new post
@@ -65,7 +65,7 @@ export const retrieveAll: RequestHandler = async (req, res) => {
       .populate('tags')
       .sort({ createdAt: 'desc' })) as iPost[];
 
-    res.send(posts);
+    return res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -131,7 +131,7 @@ export const toggleLike: RequestHandler = async (req, res) => {
       { new: true },
     );
 
-    res.send(newPost);
+    return res.send(newPost);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -152,7 +152,7 @@ export const getPostsBy: RequestHandler = async (req, res) => {
       .populate('comments.user', SELECT_USER)
       .populate('tags');
 
-    res.send(posts);
+    return res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -170,7 +170,7 @@ export const getPostsFeed: RequestHandler = async (req, res) => {
 
     const posts = await Post.find({ user: { $in: following } });
 
-    res.send(posts);
+    return res.send(posts);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -192,7 +192,7 @@ export const deletePost: RequestHandler = async (req, res) => {
         .status(404)
         .send({ error: 'No posts found with the given id' });
 
-    res.send(post);
+    return res.send(post);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

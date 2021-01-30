@@ -6,12 +6,10 @@ import server from '../server';
 
 interface iUser {
   _id?: string;
-  birthDate: number;
   email: string;
   name: string;
   password: string;
   user?: string;
-  username: string;
 }
 
 describe('Posts', () => {
@@ -19,14 +17,11 @@ describe('Posts', () => {
 
   const userPayload: iUser = {
     name: 'Tsseract',
-    username: 'admin_posts_test',
     password: 'Admin.1234',
     email: 'admin_posts_test@tsseract.com',
-    birthDate: Date.now(),
   };
   const secondUserPayload: iUser = {
     ...userPayload,
-    username: 'admin_posts_test_2',
     email: 'admin_posts_test_2@tsseract.com',
   };
   const postPayload = {

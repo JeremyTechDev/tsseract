@@ -1,17 +1,21 @@
 require('dotenv').config();
 
 const {
-  UNSPLASH_ACCESS_KEY,
-  UNSPLASH_SECRET_KEY,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
   NODE_ENV,
   PRODUCTION_URL,
+  UNSPLASH_ACCESS_KEY,
+  UNSPLASH_SECRET_KEY,
 } = process.env;
 
 module.exports = {
   env: {
+    ENV: NODE_ENV,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    PRODUCTION_URL,
     UNSPLASH_ACCESS_KEY,
     UNSPLASH_SECRET_KEY,
-    PRODUCTION_URL,
-    ENV: NODE_ENV,
   },
 };

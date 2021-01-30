@@ -32,13 +32,13 @@ export const createComment: RequestHandler = async (req, res) => {
       },
       { new: true },
     )
-      .populate('user', '_id name username')
-      .populate('comments.user', '_id name username')) as iPost;
+      .populate('user', '_id name email')
+      .populate('comments.user', '_id name email')) as iPost;
 
     if (!post)
       return res.status(404).send({ error: 'No post found with the given id' });
 
-    res.send(post);
+    return res.send(post);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

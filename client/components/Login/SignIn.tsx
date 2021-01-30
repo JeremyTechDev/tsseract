@@ -3,10 +3,10 @@ import Router from 'next/router';
 import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 
 import AppContext, { Types } from '../../context';
-import { loginUser } from '../../lib/auth';
 import Input from './Input';
 import useStyles from './styles';
 import { InputChangeEvent, iSignInUser } from '../../@types';
+import { loginUser } from '../../lib/auth';
 
 interface Props {
   user: iSignInUser;
@@ -27,10 +27,10 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   };
 
   const handleSubmit = async () => {
-    const { username, password } = user;
+    const { email, password } = user;
     setLoading(true);
 
-    loginUser({ username, password }).then((data) => {
+    loginUser({ email, password }).then((data) => {
       if (!data.error) {
         dispatch({
           type: Types.SET_CREDENTIALS,
@@ -59,8 +59,8 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           )}
           <Input
             handleChange={handleClearAndChange}
-            label="Username"
-            value={user.username}
+            label="Email"
+            value={user.email}
           />
 
           <Input

@@ -11,25 +11,13 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
-  avatar: {
-    default: '',
-    trim: true,
+  googleId: {
     type: String,
-  },
-  username: {
-    lowercase: true,
-    maxlength: 50,
-    minlength: 2,
-    required: true,
-    trim: true,
-    type: String,
-    unique: true,
-  },
-  password: {
-    type: String,
+    default: null,
     maxlength: 255,
-    minlength: 8,
-    required: true,
+    minlength: 1,
+    required: false,
+    trim: true,
   },
   email: {
     lowercase: true,
@@ -40,9 +28,17 @@ const userSchema = new Schema({
     type: String,
     unique: true,
   },
-  birthDate: {
-    type: Date,
-    required: true,
+  password: {
+    type: String,
+    maxlength: 255,
+    minlength: 8,
+    required: false,
+    default: null,
+  },
+  avatar: {
+    default: '',
+    trim: true,
+    type: String,
   },
   createdAt: {
     type: Date,
@@ -63,21 +59,15 @@ export default model('Users', userSchema);
 export const validateUser = <T>(user: T) => {
   const schema = Joi.object({
     name: Joi.string().min(1).max(255).trim().required(),
+    googleId: Joi.string().min(1).max(255).trim(),
     avatar: Joi.string().trim(),
-    username: Joi.string()
-      .min(2)
-      .max(50)
-      .trim()
-      .required()
-      .regex(regex.username),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .min(2)
       .max(255)
       .trim()
       .required(),
-    password: Joi.string().trim().min(8).max(26).required(),
-    birthDate: Joi.date().timestamp().required(),
+    password: Joi.string().trim().min(8).max(26),
     following: Joi.array().items(Joi.string().regex(regex.objectId)),
     followers: Joi.array().items(Joi.string().regex(regex.objectId)),
   });

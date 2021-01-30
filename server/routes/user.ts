@@ -4,7 +4,7 @@ import {
   createUser,
   deleteUser,
   retrieveUser,
-  retrieveUserByUsername,
+  retrieveUserByGoogleId,
   toggleFollow,
   updateUser,
 } from '../controllers/user';
@@ -28,6 +28,14 @@ router.post('/', createUser);
 router.get('/:id', retrieveUser);
 
 /**
+ * Retrieve a user by google id
+ * @route /api/users/g/:googleId
+ * @param {String} googleId user googleId
+ * @method GET
+ */
+router.get('/g/:googleId', retrieveUserByGoogleId);
+
+/**
  * Updates the given attributes of a user
  * @route /api/users
  * @method put
@@ -35,20 +43,12 @@ router.get('/:id', retrieveUser);
 router.put('/', auth, updateUser);
 
 /**
- * Retrieve a user by username
- * @route /api/users/u/:id
- * @param {String} username user username
- * @method GET
- */
-router.get('/u/:username', retrieveUserByUsername);
-
-/**
  * Toggles the follow state of two related users
- * @route /api/users/toggle-follow/:followToUsername
- * @param {String} followToUsername the user's to follow username
+ * @route /api/users/toggle-follow/:followToId
+ * @param {String} followToId the user's to follow id
  * @method PUT
  */
-router.put('/toggle-follow/:followToUsername', auth, toggleFollow);
+router.put('/toggle-follow/:followToId', auth, toggleFollow);
 
 /**
  * Deletes the authenticated user

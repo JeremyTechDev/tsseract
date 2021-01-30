@@ -22,30 +22,26 @@ const useStyles = makeStyles({
 });
 
 const avatar = {
-  accessoriesType: 'Blank',
+  accessoriesType: 'Round',
   clotheColor: 'Red',
-  clotheType: 'GraphicShirt',
-  eyebrowType: 'SadConcerned',
+  clotheType: 'Hoodie',
+  eyebrowType: 'SadConcernedNatural',
   eyeType: 'Cry',
   facialHairType: 'Blank',
-  graphicType: 'Hola',
-  hairColor: 'Black',
-  mouthType: 'Concerned',
-  skinColor: 'Light',
-  topType: 'LongHairNotTooLong',
+  hairColor: 'SilverGray',
+  mouthType: 'Sad',
+  skinColor: 'Brown',
+  topType: 'LongHairStraightStrand',
 };
 
-interface Props {
-  statusCode?: number;
-}
-const Error: NextPage<Props> = ({ statusCode = 500 }) => {
+const Custom404: NextPage = () => {
   const classes = useStyles();
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
     <React.Fragment>
       <Head>
-        <title>Tsseract - Error</title>
+        <title>Tsseract - Page not found</title>
       </Head>
 
       <Link href="/">
@@ -63,21 +59,19 @@ const Error: NextPage<Props> = ({ statusCode = 500 }) => {
         direction={small ? 'column' : 'row'}
         justify="center"
       >
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={5}>
           <Avatar size={small ? '300px' : '600px'} avatar={avatar} />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={7}>
           <Container>
             <Typography variant="h1">Ops!</Typography>
 
-            <Typography variant="h2">An unexpected</Typography>
+            <Typography variant="h2">We can't seem to find</Typography>
 
             <Typography variant="h2" paragraph>
-              has occurred
+              the page you are looking for
             </Typography>
-
-            <Typography variant="h5">Status code: {statusCode}</Typography>
 
             <Divider className={classes.divider} />
 
@@ -93,4 +87,4 @@ const Error: NextPage<Props> = ({ statusCode = 500 }) => {
   );
 };
 
-export default Error;
+export default Custom404;

@@ -56,9 +56,7 @@ const fakeTag = () => ({
 const fakeUser = () => ({
   name: faker.name.findName(),
   email: faker.internet.email(),
-  username: faker.internet.userName(),
   password: faker.internet.password(8),
-  birthDate: faker.date.past(),
   following: userIds.length
     ? [userIds[faker.random.number(userIds.length - 1)]]
     : [],

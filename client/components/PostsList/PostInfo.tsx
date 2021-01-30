@@ -19,12 +19,12 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
   return (
     <div className={classes.fontColor}>
       <Grid spacing={1} container alignItems="center">
-        <Link href={`/profile/${user.username}`}>
+        <Link href={`/profile/${user._id}`}>
           <Avatar avatar={user.avatar} />
         </Link>
 
         <Grid item>
-          <Link href={`/profile/${user.username}`}>
+          <Link href={`/profile/${user._id}`}>
             <MuiLink color="textPrimary" variant="h5">
               {user.name}
             </MuiLink>

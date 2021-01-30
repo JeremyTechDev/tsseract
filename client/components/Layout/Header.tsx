@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { PostAdd, Face, Menu as MenuIcon, ExitToApp } from '@material-ui/icons';
+import { GoogleLogout } from 'react-google-login';
 
 import AppContext, { Types } from '../../context';
 import { logoutUser } from '../../lib/auth';
@@ -53,10 +54,21 @@ const Header = () => {
           <Box className={classes.sectionDesktop}>
             {isAuthenticated ? (
               <React.Fragment>
-                <Button onClick={handleLogOut} className={classes.spacing}>
-                  Log Out
-                </Button>
-                <Link href={`/profile/${user?.username}`}>
+                <GoogleLogout
+                  clientId={process.env.GOOGLE_CLIENT_ID as string}
+                  onLogoutSuccess={handleLogOut}
+                  render={(props) => (
+                    <Button
+                      className={classes.spacing}
+                      disabled={props.disabled}
+                      onClick={props.onClick}
+                    >
+                      Log Out
+                    </Button>
+                  )}
+                />
+
+                <Link href={`/profile/${user?._id}`}>
                   <Button
                     color="secondary"
                     endIcon={<Face />}
@@ -107,7 +119,7 @@ const Header = () => {
           <ListItemText>Log Out</ListItemText>
         </MenuItem>
 
-        <Link href={`/profile/${user?.username}`}>
+        <Link href={`/profile/${user?._id}`}>
           <MenuItem>
             <ListItemIcon>
               <Face />
