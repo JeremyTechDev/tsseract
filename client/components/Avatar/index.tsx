@@ -26,6 +26,8 @@ const Avatar = () => {
           mouthType: '',
           skinColor: '',
           topType: '',
+          hatColor: '',
+          graphicType: '',
         },
   );
 
