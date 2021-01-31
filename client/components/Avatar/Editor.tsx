@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Paper, Divider, Tabs, Tab, Box, Grid } from '@material-ui/core';
+import { Paper, Divider, Tabs, Tab, Box } from '@material-ui/core';
 import { Piece } from 'avataaars';
 
 import * as pieceItems from './pieces';
-import Color from './Color';
+import { Color, ColorSelector, GraphicSelector } from './Selectors';
 import useStyles from './styles';
 import TabPanel, { TabItem } from './TabPanel';
 
@@ -24,7 +24,6 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
     <React.Fragment>
       <Paper elevation={4}>
         <Tabs
-          centered
           indicatorColor="primary"
           onChange={handleTabChange}
           textColor="primary"
@@ -32,45 +31,26 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
           variant="scrollable"
         >
           {pieceItems.labels.map((label) => (
-            <Tab key={label} label={label} />
+            <Tab key={'label-' + label} label={label} />
           ))}
         </Tabs>
       </Paper>
 
       <Box className={classes.boxColor}>
-        {tab in pieceItems.tabsWithColors && (
-          <Box p={3}>
-            <Grid
-              container
-              alignItems="flex-start"
-              justify="flex-start"
-              spacing={1}
-            >
-              {pieceItems[tab === 6 ? 'clothesColor' : 'hairColors'].map(
-                ({ type, colorCode, shared }) => {
-                  // To hide the colors that are not available for facial hair
-                  return shared === false && tab === 2 ? null : (
-                    <TabItem
-                      key={type}
-                      onClick={() =>
-                        handleChange({ [pieceItems.tabsWithColors[tab]]: type })
-                      }
-                    >
-                      <Color backgroundColor={colorCode || ''} />
-                    </TabItem>
-                  );
-                },
-              )}
-            </Grid>
-          </Box>
+        <ColorSelector tab={tab} handleChange={handleChange} />
+        <Divider />
+        {tab === 7 && pieces.clotheType === 'GraphicShirt' && (
+          <GraphicSelector
+            color={pieces.clotheColor}
+            handleChange={handleChange}
+          />
         )}
-
         <Divider />
 
         <TabPanel value={tab} index={0}>
           {pieceItems.skins.map(({ type, colorCode }) => (
             <TabItem
-              key={type}
+              key={'skin-' + type}
               onClick={() => handleChange({ skinColor: type })}
             >
               <Color backgroundColor={colorCode || ''} />
@@ -81,7 +61,7 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
         <TabPanel value={tab} index={1}>
           {pieceItems.hairs.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'hair-' + type}
               onClick={() => handleChange({ topType: type })}
               text={text || type}
             >
@@ -94,11 +74,27 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
         <TabPanel value={tab} index={2}>
+          {pieceItems.hats.map(({ type, text }) => (
+            <TabItem
+              key={'hat-' + type}
+              onClick={() => handleChange({ topType: type })}
+              text={text || type}
+            >
+              <Piece
+                avatarStyle="Circle"
+                // @ts-ignore
+                hatColor={pieces.hatColor || 'White'}
+                pieceType="top"
+                topType={type}
+              />
+            </TabItem>
+          ))}
+        </TabPanel>
+        <TabPanel value={tab} index={3}>
           {pieceItems.facialHairs.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'facialHair-' + type}
               onClick={() => handleChange({ facialHairType: type })}
               text={text || type}
             >
@@ -111,11 +107,10 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
-        <TabPanel value={tab} index={3}>
+        <TabPanel value={tab} index={4}>
           {pieceItems.eyes.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'eyes-' + type}
               onClick={() => handleChange({ eyeType: type })}
               text={text || type}
             >
@@ -123,11 +118,10 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
-        <TabPanel value={tab} index={4}>
+        <TabPanel value={tab} index={5}>
           {pieceItems.eyebrows.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'eyebrow-' + type}
               onClick={() => handleChange({ eyebrowType: type })}
               text={text || type}
             >
@@ -139,11 +133,10 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
-        <TabPanel value={tab} index={5}>
+        <TabPanel value={tab} index={6}>
           {pieceItems.mouths.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'mouth-' + type}
               onClick={() => handleChange({ mouthType: type })}
               text={text || type}
             >
@@ -151,11 +144,10 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
-        <TabPanel value={tab} index={6}>
+        <TabPanel value={tab} index={7}>
           {pieceItems.clothes.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'clothe-' + type}
               onClick={() => handleChange({ clotheType: type })}
               text={text || type}
             >
@@ -168,11 +160,10 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
             </TabItem>
           ))}
         </TabPanel>
-
-        <TabPanel value={tab} index={7}>
+        <TabPanel value={tab} index={8}>
           {pieceItems.accessories.map(({ type, text }) => (
             <TabItem
-              key={type}
+              key={'accesory-' + type}
               onClick={() => handleChange({ accessoriesType: type })}
               text={text || type}
             >

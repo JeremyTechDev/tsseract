@@ -7,13 +7,15 @@ interface iType {
 
 export const tabsWithColors = {
   1: 'hairColor',
-  2: 'facialHairColor',
-  6: 'clotheColor',
+  2: 'hatColor',
+  3: 'facialHairColor',
+  7: 'clotheColor',
 };
 
 export const labels = [
   'Skin',
   'Hair',
+  'Hat',
   'Facial Hair',
   'Eyes',
   'Eyebrows',
@@ -75,6 +77,17 @@ export const hairs: iType[] = [
     type: 'ShortHairTheCaesarSidePart',
     text: 'The Caesar Side Part',
   },
+];
+
+export const hats: iType[] = [
+  { type: 'Eyepatch' },
+  { type: 'Hat' },
+  { type: 'Hijab' },
+  { type: 'Turban' },
+  { type: 'WinterHat1', text: 'Winter Hat' },
+  { type: 'WinterHat2', text: 'Alaska' },
+  { type: 'WinterHat3', text: 'Winter Cute' },
+  { type: 'WinterHat4', text: 'Kawai' },
 ];
 
 export const facialHairs: iType[] = [
@@ -141,7 +154,19 @@ export const accessories: iType[] = [
   { type: 'Wayfarers' },
 ];
 
-export const clothesColor: iType[] = [
+export const clothes: iType[] = [
+  { type: 'BlazerShirt', text: 'Blazer Shirt' },
+  { type: 'BlazerSweater', text: 'Blazer Sweater' },
+  { type: 'CollarSweater', text: 'Collar Sweater' },
+  { type: 'GraphicShirt', text: 'Graphic Shirt' },
+  { type: 'Hoodie' },
+  { type: 'Overall' },
+  { type: 'ShirtCrewNeck', text: 'Crew Shirt' },
+  { type: 'ShirtScoopNeck', text: 'Scoop Shirt' },
+  { type: 'ShirtVNeck', text: 'V-Shaped Shirt' },
+];
+
+export const clothesAndHatsColor: iType[] = [
   { type: 'Black', colorCode: '#262E33' },
   { type: 'Blue01', colorCode: '#65C9FF' },
   { type: 'Blue02', colorCode: '#5199E4' },
@@ -158,14 +183,17 @@ export const clothesColor: iType[] = [
   { type: 'Red', colorCode: '#FF5C5C' },
   { type: 'White', colorCode: '#FFFFFF' },
 ];
-export const clothes: iType[] = [
-  { type: 'BlazerShirt', text: 'Blazer Shirt' },
-  { type: 'BlazerSweater', text: 'Blazer Sweater' },
-  { type: 'CollarSweater', text: 'Collar Sweater' },
-  { type: 'GraphicShirt', text: 'Graphic Shirt' },
-  { type: 'Hoodie' },
-  { type: 'Overall' },
-  { type: 'ShirtCrewNeck', text: 'Crew Shirt' },
-  { type: 'ShirtScoopNeck', text: 'Scoop Shirt' },
-  { type: 'ShirtVNeck', text: 'V-Shaped Shirt' },
+
+export const graphics: iType[] = [
+  { type: 'Bat' },
+  { type: 'Cumbia' },
+  { type: 'Deer' },
+  { type: 'Diamond' },
+  { type: 'Hola' },
+  { type: 'Pizza' },
+  { type: 'Resist' },
+  { type: 'Selena' },
+  { type: 'Bear' },
+  { type: 'SkullOutline', text: 'Pirate Skull' },
+  { type: 'Skull', text: 'Ghost Skull' },
 ];
