@@ -2,8 +2,10 @@ require('dotenv').config();
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import { graphqlHTTP } from 'express-graphql';
 
 import database from './database';
+import graphQLSchema from './graphql';
 
 import auth from './routes/auth';
 import user from './routes/user';
@@ -46,6 +48,15 @@ const init = (options: Options) => {
   server.use('/api/posts', post);
   server.use('/api/auth', auth);
   server.use('/api/tags', tag);
+
+  // graphql setting
+  server.use(
+    '/graphql',
+    graphqlHTTP({
+      graphiql: true,
+      schema: graphQLSchema,
+    }),
+  );
 
   // let next handle the default route
   if (appHandler) {

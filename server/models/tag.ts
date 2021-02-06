@@ -1,5 +1,11 @@
-import { Schema, model } from 'mongoose';
 import Joi from '@hapi/joi';
+import { Schema, model } from 'mongoose';
+import {
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString,
+} from 'graphql';
 
 import regex from '../helpers/regex';
 
@@ -17,7 +23,17 @@ export const tagSchema = new Schema({
   },
 });
 
-export default model('Tags', tagSchema, 'tags');
+const Tag = model('Tags', tagSchema, 'tags');
+
+export const TagType: GraphQLObjectType = new GraphQLObjectType({
+  name: 'Tag',
+  description: 'Represents a tag that is assigned to a post',
+  fields: () => ({
+    id: { type: GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    popularity: { type: GraphQLNonNull(GraphQLInt) },
+  }),
+});
 
 export const validateTags = (tags: string[]) => {
   const schema = Joi.object({
@@ -28,3 +44,5 @@ export const validateTags = (tags: string[]) => {
   const validTags = tags.map((tag) => schema.validate({ name: tag }).error);
   return validTags.some((tagResult) => tagResult);
 };
+
+export default Tag;

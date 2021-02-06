@@ -1,7 +1,10 @@
-import { Schema, Types, Document } from 'mongoose';
 import Joi from '@hapi/joi';
+import { Schema, Types } from 'mongoose';
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 
+import User, { UserType } from './user';
 import regex from '../helpers/regex';
+import { iComment } from '../@types';
 
 export const commentsSchema = new Schema({
   user: {
@@ -15,6 +18,22 @@ export const commentsSchema = new Schema({
   },
   createdAt: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },
+});
+
+export const CommentType: GraphQLObjectType = new GraphQLObjectType({
+  name: 'Comment',
+  description: 'Represents a comment in a post published by a user',
+  fields: () => ({
+    id: { type: GraphQLNonNull(GraphQLString) },
+    user: {
+      type: GraphQLNonNull(UserType),
+      description: 'The user who published the comment',
+      resolve: async (parent: iComment) => await User.findById(parent.user),
+    },
+    body: { type: GraphQLNonNull(GraphQLString) },
+    createdAt: { type: GraphQLNonNull(GraphQLString) },
+    updatedAt: { type: GraphQLNonNull(GraphQLString) },
+  }),
 });
 
 export const validateComment = <T>(comment: T) => {
