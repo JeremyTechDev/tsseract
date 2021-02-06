@@ -1,14 +1,7 @@
 import Joi from '@hapi/joi';
 import { Schema, Types, model } from 'mongoose';
-import {
-  GraphQLList,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
 
-import regex from '../helpers/regex';
-import { iUser } from '../@types';
+import regex from '../../helpers/regex';
 
 const userSchema = new Schema({
   name: {
@@ -62,31 +55,6 @@ const userSchema = new Schema({
 });
 
 const Users = model('Users', userSchema);
-
-export const UserType: GraphQLObjectType = new GraphQLObjectType({
-  name: 'User',
-  description: 'Represents the user data',
-  fields: () => ({
-    id: { type: GraphQLNonNull(GraphQLString) },
-    name: { type: GraphQLNonNull(GraphQLString) },
-    googleId: { type: GraphQLString },
-    email: { type: GraphQLNonNull(GraphQLString) },
-    avatar: { type: GraphQLNonNull(GraphQLString) },
-    createdAt: { type: GraphQLNonNull(GraphQLString) },
-    following: {
-      type: GraphQLList(UserType),
-      description: 'List of users to the current user follows',
-      resolve: async (parent: iUser) =>
-        await parent.following.map(async (user) => await Users.findById(user)),
-    },
-    followers: {
-      type: GraphQLList(UserType),
-      description: 'List of followers of the current user',
-      resolve: async (parent: iUser) =>
-        await parent.followers.map(async (user) => await Users.findById(user)),
-    },
-  }),
-});
 
 export const validateUser = <T>(user: T) => {
   const schema = Joi.object({

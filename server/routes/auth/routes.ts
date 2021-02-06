@@ -1,12 +1,12 @@
 import express from 'express';
 
-import auth from '../middlewares/authenticator';
+import auth from '../../middlewares/authenticator';
 import {
   authenticate,
   googleAuthenticate,
   deauthenticate,
   getTokenData,
-} from '../controllers/auth';
+} from './controllers';
 
 const router = express.Router();
 

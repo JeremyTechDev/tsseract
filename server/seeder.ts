@@ -1,8 +1,8 @@
 import faker from 'faker';
 import database from './database';
-import UserModel from './models/user';
-import TagModel from './models/tag';
-import PostModel from './models/post';
+import UserModel from './routes/users/model';
+import TagModel from './routes/tags/model';
+import PostModel from './routes/posts/model';
 
 const userIds: string[] = [];
 const tagIds: string[] = [];

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { findTagLike } from '../controllers/tag';
+import { findTagLike } from './controllers';
 
 const router = express.Router();
 

@@ -2,10 +2,10 @@ import { RequestHandler } from 'express';
 import Joi from '@hapi/joi';
 import bcrypt from 'bcrypt';
 
-import User, { validateUser } from '../models/user';
-import cookieCreator from '../helpers/cookieCreator';
-import { iUser } from '../@types';
-import arrayToObj from '../helpers/arrayToObj';
+import User, { validateUser } from './model';
+import arrayToObj from '../../helpers/arrayToObj';
+import cookieCreator from '../../helpers/cookieCreator';
+import { iUser } from '../../@types';
 
 // to select all the user data but their password
 const SELECT = '_id googleId name email createdAt followers following avatar';

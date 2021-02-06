@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 
-import Post, { validatePost } from '../models/post';
-import { validateTags } from '../models/tag';
-import { findOrCreate as findOrCreateTag } from './tag';
-import { iTag, iPost } from '../@types';
+import Post, { validatePost } from './model';
+import { validateTags } from '../tags/model';
+import { findOrCreate as findOrCreateTag } from '../tags/controllers';
+import { iTag, iPost } from '../../@types';
 
 const SELECT_USER = '_id name avatar googleId email';
 

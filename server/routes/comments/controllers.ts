@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 import mongoose from 'mongoose';
 
-import Post from '../models/post';
-import { validateComment } from '../models/comment';
-import { iComment, iPost } from '../@types';
+import Post from '../posts/model';
+import { validateComment } from './model';
+import { iComment, iPost } from '../../@types';
 
 /**
  * Creates a new comment in a post

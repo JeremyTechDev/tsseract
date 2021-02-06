@@ -7,10 +7,10 @@ import { graphqlHTTP } from 'express-graphql';
 import database from './database';
 import graphQLSchema from './graphql';
 
-import auth from './routes/auth';
-import user from './routes/user';
-import post from './routes/post';
-import tag from './routes/tag';
+import auth from './routes/auth/routes';
+import user from './routes/users/routes';
+import post from './routes/posts/routes';
+import tag from './routes/tags/routes';
 
 const { COOKIE_KEY, PORT = 8080, NODE_ENV } = process.env;
 

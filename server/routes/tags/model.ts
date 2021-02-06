@@ -1,13 +1,7 @@
 import Joi from '@hapi/joi';
 import { Schema, model } from 'mongoose';
-import {
-  GraphQLInt,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
 
-import regex from '../helpers/regex';
+import regex from '../../helpers/regex';
 
 export const tagSchema = new Schema({
   name: {
@@ -24,16 +18,6 @@ export const tagSchema = new Schema({
 });
 
 const Tag = model('Tags', tagSchema, 'tags');
-
-export const TagType: GraphQLObjectType = new GraphQLObjectType({
-  name: 'Tag',
-  description: 'Represents a tag that is assigned to a post',
-  fields: () => ({
-    id: { type: GraphQLNonNull(GraphQLString) },
-    name: { type: GraphQLNonNull(GraphQLString) },
-    popularity: { type: GraphQLNonNull(GraphQLInt) },
-  }),
-});
 
 export const validateTags = (tags: string[]) => {
   const schema = Joi.object({

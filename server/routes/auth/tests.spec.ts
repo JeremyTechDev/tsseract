@@ -2,7 +2,7 @@ import http from 'http';
 import request from 'supertest';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
-import server from '../server';
+import server from '../../server';
 
 const userProps = ['_id', 'email', 'name', 'googleId', 'avatar'];
 

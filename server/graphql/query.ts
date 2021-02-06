@@ -1,12 +1,9 @@
-import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-} from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 
-import Posts, { PostType } from './models/post';
-import Users, { UserType } from './models/user';
+import Posts from '../routes/posts/model';
+import PostType from '../routes/posts/resolvers';
+import Users from '../routes/users/model';
+import UserType from '../routes/users/resolvers';
 
 const RootQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -43,8 +40,4 @@ const RootQueryType = new GraphQLObjectType({
   }),
 });
 
-const schema = new GraphQLSchema({
-  query: RootQueryType,
-});
-
-export default schema;
+export default RootQueryType;
