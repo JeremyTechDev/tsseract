@@ -12,7 +12,7 @@ import user from './routes/users/routes';
 import post from './routes/posts/routes';
 import tag from './routes/tags/routes';
 
-const { COOKIE_KEY, PORT = 8080, NODE_ENV } = process.env;
+const { COOKIE_KEY, NODE_ENV, PORT = 8080 } = process.env;
 
 interface Options {
   dev?: boolean;
