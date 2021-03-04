@@ -51,7 +51,7 @@ export const authInitialProps = (isPrivateRoute = false) => ({
   return { props: { user: auth } };
 };
 
-type userType = { email: string; password: string };
+type userType = { username: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
     const res = await postRequest('/auth/login', user);
@@ -69,12 +69,6 @@ export const loginUser = async (user: userType) => {
   } catch (error) {
     console.error(error);
     return { error };
-  }
-};
-
-export const loginUserGoogle = async (user: object) => {
-  if (typeof window !== 'undefined') {
-    window[WINDOW_USER_SCRIPT] = user || {};
   }
 };
 

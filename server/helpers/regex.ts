@@ -4,4 +4,5 @@
 export default {
   objectId: /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i,
   tag: /^[a-z0-9]+$/i,
+  username: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/im,
 };

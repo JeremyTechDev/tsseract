@@ -1,20 +1,19 @@
-import React from 'react';
-import { NextPage } from 'next';
+import React from "react";
+import { NextPage } from "next";
 
-import Login from '../components/Login';
-import Layout from '../components/Layout';
-import getRandomImg from '../helpers/getRandomImg';
-import { iBackgroundImageData } from '../@types';
+import Login from "../components/Login";
+import Layout from "../components/Layout";
+import getRandomImg from "../helpers/getRandomImg";
+import { iBackgroundImageData } from "../@types";
 
 interface Props {
   bgData: iBackgroundImageData;
-  clientId: string;
 }
 
-const LoginPage: NextPage<Props> = ({ bgData, clientId }) => {
+const LoginPage: NextPage<Props> = ({ bgData }) => {
   return (
     <Layout title="Login to Tsseract" displayFooter={false} displayNav={false}>
-      <Login bgData={bgData} clientId={clientId} />
+      <Login bgData={bgData} />
     </Layout>
   );
 };
@@ -22,7 +21,7 @@ const LoginPage: NextPage<Props> = ({ bgData, clientId }) => {
 export const getServerSideProps = async () => {
   const bgData = await getRandomImg();
   return {
-    props: { bgData, clientId: process.env.GOOGLE_CLIENT_ID as string },
+    props: { bgData },
   };
 };
 

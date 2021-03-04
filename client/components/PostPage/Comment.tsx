@@ -48,7 +48,7 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
   return isVisible ? (
     <>
       <Grid container justify="space-between">
-        <Link href={`/profile/${user._id}`}>
+        <Link href={`/profile/${user.username}`}>
           <MuiLink color="textPrimary" variant="subtitle1">
             <Grid container direction="row" alignItems="center">
               <Avatar avatar={user.avatar} />
