@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import LandingPage from '../components/LandingPage';
 import { authInitialProps } from '../lib/auth';
 
-const App: NextPage = () => {
+const Homepage: NextPage = () => {
   return (
     <Layout title="Tsseract" displayFooter={false} displayNav={false}>
       <LandingPage />
@@ -13,6 +13,6 @@ const App: NextPage = () => {
   );
 };
 
-App.getInitialProps = authInitialProps();
+export const getServerSideProps = authInitialProps();
 
-export default App;
+export default Homepage;

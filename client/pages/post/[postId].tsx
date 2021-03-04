@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 import Layout from '../../components/Layout';
 import PostPage from '../../components/PostPage';
@@ -27,15 +27,17 @@ const Post: NextPage<Props> = ({ post, authData }) => {
   );
 };
 
-Post.getInitialProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
   const { postId } = ctx.query;
 
-  const { user } = await authInitialProps()(ctx);
+  const {
+    props: { user },
+  } = authInitialProps()(ctx);
   const data = await getRequest(`/posts/id/${postId}`).then((res) =>
     res.json(),
   );
 
-  return { post: data, authData: user };
+  return { props: { post: data, authData: user } };
 };
 
 export default Post;

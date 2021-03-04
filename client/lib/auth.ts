@@ -38,19 +38,17 @@ export const getUserScript = (user: iUser | null) => {
   return `${WINDOW_USER_SCRIPT} = ${JSON.stringify(user)}`;
 };
 
-export const authInitialProps = (isPrivateRoute = false) => async ({
+export const authInitialProps = (isPrivateRoute = false) => ({
   req,
   res,
 }: NextPageContext) => {
-  const auth: authType = req
-    ? await getServerSideToken(req)
-    : getClientSideToken();
+  const auth: authType = req ? getServerSideToken(req) : getClientSideToken();
 
   if (isPrivateRoute && auth && !auth.user) {
     redirect(res, '/login');
   }
 
-  return { user: auth };
+  return { props: { user: auth } };
 };
 
 type userType = { email: string; password: string };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import App from 'next/app';
 import NextProgress from 'nextjs-progressbar';
 import {
@@ -8,14 +8,13 @@ import {
 } from '@material-ui/core';
 import type { AppContext as iAppContext } from 'next/app';
 
-import AppContext, { Types } from '../context';
+import AppContext from '../context';
 import getTheme from '../theme';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
 import { getRequest } from '../lib/fetch';
 import { iUser } from '../@types';
 
-type Theme = 'light' | 'dark';
 interface Props {
   Component: React.FC;
   pageProps: object;
@@ -24,14 +23,8 @@ interface Props {
 
 const MyApp = ({ Component, pageProps, authData }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState(authData));
-  const [currentTheme, setCurrentTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    const theme: Theme = (localStorage.getItem('theme') as Theme) || 'dark';
-
-    setCurrentTheme(theme);
-    dispatch({ type: Types.SET_THEME, payload: theme });
-
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement?.removeChild(jssStyles);
@@ -39,10 +32,10 @@ const MyApp = ({ Component, pageProps, authData }: Props) => {
   }, []);
 
   return (
-    <ThemeProvider theme={responsiveFontSizes(getTheme(currentTheme))}>
+    <ThemeProvider theme={responsiveFontSizes(getTheme('dark'))}>
       <CssBaseline />
       <NextProgress
-        color={getTheme(currentTheme).palette.secondary.main}
+        color={getTheme('dark').palette.secondary.main}
         options={{ showSpinner: false }}
       />
       <AppContext.Provider value={{ state, dispatch }}>

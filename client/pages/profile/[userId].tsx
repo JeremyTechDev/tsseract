@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 import Layout from '../../components/Layout';
 import UserPage from '../../components/UserPage';
@@ -28,10 +28,12 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
   );
 };
 
-User.getInitialProps = async (ctx) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
   const { userId } = ctx.query;
 
-  const { user: authUser } = await authInitialProps()(ctx);
+  const {
+    props: { user: authUser },
+  } = authInitialProps()(ctx);
   const authData = await getRequest(
     `/users/${authUser.user?._id}`,
   ).then((res) => res.json());
@@ -42,7 +44,7 @@ User.getInitialProps = async (ctx) => {
     res.json(),
   );
 
-  return { user, authData: { user: authData }, posts };
+  return { props: { user, authData: { user: authData }, posts } };
 };
 
 export default User;

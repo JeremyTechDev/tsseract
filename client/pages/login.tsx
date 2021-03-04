@@ -19,9 +19,11 @@ const LoginPage: NextPage<Props> = ({ bgData, clientId }) => {
   );
 };
 
-LoginPage.getInitialProps = async () => {
+export const getServerSideProps = async () => {
   const bgData = await getRandomImg();
-  return { bgData, clientId: process.env.GOOGLE_CLIENT_ID as string };
+  return {
+    props: { bgData, clientId: process.env.GOOGLE_CLIENT_ID as string },
+  };
 };
 
 export default LoginPage;

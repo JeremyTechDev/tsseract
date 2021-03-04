@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children } from 'react';
 import Document, {
   Head,
   Html,
@@ -31,7 +31,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
       ...initialProps,
       // Styles fragment is rendered after the app and page rendering finish.
       styles: [
-        ...React.Children.toArray(initialProps.styles),
+        ...Children.toArray(initialProps.styles),
         sheets.getStyleElement(),
       ],
     };

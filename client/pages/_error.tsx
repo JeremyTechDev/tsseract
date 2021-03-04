@@ -1,17 +1,16 @@
-import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
 import { NextPage } from 'next';
 import {
-  Container,
   Button,
+  Container,
   Divider,
   Grid,
-  makeStyles,
-  Typography,
-  useMediaQuery,
   Theme,
+  Typography,
+  makeStyles,
+  useMediaQuery,
 } from '@material-ui/core';
 
 import Avatar from '../components/Avatar/Avatar';
@@ -25,8 +24,8 @@ const avatar = {
   accessoriesType: 'Blank',
   clotheColor: 'Red',
   clotheType: 'GraphicShirt',
-  eyebrowType: 'SadConcerned',
   eyeType: 'Cry',
+  eyebrowType: 'SadConcerned',
   facialHairType: 'Blank',
   graphicType: 'Hola',
   hairColor: 'Black',
@@ -43,7 +42,7 @@ const Error: NextPage<Props> = ({ statusCode = 500 }) => {
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>Tsseract - Error</title>
       </Head>
@@ -89,7 +88,7 @@ const Error: NextPage<Props> = ({ statusCode = 500 }) => {
           </Container>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 };
 
