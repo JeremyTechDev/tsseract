@@ -6,7 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@material-ui/core';
 
 import theme from '../theme';
 import { authType } from '../@types';
@@ -39,27 +39,11 @@ export default class MyDocument extends Document<{ userData: authType }> {
 
   render() {
     const { userData } = this.props;
-    const { GOOGLE_ANALYTICS_KEY } = process.env;
 
     return (
       <Html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_KEY}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || []
-                function gtag(){dataLayer.push(arguments)};
-                gtag('js', new Date());
-                gtag('config', '${GOOGLE_ANALYTICS_KEY}')
-              `,
-            }}
-          />
-
           <link rel="manifest" href="./manifest.json" />
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
