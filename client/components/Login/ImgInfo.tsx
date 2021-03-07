@@ -1,4 +1,3 @@
-import React from 'react';
 import { Paper, Typography, Link } from '@material-ui/core';
 
 import useStyles from './styles';

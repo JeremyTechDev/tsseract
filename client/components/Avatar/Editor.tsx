@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Paper, Divider, Tabs, Tab, Box } from '@material-ui/core';
 import { Piece } from 'avataaars';
 
@@ -21,7 +21,7 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Paper elevation={4}>
         <Tabs
           indicatorColor="primary"
@@ -176,7 +176,7 @@ const Editor: React.FC<Props> = ({ handleChange, pieces }) => {
           ))}
         </TabPanel>
       </Box>
-    </React.Fragment>
+    </>
   );
 };
 

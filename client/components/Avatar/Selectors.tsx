@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { Piece } from 'avataaars';
 

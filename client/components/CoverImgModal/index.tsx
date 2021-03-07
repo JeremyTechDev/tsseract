@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Backdrop,
@@ -69,7 +69,7 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
           />
 
           {img && (
-            <React.Fragment>
+            <>
               {(isURL(img) && (
                 <img alt="Image" className={classes.coverImg} src={img} />
               )) || (
@@ -83,7 +83,7 @@ const CoverImg: React.FC<T> = ({ requireCaption, img, open, setImg }) => {
                   <Typography color="error">Image not found</Typography>
                 </Grid>
               )}
-            </React.Fragment>
+            </>
           )}
 
           <Container className={classes.modalBtns}>

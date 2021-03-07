@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -52,7 +52,7 @@ const Header = () => {
 
           <Box className={classes.sectionDesktop}>
             {isAuthenticated ? (
-              <React.Fragment>
+              <>
                 <Button onClick={handleLogOut} className={classes.spacing}>
                   Log Out
                 </Button>
@@ -65,7 +65,7 @@ const Header = () => {
                     Profile
                   </Button>
                 </Link>
-              </React.Fragment>
+              </>
             ) : (
               <Link href="/login">
                 <Button className={classes.spacing}>Log In</Button>

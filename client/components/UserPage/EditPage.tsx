@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from '@material-ui/core';
 
 import { authType, iUser } from '../../@types';

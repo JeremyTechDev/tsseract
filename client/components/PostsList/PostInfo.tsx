@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { Link as MuiLink, Grid, Typography } from '@material-ui/core';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import isURL from 'is-url';
 import { useSlate } from 'slate-react';
 import { IconButton } from '@material-ui/core';

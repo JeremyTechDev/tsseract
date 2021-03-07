@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Grid, Button } from '@material-ui/core';
 

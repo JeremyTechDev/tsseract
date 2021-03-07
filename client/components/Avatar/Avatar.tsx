@@ -1,4 +1,3 @@
-import React from 'react';
 import Avataaar from 'avataaars';
 
 interface Props {
