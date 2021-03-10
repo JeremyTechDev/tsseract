@@ -29,7 +29,6 @@ export default class MyDocument extends Document<{ userData: authType }> {
     return {
       userData,
       ...initialProps,
-      // Styles fragment is rendered after the app and page rendering finish.
       styles: [
         ...Children.toArray(initialProps.styles),
         sheets.getStyleElement(),
@@ -47,7 +46,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <link rel="manifest" href="./manifest.json" />
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
-          <meta name="author" content="Jeremy Muñoz" />
+          <meta name="author" content="Jeremy" />
           <meta
             name="theme-color"
             content={theme('dark').palette.primary.main}
@@ -60,7 +59,10 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="apple-mobile-web-app-title" content="Tsseract" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="msapplication-navbutton-color" content="#f6404f" />
+          <meta
+            name="msapplication-navbutton-color"
+            content={theme('dark').palette.primary.main}
+          />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
@@ -83,11 +85,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
         </Head>
