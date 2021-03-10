@@ -1,8 +1,19 @@
-<p align="center">
-  <img src='./static/Main-aside/logo_transparent_background.png' height='200' /> 
-</p>
+<div align="center">
+  <img src='./static/Main-aside/logo_transparent_background.png' height='200' />
 
-Tsseract in a social media app were can create content and earn money 💸 with it.
+  <p align="center">
+    Tsseract in a social media app where you can create valuable content to share.
+  </p>
+
+  <p align="center">
+    <img src="https://img.shields.io/github/workflow/status/jeremy2918/tsseract/Continuous%20Integration/master" />
+    <img src="https://img.shields.io/website?down_message=down&up_message=running&url=https%3A%2F%2Ftsseract.herokuapp.com%2F" />
+    <img src="https://img.shields.io/github/repo-size/jeremy2918/tsseract" />
+    <a href="https://twitter.com/AskJere">
+        <img src="https://img.shields.io/twitter/follow/AskJere?style=social" />
+    </a>
+  </p>
+</div>
 
 ## Folder Structure 🗂️
 
@@ -51,20 +62,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 First, you will need to create an `.env`. Then set the missing environment variables.
 To create the `.env` file just run `cp .env.sample .env`.
-
-### Minimal Set-up (beta)
-
-You can just run the app using the Docker 🐳. To do that, you will need to download and install the following Docker technologies:
-
-- [Docker](https://docs.docker.com/get-docker/)
-- [docker-compose](https://docs.docker.com/compose/install/)
-- [MongoDB Compass](https://www.mongodb.com/products/compass) - **Optional** To explore and manipulate the database
-
-After that, you only need to run the following at the root of the project in a console:
-
-```
-docker-compose up
-```
 
 ### Full Set-up (recommended)
 
@@ -117,7 +114,7 @@ This app uses [Jest](https://jestjs.io/) as testing framework 🧑‍💻. To ru
 
 ## Authors
 
-- **Jeremy Muñoz Torres** - _Project Owner & Developer_ 🧑‍💻 - [GitHub Profile](https://github.com/jeremy2918)
+- **Jeremy** - _Project Owner & Developer_ 🧑‍💻 - [GitHub](https://github.com/jeremy2918) [Twitter](https://twitter.com/AskJere)
 
 ## License
 
