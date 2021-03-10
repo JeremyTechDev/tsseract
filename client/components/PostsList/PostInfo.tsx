@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { Link as MuiLink, Grid, Typography } from '@material-ui/core';
 
@@ -19,12 +18,12 @@ const PostInfo: React.FC<Props> = ({ user, createdAt, title }: Props) => {
   return (
     <div className={classes.fontColor}>
       <Grid spacing={1} container alignItems="center">
-        <Link href={`/profile/${user._id}`}>
+        <Link href={`/profile/${user.username}`}>
           <Avatar avatar={user.avatar} />
         </Link>
 
         <Grid item>
-          <Link href={`/profile/${user._id}`}>
+          <Link href={`/profile/${user.username}`}>
             <MuiLink color="textPrimary" variant="h5">
               {user.name}
             </MuiLink>

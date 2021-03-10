@@ -39,12 +39,11 @@
     "nextjs-progressbar": "0.0.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-google-login": "^5.2.2",
-    "sharp": "^0.27.1",
     "slate": "^0.59.0",
     "slate-react": "^0.59.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.12.13",
     "@types/bcrypt": "^3.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.7",

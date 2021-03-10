@@ -1,95 +1,100 @@
-import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Head from 'next/head';
 import { NextPage } from 'next';
 import {
-  Container,
   Button,
   Divider,
   Grid,
-  makeStyles,
   Typography,
-  useMediaQuery,
-  Theme,
+  makeStyles,
 } from '@material-ui/core';
 
 import Avatar from '../components/Avatar/Avatar';
 
 const useStyles = makeStyles({
+  root: { height: '90vh' },
   divider: { margin: '20px 0' },
-  logo: { position: 'fixed', top: 40, left: 40 },
+  logo: { height: 100, position: 'fixed', top: 20, left: 20 },
 });
 
 const avatar = {
-  accessoriesType: 'Blank',
+  accessoriesType: 'Round',
   clotheColor: 'Red',
   clotheType: 'GraphicShirt',
-  eyebrowType: 'SadConcerned',
   eyeType: 'Cry',
+  eyebrowType: 'SadConcerned',
   facialHairType: 'Blank',
-  graphicType: 'Hola',
-  hairColor: 'Black',
-  mouthType: 'Concerned',
-  skinColor: 'Light',
-  topType: 'LongHairNotTooLong',
+  hairColor: 'SilverGray',
+  mouthType: 'Sad',
+  skinColor: 'Brown',
+  topType: 'LongHairStraightStrand',
+};
+
+const errors = {
+  0: '',
+  404: ' - Page not found',
+  500: ' - Server Error',
 };
 
 interface Props {
   statusCode?: number;
 }
-const Error: NextPage<Props> = ({ statusCode = 500 }) => {
+const Error: NextPage<Props> = ({ statusCode = 404 }) => {
   const classes = useStyles();
-  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
-    <React.Fragment>
+    <>
       <Head>
-        <title>Tsseract - Error</title>
+        <title>
+          Tsseract - {statusCode === 404 ? 'Page not found' : 'Error'}
+        </title>
       </Head>
 
-      <Link href="/">
-        <Image
-          className={classes.logo}
-          height={100}
-          src="/Main-aside/white_logo_transparent_background.png"
-          width={227.8}
-        />
-      </Link>
-
       <Grid
-        alignItems="center"
         container
-        direction={small ? 'column' : 'row'}
+        className={classes.root}
         justify="center"
+        alignItems="center"
       >
-        <Grid item xs={12} md={6}>
-          <Avatar size={small ? '300px' : '600px'} avatar={avatar} />
-        </Grid>
+        <Link href="/">
+          <img
+            className={classes.logo}
+            src="/Main-aside/white_logo_transparent_background.png"
+          />
+        </Link>
 
-        <Grid item xs={12} md={6}>
-          <Container>
-            <Typography variant="h1">Ops!</Typography>
+        <Avatar size="600px" avatar={avatar} />
 
-            <Typography variant="h2">An unexpected</Typography>
+        <Grid item>
+          <Typography variant="h1">Ops!</Typography>
 
-            <Typography variant="h2" paragraph>
-              has occurred
+          <Typography variant="h2">
+            {statusCode === 404 ? "We can't seem to find" : 'An unexpected'}
+          </Typography>
+
+          <Typography variant="h2" paragraph>
+            {statusCode === 404
+              ? 'the page you are looking for'
+              : 'has occurred'}
+          </Typography>
+
+          {statusCode && (
+            <Typography variant="h5">
+              {statusCode}
+              {errors[statusCode || 0]}
             </Typography>
+          )}
 
-            <Typography variant="h5">Status code: {statusCode}</Typography>
+          <Divider className={classes.divider} />
 
-            <Divider className={classes.divider} />
-
-            <Link href="/">
-              <Button color="primary" variant="contained">
-                Go back home
-              </Button>
-            </Link>
-          </Container>
+          <Link href="/">
+            <Button color="primary" variant="contained">
+              Go back home
+            </Button>
+          </Link>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 };
 

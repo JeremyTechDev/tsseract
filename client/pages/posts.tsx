@@ -1,5 +1,4 @@
-import React from 'react';
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 import Layout from '../components/Layout';
 import Posts from '../components/PostsList';
@@ -19,11 +18,11 @@ const PostList: NextPage<Props> = ({ posts }) => {
   );
 };
 
-PostList.getInitialProps = async (ctx) => {
-  await authInitialProps(true)(ctx);
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  authInitialProps(true)(ctx);
   const data = await getRequest('/posts/').then((res) => res.json());
 
-  return { posts: data };
+  return { props: { posts: data } };
 };
 
 export default PostList;

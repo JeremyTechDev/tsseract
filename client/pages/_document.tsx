@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children } from 'react';
 import Document, {
   Head,
   Html,
@@ -6,7 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@material-ui/core';
 
 import theme from '../theme';
 import { authType } from '../@types';
@@ -29,9 +29,8 @@ export default class MyDocument extends Document<{ userData: authType }> {
     return {
       userData,
       ...initialProps,
-      // Styles fragment is rendered after the app and page rendering finish.
       styles: [
-        ...React.Children.toArray(initialProps.styles),
+        ...Children.toArray(initialProps.styles),
         sheets.getStyleElement(),
       ],
     };
@@ -39,31 +38,15 @@ export default class MyDocument extends Document<{ userData: authType }> {
 
   render() {
     const { userData } = this.props;
-    const { GOOGLE_ANALYTICS_KEY } = process.env;
 
     return (
       <Html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_KEY}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || []
-                function gtag(){dataLayer.push(arguments)};
-                gtag('js', new Date());
-                gtag('config', '${GOOGLE_ANALYTICS_KEY}')
-              `,
-            }}
-          />
-
           <link rel="manifest" href="./manifest.json" />
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
-          <meta name="author" content="Jeremy Muñoz" />
+          <meta name="author" content="Jeremy" />
           <meta
             name="theme-color"
             content={theme('dark').palette.primary.main}
@@ -76,7 +59,10 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="apple-mobile-web-app-title" content="Tsseract" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="msapplication-navbutton-color" content="#f6404f" />
+          <meta
+            name="msapplication-navbutton-color"
+            content={theme('dark').palette.primary.main}
+          />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
@@ -99,11 +85,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Roboto&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
         </Head>

@@ -1,13 +1,19 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Router from 'next/router';
-import { Button, CircularProgress, Grid, Typography } from '@material-ui/core';
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 
+import { iSignUpUser, InputChangeEvent } from '../../@types';
+import { loginUser } from '../../lib/auth';
 import AppContext, { Types } from '../../context';
 import Input from './Input';
 import useStyles from './styles';
 import useValidation from '../../hooks/useValidation';
-import { iSignUpUser, InputChangeEvent } from '../../@types';
-import { loginUser } from '../../lib/auth';
 import { postRequest } from '../../lib/fetch';
 
 interface Props {
@@ -21,10 +27,12 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
   const [requestError, setRequestError] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<iSignUpUser>({
+    birthDate: '',
     email: '',
     name: '',
     password: '',
     rPassword: '',
+    username: '',
   });
   const { dispatch } = useContext(AppContext);
 
@@ -34,14 +42,16 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
     setRequestError('');
     setLoading(true);
 
-    const { name, email, password } = user;
+    const { name, username, email, password, birthDate } = user;
 
     // if no errors
     if (!Boolean(Object.keys(errs).length)) {
       postRequest('/users/', {
         name,
+        username,
         email,
         password,
+        birthDate: new Date(birthDate).getTime(),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -57,7 +67,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
             setLoading(false);
           }
         })
-        .then(() => loginUser({ email, password }))
+        .then(() => loginUser({ username, password }))
         .catch((error) => console.error(error.message));
     } else {
       setLoading(false);
@@ -84,6 +94,13 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           value={user.name}
         />
         <Input
+          error={Boolean(errors.username)}
+          handleChange={handleChange}
+          helperText={errors.username}
+          label="Username"
+          value={user.username}
+        />
+        <Input
           error={Boolean(errors.email)}
           handleChange={handleChange}
           helperText={errors.email}
@@ -107,6 +124,19 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
           name="rPassword"
           type="password"
           value={user.rPassword}
+        />
+        <TextField
+          className={classes.margin}
+          error={Boolean(errors.birthDate)}
+          helperText={errors.birthDate}
+          label="Birthday"
+          name="birthDate"
+          onChange={handleChange}
+          required
+          type="date"
+          value={user.birthDate}
+          variant="outlined"
+          defaultValue=""
         />
       </form>
 

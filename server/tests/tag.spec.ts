@@ -8,8 +8,10 @@ describe('Tag', () => {
   const SUT = http.createServer(server({ dev: true }));
   const userPayload = {
     name: 'Tsseract',
+    username: 'admin_tags_test',
     password: 'Admin.1234',
     email: 'admin_tags_test@tsseract.com',
+    birthDate: Date.now(),
   };
   const postPayload = {
     title: 'Title',

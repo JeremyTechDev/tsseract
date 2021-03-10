@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import {
   Card,
@@ -23,13 +22,14 @@ const UserCard: React.FC<Props> = ({ user }) => {
   return (
     <Card className={classes.userCard} elevation={6}>
       <MuiLink color="textPrimary">
-        <Link href={`/profile/${user._id}`}>
+        <Link href={`/profile/${user.username}`}>
           <Grid container>
             <CardMedia>
               <Avatar avatar={user.avatar} />
             </CardMedia>
 
             <CardContent>
+              <Typography>@{user.username}</Typography>
               <Typography variant="h4">{user.name}</Typography>
             </CardContent>
           </Grid>

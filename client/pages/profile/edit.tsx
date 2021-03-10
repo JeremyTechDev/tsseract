@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 import Layout from '../../components/Layout';
 import EditPage from '../../components/UserPage/EditPage';
@@ -19,14 +19,16 @@ const Edit: NextPage<Props> = ({ user, profile }) => {
   );
 };
 
-Edit.getInitialProps = async (ctx) => {
-  const { user } = await authInitialProps(true)(ctx);
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const {
+    props: { user },
+  } = authInitialProps(true)(ctx);
 
   const profile = await getRequest(`/users/${user.user?._id}`).then((res) =>
     res.json(),
   );
 
-  return { user, profile };
+  return { props: { user, profile } };
 };
 
 export default Edit;

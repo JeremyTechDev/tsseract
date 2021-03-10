@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { Box, Typography, Grid } from '@material-ui/core';
 
 import UserCard from './UserCard';
@@ -27,4 +27,4 @@ const UserList: React.FC<Props> = ({ users, view }) => {
   );
 };
 
-export default React.memo(UserList);
+export default memo(UserList);

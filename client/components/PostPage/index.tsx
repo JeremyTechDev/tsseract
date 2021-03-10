@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import { useState, createRef } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import {
@@ -80,7 +80,7 @@ const PostPage: React.FC<Props> = ({ post, isSelfPost, isLikedProp }) => {
 
       <Grid container justify="space-between">
         <Grid item>
-          <Link href={`/profile/${user._id}`}>
+          <Link href={`/profile/${user.username}`}>
             <MuiLink color="textPrimary" variant="subtitle1">
               <Grid container spacing={2} alignItems="center">
                 <Avatar avatar={user.avatar} />

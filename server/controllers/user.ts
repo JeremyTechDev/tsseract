@@ -8,18 +8,20 @@ import { iUser } from '../@types';
 import arrayToObj from '../helpers/arrayToObj';
 
 // to select all the user data but their password
-const SELECT = '_id googleId name email createdAt followers following avatar';
+const SELECT =
+  '_id name username email birthDate createdAt followers following avatar';
 
 const output = (user: iUser) => {
   return {
     _id: user.id,
-    avatar: user.avatar,
+    birthDate: user.birthDate,
     createdAt: user.createdAt,
     email: user.email,
     followers: arrayToObj(user.followers, '_id'),
     following: arrayToObj(user.following, '_id'),
-    googleId: user.googleId,
     name: user.name,
+    username: user.username,
+    avatar: user.avatar,
   };
 };
 
@@ -34,8 +36,11 @@ export const createUser: RequestHandler = async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send({ error: error.details[0].message });
 
+    const isUsernameTaken = await User.findOne({ username: req.body.username });
     const isEmailTaken = await User.findOne({ email: req.body.email });
 
+    if (isUsernameTaken)
+      return res.status(409).send({ error: 'Username already taken' });
     if (isEmailTaken)
       return res.status(409).send({ error: 'Email already taken' });
 
@@ -51,13 +56,13 @@ export const createUser: RequestHandler = async (req, res) => {
       _id: user._id,
       email: user.email,
       name: user.name,
-      googleId: user.googleId,
+      username: user.username,
     };
 
     const { cookie, cookieConfig } = cookieCreator(userToken);
     res.cookie('tsseract-auth-token', cookie, cookieConfig);
 
-    return res.send(userToken);
+    res.send(userToken);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -81,23 +86,22 @@ export const retrieveUser: RequestHandler = async (req, res) => {
     if (!user)
       return res.status(404).send({ error: 'No used found with the given id' });
 
-    return res.send(output(user));
+    res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
 };
 
 /**
- * Retrieve a user by googleId
+ * Retrieve a user by username
  * @param {Object} req Express request
  * @param {Object} res Express response
- * @param {String} res.params.googleId User google id
+ * @param {String} res.params.username User username
  */
-export const retrieveUserByGoogleId: RequestHandler = async (req, res) => {
-  const { googleId } = req.params;
-
+export const retrieveUserByUsername: RequestHandler = async (req, res) => {
   try {
-    const user = (await User.findOne({ googleId })
+    const { username } = req.params;
+    const user = (await User.findOne({ username })
       .select(SELECT)
       .populate('following', SELECT)
       .populate('followers', SELECT)) as iUser;
@@ -105,9 +109,9 @@ export const retrieveUserByGoogleId: RequestHandler = async (req, res) => {
     if (!user)
       return res
         .status(404)
-        .send({ error: 'No user found with the given google id' });
+        .send({ error: 'No user found with the given username' });
 
-    return res.send(output(user));
+    res.send(output(user));
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -151,17 +155,21 @@ export const updateUser: RequestHandler = async (req, res) => {
  * Toggles the follow state in two users
  * @param {Object} req Express request
  * @param {Object} res Express response
- * @param {String} res.params.followToId user to toggle follow
+ * @param {String} res.params.followToUsername user to toggle follow
  */
 export const toggleFollow: RequestHandler = async (req, res) => {
-  const { followToId } = req.params;
+  const { followToUsername } = req.params;
   const followBy: iUser = req.cookies.profile;
 
   try {
-    const followTo = (await User.findById(followToId)) as iUser;
+    const followTo = (await User.findOne({
+      username: followToUsername,
+    })) as iUser;
 
     if (!followTo)
-      return res.status(404).send({ error: 'No user found with the given id' });
+      return res
+        .status(404)
+        .send({ error: 'No user found with the given username' });
 
     if (followTo._id.equals(followBy._id))
       return res
@@ -204,7 +212,7 @@ export const toggleFollow: RequestHandler = async (req, res) => {
       action = 'follow';
     }
 
-    return res.send({ following: newFollowBy, follower: newFollowTo, action });
+    res.send({ following: newFollowBy, follower: newFollowTo, action });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -221,7 +229,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
     const { _id: userId } = req.cookies.profile;
     const user = await User.findByIdAndDelete(userId).select(SELECT);
 
-    return res.send(user);
+    res.send(user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
