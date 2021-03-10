@@ -1,5 +1,7 @@
 <div align="center">
-  <img src='./static/Main-aside/logo_transparent_background.png' height='200' />
+  <p align="center">
+    <img src='./static/Main-aside/logo_transparent_background.png' height='200' />
+  </p>
 
   <p align="center">
     Tsseract in a social media app where you can create valuable content to share.
