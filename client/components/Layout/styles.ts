@@ -34,6 +34,14 @@ const styles = makeStyles(
           display: 'none',
         },
       },
+      chatFooter: {
+        bottom: 0,
+        height: '7vh',
+        padding: '0 10px',
+        position: 'sticky',
+        right: 0,
+        width: '100%',
+      },
     };
   },
   { index: 1 },

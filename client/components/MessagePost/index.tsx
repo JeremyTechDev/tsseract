@@ -10,14 +10,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import router from 'next/router';
+import dayjs from 'dayjs';
 import { NextPage } from 'next';
 
 import Avatar from '../Avatar/Avatar';
 import Tag from '../Tag';
-import useStyles from './styles';
-import timeAgo from '../../helpers/timeAgo';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import theme from '../../theme';
+import useStyles from './styles';
 import { iPost } from '../../@types';
+
+dayjs.extend(relativeTime);
 
 interface Props {
   post: iPost;
@@ -50,7 +53,9 @@ const Received: NextPage<Props> = ({ post, out }) => {
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
             <Grid container alignItems="center">
-              <Avatar size="95px" avatar={user.avatar} />
+              <Link href={`/profile/${user.username}`}>
+                <Avatar size="95px" avatar={user.avatar} />
+              </Link>
 
               <Grid item>
                 <Link href={`/profile/${user.username}`} color="inherit">
@@ -64,7 +69,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
             </Grid>
           </Grid>
 
-          <Grid item>{timeAgo.format(new Date(createdAt))}</Grid>
+          <Grid item>{dayjs(createdAt).fromNow()}</Grid>
         </Grid>
       </CardContent>
 

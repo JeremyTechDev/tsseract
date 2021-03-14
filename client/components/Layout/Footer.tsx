@@ -52,7 +52,7 @@ const Footer = () => {
                 <MuiLink color="inherit">Profile</MuiLink>
               </Link>
               {' | '}
-              <Link href="/create-post">
+              <Link href="/write-message">
                 <MuiLink color="inherit">Write a Post</MuiLink>
               </Link>
             </Typography>
