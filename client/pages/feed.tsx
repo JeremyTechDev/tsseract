@@ -1,8 +1,8 @@
 import { NextPage, NextPageContext } from 'next';
 import { Grid } from '@material-ui/core';
 
-import Layout from '../components/Layout';
-import PostRecievedMessage from '../components/MessagePost/Received';
+import ChatLayout from '../components/Layout/Chat';
+import PostRecievedMessage from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
 import { iPost } from '../@types';
@@ -13,17 +13,27 @@ interface Props {
 
 const Feed: NextPage<Props> = ({ posts }) => {
   return (
-    <Layout title="Feed">
+    <>
       <Grid container>
         <Grid item sm={3}>
           Insert Side Bar Here
         </Grid>
 
         <Grid item sm={9}>
-          <PostRecievedMessage post={posts[0]} />
+          <ChatLayout>
+            <Grid container direction="column-reverse">
+              {posts.map((post, i) => (
+                <PostRecievedMessage
+                  key={post._id}
+                  out={i === 48}
+                  post={post}
+                />
+              ))}
+            </Grid>
+          </ChatLayout>
         </Grid>
       </Grid>
-    </Layout>
+    </>
   );
 };
 

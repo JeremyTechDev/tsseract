@@ -2,8 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const styles = makeStyles((theme: Theme) => ({
   root: {
-    maxWidth: '60%',
-    background: theme.palette.primary.main,
+    width: '60%',
   },
   imgContainer: {
     height: 350,
