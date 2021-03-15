@@ -42,6 +42,15 @@ const styles = makeStyles(
         right: 0,
         width: '100%',
       },
+      tagBar: {
+        position: 'sticky',
+        height: '100vh',
+        top: 0,
+        left: 0,
+      },
+      tagBarTags: {
+        height: '100%',
+      },
     };
   },
   { index: 1 },

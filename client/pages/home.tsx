@@ -2,6 +2,7 @@ import { NextPage, NextPageContext } from 'next';
 import { Grid } from '@material-ui/core';
 
 import ChatLayout from '../components/Layout/Chat';
+import TagBarLayout from '../components/Layout/TagBar';
 import PostRecievedMessage from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
@@ -16,7 +17,7 @@ const Feed: NextPage<Props> = ({ posts }) => {
     <>
       <Grid container>
         <Grid item sm={3}>
-          Insert Side Bar Here
+          <TagBarLayout>hola</TagBarLayout>
         </Grid>
 
         <Grid item sm={9}>

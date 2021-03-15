@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useState, useContext } from 'react';
 import {
   Typography,
   Paper,
@@ -9,9 +9,10 @@ import {
   Grid,
   IconButton,
 } from '@material-ui/core';
-import { StarBorder, MoreVert, Send } from '@material-ui/icons';
+import { StarBorder, Face, Send } from '@material-ui/icons';
 import router from 'next/router';
 
+import AppContext from '../../context';
 import useStyles from './styles';
 
 interface Props {
@@ -20,6 +21,9 @@ interface Props {
 
 const ChatLayout: FC<Props> = ({ children }) => {
   const classes = useStyles();
+  const {
+    state: { user },
+  } = useContext(AppContext);
   const [newMessageTitle, setNewMessageTitle] = useState('');
 
   return (
@@ -39,12 +43,15 @@ const ChatLayout: FC<Props> = ({ children }) => {
             <Typography variant="h4">Home</Typography>
 
             <Grid item>
-              <IconButton size="small" title="Top Messages">
-                <StarBorder fontSize="large" />
+              <IconButton title="Top Messages">
+                <StarBorder />
               </IconButton>
 
-              <IconButton size="small">
-                <MoreVert fontSize="large" />
+              <IconButton
+                onClick={() => router.push(`/profile/${user?.username}`)}
+                title="Profile"
+              >
+                <Face />
               </IconButton>
             </Grid>
           </Grid>
