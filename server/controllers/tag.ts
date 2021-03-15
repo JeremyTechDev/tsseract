@@ -36,7 +36,7 @@ export const getTags: RequestHandler = async (req, res) => {
   try {
     const tags = (await Tags.find()
       .sort({ popularity: 'desc' })
-      .limit(15)) as iTag[];
+      .limit(50)) as iTag[];
 
     const tagsWithPost = await Promise.all(
       tags.map(async (tag) => ({

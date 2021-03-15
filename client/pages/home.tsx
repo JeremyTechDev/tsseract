@@ -3,21 +3,27 @@ import { Grid } from '@material-ui/core';
 
 import ChatLayout from '../components/Layout/Chat';
 import TagBarLayout from '../components/Layout/TagBar';
+import TagCard from '../components/Tag/Card';
 import PostRecievedMessage from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
-import { iPost } from '../@types';
+import { iPost, iTag } from '../@types';
 
 interface Props {
-  posts: [iPost];
+  posts: iPost[];
+  tags: { tag: iTag; post: iPost }[];
 }
 
-const Feed: NextPage<Props> = ({ posts }) => {
+const Feed: NextPage<Props> = ({ posts, tags }) => {
   return (
     <>
       <Grid container>
         <Grid item sm={3}>
-          <TagBarLayout>hola</TagBarLayout>
+          <TagBarLayout>
+            {tags.map((tag) => (
+              <TagCard tag={tag} />
+            ))}
+          </TagBarLayout>
         </Grid>
 
         <Grid item sm={9}>
@@ -40,9 +46,10 @@ const Feed: NextPage<Props> = ({ posts }) => {
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   authInitialProps(true)(ctx);
-  const posts = await getRequest('/posts/').then((res) => res.json());
+  const posts = await getRequest('/posts').then((res) => res.json());
+  const tags = await getRequest('/tags').then((res) => res.json());
 
-  return { props: { posts } };
+  return { props: { posts, tags } };
 };
 
 export default Feed;

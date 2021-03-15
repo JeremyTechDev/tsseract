@@ -44,12 +44,13 @@ const styles = makeStyles(
       },
       tagBar: {
         position: 'sticky',
-        height: '100vh',
+        height: 'calc(100vh - 80px)', // Navbar height
         top: 0,
         left: 0,
       },
       tagBarTags: {
         height: '100%',
+        overflowY: 'auto',
       },
     };
   },

@@ -9,6 +9,10 @@ const styles = makeStyles(
       margin: 2,
       padding: '2px 6px 4px',
     },
+    card: {
+      marginBottom: 10,
+      padding: '0 10px',
+    },
   },
   { index: 1 },
 );
