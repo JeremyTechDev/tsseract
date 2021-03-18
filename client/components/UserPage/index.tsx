@@ -15,7 +15,7 @@ import { iPost, iUser } from '../../@types';
 import { logoutUser } from '../../lib/auth';
 import { putRequest, deleteRequest } from '../../lib/fetch';
 import Avatar from '../Avatar/Avatar';
-import PostsList from '../PostsList/index';
+import MessagePost from '../MessagePost';
 import UserList from './UserList';
 import useStyles from './styles';
 
@@ -141,7 +141,13 @@ const UserPage: React.FC<Props> = ({
 
       <Grid item md={7} sm={10}>
         <Container>
-          {panel === 'posts' && <PostsList posts={posts} />}
+          {panel === 'posts' && (
+            <Grid container direction="column-reverse">
+              {posts.map((post, i) => (
+                <MessagePost key={post._id} out={i === 48} post={post} />
+              ))}
+            </Grid>
+          )}
           {panel === 'following' && (
             <UserList view="Following" users={user.following} />
           )}

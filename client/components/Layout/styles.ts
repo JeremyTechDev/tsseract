@@ -34,6 +34,24 @@ const styles = makeStyles(
           display: 'none',
         },
       },
+      chatFooter: {
+        bottom: 0,
+        height: '7vh',
+        padding: '0 10px',
+        position: 'sticky',
+        right: 0,
+        width: '100%',
+      },
+      tagBar: {
+        position: 'sticky',
+        height: 'calc(100vh - 80px)', // Navbar height
+        top: 0,
+        left: 0,
+      },
+      tagBarTags: {
+        height: '100%',
+        overflowY: 'auto',
+      },
     };
   },
   { index: 1 },

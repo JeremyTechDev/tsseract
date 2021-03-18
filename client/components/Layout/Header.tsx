@@ -72,7 +72,7 @@ const Header = () => {
               </Link>
             )}
 
-            <Link href="/create-post">
+            <Link href="/write-message">
               <Button
                 className={classes.spacing}
                 color="secondary"
@@ -116,7 +116,7 @@ const Header = () => {
           </MenuItem>
         </Link>
 
-        <Link href="create-post">
+        <Link href="/write-message">
           <MenuItem>
             <ListItemIcon>
               <PostAdd />

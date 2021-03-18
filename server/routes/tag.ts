@@ -1,8 +1,15 @@
 import express from 'express';
 
-import { findTagLike } from '../controllers/tag';
+import { findTagLike, getTags } from '../controllers/tag';
 
 const router = express.Router();
+
+/**
+ * Retrieve a list of tags with the last post with that tag
+ * @route /api/tags
+ * @method GET
+ */
+router.get('/', getTags);
 
 /**
  * Retrieves a list of tag like {query}
