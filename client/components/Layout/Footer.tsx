@@ -44,8 +44,8 @@ const Footer = () => {
                 <MuiLink color="inherit">Home</MuiLink>
               </Link>
               {' | '}
-              <Link href="/posts">
-                <MuiLink color="inherit">Posts</MuiLink>
+              <Link href="/home">
+                <MuiLink color="inherit">Home</MuiLink>
               </Link>
               {' | '}
               <Link href={`/profile/${user?.username}`}>

@@ -36,7 +36,7 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           type: Types.SET_CREDENTIALS,
           payload: data.user || null,
         });
-        Router.push('/posts');
+        Router.push('/home');
       } else {
         setRequestError(data.error);
         setLoading(false);

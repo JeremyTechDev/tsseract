@@ -13,6 +13,7 @@ import { StarBorder, Face, Send } from '@material-ui/icons';
 import router from 'next/router';
 
 import AppContext from '../../context';
+import Link from '../Link';
 import useStyles from './styles';
 
 interface Props {
@@ -28,17 +29,19 @@ const ChatLayout: FC<Props> = ({ children }) => {
 
   return (
     <div>
-      <AppBar position="sticky" color="primary">
+      <AppBar elevation={0} position="sticky" color="primary">
         <Toolbar>
           <Grid container alignItems="center" justify="space-between">
-            <Image
-              alt="Tsseract logo"
-              height={80}
-              priority
-              objectFit="contain"
-              src="/Main-aside/white_logo_transparent_background.png"
-              width={180}
-            />
+            <Link href="/home">
+              <Image
+                alt="Tsseract logo"
+                height={80}
+                objectFit="contain"
+                priority
+                src="/Main-aside/white_logo_transparent_background.png"
+                width={180}
+              />
+            </Link>
 
             <Typography variant="h4">Home</Typography>
 

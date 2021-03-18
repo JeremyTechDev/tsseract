@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import ChatLayout from '../components/Layout/Chat';
 import TagBarLayout from '../components/Layout/TagBar';
 import TagCard from '../components/Tag/Card';
-import PostRecievedMessage from '../components/MessagePost';
+import MessagePost from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
 import { iPost, iTag } from '../@types';
@@ -30,11 +30,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
           <ChatLayout>
             <Grid container direction="column-reverse">
               {posts.map((post, i) => (
-                <PostRecievedMessage
-                  key={post._id}
-                  out={i === 48}
-                  post={post}
-                />
+                <MessagePost key={post._id} out={i === 48} post={post} />
               ))}
             </Grid>
           </ChatLayout>

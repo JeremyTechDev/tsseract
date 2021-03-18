@@ -22,9 +22,10 @@ import { putRequest, deleteRequest } from '../../lib/fetch';
 import Avatar from '../Avatar/Avatar';
 import Comment from './Comment';
 import CommentBox from './CommentBox';
-import parseDate from '../../helpers/parseDate';
 import RichTextEditor from '../RichTextEditor';
-import Tag from '../PostsList/Tag';
+import Tag from '../Tag';
+import parseDate from '../../helpers/parseDate';
+
 import useStyles from './styles';
 
 interface Props {

@@ -57,7 +57,7 @@ const PostForm: React.FC<Props> = ({ titleProp }) => {
       .then(({ status }) => {
         status !== 200
           ? alert('Sorry, an error ocurred while saving your post')
-          : Router.push('/posts');
+          : Router.push('/home');
       })
       .catch((err) => console.error(err));
   };

@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = ({ user, handleChange }) => {
               payload: data,
             });
 
-            Router.push('/posts');
+            Router.push('/home');
           } else {
             setRequestError(data.error);
             setLoading(false);
