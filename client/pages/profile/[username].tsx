@@ -1,11 +1,11 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage, NextPageContext } from 'next';
 
-import Layout from "../../components/Layout";
-import UserPage from "../../components/UserPage";
-import { authInitialProps } from "../../lib/auth";
-import { authType, iPost, iUser } from "../../@types";
-import { getRequest } from "../../lib/fetch";
-import Error from "../_error";
+import Layout from '../../components/Layout';
+import UserPage from '../../components/UserPage';
+import { authInitialProps } from '../../lib/auth';
+import { authType, iPost, iUser } from '../../@types';
+import { getRequest } from '../../lib/fetch';
+import Error from '../_error';
 
 interface Props {
   user: iUser;
@@ -35,15 +35,15 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     props: { user: authUser },
   } = authInitialProps()(ctx);
   const authData = await getRequest(
-    `/users/${authUser.user?._id}`
+    `/users/${authUser.user?._id}`,
   ).then((res) => res.json());
 
   const user = await getRequest(`/users/u/${username}`).then((res) =>
-    res.json()
+    res.json(),
   );
 
   const posts = await getRequest(`/posts/by/${user._id}`).then((res) =>
-    res.json()
+    res.json(),
   );
 
   return { props: { user, authData: { user: authData }, posts } };
