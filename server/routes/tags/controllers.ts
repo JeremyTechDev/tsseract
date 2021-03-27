@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express';
 
-import Tags from '../models/tag';
-import Posts from '../models/post';
-import { iTag } from '../@types';
+import Tags from './model';
+import Posts from '../posts/model';
+import { iTag } from '../../@types';
 
 /**
  * Creates or finds a tag by name

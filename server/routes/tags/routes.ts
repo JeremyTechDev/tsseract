@@ -9,7 +9,7 @@ const router = express.Router();
  * @route /api/tags
  * @method GET
  */
-router.get('/', getTags);
+// router.get('/', getTags);
 
 /**
  * Retrieves a list of tag like {query}
