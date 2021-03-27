@@ -17,10 +17,13 @@ const useStyles = makeStyles({
         width: '100%',
         zIndex: -1,
     },
+    backBtn: {
+        margin: 5
+    },
     title: {
         padding: '80px 10px 10px 10px',
         background:
-            'linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(50,50,50,0.7) 66%, rgba(255,255,255,0) 100%)',
+            'linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(50,50,50,0.7) 66%, rgba(70,70,70,0) 100%)',
     },
 });
 

@@ -1,12 +1,12 @@
 import { NextPage, NextPageContext } from 'next';
 import {
   Badge,
+  Box,
   Container,
   Divider,
   Grid,
   IconButton,
   Typography,
-  Box,
 } from '@material-ui/core';
 import { Favorite, TouchApp } from '@material-ui/icons';
 import dayjs from 'dayjs';
@@ -49,7 +49,7 @@ const Post: NextPage<Props> = ({ post }) => {
     <>
       <PostHero cover={cover} title={title} />
 
-      <Container maxWidth="md" style={{ height: 5000 }}>
+      <Container maxWidth="md">
         <Grid container>
           <Grid item xs={10} container alignItems="center">
             <Link href={`/profile/${user.username}`}>
@@ -74,7 +74,7 @@ const Post: NextPage<Props> = ({ post }) => {
             alignItems="center"
             justify="space-evenly"
           >
-            <IconButton>
+            <IconButton title="Likes">
               <Badge
                 badgeContent={likes.length}
                 color="primary"
@@ -87,7 +87,7 @@ const Post: NextPage<Props> = ({ post }) => {
               </Badge>
             </IconButton>
 
-            <IconButton>
+            <IconButton title="Interations">
               <Badge
                 badgeContent={interactions}
                 color="primary"

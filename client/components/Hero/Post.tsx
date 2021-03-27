@@ -1,5 +1,6 @@
 import { useState, useEffect, FC } from 'react'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography, IconButton } from '@material-ui/core'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 
 import useStyles from './styles'
 
@@ -19,34 +20,41 @@ const PostHero: FC<Props> = ({ cover, title }) => {
 
         window.addEventListener('scroll', handleScroll);
 
-        return () => {
+        return () =>
             window.removeEventListener('scroll', handleScroll);
-        };
+
     }, [offset]);
 
 
     return (
-        <Grid
-            className={classes.hero}
-            container
-            direction="column"
-            justify="space-between"
-        >
-            <Grid item>
-                <img
-                    alt={title || ''}
-                    className={classes.img}
-                    src={cover}
-                    style={{ transform: `translateY(${offset * 0.5}px)` }}
-                />
-            </Grid>
+        <>
+            <IconButton className={classes.backBtn} size='medium' title='Back Home'>
+                <ArrowBack fontSize='large' />
+            </IconButton>
 
-            <Grid item>
-                <Typography className={classes.title} variant="h1">
-                    {title}
-                </Typography>
+            <Grid
+                className={classes.hero}
+                container
+                direction="column"
+                justify="space-between"
+            >
+                <Grid item>
+                    <img
+                        alt={title || ''}
+                        className={classes.img}
+                        src={cover}
+                        style={{ transform: `translateY(${offset * 0.5}px)` }}
+                    />
+                </Grid>
+
+
+                <Grid item>
+                    <Typography className={classes.title} variant="h1">
+                        {title}
+                    </Typography>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     )
 }
 
