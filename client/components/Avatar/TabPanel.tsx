@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Box, Grid, Button } from '@material-ui/core';
 
 interface TabPanelProps {

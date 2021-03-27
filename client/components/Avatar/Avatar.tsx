@@ -1,4 +1,3 @@
-import React from 'react';
 import Avataaar from 'avataaars';
 
 interface Props {
@@ -12,7 +11,7 @@ const Avatar: React.FC<Props> = ({ size = '100px', avatar }) => {
   return (
     <Avataaar
       avatarStyle="Circle"
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size, padding: 2 }}
       {...avatarProps}
     />
   );

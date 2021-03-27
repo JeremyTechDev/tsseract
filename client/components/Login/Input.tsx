@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 
 import useStyles from './styles';

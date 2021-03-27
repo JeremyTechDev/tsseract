@@ -1,9 +1,9 @@
 {
   "restartable": "rs",
-  "ignore": [".git", "node_modules/", "client/", "server/", "coverage/"],
-  "watch": ["dist/"],
+  "ignore": [".git", "node_modules/", "dist/", "coverage/"],
+  "watch": ["client/", "server/"],
   "execMap": {
     "ts": "node -r ts-node/register"
   },
-  "ext": "js,json,jsx"
+  "ext": "js,json,ts"
 }

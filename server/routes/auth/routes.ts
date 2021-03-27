@@ -3,7 +3,6 @@ import express from 'express';
 import auth from '../../middlewares/authenticator';
 import {
   authenticate,
-  googleAuthenticate,
   deauthenticate,
   getTokenData,
 } from './controllers';
@@ -23,13 +22,6 @@ router.get('/', auth, getTokenData);
  * @method POST
  */
 router.post('/login/', authenticate);
-
-/**
- * Authenticates a user with google
- * @route /api/auth/g/
- * @method POST
- */
-router.post('/g/', googleAuthenticate);
 
 /**
  * Deauthenticate a user

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Container,
@@ -14,23 +14,23 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import useForm from '../../hooks/useForm';
 import useStyles from './styles';
-import GoogleLogin from './GoogleLogin';
 import { iBackgroundImageData } from '../../@types';
 
 interface Props {
   bgData: iBackgroundImageData;
-  clientId: string;
 }
 
-const Login: React.FC<Props> = ({ bgData, clientId }) => {
+const Login: React.FC<Props> = ({ bgData }) => {
   const router = useRouter();
   const classes = useStyles({ bg: bgData.img });
   const [showSignUp, setShowSignUp] = useState(router.query.view === 'signUp');
   const [user, handleChange] = useForm({
+    birthDate: '',
     email: '',
     name: '',
     password: '',
     rPassword: '',
+    username: '',
   });
 
   return (
@@ -46,10 +46,10 @@ const Login: React.FC<Props> = ({ bgData, clientId }) => {
       <Grid container item xs={false} md={4} alignItems="center">
         <Container className={classes.imgInfo}>
           {(showSignUp && (
-            <SignUp handleChange={handleChange} user={user} />
-          )) || <SignIn handleChange={handleChange} user={user} />}
+            <SignUp user={user} handleChange={handleChange} />
+          )) || <SignIn user={user} handleChange={handleChange} />}
 
-          <Divider light className={classes.divider} />
+          <Divider light />
 
           <Typography align="center">
             {showSignUp
@@ -59,16 +59,6 @@ const Login: React.FC<Props> = ({ bgData, clientId }) => {
               {showSignUp ? 'Sign In' : 'Sign Up'}
             </Button>
           </Typography>
-
-          <Divider light className={classes.divider} />
-
-          <Grid container direction="column" alignItems="center">
-            <Typography variant="caption" align="center">
-              or maybe
-            </Typography>
-
-            <GoogleLogin clientId={clientId} />
-          </Grid>
         </Container>
       </Grid>
 

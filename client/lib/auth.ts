@@ -38,22 +38,20 @@ export const getUserScript = (user: iUser | null) => {
   return `${WINDOW_USER_SCRIPT} = ${JSON.stringify(user)}`;
 };
 
-export const authInitialProps = (isPrivateRoute = false) => async ({
+export const authInitialProps = (isPrivateRoute = false) => ({
   req,
   res,
 }: NextPageContext) => {
-  const auth: authType = req
-    ? await getServerSideToken(req)
-    : getClientSideToken();
+  const auth: authType = req ? getServerSideToken(req) : getClientSideToken();
 
   if (isPrivateRoute && auth && !auth.user) {
     redirect(res, '/login');
   }
 
-  return { user: auth };
+  return { props: { user: auth } };
 };
 
-type userType = { email: string; password: string };
+type userType = { username: string; password: string };
 export const loginUser = async (user: userType) => {
   try {
     const res = await postRequest('/auth/login', user);
@@ -71,12 +69,6 @@ export const loginUser = async (user: userType) => {
   } catch (error) {
     console.error(error);
     return { error };
-  }
-};
-
-export const loginUserGoogle = async (user: object) => {
-  if (typeof window !== 'undefined') {
-    window[WINDOW_USER_SCRIPT] = user || {};
   }
 };
 

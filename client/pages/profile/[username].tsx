@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 import Layout from '../../components/Layout';
 import UserPage from '../../components/UserPage';
@@ -19,7 +19,7 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
       <UserPage
         user={user}
         posts={posts}
-        authUserId={authData.user?._id as string}
+        isProfile={user._id === authData.user?._id}
         isFollowing={authData.user && user._id in authData.user.following}
       />
     </Layout>
@@ -28,21 +28,25 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
   );
 };
 
-User.getInitialProps = async (ctx) => {
-  const { userId } = ctx.query;
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const { username } = ctx.query;
 
-  const { user: authUser } = await authInitialProps()(ctx);
+  const {
+    props: { user: authUser },
+  } = authInitialProps()(ctx);
   const authData = await getRequest(
     `/users/${authUser.user?._id}`,
   ).then((res) => res.json());
 
-  const user = await getRequest(`/users/${userId}`).then((res) => res.json());
+  const user = await getRequest(`/users/u/${username}`).then((res) =>
+    res.json(),
+  );
 
   const posts = await getRequest(`/posts/by/${user._id}`).then((res) =>
     res.json(),
   );
 
-  return { user, authData: { user: authData }, posts };
+  return { props: { user, authData: { user: authData }, posts } };
 };
 
 export default User;

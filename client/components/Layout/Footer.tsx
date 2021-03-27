@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import {
   Box,
@@ -44,15 +44,15 @@ const Footer = () => {
                 <MuiLink color="inherit">Home</MuiLink>
               </Link>
               {' | '}
-              <Link href="/posts">
-                <MuiLink color="inherit">Posts</MuiLink>
+              <Link href="/home">
+                <MuiLink color="inherit">Home</MuiLink>
               </Link>
               {' | '}
-              <Link href={`/profile/${user?._id}`}>
+              <Link href={`/profile/${user?.username}`}>
                 <MuiLink color="inherit">Profile</MuiLink>
               </Link>
               {' | '}
-              <Link href="/create-post">
+              <Link href="/write-message">
                 <MuiLink color="inherit">Write a Post</MuiLink>
               </Link>
             </Typography>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextPage } from 'next';
 
 import Login from '../components/Login';
@@ -8,20 +7,21 @@ import { iBackgroundImageData } from '../@types';
 
 interface Props {
   bgData: iBackgroundImageData;
-  clientId: string;
 }
 
-const LoginPage: NextPage<Props> = ({ bgData, clientId }) => {
+const LoginPage: NextPage<Props> = ({ bgData }) => {
   return (
     <Layout title="Login to Tsseract" displayFooter={false} displayNav={false}>
-      <Login bgData={bgData} clientId={clientId} />
+      <Login bgData={bgData} />
     </Layout>
   );
 };
 
-LoginPage.getInitialProps = async () => {
+export const getServerSideProps = async () => {
   const bgData = await getRandomImg();
-  return { bgData, clientId: process.env.GOOGLE_CLIENT_ID as string };
+  return {
+    props: { bgData },
+  };
 };
 
 export default LoginPage;

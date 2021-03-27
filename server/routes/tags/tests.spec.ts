@@ -8,8 +8,10 @@ describe('Tag', () => {
   const SUT = http.createServer(server({ dev: true }));
   const userPayload = {
     name: 'Tsseract',
+    username: 'admin_tags_test',
     password: 'Admin.1234',
     email: 'admin_tags_test@tsseract.com',
+    birthDate: Date.now(),
   };
   const postPayload = {
     title: 'Title',
@@ -58,6 +60,21 @@ describe('Tag', () => {
       const tags = await request(SUT).get('/api/tags/like/hi');
 
       expect(tags.body.length).toBe(0);
+    });
+  });
+
+  describe('GET:/api/tags', () => {
+    it('should return a list of tags with one post, sorted by popularity', async () => {
+      const tags = await request(SUT).get('/api/tags');
+
+      let lastPopularity = Number.MAX_SAFE_INTEGER;
+      tags.body.forEach((tag: any) => {
+        expect(lastPopularity).toBeGreaterThanOrEqual(tag.tag.popularity);
+        expect(tag.post.tags).toContain(tag.tag._id);
+        expect(tag.tag).toHaveProperty('name');
+
+        lastPopularity = tag.tag.popularity;
+      });
     });
   });
 });

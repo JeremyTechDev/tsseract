@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextPage } from 'next';
 
 import Layout from '../components/Layout';
@@ -13,5 +12,6 @@ const AvatarPage: NextPage = () => {
   );
 };
 
-AvatarPage.getInitialProps = authInitialProps(true);
+export const getServerSideProps = authInitialProps(true);
+
 export default AvatarPage;

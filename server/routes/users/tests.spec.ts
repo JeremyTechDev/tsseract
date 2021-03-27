@@ -4,21 +4,18 @@ import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../../server';
 
-const userProps = ['_id', 'email', 'name'];
+const userProps = ['_id', 'email', 'name', 'username'];
 
 describe('User', () => {
   const SUT = http.createServer(server({ dev: true }));
   const userPayload = {
     name: 'Tsseract',
+    username: 'admin_user_test',
     password: 'Admin.1234',
     email: 'admin_user_test@tsseract.com',
+    birthDate: Date.now(),
   };
-  let user: any,
-    secUser: any,
-    googleUser: any,
-    cookie: Cookie,
-    secondCookie: Cookie,
-    googleCookie: Cookie;
+  let user: any, secUser: any, cookie: Cookie, secondCookie: any;
   let cookieSet: [string];
 
   beforeAll(async (done) => {
@@ -28,17 +25,12 @@ describe('User', () => {
 
     secUser = await request(SUT).post('/api/users/').send({
       name: 'Second',
+      username: 'secondUser',
       password: '12345678',
       email: 'secondUser@tsseract.com',
+      birthDate: Date.now(),
     });
     secondCookie = setCookie.parse(secUser)[0];
-
-    googleUser = await request(SUT).post('/api/auth/g/').send({
-      name: 'Google',
-      googleId: 'testGoogleId',
-      email: 'google@google.com',
-    });
-    googleCookie = setCookie.parse(googleUser)[0];
 
     SUT.listen(done);
   });
@@ -48,9 +40,6 @@ describe('User', () => {
     await request(SUT)
       .delete(`/api/users/`)
       .set('Cookie', [`${secondCookie.name}=${secondCookie.value}`]);
-    await request(SUT)
-      .delete(`/api/users/`)
-      .set('Cookie', [`${googleCookie.name}=${googleCookie.value}`]);
 
     SUT.close(done);
   });
@@ -67,13 +56,13 @@ describe('User', () => {
     it('should not created a new user if any param is invalid', async () => {
       const user = await request(SUT)
         .post('/api/users/')
-        .send({ ...userPayload, email: 'invalid email' });
+        .send({ ...userPayload, username: 'invalid username' });
 
       expect(user.status).toBe(400);
       expect(user.body).toHaveProperty('error');
     });
 
-    it('should not create a new user if the email or email is taken', async () => {
+    it('should not create a new user if the username or email is taken', async () => {
       const user = await request(SUT).post('/api/users/').send(userPayload); // recreating the same user as above
 
       expect(user.status).toBe(409);
@@ -99,16 +88,16 @@ describe('User', () => {
     });
   });
 
-  describe('GET:/api/users/g/:googleId', () => {
-    it('should retrieve a user by googleId', async () => {
-      const user = await request(SUT).get('/api/users/g/testGoogleId');
+  describe('GET:/api/users/u/:username', () => {
+    it('should retrieve a user by username', async () => {
+      const user = await request(SUT).get(`/api/users/u/admin_user_test`);
 
       userProps.forEach((p) => expect(user.body).toHaveProperty(p));
-      expect(user.body.googleId).toBe('testGoogleId');
+      expect(user.body.username).toBe('admin_user_test');
     });
 
-    it('should return a status 404 if no user is found with the given google id', async () => {
-      const user = await request(SUT).get('/api/users/g/wrongTestGoogleId');
+    it('should return a status 404 if no user is found with the given username', async () => {
+      const user = await request(SUT).get(`/api/users/u/inexistentUser`);
 
       expect(user.status).toBe(404);
       expect(user.body).toHaveProperty('error');
@@ -127,6 +116,7 @@ describe('User', () => {
       expect(user.body).toMatchObject({
         email: userPayload.email,
         name: userPayload.name,
+        username: userPayload.username,
       });
     });
 
@@ -141,10 +131,10 @@ describe('User', () => {
     });
   });
 
-  describe('PUT:/api/users/toggle-follow/:followToId', () => {
+  describe('PUT:/api/users/toggle-follow/:followToUsername', () => {
     it('should follow a user that is not being followed by the auth user', async () => {
       const follow = await request(SUT)
-        .put('/api/users/toggle-follow/' + secUser.body._id)
+        .put('/api/users/toggle-follow/secondUser')
         .set('Cookie', cookieSet);
 
       expect(follow.body).toHaveProperty('following');
@@ -156,7 +146,7 @@ describe('User', () => {
 
     it('should tell if the user is trying to follow an inexistent account', async () => {
       const follow = await request(SUT)
-        .put('/api/users/toggle-follow/600db2ee05b9cdc7332a9dca')
+        .put('/api/users/toggle-follow/noUserAtAll')
         .set('Cookie', cookieSet);
 
       expect(follow.status).toBe(404);
@@ -165,7 +155,7 @@ describe('User', () => {
 
     it('should not allow the user to follow their own account', async () => {
       const follow = await request(SUT)
-        .put('/api/users/toggle-follow/' + user.body._id)
+        .put('/api/users/toggle-follow/admin_user_test')
         .set('Cookie', cookieSet);
 
       expect(follow.status).toBe(409);
@@ -174,7 +164,7 @@ describe('User', () => {
 
     it('should unfollow a user that is already followed by the auth user', async () => {
       const follow = await request(SUT)
-        .put('/api/users/toggle-follow/' + secUser.body._id)
+        .put('/api/users/toggle-follow/secondUser')
         .set('Cookie', cookieSet);
 
       expect(follow.body).toHaveProperty('following');
@@ -189,8 +179,10 @@ describe('User', () => {
     it('should delete a user', async () => {
       const userToDelete: any = await request(SUT).post('/api/users/').send({
         name: 'Tsseract',
+        username: 'delete_user_test',
         password: 'Admin.1234',
         email: 'delete_user_test@tsseract.com',
+        birthDate: Date.now(),
       });
       const [newCookie] = setCookie.parse(userToDelete);
 

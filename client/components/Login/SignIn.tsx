@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Router from 'next/router';
 import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
 
 import AppContext, { Types } from '../../context';
+import { loginUser } from '../../lib/auth';
 import Input from './Input';
 import useStyles from './styles';
 import { InputChangeEvent, iSignInUser } from '../../@types';
-import { loginUser } from '../../lib/auth';
 
 interface Props {
   user: iSignInUser;
@@ -27,16 +27,16 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
   };
 
   const handleSubmit = async () => {
-    const { email, password } = user;
+    const { username, password } = user;
     setLoading(true);
 
-    loginUser({ email, password }).then((data) => {
+    loginUser({ username, password }).then((data) => {
       if (!data.error) {
         dispatch({
           type: Types.SET_CREDENTIALS,
           payload: data.user || null,
         });
-        Router.push('/posts');
+        Router.push('/home');
       } else {
         setRequestError(data.error);
         setLoading(false);
@@ -59,8 +59,8 @@ const SignIn: React.FC<Props> = ({ user, handleChange }) => {
           )}
           <Input
             handleChange={handleClearAndChange}
-            label="Email"
-            value={user.email}
+            label="Username"
+            value={user.username}
           />
 
           <Input

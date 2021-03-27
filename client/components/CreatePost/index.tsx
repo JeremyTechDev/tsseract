@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Container,
@@ -21,11 +21,15 @@ import { getRequest, postRequest } from '../../lib/fetch';
 
 import useStyles from './styles';
 
-const PostForm: React.FC = () => {
+interface Props {
+  titleProp?: string;
+}
+
+const PostForm: React.FC<Props> = ({ titleProp }) => {
   const classes = useStyles();
   const [coverImg, setCoverImg] = useState('');
   const [showCoverImg, setShowCoverImg] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(titleProp || '');
   const [content, setContent] = useState<Node[]>(initialValue);
   const [tags, setTags] = useState<string[]>([]);
   const [tagsSearchResults, setTagsSearchResults] = useState<string[]>([]);
@@ -53,7 +57,7 @@ const PostForm: React.FC = () => {
       .then(({ status }) => {
         status !== 200
           ? alert('Sorry, an error ocurred while saving your post')
-          : Router.push('/posts');
+          : Router.push('/home');
       })
       .catch((err) => console.error(err));
   };

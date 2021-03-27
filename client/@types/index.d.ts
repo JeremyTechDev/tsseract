@@ -12,22 +12,24 @@ export interface iBackgroundImageData {
 }
 
 export interface iSignUpUser {
+  birthDate: string;
   email: string;
   name: string;
   password: string;
   rPassword: string;
+  username: string;
 }
 
 export interface iSignInUser {
   password: string;
-  email: string;
+  username: string;
 }
 
 export interface iUserToken {
   _id: string;
   email: string;
   name: string;
-  googleId: string | null;
+  username: string;
 }
 
 export interface iUser {
@@ -35,9 +37,9 @@ export interface iUser {
   email: string;
   name: string;
   avatar: string;
+  username: string;
   followers: object;
   following: object;
-  googleId: string | null;
   error?: string;
 }
 

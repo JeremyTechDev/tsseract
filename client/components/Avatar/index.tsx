@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Router from 'next/router';
 import { Grid, Button } from '@material-ui/core';
 
@@ -35,7 +35,7 @@ const Avatar = () => {
     putRequest('/users', { avatar: JSON.stringify(pieces) })
       .then((res) => {
         if (res.status === 200) {
-          Router.replace(`/profile/${state.user?._id}`);
+          Router.replace(`/profile/${state.user?.username}`);
         } else {
           console.error(res);
         }
