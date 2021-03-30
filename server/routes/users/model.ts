@@ -1,7 +1,7 @@
-import { Schema, Types, model } from 'mongoose';
 import Joi from '@hapi/joi';
+import { Schema, Types, model } from 'mongoose';
 
-import regex from '../helpers/regex';
+import regex from '../../helpers/regex';
 
 const userSchema = new Schema({
   name: {
@@ -58,7 +58,7 @@ const userSchema = new Schema({
   },
 });
 
-export default model('Users', userSchema);
+const Users = model('Users', userSchema);
 
 export const validateUser = <T>(user: T) => {
   const schema = Joi.object({
@@ -84,3 +84,5 @@ export const validateUser = <T>(user: T) => {
 
   return schema.validate(user);
 };
+
+export default Users;

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { findTagLike, getTags } from '../controllers/tag';
+import { findTagLike } from './controllers';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
  * @route /api/tags
  * @method GET
  */
-router.get('/', getTags);
+// router.get('/', getTags);
 
 /**
  * Retrieves a list of tag like {query}

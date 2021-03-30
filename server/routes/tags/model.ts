@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
 import Joi from '@hapi/joi';
+import { Schema, model } from 'mongoose';
 
-import regex from '../helpers/regex';
+import regex from '../../helpers/regex';
 
 export const tagSchema = new Schema({
   name: {
@@ -17,7 +17,7 @@ export const tagSchema = new Schema({
   },
 });
 
-export default model('Tags', tagSchema, 'tags');
+const Tag = model('Tags', tagSchema, 'tags');
 
 export const validateTags = (tags: string[]) => {
   const schema = Joi.object({
@@ -28,3 +28,5 @@ export const validateTags = (tags: string[]) => {
   const validTags = tags.map((tag) => schema.validate({ name: tag }).error);
   return validTags.some((tagResult) => tagResult);
 };
+
+export default Tag;

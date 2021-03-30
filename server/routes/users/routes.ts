@@ -7,8 +7,8 @@ import {
   retrieveUserByUsername,
   toggleFollow,
   updateUser,
-} from '../controllers/user';
-import auth from '../middlewares/authenticator';
+} from './controllers';
+import auth from '../../middlewares/authenticator';
 
 const router = express.Router();
 
