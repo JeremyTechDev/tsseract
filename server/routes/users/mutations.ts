@@ -6,7 +6,7 @@ import Users from './model';
 import UserType from './resolvers';
 import userValidator from './validator';
 import cookieCreator from '../../helpers/cookieCreator';
-import { iUser } from '../../@types';
+import { iUser, Context } from '../../@types';
 
 const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
     CreateUser: {
@@ -20,7 +20,7 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
             password: { type: GraphQLNonNull(GraphQLString) },
             username: { type: GraphQLNonNull(GraphQLString) },
         },
-        resolve: async (_, args, ctx) => {
+        resolve: async (_, args, ctx: Context) => {
             const { error } = userValidator(args);
             if (error) throw Error(error.details[0].message);
 
@@ -54,8 +54,8 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
     UpdateUser: {
         type: UserType,
         description: "Updates fields of the authenticated user",
-        resolve: async (_, __, ctx) => {
-            if (ctx.req.cookie.error) throw Error(ctx.req.cookie.message)
+        resolve: async (_, __, ctx: Context) => {
+            if (ctx.req.cookies.error) throw Error(ctx.req.cookies.message)
 
             const { _id: userId } = ctx.req.cookies.profile;
 
@@ -88,10 +88,11 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
             fields: () => ({ following: { type: UserType }, follower: { type: UserType } })
         }),
         description: 'Toggles the follow state of a user',
-        resolve: async (_, __, ctx) => {
-            if (ctx.req.cookie.error) throw Error(ctx.req.cookie.message)
+        args: { followToUsername: { type: GraphQLNonNull(GraphQLString) } },
+        resolve: async (_, args, ctx: Context) => {
+            if (ctx.req.cookies.error) throw Error(ctx.req.cookies.message)
 
-            const { followToUsername } = ctx.req.params;
+            const { followToUsername } = args;
             const followBy: iUser = ctx.req.cookies.profile;
 
             const followTo = (await Users.findOne({
@@ -147,8 +148,8 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
     DeleteUser: {
         type: UserType,
         description: 'Removes the authenticated user from the database',
-        resolve: async (_, __, ctx) => {
-            if (ctx.req.cookie.error) throw Error(ctx.req.cookie.message)
+        resolve: async (_, __, ctx: Context) => {
+            if (ctx.req.cookies.error) throw Error(ctx.req.cookies.message)
 
             const { _id: userId } = ctx.req.cookies.profile;
             const user = await Users.findByIdAndDelete(userId);
@@ -158,4 +159,4 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = ({
     }
 })
 
-export default Mutations
+export default Mutations;

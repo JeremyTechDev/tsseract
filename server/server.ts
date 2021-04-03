@@ -7,11 +7,6 @@ import { graphqlHTTP } from 'express-graphql';
 import database from './database';
 import graphQLSchema from './graphql';
 
-import auth from './routes/auth/routes';
-import user from './routes/users/routes';
-import post from './routes/posts/routes';
-import tag from './routes/tags/routes';
-
 import authMiddlware from './middlewares/authenticator';
 
 const { COOKIE_KEY, NODE_ENV, PORT = 8080 } = process.env;
@@ -45,24 +40,21 @@ const init = (options: Options) => {
         });
     }
 
-    // apply routes
-    server.use('/api/users', user);
-    server.use('/api/posts', post);
-    server.use('/api/auth', auth);
-    server.use('/api/tags', tag);
 
-    // graphql setting
+    // Apply Authentication middlewares
+    server.use(authMiddlware)
+
+    // GraphQL Server
     server.use(
         '/graphql',
-        authMiddlware,
         graphqlHTTP((req, res) => ({
-            graphiql: true,
+            graphiql: NODE_ENV !== 'production',
             schema: graphQLSchema,
             context: { res, req }
         })),
     );
 
-    // let next handle the default route
+    // Let next handle the default route
     if (appHandler) {
         server.get('*', (req, res) => {
             return appHandler(req, res);
