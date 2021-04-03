@@ -1,16 +1,17 @@
 import { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLInt, GraphQLList } from 'graphql';
 
+import UserQueries from '../routes/users/queries';
+
 import Posts from '../routes/posts/model';
-import Users from '../routes/users/model';
 import Tags from '../routes/tags/model';
 import PostType from '../routes/posts/resolvers';
-import UserType from '../routes/users/resolvers';
 import TagType from '../routes/tags/resolvers';
 
 const RootQueryType = new GraphQLObjectType({
     name: 'Query',
     description: 'Root Query',
     fields: () => ({
+        ...UserQueries,
         GetPost: {
             type: PostType,
             description: 'Get a single post by id',
@@ -27,27 +28,6 @@ const RootQueryType = new GraphQLObjectType({
             description: 'List of posts',
             args: { limit: { type: GraphQLInt } },
             resolve: async (_, args) => await Posts.find().sort({ createdAt: 'desc' }).limit(args.limit || 50),
-        },
-        GetUsers: {
-            type: GraphQLList(UserType),
-            description: 'List of users',
-            args: { limit: { type: GraphQLInt } },
-            resolve: async (_, args) => await Users.find().limit(args.limit || 50),
-        },
-        GetUser: {
-            type: UserType,
-            description: 'Get a single user by id or username',
-            args: {
-                id: { type: GraphQLString },
-                username: { type: GraphQLString }
-            },
-            resolve: async (_, args) => {
-                if (!args.id && !args.username) throw Error('Id or username required')
-
-                if (args.id) return await Users.findById(args.id)
-
-                return await Users.find({ username: args.username })
-            }
         },
         GetTags: {
             type: GraphQLList(TagType),
