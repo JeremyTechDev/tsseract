@@ -15,7 +15,10 @@ const Queries: Thunk<GraphQLFieldConfigMap<any, any>> = {
     GetTagLike: {
         type: GraphQLList(TagType),
         description: 'List of tags with a name similar to the arg `like`',
-        args: { like: { type: GraphQLNonNull(GraphQLString) } },
+        args: {
+            like: { type: GraphQLNonNull(GraphQLString) },
+            limit: { type: GraphQLInt },
+        },
         resolve: async (_, args) => await Tags.find({
             name: new RegExp(args.like, 'i'),
         }).limit(args.limit || 50)

@@ -1,13 +1,13 @@
 import express from 'express';
 
 import {
-  createPost,
-  deletePost,
-  findById,
-  getPostsBy,
-  getPostsFeed,
-  retrieveAll,
-  toggleLike,
+    createPost,
+    deletePost,
+    findById,
+    getPostsBy,
+    getPostsFeed,
+    retrieveAll,
+    toggleLike,
 } from './controllers';
 import { createComment, deleteComment } from '../comments/controllers';
 import auth from '../../middlewares/authenticator';
@@ -19,21 +19,21 @@ const router = express.Router();
  * @route /api/posts/
  * @method POST
  */
-router.post('/', auth, createPost);
+// router.post('/', auth, createPost);
 
 /**
  * Retrieves all posts
  * @route /api/posts/
  * @method GET
  */
-router.get('/', retrieveAll);
+// router.get('/', retrieveAll);
 
 /**
  * Retrieves a post by id
  * @route /api/posts/:postId
  * @method GET
  */
-router.get('/id/:postId', findById);
+// router.get('/id/:postId', findById);
 
 /**
  * Creates a new comment in a post
@@ -41,7 +41,7 @@ router.get('/id/:postId', findById);
  * @param {String} postId post id
  * @method POST
  */
-router.post('/c/:postId', auth, createComment);
+// router.post('/c/:postId', auth, createComment);
 
 /**
  * Deletes a comment in a post
@@ -49,7 +49,7 @@ router.post('/c/:postId', auth, createComment);
  * @param {String} commentId comment id
  * @method DELETE
  */
-router.delete('/c/:commentId', auth, deleteComment);
+// router.delete('/c/:commentId', auth, deleteComment);
 
 /**
  * Toggle the user like of a post
@@ -65,14 +65,14 @@ router.put('/like/:postId', auth, toggleLike);
  * @param {String} id user id
  * @method GET
  */
-router.get('/by/:id', getPostsBy);
+// router.get('/by/:id', getPostsBy);
 
 /**
  * Retrieves all posts that of the accounts a user follows
  * @route /api/posts/feed/:id
  * @method GET
  */
-router.get('/feed/', auth, getPostsFeed);
+// router.get('/feed/', auth, getPostsFeed);
 
 /**
  * Delete a post by id

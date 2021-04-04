@@ -12,23 +12,6 @@ const RootQueryType = new GraphQLObjectType({
     description: 'Root Query',
     fields: () => ({
         ...UserQueries,
-        GetPost: {
-            type: PostType,
-            description: 'Get a single post by id',
-            args: { id: { type: GraphQLString } },
-            resolve: async (_, args) =>
-                await Posts.findByIdAndUpdate(
-                    args.id,
-                    { $inc: { interactions: 1 } },
-                    { new: true },
-                )
-        },
-        GetPosts: {
-            type: GraphQLList(PostType),
-            description: 'List of posts',
-            args: { limit: { type: GraphQLInt } },
-            resolve: async (_, args) => await Posts.find().sort({ createdAt: 'desc' }).limit(args.limit || 50),
-        },
         GetTags: {
             type: GraphQLList(TagType),
             description: 'List of tags',
