@@ -6,14 +6,14 @@ import TagQueries from '../routes/tags/queries';
 import UserQueries from '../routes/users/queries';
 
 const RootQueryType = new GraphQLObjectType({
-    name: 'Query',
-    description: 'Root Query',
-    fields: () => ({
-        ...AuthQueries,
-        ...PostQueries,
-        ...TagQueries,
-        ...UserQueries,
-    }),
+	name: 'Query',
+	description: 'Root Query',
+	fields: () => ({
+		...AuthQueries,
+		...PostQueries,
+		...TagQueries,
+		...UserQueries,
+	}),
 });
 
 export default RootQueryType;
