@@ -41,7 +41,7 @@ const init = (options: Options) => {
 	}
 
 	// Apply Authentication middlewares
-	// server.use(authMiddlware)
+	server.use(authMiddlware);
 
 	// GraphQL Server
 	server.use(

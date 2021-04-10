@@ -1,196 +1,177 @@
-import http from 'http';
-import request from 'supertest';
+import mongoose from 'mongoose';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
-import server from '../../server';
+import tester from '../../helpers/tester';
 
-const userProps = ['_id', 'email', 'name', 'username'];
+describe('User:Mutations', () => {
+	let cookieSet: [String];
 
-describe('User', () => {
-  const SUT = http.createServer(server({ dev: true }));
-  const userPayload = {
-    name: 'Tsseract',
-    username: 'admin_user_test',
-    password: 'Admin.1234',
-    email: 'admin_user_test@tsseract.com',
-    birthDate: Date.now(),
-  };
-  let user: any, secUser: any, cookie: Cookie, secondCookie: any;
-  let cookieSet: [string];
+	afterAll(async (done) => {
+		await mongoose.connection.collections['users'].drop();
+		done();
+	});
 
-  beforeAll(async (done) => {
-    user = await request(SUT).post('/api/users/').send(userPayload);
-    cookie = setCookie.parse(user)[0];
-    cookieSet = [`${cookie.name}=${cookie.value}`];
+	describe('CreateUser', () => {
+		it('should create a new user', async () => {
+			const user = await tester({
+				query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+				variables: {
+					name: 'Test User',
+					username: 'test_user_1',
+					email: 'test_user_1@tsseract.com',
+					password: '12345678',
+					birthDate: '1618011224038',
+				},
+			});
 
-    secUser = await request(SUT).post('/api/users/').send({
-      name: 'Second',
-      username: 'secondUser',
-      password: '12345678',
-      email: 'secondUser@tsseract.com',
-      birthDate: Date.now(),
-    });
-    secondCookie = setCookie.parse(secUser)[0];
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(user);
+			cookieSet = [`${cookie.name}=${cookie.value}`];
 
-    SUT.listen(done);
-  });
+			expect(user.body).not.toHaveProperty('errors');
+			expect(user.body.data.CreateUser).toHaveProperty('id');
+			expect(user.header).toHaveProperty('set-cookie');
+			expect(cookie.name).toEqual('tsseract-auth-token');
+		});
 
-  afterAll(async (done) => {
-    await request(SUT).delete(`/api/users/`).set('Cookie', cookieSet);
-    await request(SUT)
-      .delete(`/api/users/`)
-      .set('Cookie', [`${secondCookie.name}=${secondCookie.value}`]);
+		it('should not create a user if the data is invalid', async () => {
+			const user = await tester({
+				query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+				variables: {
+					name: 'Test User',
+					username: 't', // short username
+					email: 'test_user_1', // invalid email
+					password: '1234', // short password
+					birthDate: '1618011224038',
+				},
+			});
 
-    SUT.close(done);
-  });
+			expect(user.body).toHaveProperty('errors');
+			expect(user.header).not.toHaveProperty('set-cookie');
+		});
 
-  describe('POST:/api/users', () => {
-    it('should create a new authenticated user', () => {
-      userProps.forEach((p) => expect(user.body).toHaveProperty(p));
-      expect(user.header).toHaveProperty('set-cookie');
-      expect(cookie).toHaveProperty('name');
-      expect(cookie).toHaveProperty('value');
-      expect(cookie.name).toEqual('tsseract-auth-token');
-    });
+		it('should not create a user if the username or email is already taken', async () => {
+			const user = await tester({
+				query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+				variables: {
+					name: 'Test User',
+					username: 'test_user_1', // same username
+					email: 'test_user_1@tsseract.com', // same email
+					password: '12345678',
+					birthDate: '1618011224038',
+				},
+			});
 
-    it('should not created a new user if any param is invalid', async () => {
-      const user = await request(SUT)
-        .post('/api/users/')
-        .send({ ...userPayload, username: 'invalid username' });
+			expect(user.body).toHaveProperty('errors');
+			expect(user.header).not.toHaveProperty('set-cookie');
+		});
+	});
 
-      expect(user.status).toBe(400);
-      expect(user.body).toHaveProperty('error');
-    });
+	describe('UpdateUser', () => {
+		it('should update the data of an existing user', async () => {
+			const newName = 'New Name';
+			const newEmail = 'new_email@tss.com';
+			const user = await tester({
+				query: `
+				mutation UpdateUser($name: String!, $email: String!) {
+					UpdateUser(name: $name, email: $email) { name, email }
+				}
+				`,
+				variables: {
+					name: newName,
+					email: newEmail,
+				},
+				cookieSet,
+			});
 
-    it('should not create a new user if the username or email is taken', async () => {
-      const user = await request(SUT).post('/api/users/').send(userPayload); // recreating the same user as above
+			expect(user.body.data.UpdateUser.name).toBe(newName);
+			expect(user.body.data.UpdateUser.email).toBe(newEmail);
+		});
 
-      expect(user.status).toBe(409);
-      expect(user.body).toHaveProperty('error');
-    });
-  });
+		it('should not update a user if it is not authenticated', async () => {
+			const user = await tester({
+				query: `
+				mutation UpdateUser($name: String!, $email: String!) {
+					UpdateUser(name: $name, email: $email) { name, email }
+				}
+				`,
+				variables: {
+					name: 'Hey',
+					email: 'test@tss.com',
+				},
+			});
 
-  describe('GET:/api/users/:id', () => {
-    it('should retrieve a user by id', async () => {
-      const newUser = await request(SUT).get(`/api/users/${user.body._id}`);
+			expect(user.body).toHaveProperty('errors');
+		});
 
-      userProps.forEach((p) => expect(newUser.body).toHaveProperty(p));
-      expect(newUser.body._id).toBe(user.body._id);
-    });
+		it('should not update a user if no args were given', async () => {
+			const user = await tester({
+				query: `
+				mutation UpdateUser($name: String!, $email: String!) {
+					UpdateUser(name: $name, email: $email) { name, email }
+				}
+				`,
+				cookieSet,
+			});
 
-    it('should return a status 404 if no user is found with the given id', async () => {
-      const user = await request(SUT).get(
-        `/api/users/5ee17b00d1fccf00d2b39194`,
-      );
+			expect(user.body).toHaveProperty('errors');
+		});
 
-      expect(user.status).toBe(404);
-      expect(user.body).toHaveProperty('error');
-    });
-  });
+		it('should not update the user data if one field is invalid', async () => {
+			const user = await tester({
+				query: `
+				mutation UpdateUser($name: String!, $email: String!) {
+					UpdateUser(name: $name, email: $email) { name, email }
+				}
+				`,
+				variables: {
+					name: 'Hey',
+					email: 'test', // invalid email
+				},
+				cookieSet,
+			});
 
-  describe('GET:/api/users/u/:username', () => {
-    it('should retrieve a user by username', async () => {
-      const user = await request(SUT).get(`/api/users/u/admin_user_test`);
+			expect(user.body).toHaveProperty('errors');
+		});
+	});
 
-      userProps.forEach((p) => expect(user.body).toHaveProperty(p));
-      expect(user.body.username).toBe('admin_user_test');
-    });
+	describe('DeleteUser', () => {
+		it('should not remove a user if it is not authenticated', async () => {
+			const user = await tester({
+				query: `
+				mutation DeleteUser {
+					DeleteUser { email }
+				}
+				`,
+			});
 
-    it('should return a status 404 if no user is found with the given username', async () => {
-      const user = await request(SUT).get(`/api/users/u/inexistentUser`);
+			expect(user.body).toHaveProperty('errors');
+		});
 
-      expect(user.status).toBe(404);
-      expect(user.body).toHaveProperty('error');
-    });
-  });
+		it('should remove the authenticated user', async () => {
+			const user = await tester({
+				query: `
+				mutation DeleteUser {
+					DeleteUser { id }
+				}
+				`,
+				cookieSet,
+			});
 
-  describe('PUT:/api/users/', () => {
-    it('should update some fields of a user', async () => {
-      const user = await request(SUT)
-        .put('/api/users/')
-        .set('Cookie', cookieSet)
-        .send({ avatar: 'avatar' });
-
-      expect(user.status).toBe(200);
-      expect(user.body.avatar).toBe('avatar');
-      expect(user.body).toMatchObject({
-        email: userPayload.email,
-        name: userPayload.name,
-        username: userPayload.username,
-      });
-    });
-
-    it('should return 400 if an unchangeable field is set to change', async () => {
-      const user = await request(SUT)
-        .put('/api/users/')
-        .set('Cookie', cookieSet)
-        .send({ password: 'password' });
-
-      expect(user.status).toBe(400);
-      expect(user.body).toHaveProperty('error');
-    });
-  });
-
-  describe('PUT:/api/users/toggle-follow/:followToUsername', () => {
-    it('should follow a user that is not being followed by the auth user', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/toggle-follow/secondUser')
-        .set('Cookie', cookieSet);
-
-      expect(follow.body).toHaveProperty('following');
-      expect(follow.body).toHaveProperty('follower');
-      expect(follow.body.follower.followers).toContain(user.body._id);
-      expect(follow.body.following.following).toContain(secUser.body._id);
-      expect(follow.body.action).toBe('follow');
-    });
-
-    it('should tell if the user is trying to follow an inexistent account', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/toggle-follow/noUserAtAll')
-        .set('Cookie', cookieSet);
-
-      expect(follow.status).toBe(404);
-      expect(follow.body).toHaveProperty('error');
-    });
-
-    it('should not allow the user to follow their own account', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/toggle-follow/admin_user_test')
-        .set('Cookie', cookieSet);
-
-      expect(follow.status).toBe(409);
-      expect(follow.body).toHaveProperty('error');
-    });
-
-    it('should unfollow a user that is already followed by the auth user', async () => {
-      const follow = await request(SUT)
-        .put('/api/users/toggle-follow/secondUser')
-        .set('Cookie', cookieSet);
-
-      expect(follow.body).toHaveProperty('following');
-      expect(follow.body).toHaveProperty('follower');
-      expect(follow.body.follower.followers).not.toContain(user.body._id);
-      expect(follow.body.following.following).not.toContain(secUser.body._id);
-      expect(follow.body.action).toBe('unfollow');
-    });
-  });
-
-  describe('DELETE:/api/users/', () => {
-    it('should delete a user', async () => {
-      const userToDelete: any = await request(SUT).post('/api/users/').send({
-        name: 'Tsseract',
-        username: 'delete_user_test',
-        password: 'Admin.1234',
-        email: 'delete_user_test@tsseract.com',
-        birthDate: Date.now(),
-      });
-      const [newCookie] = setCookie.parse(userToDelete);
-
-      const deleted = await request(SUT)
-        .delete(`/api/users/`)
-        .set('Cookie', [`${newCookie.name}=${newCookie.value}`]);
-
-      expect(deleted.status).toBe(200);
-    });
-  });
+			expect(user.body).not.toHaveProperty('errors');
+			expect(user.body.data.DeleteUser).toHaveProperty('id');
+		});
+	});
 });
