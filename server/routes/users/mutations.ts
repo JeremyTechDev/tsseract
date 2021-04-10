@@ -102,6 +102,7 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = {
 			fields: () => ({
 				following: { type: UserType },
 				follower: { type: UserType },
+				action: { type: GraphQLString },
 			}),
 		}),
 		description: 'Toggles the follow state of a user',
@@ -130,7 +131,9 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = {
 					// @ts-ignore
 					{ $pull: { following: followTo._id } },
 					{ new: true },
-				)) as iUser;
+				)
+					.populate('followers', 'username name email')
+					.populate('following', 'username name email')) as iUser;
 
 				// Remove the follower (followBy) from the followTo user
 				newFollowTo = (await Users.findOneAndUpdate(
@@ -138,7 +141,9 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = {
 					// @ts-ignore
 					{ $pull: { followers: followBy._id } },
 					{ new: true },
-				)) as iUser;
+				)
+					.populate('followers', 'username name email')
+					.populate('following', 'username name email')) as iUser;
 
 				action = 'unfollow';
 			} else {
@@ -147,14 +152,18 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = {
 					{ _id: followBy._id },
 					{ $push: { following: followTo._id } },
 					{ new: true },
-				)) as iUser;
+				)
+					.populate('followers', 'username name email')
+					.populate('following', 'username name email')) as iUser;
 
 				// Add the new follower (followBy) to the followTo user
 				newFollowTo = (await Users.findOneAndUpdate(
 					{ _id: followTo._id },
 					{ $push: { followers: followBy._id } },
 					{ new: true },
-				)) as iUser;
+				)
+					.populate('followers', 'username name email')
+					.populate('following', 'username name email')) as iUser;
 
 				action = 'follow';
 			}
