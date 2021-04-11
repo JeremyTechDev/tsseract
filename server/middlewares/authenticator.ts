@@ -30,7 +30,7 @@ const authenticator: RequestHandler = async (req, _, next) => {
 		if (!decodedUser)
 			proceedWithAuthError('Access denied. Corrupt credentials.');
 
-		const { _id: userId } = decodedUser;
+		const { id: userId } = decodedUser;
 		const user = (await Users.findById(userId)) as iUser;
 		if (!user) proceedWithAuthError('Access denied. Non-existent user.');
 

@@ -45,7 +45,7 @@ const Mutations: Thunk<GraphQLFieldConfigMap<any, any>> = {
 			await user.save();
 
 			const userToken = {
-				_id: user._id,
+				id: user._id,
 				email: user.email,
 				name: user.name,
 				username: user.username,
