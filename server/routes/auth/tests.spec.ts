@@ -1,4 +1,4 @@
-import mongoose, { set } from 'mongoose';
+import mongoose from 'mongoose';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
 import tester from '../../helpers/tester';
