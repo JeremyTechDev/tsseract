@@ -1,96 +1,157 @@
-import http from 'http';
-import request from 'supertest';
+import mongoose from 'mongoose';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
-import server from '../../server';
+import tester from '../../helpers/tester';
 
-const userProps = ['_id', 'email', 'name', 'username'];
+describe('Auth:Mutations', () => {
+	let cookieSet: [String];
 
-describe('Auth', () => {
-  const SUT = http.createServer(server({ dev: true }));
-  const userPayload = {
-    name: 'Tsseract',
-    username: 'admin_user_test',
-    password: 'Admin.1234',
-    email: 'admin_user_test@tsseract.com',
-    birthDate: Date.now(),
-  };
-  let user: any, cookie: Cookie;
-  let cookieSet: [string];
+	beforeAll(async (done) => {
+		// Create a test user
+		const testUser = await tester({
+			query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+			variables: {
+				name: 'Auth Test',
+				username: 'test_auth',
+				email: 'test_auth@tsseract.com',
+				password: '12345678',
+				birthDate: '1618011224038',
+			},
+		});
 
-  beforeAll(async (done) => {
-    user = await request(SUT).post('/api/users/').send(userPayload);
-    cookie = setCookie.parse(user)[0];
-    cookieSet = [`${cookie.name}=${cookie.value}`];
+		// @ts-ignore
+		const [cookie]: Cookie = setCookie.parse(testUser);
+		cookieSet = [`${cookie.name}=${cookie.value}`];
 
-    SUT.listen(done);
-  });
+		done();
+	});
 
-  afterAll(async (done) => {
-    await request(SUT).delete(`/api/users/`).set('Cookie', cookieSet);
+	afterAll(async (done) => {
+		await mongoose.connection.collections['users'].drop();
+		done();
+	});
 
-    SUT.close(done);
-  });
+	describe('Authenticate', () => {
+		it('should authenticate an existing user', async () => {
+			const auth = await tester({
+				query: `
+				mutation Authenticate($username: String!, $password: String!) {
+					Authenticate(username: $username, password: $password) { id }
+				}
+				`,
+				variables: {
+					username: 'test_auth',
+					password: '12345678',
+				},
+			});
 
-  describe('GET:/api/auth', () => {
-    it('should return the data of the authenticated user', async () => {
-      const authUser = await request(SUT)
-        .get('/api/auth')
-        .set('Cookie', cookieSet);
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(auth);
 
-      const { name, username, email } = userPayload;
-      expect(authUser.body).toMatchObject({
-        _id: user.body._id,
-        email,
-        name,
-        username,
-      });
-    });
-  });
+			expect(auth.body).not.toHaveProperty('errors');
+			expect(auth.body.data.Authenticate).toHaveProperty('id');
+			expect(auth.header).toHaveProperty('set-cookie');
+			expect(cookie.name).toBe('tsseract-auth-token');
+		});
 
-  describe('POST:/api/auth/login', () => {
-    it('should authenticate a user with', async () => {
-      const authUser = await request(SUT)
-        .post('/api/auth/login')
-        .send({ username: 'admin_user_test', password: 'Admin.1234' });
+		it('should not authenticate if the given args are invalid', async () => {
+			const auth = await tester({
+				query: `
+				mutation Authenticate($username: String!, $password: String!) {
+					Authenticate(username: $username, password: $password) { id }
+				}
+				`,
+				variables: {
+					username: 'test_auth',
+					password: '1234', // short password
+				},
+			});
 
-      expect(authUser.header).toHaveProperty('set-cookie');
-      expect(cookie).toHaveProperty('name');
-      expect(cookie).toHaveProperty('value');
-      expect(cookie.name).toEqual('tsseract-auth-token');
-      userProps.forEach((p) => expect(authUser.body).toHaveProperty(p));
-    });
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(auth);
 
-    it('should return a status code 400 if the username or password are invalid', async () => {
-      const authUser = await request(SUT)
-        .post('/api/auth/login')
-        .send({ username: 'fake_user', password: 'invalid password' });
+			expect(auth.body).toHaveProperty('errors');
+			expect(cookie).toBeFalsy();
+		});
 
-      expect(authUser.status).toBe(400);
-      expect(authUser.body).toHaveProperty('error');
-    });
+		it('should not authenticate if the given user does not exist', async () => {
+			const auth = await tester({
+				query: `
+				mutation Authenticate($username: String!, $password: String!) {
+					Authenticate(username: $username, password: $password) { id }
+				}
+				`,
+				variables: {
+					username: 'test', // user does not exist
+					password: '12345678',
+				},
+			});
 
-    it('should return a status code 400 if the username or password are incorrect', async () => {
-      const authUser = await request(SUT)
-        .post('/api/auth/login')
-        .send({ username: 'admin_user_test', password: '12345678' });
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(auth);
 
-      expect(authUser.status).toBe(400);
-      expect(authUser.body).toHaveProperty('error');
-    });
-  });
+			expect(auth.body).toHaveProperty('errors');
+			expect(cookie).toBeFalsy();
+		});
 
-  describe('POST:/api/auth/logout/', () => {
-    it('should deauthenticate a user and clear the auth token', async () => {
-      const deauthUser: any = await request(SUT)
-        .post('/api/auth/logout/')
-        .set('Cookie', cookieSet);
-      const [newCookie] = setCookie.parse(deauthUser);
+		it('should not authenticate if the users password is incorrect', async () => {
+			const auth = await tester({
+				query: `
+				mutation Authenticate($username: String!, $password: String!) {
+					Authenticate(username: $username, password: $password) { id }
+				}
+				`,
+				variables: {
+					username: 'test_auth',
+					password: '1234', // incorrect password
+				},
+			});
 
-      expect(deauthUser.header).toHaveProperty('set-cookie');
-      expect(deauthUser.body).toHaveProperty('_id');
-      expect(newCookie.name).toEqual('tsseract-auth-token');
-      expect(newCookie.value).toEqual('');
-    });
-  });
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(auth);
+
+			expect(auth.body).toHaveProperty('errors');
+			expect(cookie).toBeFalsy();
+		});
+	});
+
+	describe('Deauthenticate', () => {
+		it('should remove the authentication token of the authencicated user', async () => {
+			const deauth = await tester({
+				query: `
+				mutation Deauthenticate {
+					Deauthenticate { id }
+				}
+				`,
+				cookieSet,
+			});
+
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(deauth);
+
+			expect(deauth.body).not.toHaveProperty('errors');
+			expect(cookie.name).toBe('tsseract-auth-token');
+			expect(cookie.value).toBe('');
+		});
+
+		it('should fail deauthentication if there is not authenticated user', async () => {
+			const deauth = await tester({
+				query: `
+				mutation Deauthenticate {
+					Deauthenticate { id }
+				}
+				`,
+			});
+
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(deauth);
+
+			expect(deauth.body).toHaveProperty('errors');
+			expect(cookie).toBeFalsy();
+		});
+	});
 });

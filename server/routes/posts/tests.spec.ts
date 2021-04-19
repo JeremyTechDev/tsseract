@@ -1,282 +1,236 @@
-import http from 'http';
-import request from 'supertest';
-import setCookie from 'set-cookie-parser';
+import mongoose from 'mongoose';
+import setCookie, { Cookie } from 'set-cookie-parser';
 
-import server from '../../server';
+import tester from '../../helpers/tester';
 
-interface iUser {
-  _id?: string;
-  birthDate: number;
-  email: string;
-  name: string;
-  password: string;
-  user?: string;
-  username: string;
-}
+describe('Post:Mutations', () => {
+	let postId: String, cookieSet: [String];
 
-describe('Posts', () => {
-  const SUT = http.createServer(server({ dev: true }));
+	beforeAll(async (done) => {
+		// Create a test user
+		const testUser = await tester({
+			query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+			variables: {
+				name: 'Posts Test',
+				username: 'test_posts',
+				email: 'test_posts@tsseract.com',
+				password: '12345678',
+				birthDate: '1618011224038',
+			},
+		});
 
-  const userPayload: iUser = {
-    name: 'Tsseract',
-    username: 'admin_posts_test',
-    password: 'Admin.1234',
-    email: 'admin_posts_test@tsseract.com',
-    birthDate: Date.now(),
-  };
-  const secondUserPayload: iUser = {
-    ...userPayload,
-    username: 'admin_posts_test_2',
-    email: 'admin_posts_test_2@tsseract.com',
-  };
-  const postPayload = {
-    title: 'Test Post',
-    body: 'This is a test post',
-    cover: '/testing/url/for/image',
-  };
-  let user: any,
-    cookieSet: [string],
-    post: any,
-    secondUser: any,
-    secUserCookieSet: [string],
-    userId: string;
+		// @ts-ignore
+		const [cookie]: Cookie = setCookie.parse(testUser);
+		cookieSet = [`${cookie.name}=${cookie.value}`];
 
-  beforeAll(async (done) => {
-    user = await request(SUT).post('/api/users/').send(userPayload);
-    userId = user.body._id;
-    userPayload.user = userId;
-    const cookie = setCookie.parse(user)[0];
-    cookieSet = [`${cookie.name}=${cookie.value}`];
+		done();
+	});
 
-    secondUser = await request(SUT).post('/api/users/').send(secondUserPayload);
-    const secUserCookie = setCookie.parse(secondUser)[0];
-    secUserCookieSet = [`${secUserCookie.name}=${secUserCookie.value}`];
+	afterAll(async (done) => {
+		await mongoose.connection.collections['users'].drop();
+		await mongoose.connection.collections['posts'].drop();
+		done();
+	});
 
-    SUT.listen(done);
-  });
+	describe('CreatePost', () => {
+		it('should create a new post', async () => {
+			const post = await tester({
+				query: `
+				mutation CreatePost($title: String!, $body: String!, $cover: String, $tags: [String]) {
+					CreatePost(title: $title, body: $body, cover: $cover, tags: $tags) { id }
+				}
+				`,
+				variables: {
+					body: 'some body',
+					cover: 'some-url',
+					tags: ['tag1', 'tag2'],
+					title: 'Title',
+				},
+				cookieSet,
+			});
 
-  afterAll(async (done) => {
-    const postId = post.body._id;
+			// save post id for later
+			postId = post.body.data.CreatePost.id;
 
-    await request(SUT).delete(`/api/posts/${postId}`).set('Cookie', cookieSet);
+			expect(post.body).not.toHaveProperty('errors');
+			expect(post.body.data.CreatePost).toHaveProperty('id');
+		});
 
-    await request(SUT).delete(`/api/users`).set('Cookie', cookieSet);
-    await request(SUT).delete(`/api/users`).set('Cookie', secUserCookieSet);
+		it('should not create the post id the user is not authenticated', async () => {
+			const post = await tester({
+				query: `
+				mutation CreatePost($title: String!, $body: String!, $cover: String, $tags: [String]) {
+					CreatePost(title: $title, body: $body, cover: $cover, tags: $tags) { id }
+				}
+				`,
+				variables: {
+					body: 'some body',
+					cover: 'some-url',
+					tags: ['tag1', 'tag2'],
+					title: 'Title',
+				},
+			});
 
-    SUT.close(done);
-  });
+			expect(post.body).toHaveProperty('errors');
+		});
 
-  describe('POST:/api/posts', () => {
-    it('should create a new post with just one tag', async () => {
-      const newPostPayload = {
-        ...postPayload,
-        tags: ['TypeScript'],
-      };
+		it('should not create the post if one of the fields is invalid', async () => {
+			const post = await tester({
+				query: `
+				mutation CreatePost($title: String!, $body: String!, $cover: String, $tags: [String]) {
+					CreatePost(title: $title, body: $body, cover: $cover, tags: $tags) { id }
+				}
+				`,
+				variables: {
+					body: 'some body',
+					cover: 'some-url',
+					tags: ['tag1', 'tag2'],
+					title: '', // required
+				},
+				cookieSet,
+			});
 
-      post = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(newPostPayload);
+			expect(post.body).toHaveProperty('errors');
+		});
+	});
 
-      expect(post.body.tags.length).toBe(1);
-      expect(post.body).toMatchObject({
-        ...postPayload,
-        user: userId,
-      });
-    });
+	describe('ToggleLike', () => {
+		it('should add a like to a post', async () => {
+			const like = await tester({
+				query: `
+				mutation ToggleLike($postId: String!) {
+					ToggleLike(postId: $postId) { id likes { id } }
+				}
+				`,
+				variables: { postId },
+				cookieSet,
+			});
 
-    it('should create a new post with three tags', async () => {
-      const newPostPayload = {
-        ...postPayload,
-        tags: ['TypeScript', 'Docker', 'MongoDB'],
-      };
+			expect(like.body).not.toHaveProperty('errors');
+			expect(like.body.data.ToggleLike.likes.length).toBe(1);
+		});
 
-      post = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(newPostPayload);
+		it('should remove the like from the previous post', async () => {
+			const like = await tester({
+				query: `
+				mutation ToggleLike($postId: String!) {
+					ToggleLike(postId: $postId) { id likes { id } }
+				}
+				`,
+				variables: { postId },
+				cookieSet,
+			});
 
-      expect(post.body.tags.length).toBe(3);
-      expect(post.body).toMatchObject({
-        ...postPayload,
-        user: userId,
-      });
-    });
+			expect(like.body).not.toHaveProperty('errors');
+			expect(like.body.data.ToggleLike.likes.length).toBe(0);
+		});
 
-    it('should return a status 400 if some fields are invalid', async () => {
-      const newPostPayload = {
-        ...postPayload,
-        title: '',
-        tags: [],
-      };
+		it('should not toggle the like if no user is authenticated', async () => {
+			const like = await tester({
+				query: `
+				mutation ToggleLike($postId: String!) {
+					ToggleLike(postId: $postId) { id likes { id } }
+				}
+				`,
+				variables: { postId },
+			});
 
-      post = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(newPostPayload);
+			expect(like.body).toHaveProperty('errors');
+		});
 
-      expect(post.body).toHaveProperty('error');
-      expect(post.status).toBe(400);
-    });
+		it('should not toggle the like if no post with the given id is found', async () => {
+			const like = await tester({
+				query: `
+				mutation ToggleLike($postId: String!) {
+					ToggleLike(postId: $postId) { id likes { id } }
+				}
+				`,
+				variables: { postId: 'no-post-with-this-id' },
+				cookieSet,
+			});
 
-    it('should return a status 400 if any tag is invalid', async () => {
-      const newPostPayload = {
-        ...postPayload,
-        tags: ['Invalid tag'],
-      };
+			expect(like.body).toHaveProperty('errors');
+		});
+	});
 
-      post = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(newPostPayload);
+	describe('DeletePost', () => {
+		it('should not delete the post if no user is authenticated', async () => {
+			const del = await tester({
+				query: `
+				mutation DeletePost($postId: String!) {
+					DeletePost(postId: $postId) { id }
+				}
+				`,
+				variables: { postId },
+			});
 
-      expect(post.body).toHaveProperty('error');
-      expect(post.status).toBe(400);
-    });
+			expect(del.body).toHaveProperty('errors');
+		});
 
-    it('should create a new post with no tags', async () => {
-      const newPostPayload = {
-        ...postPayload,
-        tags: [],
-      };
+		it('should not delete the post if no post with the given id is found', async () => {
+			const del = await tester({
+				query: `
+				mutation DeletePost($postId: String!) {
+					DeletePost(postId: $postId) { id }
+				}
+				`,
+				variables: { postId: 'no-post-with-this-id' },
+				cookieSet,
+			});
 
-      post = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(newPostPayload);
+			expect(del.body).toHaveProperty('errors');
+		});
 
-      expect(post.body.tags.length).toBe(0);
-      expect(post.body).toMatchObject({
-        ...postPayload,
-        user: userId,
-      });
-    });
-  });
+		it('should not delete the post if it does not belong to the user', async () => {
+			// Create a test user
+			const testUser = await tester({
+				query: `
+				mutation CreateUser($name: String!, $username: String!, $email: String!, $password: String!, $birthDate: String!) {
+					CreateUser(name: $name, username: $username, email: $email, password: $password, birthDate: $birthDate) { id }
+				}
+				`,
+				variables: {
+					name: 'Posts Test',
+					username: 'test_posts_2',
+					email: 'test_posts_2@tsseract.com',
+					password: '12345678',
+					birthDate: '1618011224038',
+				},
+			});
 
-  describe('GET:/api/posts/', () => {
-    it('should return all posts in the app (limit 50)', async () => {
-      const allPosts = await request(SUT).get('/api/posts/');
+			// @ts-ignore
+			const [cookie]: Cookie = setCookie.parse(testUser);
+			const cookieSet: [String] = [`${cookie.name}=${cookie.value}`];
 
-      expect(allPosts.body).toHaveProperty('length');
-      expect(allPosts.body.length).toBeLessThanOrEqual(50);
-    });
+			const del = await tester({
+				query: `
+				mutation DeletePost($postId: String!) {
+					DeletePost(postId: $postId) { id }
+				}
+				`,
+				variables: { postId },
+				cookieSet,
+			});
 
-    it('should return the amount of posts passed in the "limit" argument', async () => {
-      const allPosts = await request(SUT).get('/api/posts/?limit=1');
+			expect(del.body).toHaveProperty('errors');
+		});
 
-      expect(allPosts.body).toHaveProperty('length');
-      expect(allPosts.body.length).toBe(1);
-    });
-  });
+		it('should delete a post', async () => {
+			const del = await tester({
+				query: `
+				mutation DeletePost($postId: String!) {
+					DeletePost(postId: $postId) { id }
+				}
+				`,
+				variables: { postId },
+				cookieSet,
+			});
 
-  describe('GET:/api/posts/:postId', () => {
-    it('should return a post found by its id', async () => {
-      const postFound = await request(SUT).get(
-        `/api/posts/id/${post.body._id}`,
-      );
-
-      expect(postFound.body._id).toBe(post.body._id);
-      expect(postFound.body.interactions).toBe(1);
-    });
-
-    it('should return 404 if no post with the given id was found', async () => {
-      const postFound = await request(SUT).get(`/api/posts/id/${userId}`); // should be post id
-
-      expect(postFound.status).toBe(404);
-      expect(postFound.body).toHaveProperty('error');
-    });
-  });
-
-  describe('PUT:/api/posts/like/:postId', () => {
-    it('should like a post (add the user id to the likes array)', async () => {
-      const likedPost = await request(SUT)
-        .put(`/api/posts/like/${post.body._id}`)
-        .set('Cookie', cookieSet);
-
-      expect(likedPost.body.likes).toContain(userId);
-      expect(likedPost.body.interactions).toBe(2);
-    });
-
-    it('should unlike a post (remove the user id to the likes array)', async () => {
-      const likedPost = await request(SUT)
-        .put(`/api/posts/like/${post.body._id}`)
-        .set('Cookie', cookieSet);
-
-      expect(likedPost.body.likes).not.toContain(userId);
-      expect(likedPost.body.interactions).toBe(3);
-    });
-  });
-
-  describe('GET:/api/posts/by/:id', () => {
-    it('should return list of post by an user', async () => {
-      const postsBy = await request(SUT)
-        .get(`/api/posts/by/${userId}`)
-        .set('Cookie', cookieSet);
-
-      const errorOnRequest = postsBy.body.some(
-        ({ user }: { user: iUser }) => user._id !== userId,
-      );
-
-      expect(errorOnRequest).toBe(false);
-    });
-
-    it('should return an empty array if the user was not found', async () => {
-      const postsBy = await request(SUT)
-        .get(`/api/posts/by/${post.body._id}`) // should be userId
-        .set('Cookie', cookieSet);
-
-      expect(postsBy.body.length).toBe(0);
-    });
-  });
-
-  describe('GET:/api/posts/feed/', () => {
-    it("should return a list of posts by the given user's following list", async () => {
-      // create a post with secondUser
-      await request(SUT)
-        .post('/api/posts/')
-        .set('Cookie', secUserCookieSet)
-        .send(postPayload);
-
-      // with user, follow secondUser
-      await request(SUT)
-        .put('/api/users/follow/admin_posts_test_2')
-        .set('Cookie', cookieSet);
-
-      // get user's feed
-      const feed = await request(SUT)
-        .get(`/api/posts/feed/`)
-        .set('Cookie', cookieSet);
-
-      const errorOnRequest = feed.body.some(
-        ({ user }: { user: string }) => user !== secondUser.body._id,
-      );
-
-      expect(errorOnRequest).toBe(false);
-    });
-  });
-
-  describe('DELETE:/api/posts/:postId', () => {
-    it('should delete post', async () => {
-      const postToDelete = await request(SUT)
-        .post('/api/posts')
-        .set('Cookie', cookieSet)
-        .send(postPayload);
-
-      const deletedPost = await request(SUT)
-        .delete(`/api/posts/${postToDelete.body._id}`)
-        .set('Cookie', cookieSet);
-
-      expect(deletedPost.status).toBe(200);
-      expect(deletedPost.body).toMatchObject(postPayload);
-    });
-
-    it('should return status 404 if no post was found with the given id', async () => {
-      const deletedPost = await request(SUT)
-        .delete(`/api/posts/${userId}`) // should be post id
-        .set('Cookie', cookieSet);
-
-      expect(deletedPost.status).toBe(404);
-      expect(deletedPost.body).toHaveProperty('error');
-    });
-  });
+			expect(del.body).not.toHaveProperty('errors');
+		});
+	});
 });
