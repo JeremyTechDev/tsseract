@@ -1,8 +1,16 @@
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-import Users from '../routes/users/model';
+import User from '../routes/users/model';
 import { iAuthenticatedUser, iUser } from '../@types';
+const { JWT_KEY } = process.env;
+
+const codes = [
+  'Access denied. No credentials provided.',
+  'Access denied. Corrupt credentials.',
+  'Access denied. Non-existent user.',
+  'Access denied. The current user is not allowed to perform this action.',
+];
 
 /**
  * Authenticate and ensures that the user performing the action coincides with the credentials
@@ -10,42 +18,27 @@ import { iAuthenticatedUser, iUser } from '../@types';
  * @param res Express response object
  * @param next Next middleware function
  */
-const authenticator: RequestHandler = async (req, _, next) => {
-	const proceedWithAuthError = (errorMessage: string) => {
-		req.cookies = {
-			error: true,
-			errorMessage,
-		};
-	};
+export default async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.signedCookies['tsseract-auth-token'] || req.query.token;
 
-	try {
-		const token: string =
-			req.signedCookies['tsseract-auth-token'] || req.query.token || null;
+    if (!token) return res.status(401).send({ error: codes[0] });
 
-		if (!token) proceedWithAuthError('Access denied. No credentials provided.');
+    const decodedUser = <iAuthenticatedUser>jwt.verify(token, <string>JWT_KEY);
 
-		const decodedUser = <iAuthenticatedUser>(
-			jwt.verify(token, <string>process.env.JWT_KEY)
-		);
-		if (!decodedUser)
-			proceedWithAuthError('Access denied. Corrupt credentials.');
+    if (!decodedUser) return res.status(403).send({ error: codes[1] });
 
-		const { id: userId } = decodedUser;
-		const user = (await Users.findById(userId)) as iUser;
-		if (!user) proceedWithAuthError('Access denied. Non-existent user.');
+    const { _id: userId } = decodedUser;
+    const user = (await User.findById(userId)) as iUser;
 
-		if (!user._id.equals(userId)) {
-			proceedWithAuthError(
-				'Access denied. The current user is not allowed to perform this action.',
-			);
-		}
+    if (!user) return res.status(404).send({ error: codes[2] });
 
-		req.cookies.profile = user;
-	} catch (error) {
-		proceedWithAuthError(error.message);
-	} finally {
-		next();
-	}
+    if (!user._id.equals(userId))
+      return res.status(403).send({ error: codes[3] });
+
+    req.cookies.profile = user;
+    next();
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
 };
-
-export default authenticator;
