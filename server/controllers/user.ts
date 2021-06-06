@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RequestHandler } from 'express';
 import Joi from '@hapi/joi';
 import bcrypt from 'bcrypt';
