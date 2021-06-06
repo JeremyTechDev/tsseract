@@ -1,8 +1,9 @@
 import next from 'next';
 
 import server from './server';
+const { NODE_ENV } = process.env;
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = NODE_ENV !== 'production';
 
 const app = next({ dev, dir: './dist/client' });
 const appHandler = app.getRequestHandler();
