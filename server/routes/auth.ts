@@ -1,11 +1,11 @@
 import express from 'express';
 
-import auth from '../../middlewares/authenticator';
+import auth from '../middlewares/authenticator';
 import {
   authenticate,
   deauthenticate,
   getTokenData,
-} from './controllers';
+} from '../controllers/auth';
 
 const router = express.Router();
 
