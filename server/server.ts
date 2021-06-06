@@ -6,14 +6,13 @@ import cors from 'cors';
 import { graphqlHTTP } from 'express-graphql';
 
 import database from './database';
-import graphQLSchema from './graphql';
 
-import auth from './routes/auth/routes';
-import user from './routes/users/routes';
-import post from './routes/posts/routes';
-import tag from './routes/tags/routes';
+import auth from './routes/auth';
+import user from './routes/user';
+import post from './routes/post';
+import tag from './routes/tag';
 
-const { COOKIE_KEY, NODE_ENV, PORT = 8080 } = process.env;
+const { COOKIE_KEY, PORT = 8080, NODE_ENV } = process.env;
 
 interface Options {
 	dev?: boolean;
@@ -50,15 +49,6 @@ const init = (options: Options) => {
 	server.use('/api/posts', post);
 	server.use('/api/auth', auth);
 	server.use('/api/tags', tag);
-
-	// graphql setting
-	server.use(
-		'/graphql',
-		graphqlHTTP({
-			graphiql: true,
-			schema: graphQLSchema,
-		}),
-	);
 
 	// let next handle the default route
 	if (appHandler) {

@@ -2,7 +2,7 @@ import http from 'http';
 import request from 'supertest';
 import setCookie from 'set-cookie-parser';
 
-import server from '../../server';
+import server from '../server';
 
 describe('Tag', () => {
   const SUT = http.createServer(server({ dev: true }));
