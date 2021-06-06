@@ -2,9 +2,9 @@ import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import Joi from '@hapi/joi';
 
-import User from '../users/model';
-import cookieCreator from '../../helpers/cookieCreator';
-import { iUser } from '../../@types';
+import User from '../models/user';
+import cookieCreator from '../helpers/cookieCreator';
+import { iUser } from '../@types';
 
 /**
  * Authenticates a existing user

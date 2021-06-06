@@ -1,7 +1,7 @@
+import { Schema, Types, Document } from 'mongoose';
 import Joi from '@hapi/joi';
-import { Schema, Types } from 'mongoose';
 
-import regex from '../../helpers/regex';
+import regex from '../helpers/regex';
 
 export const commentsSchema = new Schema({
   user: {

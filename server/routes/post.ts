@@ -8,9 +8,9 @@ import {
   getPostsFeed,
   retrieveAll,
   toggleLike,
-} from './controllers';
-import { createComment, deleteComment } from '../comments/controllers';
-import auth from '../../middlewares/authenticator';
+} from '../controllers/post';
+import { createComment, deleteComment } from '../controllers/comment';
+import auth from '../middlewares/authenticator';
 
 const router = express.Router();
 
