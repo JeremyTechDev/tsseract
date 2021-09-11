@@ -34,10 +34,12 @@ const MyApp = ({ Component, pageProps, authData }: Props) => {
   return (
     <ThemeProvider theme={responsiveFontSizes(getTheme('dark'))}>
       <CssBaseline />
+
       <NextProgress
         color={getTheme('dark').palette.secondary.main}
         options={{ showSpinner: false }}
       />
+
       <AppContext.Provider value={{ state, dispatch }}>
         <Component {...pageProps} />
       </AppContext.Provider>

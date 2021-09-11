@@ -1,7 +1,10 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 const theme = (theme: 'light' | 'dark') =>
-  createMuiTheme({
+  createTheme({
+    mixins: {
+      toolbar: { minHeight: 80 },
+    },
     palette: {
       type: theme,
       primary: {

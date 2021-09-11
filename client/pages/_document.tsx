@@ -70,7 +70,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="msapplication-starturl" content="/" />
           <meta property="og:site_name" content="Tsseract" />
           <meta property="og:title" content="Tsseract" />
-          <meta property="og:url" content="http://tsseract.io" />
+          {/* <meta property="og:url" content="http://tsseract.io" /> */}
           <meta
             property="og:description"
             content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
@@ -89,6 +89,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
             rel="stylesheet"
           />
         </Head>
+
         <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
           <NextScript />
