@@ -31,10 +31,9 @@ const getStyles = (out: boolean) => {
   const pallete = theme('dark').palette;
 
   return {
-    alignSelf: out ? 'end' : 'start',
+    alignSelf: out ? 'flex-end' : 'flex-start',
     background: out ? pallete.primary.main : pallete.grey[700],
     borderRadius: out ? '20px 0 20px 20px' : '0 20px 20px 20px',
-    margin: out ? '20px 30px' : '5px 30px',
   };
 };
 

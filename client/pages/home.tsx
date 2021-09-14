@@ -20,8 +20,6 @@ import SendIcon from '@material-ui/icons/Send';
 
 import Avatar from '../components/Avatar/Avatar';
 
-import ChatLayout from '../components/Layout/Chat';
-import TagBarLayout from '../components/Layout/TagBar';
 import TagCard from '../components/Tag/Card';
 import MessagePost from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
@@ -54,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
       paddingBottom: 70,
+      width: '100%',
     },
     newPostContainer: {
       zIndex: 99,
@@ -168,9 +167,15 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
 
       <main className={classes.content}>
         <Toolbar />
-        {posts.map((a, i) => (
-          <MessagePost out={i === 1} post={a} />
-        ))}
+        <Grid container direction="column">
+          {posts.map((post) => (
+            <MessagePost
+              key={post._id}
+              out={user?._id === post.user._id}
+              post={post}
+            />
+          ))}
+        </Grid>
 
         <Paper square className={classes.newPostContainer}>
           <TextField
