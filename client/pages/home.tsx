@@ -3,16 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { NextPage, NextPageContext } from 'next';
 import {
-  Hidden,
-  Typography,
   AppBar,
-  Toolbar,
-  IconButton,
   Drawer,
   Grid,
+  Hidden,
+  IconButton,
   Paper,
   TextField,
   Theme,
+  Toolbar,
+  Typography,
   useMediaQuery,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -156,12 +156,16 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
         onClose={toggleMenu}
         classes={{ paper: classes.drawerPaper }}
       >
-        <Toolbar />
+        {!isMobile && <Toolbar />}
 
         <div className={classes.drawerContainer}>
-          {tags.map((tag) => (
-            <TagCard tag={tag} />
-          ))}
+          <Grid container direction="column" spacing={3}>
+            {tags.map((tag) => (
+              <Grid item key={tag.tag._id}>
+                <TagCard tag={tag} />
+              </Grid>
+            ))}
+          </Grid>
         </div>
       </Drawer>
 

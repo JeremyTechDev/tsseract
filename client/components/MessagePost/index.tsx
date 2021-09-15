@@ -11,11 +11,11 @@ import {
 } from '@material-ui/core';
 import router from 'next/router';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { NextPage } from 'next';
 
 import Avatar from '../Avatar/Avatar';
 import Tag from '../Tag';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import theme from '../../theme';
 import useStyles from './styles';
 import { iPost } from '../../@types';
