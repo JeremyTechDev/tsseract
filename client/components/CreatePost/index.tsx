@@ -69,7 +69,7 @@ const PostForm: React.FC<Props> = ({ titleProp }) => {
 
         <Grid item xs={12} md={6}>
           <Paper square elevation={2}>
-            <Grid justify="space-between" container>
+            <Grid justifyContent="space-between" container>
               {(coverImg && (
                 <Tooltip placement="top" title="Click to change">
                   <img

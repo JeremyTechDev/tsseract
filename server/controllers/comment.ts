@@ -63,18 +63,16 @@ export const createAnonymousComment: RequestHandler = async (req, res) => {
     if (!mongoose.isValidObjectId(postId))
       return res.status(404).send({ error: 'No post found with the given id' });
 
-    const post = (await Post.findByIdAndUpdate(
-      postId,
-      {
-        $push: {
-          comments: { $each: [{ body }], position: 0 },
-          $inc: { interactions: 1 },
-        },
-      },
-      { new: true },
-    )
+    const post = (await Post.findById(postId)
       .populate('user', '_id name username')
       .populate('comments.user', '_id name username')) as iPost;
+
+    // @ts-ignore
+    post.interactions++;
+    // @ts-ignore
+    post.comments.unshift({ body });
+
+    await post.save();
 
     if (!post)
       return res.status(404).send({ error: 'No post found with the given id' });

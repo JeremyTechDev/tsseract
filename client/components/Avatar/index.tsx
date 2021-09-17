@@ -51,7 +51,7 @@ const Avatar = () => {
     <Grid container>
       <Grid item lg={1} md="auto" />
 
-      <Grid item md={4} xs={12} container alignItems="center" justify="center">
+      <Grid item md={4} xs={12} container alignItems="center" justifyContent="center">
         <AvatarPic size="550px" avatar={JSON.stringify(pieces)} />
 
         <Button

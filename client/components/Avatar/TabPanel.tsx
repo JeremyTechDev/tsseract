@@ -16,7 +16,7 @@ interface TabItemProps {
 export const TabItem = ({ children, onClick, text = '' }: TabItemProps) => {
   return (
     <Grid item xs={6} md={2}>
-      <Grid container direction="column" justify="center" alignItems="center">
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         <Button onClick={onClick}>{children}</Button>
         {text}
       </Grid>
@@ -40,7 +40,7 @@ const TabPanel = (props: TabPanelProps) => {
           <Grid
             container
             alignItems="flex-start"
-            justify="flex-start"
+            justifyContent="flex-start"
             spacing={4}
           >
             {children}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import {
   Badge,
@@ -6,8 +7,6 @@ import {
   Grid,
   IconButton,
   Typography,
-  TextField,
-  Button,
 } from '@material-ui/core';
 import { Favorite, TouchApp } from '@material-ui/icons';
 import dayjs from 'dayjs';
@@ -16,13 +15,14 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import PostHero from '../../components/Hero/Post';
 import Avatar from '../../components/Avatar/Avatar';
 import Comment from '../../components/Comment';
+import NewComment from '../../components/Comment/New';
 import ErrorPage from '../_error';
 import RichTextEditor from '../../components/RichTextEditor';
 import Link from '../../components/Link';
 import Tag from '../../components/Tag';
 import { authInitialProps } from '../../lib/auth';
 import { getRequest } from '../../lib/fetch';
-import { iPost, authType } from '../../@types';
+import { iPost, authType, iComment } from '../../@types';
 
 dayjs.extend(relativeTime);
 
@@ -32,6 +32,8 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post }) => {
+  const [comments, setComments] = useState<iComment[]>(post.comments || []);
+
   if (!post || !post._id) {
     return <ErrorPage statusCode={404} />;
   }
@@ -133,36 +135,10 @@ const Post: NextPage<Props> = ({ post }) => {
             <Divider />
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={8}
-            container
-            direction="column"
-            justifyContent="flex-end"
-            spacing={1}
-          >
-            <Grid item>
-              <TextField
-                variant="outlined"
-                color="primary"
-                label="Have anything in mind? Express yourself!"
-                placeholder="Be nice to people, unless you have inside jokes 😉"
-                multiline
-                inputProps={{ maxLength: 255 }}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item>
-              <Button color="primary" variant="contained">
-                Share
-              </Button>
-            </Grid>
-          </Grid>
+          <NewComment postId={post._id} setNewComments={setComments} />
 
           <Grid item xs={12} md={8} container direction="column" spacing={1}>
-            {post?.comments?.map((comment) => (
+            {comments?.map((comment) => (
               <Comment key={comment._id} comment={comment} />
             ))}
           </Grid>

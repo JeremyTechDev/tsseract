@@ -49,7 +49,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
   return (
     <Card className={classes.root} style={getStyles(out)}>
       <CardContent>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Grid container alignItems="center">
               <Link href={`/profile/${user.username}`}>
@@ -89,7 +89,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
       </CardActionArea>
 
       <CardActions>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             {tags.map((tag) => (
               <Tag key={tag._id} tag={tag} />

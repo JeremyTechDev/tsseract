@@ -103,7 +103,7 @@ const UserPage: React.FC<Props> = ({
         <Grid
           container
           direction={largeScreen ? 'column' : 'row'}
-          justify="center"
+          justifyContent="center"
         >
           {panels.map((btn) => (
             <Button

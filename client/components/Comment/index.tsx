@@ -18,7 +18,7 @@ const Comment: FC<Props> = ({ comment }) => (
     </Grid>
 
     <Grid item>
-      <Typography variant="subtitle1">@{comment.user.username}</Typography>
+      <Typography variant="subtitle1">@{comment?.user?.username || 'anonymous'}</Typography>
     </Grid>
 
     <Grid item>

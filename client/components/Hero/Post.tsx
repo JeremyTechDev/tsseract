@@ -28,7 +28,7 @@ const PostHero: FC<Props> = ({ cover, title }) => {
       className={classes.hero}
       container
       direction="column"
-      justify="space-between"
+      justifyContent="space-between"
     >
       <img
         alt="Logo"
