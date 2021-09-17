@@ -45,6 +45,47 @@ export const createComment: RequestHandler = async (req, res) => {
 };
 
 /**
+ * Creates a new anonymous comment in a post
+ * @param req Express request
+ * @param res Express response
+ */
+export const createAnonymousComment: RequestHandler = async (req, res) => {
+  const { postId } = req.params;
+  const { body } = req.body;
+
+  try {
+    if (!(typeof body === 'string') || body.trim().length > 255) {
+      return res.status(400).send({
+        error: 'Comment body must be a string between 1 and 255 characters',
+      });
+    }
+
+    if (!mongoose.isValidObjectId(postId))
+      return res.status(404).send({ error: 'No post found with the given id' });
+
+    const post = (await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          comments: { $each: [{ body }], position: 0 },
+          $inc: { interactions: 1 },
+        },
+      },
+      { new: true },
+    )
+      .populate('user', '_id name username')
+      .populate('comments.user', '_id name username')) as iPost;
+
+    if (!post)
+      return res.status(404).send({ error: 'No post found with the given id' });
+
+    res.send(post);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+/**
  * Deletes a comment in a post
  * @param {Object} req Express request
  * @param {Object} res Express response

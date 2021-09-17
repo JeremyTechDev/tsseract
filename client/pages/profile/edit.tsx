@@ -1,5 +1,6 @@
 import { NextPage, NextPageContext } from 'next';
 
+import ErrorPage from '../_error';
 import Layout from '../../components/Layout';
 import EditPage from '../../components/UserPage/EditPage';
 import { authInitialProps } from '../../lib/auth';
@@ -11,7 +12,9 @@ interface Props {
   profile: iUser;
 }
 
+// THIS PAGE IS STILL UNDER DEVELOPMENT
 const Edit: NextPage<Props> = ({ user, profile }) => {
+  return <ErrorPage statusCode={404} />;
   return (
     <Layout title="Edit Profile">
       <EditPage profile={profile} user={user} />

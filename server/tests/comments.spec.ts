@@ -3,6 +3,7 @@ import request from 'supertest';
 import setCookie, { Cookie } from 'set-cookie-parser';
 
 import server from '../server';
+import { resourceUsage } from 'process';
 
 interface iUser {
   birthDate: number;
@@ -150,6 +151,18 @@ describe('Comments', () => {
 
       expect(postWithComment.body).toHaveProperty('error');
       expect(postWithComment.status).toBe(404);
+    });
+  });
+
+  describe('POST:/api/posts/c/anonymous:postId', () => {
+    it('should add a new anonymous comment (user set to null)', async () => {
+      const commentBody = 'Anonymous Comment!';
+      const postWithAnonymousComment = await request(SUT)
+        .post(`/api/posts/c/anonymous/${post.body._id}`)
+        .send({ body: commentBody });
+
+      expect(postWithAnonymousComment.body.comments[0].user).toBe(null);
+      expect(postWithAnonymousComment.body.comments[0].body).toBe(commentBody);
     });
   });
 

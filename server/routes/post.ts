@@ -9,7 +9,11 @@ import {
   retrieveAll,
   toggleLike,
 } from '../controllers/post';
-import { createComment, deleteComment } from '../controllers/comment';
+import {
+  createAnonymousComment,
+  createComment,
+  deleteComment,
+} from '../controllers/comment';
 import auth from '../middlewares/authenticator';
 
 const router = express.Router();
@@ -42,6 +46,14 @@ router.get('/id/:postId', findById);
  * @method POST
  */
 router.post('/c/:postId', auth, createComment);
+
+/**
+ * Creates a new anonymous comment in a post
+ * @route /api/posts/c/anonymous/:postId
+ * @param {String} postId post id
+ * @method POST
+ */
+router.post('/c/anonymous/:postId', createAnonymousComment);
 
 /**
  * Deletes a comment in a post
