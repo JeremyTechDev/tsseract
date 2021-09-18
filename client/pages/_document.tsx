@@ -98,6 +98,11 @@ export default class MyDocument extends Document<{ userData: authType }> {
             dangerouslySetInnerHTML={{ __html: getUserScript(userData.user) }}
           />
         </body>
+        <script
+          async
+          charSet="utf-8"
+          src="https://platform.twitter.com/widgets.js"
+        />
       </Html>
     );
   }

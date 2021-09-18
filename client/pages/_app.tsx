@@ -15,6 +15,8 @@ import reducer from '../context/reducer';
 import { getRequest } from '../lib/fetch';
 import { iUser } from '../@types';
 
+import '../main.css';
+
 interface Props {
   Component: React.FC;
   pageProps: object;

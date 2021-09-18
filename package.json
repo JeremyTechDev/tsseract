@@ -18,6 +18,7 @@
     "tsc:w:server": "tsc -p ./server -w",
     "seed": "node dist/server/seeder.js",
     "copy-files": "cp -vr ./static/. dist/client/public/",
+    "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
     "heroku-postbuild": "npm i && run-s tsc build copy-files"
   },
