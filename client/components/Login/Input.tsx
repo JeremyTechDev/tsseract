@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField } from '@mui/material';
 
 import useStyles from './styles';
 import { InputChangeEvent } from '../../@types';

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import Router from 'next/router';
-import { CircularProgress, Typography, Grid, Button } from '@material-ui/core';
+import { CircularProgress, Typography, Grid, Button } from '@mui/material';
 
 import AppContext, { Types } from '../../context';
 import { loginUser } from '../../lib/auth';

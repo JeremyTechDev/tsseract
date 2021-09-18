@@ -1,7 +1,7 @@
-import { Grid, Link, Typography, IconButton } from '@material-ui/core';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import { Grid, Link, Typography, IconButton } from '@mui/material';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const LINKS = [
   { Icon: TwitterIcon, title: 'Twitter', link: 'https://twitter.com/askjere' },
@@ -39,7 +39,7 @@ const Footer = () => {
         <Grid item container spacing={2} justifyContent="center">
           {LINKS.map(({ Icon, title, link }) => (
             <Grid item key={link}>
-              <IconButton title={title} color="inherit" href={link}>
+              <IconButton title={title} color="inherit" href={link} size="large">
                 <Icon fontSize="large" />
               </IconButton>
             </Grid>

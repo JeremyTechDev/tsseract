@@ -7,8 +7,8 @@ import {
   IconButton,
   Link as MuiLink,
   Typography,
-} from '@material-ui/core';
-import { GitHub, LinkedIn, AlternateEmail, Favorite } from '@material-ui/icons';
+} from '@mui/material';
+import { GitHub, LinkedIn, AlternateEmail, Favorite } from '@mui/icons-material';
 
 import AppContext from '../../context';
 import useStyles from './styles';
@@ -25,16 +25,16 @@ const Footer = () => {
         <Grid container justifyContent="center" alignItems="center">
           <Grid className={classes.footerTop} container justifyContent="center">
             <Grid item container justifyContent="center" alignItems="center">
-              <IconButton color="primary" href="https://github.com/jeremy2918">
+              <IconButton color="primary" href="https://github.com/jeremy2918" size="large">
                 <GitHub fontSize="large" />
               </IconButton>
               <IconButton
                 color="primary"
                 href="https://linkedin.com/in/jeremy-munoz-torres"
-              >
+                size="large">
                 <LinkedIn fontSize="large" />
               </IconButton>
-              <IconButton color="primary" href="mailto:jeremy2918@gmail.com">
+              <IconButton color="primary" href="mailto:jeremy2918@gmail.com" size="large">
                 <AlternateEmail fontSize="large" />
               </IconButton>
             </Grid>

@@ -6,7 +6,7 @@ import {
   Grid,
   Hidden,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useRouter } from 'next/router';
 
 import ImgInfo from './ImgInfo';
@@ -35,7 +35,7 @@ const Login: React.FC<Props> = ({ bgData }) => {
 
   return (
     <Grid className={classes.grid} container direction="row">
-      <Hidden smDown>
+      <Hidden mdDown>
         <Grid container item md={2} alignItems="flex-end">
           <ImgInfo bgData={bgData} />
         </Grid>

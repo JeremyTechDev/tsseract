@@ -1,11 +1,11 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
-const theme = createTheme({
+const theme = createTheme(adaptV4Theme({
   mixins: {
     toolbar: { minHeight: 80 },
   },
   palette: {
-    type: 'light',
+    mode: 'light',
     primary: {
       main: '#d2afff',
     },
@@ -40,6 +40,6 @@ const theme = createTheme({
       fontFamily: 'Montserrat',
     },
   },
-});
+}));
 
 export default theme;

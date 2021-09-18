@@ -6,7 +6,7 @@ import {
   Chip,
   Grid,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { iTag, iPost } from '../../@types';
 import { getTagColor } from './getTagColor';

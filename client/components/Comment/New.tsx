@@ -1,5 +1,5 @@
 import { FC, ChangeEventHandler, useState } from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField } from '@mui/material';
 
 import { postRequest } from '../../lib/fetch';
 import { iComment } from '../../@types';

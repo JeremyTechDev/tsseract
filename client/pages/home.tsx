@@ -14,9 +14,9 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import SendIcon from '@material-ui/icons/Send';
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import SendIcon from '@mui/icons-material/Send';
 
 import Avatar from '../components/Avatar/Avatar';
 
@@ -25,7 +25,7 @@ import MessagePost from '../components/MessagePost';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
 import { iPost, iTag } from '../@types';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import AppContext from '../context';
 
 const DRAWER_WIDTH = 350;
@@ -59,9 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       bottom: 0,
       width: `calc(100vw - ${DRAWER_WIDTH}px)`,
-      padding: `0 ${theme.spacing(3)}px`,
+      padding: `0 ${theme.spacing(3)}`,
       left: DRAWER_WIDTH,
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         width: '100vw',
         left: 0,
       },
@@ -87,7 +87,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
     state: { user },
   } = useContext(AppContext);
   const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('md'),
+    theme.breakpoints.down('lg'),
   );
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
@@ -101,13 +101,13 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
               <Grid container>
                 {isMobile && (
                   <Grid item>
-                    <IconButton title="Open Menu" onClick={toggleMenu}>
+                    <IconButton title="Open Menu" onClick={toggleMenu} size="large">
                       <MenuIcon />
                     </IconButton>
                   </Grid>
                 )}
 
-                <Hidden xsDown>
+                <Hidden smDown>
                   <Grid item>
                     <Typography variant="h4">Home</Typography>
                   </Grid>
@@ -130,7 +130,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
 
             <Grid item>
               <Grid container alignItems="center">
-                <Hidden xsDown>
+                <Hidden smDown>
                   <Grid item>
                     <Link href={`/profile/${user?.username}`}>
                       <Typography variant="h5">{user?.name}</Typography>
@@ -192,7 +192,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
             fullWidth
           />
 
-          <IconButton className={classes.sendButton} title="Continue typing">
+          <IconButton className={classes.sendButton} title="Continue typing" size="large">
             <SendIcon />
           </IconButton>
         </Paper>

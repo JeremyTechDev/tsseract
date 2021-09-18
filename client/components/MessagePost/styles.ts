@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const styles = makeStyles((theme) => ({
   root: {
     width: '60%',
     margin: '10px 0',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '90%',
     },
   },

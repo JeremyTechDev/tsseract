@@ -13,7 +13,7 @@ import {
   FormatQuote,
   FormatUnderlined,
   Title,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
 import { FormatType } from './Slate';
 

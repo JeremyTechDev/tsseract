@@ -7,8 +7,8 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-} from '@material-ui/core';
-import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
+} from '@mui/material';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 import isHotkey from 'is-hotkey';
 
 import {
@@ -43,7 +43,7 @@ const RichTextEditor: React.FC<Props> = ({
     () => withImages(withLinks(withReact(createEditor()))),
     [],
   );
-  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
     <Slate
@@ -52,7 +52,7 @@ const RichTextEditor: React.FC<Props> = ({
       onChange={setValue ? (value) => setValue(value) : () => {}}
     >
       {!readOnly && (
-        <Grid container justify={small ? 'center' : 'flex-start'}>
+        <Grid container justifyContent={small ? 'center' : 'flex-start'}>
           <ToggleButtonGroup
             className={classes.toolbar}
             orientation={small ? 'vertical' : 'horizontal'}

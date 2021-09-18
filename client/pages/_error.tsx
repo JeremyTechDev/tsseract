@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import { Button, Divider, Grid, Typography } from '@material-ui/core';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 
 import Avatar from '../components/Avatar/Avatar';
 

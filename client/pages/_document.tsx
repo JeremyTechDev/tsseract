@@ -6,7 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core';
+import ServerStyleSheets from '@mui/styles/ServerStyleSheets';
 
 import theme from '../theme';
 import { authType } from '../@types';

@@ -1,8 +1,8 @@
 import isURL from 'is-url';
 import { useSlate } from 'slate-react';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import { Editor, Transforms, Range, Element as SlateElement } from 'slate';
-import { Link, Image } from '@material-ui/icons';
+import { Link, Image } from '@mui/icons-material';
 
 import { EditorType } from './Slate';
 import useStyles from './styles';
@@ -116,7 +116,7 @@ export const LinkButton = () => {
         if (!url) return;
         insertLink(editor, url);
       }}
-    >
+      size="large">
       <Link />
     </IconButton>
   );
@@ -135,7 +135,7 @@ export const ImageButton = () => {
         if (!url) return;
         insertImage(editor, url);
       }}
-    >
+      size="large">
       <Image />
     </IconButton>
   );

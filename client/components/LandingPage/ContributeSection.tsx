@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import {
-  Snackbar,
+  Alert,
   Container,
   Grid,
+  IconButton,
   Link,
   Paper,
+  Snackbar,
   Typography,
-  IconButton,
-} from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
-import BoxIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckedBoxIcon from '@material-ui/icons/CheckBox';
+} from '@mui/material';
+import BoxIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckedBoxIcon from '@mui/icons-material/CheckBox';
 
 import useStyles from './styles';
 
@@ -88,7 +88,7 @@ const ContributeSection = () => {
               {TODO.map(({ text, checked }) => (
                 <Grid item key={text} container alignItems="center">
                   <Grid item>
-                    <IconButton onClick={() => handleClick(checked)}>
+                    <IconButton onClick={() => handleClick(checked)} size="large">
                       {checked ? <CheckedBoxIcon /> : <BoxIcon />}
                     </IconButton>
                   </Grid>

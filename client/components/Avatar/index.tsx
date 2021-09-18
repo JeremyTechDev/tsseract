@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import Router from 'next/router';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button } from '@mui/material';
 
 import AppContext from '../../context';
 import AvatarEditor from './Editor';

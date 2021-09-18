@@ -4,8 +4,10 @@ import NextProgress from 'nextjs-progressbar';
 import {
   CssBaseline,
   ThemeProvider,
+  Theme,
+  StyledEngineProvider,
   responsiveFontSizes,
-} from '@material-ui/core';
+} from '@mui/material';
 import type { AppContext as iAppContext } from 'next/app';
 
 import AppContext from '../context';
@@ -16,6 +18,13 @@ import { getRequest } from '../lib/fetch';
 import { iUser } from '../@types';
 
 import '../main.css';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 interface Props {
   Component: React.FC;
@@ -34,18 +43,20 @@ const MyApp = ({ Component, pageProps, authData }: Props) => {
   }, []);
 
   return (
-    <ThemeProvider theme={responsiveFontSizes(theme)}>
-      <CssBaseline />
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>
+        <CssBaseline />
 
-      <NextProgress
-        color={theme.palette.secondary.main}
-        options={{ showSpinner: false }}
-      />
+        <NextProgress
+          color={theme.palette.secondary.main}
+          options={{ showSpinner: false }}
+        />
 
-      <AppContext.Provider value={{ state, dispatch }}>
-        <Component {...pageProps} />
-      </AppContext.Provider>
-    </ThemeProvider>
+        <AppContext.Provider value={{ state, dispatch }}>
+          <Component {...pageProps} />
+        </AppContext.Provider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

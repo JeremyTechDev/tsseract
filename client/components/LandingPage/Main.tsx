@@ -1,5 +1,5 @@
-import { Button, Grid, Paper, Typography } from '@material-ui/core';
-import Dot from '@material-ui/icons/FiberManualRecord';
+import { Button, Grid, Paper, Typography } from '@mui/material';
+import Dot from '@mui/icons-material/FiberManualRecord';
 
 import useStyles from './styles';
 

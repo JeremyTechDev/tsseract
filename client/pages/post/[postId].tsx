@@ -7,8 +7,8 @@ import {
   Grid,
   IconButton,
   Typography,
-} from '@material-ui/core';
-import { Favorite, TouchApp } from '@material-ui/icons';
+} from '@mui/material';
+import { Favorite, TouchApp } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -38,114 +38,112 @@ const Post: NextPage<Props> = ({ post }) => {
     return <ErrorPage statusCode={404} />;
   }
 
-  return (
-    <>
-      <PostHero cover={post.cover} title={post.title} />
+  return <>
+    <PostHero cover={post.cover} title={post.title} />
 
-      <Container maxWidth="md">
-        <Grid container spacing={4} direction="column">
-          <Grid item container>
-            <Grid item xs={6} md={10} container alignItems="center">
-              <Grid item>
-                <Link href={`/profile/${post.user.username}`}>
-                  <Avatar avatar={post.user.avatar} size="100px" />
-                </Link>
-              </Grid>
-
-              <Grid item>
-                <Link href={`/profile/${post.user.username}`}>
-                  <Typography variant="h5">{post.user.name}</Typography>
-                </Link>
-
-                <Link href={`/profile/${post.user.username}`}>
-                  <Typography variant="subtitle1">
-                    @{post.user.username}
-                  </Typography>
-                </Link>
-              </Grid>
+    <Container maxWidth="md">
+      <Grid container spacing={4} direction="column">
+        <Grid item container>
+          <Grid item xs={6} md={10} container alignItems="center">
+            <Grid item>
+              <Link href={`/profile/${post.user.username}`}>
+                <Avatar avatar={post.user.avatar} size="100px" />
+              </Link>
             </Grid>
 
-            <Grid
-              item
-              xs={6}
-              md={2}
-              container
-              alignItems="center"
-              justifyContent="flex-end"
-            >
-              <Grid item>
-                <IconButton title="Likes">
-                  <Badge
-                    badgeContent={post.likes.length}
-                    color="primary"
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                  >
-                    <Favorite fontSize="large" />
-                  </Badge>
-                </IconButton>
-              </Grid>
+            <Grid item>
+              <Link href={`/profile/${post.user.username}`}>
+                <Typography variant="h5">{post.user.name}</Typography>
+              </Link>
 
-              <Grid item>
-                <IconButton title="Interactions">
-                  <Badge
-                    badgeContent={post.interactions}
-                    color="primary"
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                  >
-                    <TouchApp fontSize="large" />
-                  </Badge>
-                </IconButton>
-              </Grid>
+              <Link href={`/profile/${post.user.username}`}>
+                <Typography variant="subtitle1">
+                  @{post.user.username}
+                </Typography>
+              </Link>
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Typography variant="subtitle2" align="right">
-              {dayjs(post.createdAt).fromNow()}
-            </Typography>
-          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={2}
+            container
+            alignItems="center"
+            justifyContent="flex-end"
+          >
+            <Grid item>
+              <IconButton title="Likes" size="large">
+                <Badge
+                  badgeContent={post.likes.length}
+                  color="primary"
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                >
+                  <Favorite fontSize="large" />
+                </Badge>
+              </IconButton>
+            </Grid>
 
-          <Grid item>
-            <Divider />
-          </Grid>
-
-          <Grid item container spacing={1}>
-            {post?.tags?.map((tag) => (
-              <Grid item key={tag._id}>
-                <Tag tag={tag} />
-              </Grid>
-            ))}
-          </Grid>
-
-          <Grid item>
-            <Divider />
-          </Grid>
-
-          <Grid item>
-            <RichTextEditor readOnly value={JSON.parse(post.body)} />
-          </Grid>
-
-          <Grid item>
-            <Divider />
-          </Grid>
-
-          <NewComment postId={post._id} setNewComments={setComments} />
-
-          <Grid item xs={12} md={8} container direction="column" spacing={1}>
-            {comments?.map((comment) => (
-              <Comment key={comment._id} comment={comment} />
-            ))}
+            <Grid item>
+              <IconButton title="Interactions" size="large">
+                <Badge
+                  badgeContent={post.interactions}
+                  color="primary"
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                >
+                  <TouchApp fontSize="large" />
+                </Badge>
+              </IconButton>
+            </Grid>
           </Grid>
         </Grid>
-      </Container>
-    </>
-  );
+
+        <Grid item>
+          <Typography variant="subtitle2" align="right">
+            {dayjs(post.createdAt).fromNow()}
+          </Typography>
+        </Grid>
+
+        <Grid item>
+          <Divider />
+        </Grid>
+
+        <Grid item container spacing={1}>
+          {post?.tags?.map((tag) => (
+            <Grid item key={tag._id}>
+              <Tag tag={tag} />
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid item>
+          <Divider />
+        </Grid>
+
+        <Grid item>
+          <RichTextEditor readOnly value={JSON.parse(post.body)} />
+        </Grid>
+
+        <Grid item>
+          <Divider />
+        </Grid>
+
+        <NewComment postId={post._id} setNewComments={setComments} />
+
+        <Grid item xs={12} md={8} container direction="column" spacing={1}>
+          {comments?.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+        </Grid>
+      </Grid>
+    </Container>
+  </>;
 };
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
