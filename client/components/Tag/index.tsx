@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { iTag } from '../../@types';
 import useStyles from './styles';

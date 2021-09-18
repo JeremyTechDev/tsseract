@@ -6,7 +6,7 @@ import {
   Grid,
   Link as MuiLink,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import Avatar from '../Avatar/Avatar';
 import { iUser } from '../../@types';

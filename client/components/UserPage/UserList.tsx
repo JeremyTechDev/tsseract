@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Box, Typography, Grid } from '@material-ui/core';
+import { Box, Typography, Grid } from '@mui/material';
 
 import UserCard from './UserCard';
 

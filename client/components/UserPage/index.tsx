@@ -8,8 +8,8 @@ import {
   Typography,
   useMediaQuery,
   Theme,
-} from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+} from '@mui/material';
+import { Edit } from '@mui/icons-material';
 
 import { iPost, iUser } from '../../@types';
 import { logoutUser } from '../../lib/auth';

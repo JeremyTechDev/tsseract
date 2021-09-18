@@ -1,4 +1,4 @@
-import { Paper, Typography, Link } from '@material-ui/core';
+import { Paper, Typography, Link } from '@mui/material';
 
 import useStyles from './styles';
 import { iBackgroundImageData } from '../../@types';

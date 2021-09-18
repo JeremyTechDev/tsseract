@@ -12,8 +12,8 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
-import { PostAdd, Face, Menu as MenuIcon, ExitToApp } from '@material-ui/icons';
+} from '@mui/material';
+import { PostAdd, Face, Menu as MenuIcon, ExitToApp } from '@mui/icons-material';
 
 import AppContext, { Types } from '../../context';
 import { logoutUser } from '../../lib/auth';
@@ -86,7 +86,7 @@ const Header = () => {
         </Grid>
 
         <Box className={classes.sectionMobile}>
-          <IconButton id="mobile-menu" onClick={handleClick} color="inherit">
+          <IconButton id="mobile-menu" onClick={handleClick} color="inherit" size="large">
             <MenuIcon />
           </IconButton>
         </Box>

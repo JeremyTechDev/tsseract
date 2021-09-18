@@ -6,7 +6,7 @@ import {
   Grid,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { iSignUpUser, InputChangeEvent } from '../../@types';
 import { loginUser } from '../../lib/auth';

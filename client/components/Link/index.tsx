@@ -1,6 +1,6 @@
 import { ReactNode, FC } from 'react';
 import NextLink from 'next/link';
-import MuiLink from '@material-ui/core/Link';
+import MuiLink from '@mui/material/Link';
 
 interface Props {
   href: string;

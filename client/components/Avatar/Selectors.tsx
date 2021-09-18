@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
+import { Box, Grid } from '@mui/material';
 import { Piece } from 'avataaars';
 
 import * as pieceItems from './pieces';

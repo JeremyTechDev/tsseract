@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Paper, Divider, Tabs, Tab, Box } from '@material-ui/core';
+import { Paper, Divider, Tabs, Tab, Box } from '@mui/material';
 import { Piece } from 'avataaars';
 
 import * as pieceItems from './pieces';

@@ -8,7 +8,7 @@ import {
   CardContent,
   CardActionArea,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import router from 'next/router';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(
   (theme) => ({
@@ -7,7 +7,7 @@ const useStyles = makeStyles(
     titleTextArea: {
       background: 'none',
       border: 'none',
-      color: theme.palette.type === 'dark' ? '#fff' : '#000',
+      color: theme.palette.mode === 'dark' ? '#fff' : '#000',
       fontFamily: 'Playfair Display',
       fontSize: 35,
       fontWeight: 500,

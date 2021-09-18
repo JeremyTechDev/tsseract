@@ -1,4 +1,4 @@
-import { Container, Typography, Link } from '@material-ui/core';
+import { Container, Typography, Link } from '@mui/material';
 
 const TermsOfUse = () => (
   <Container maxWidth="md">

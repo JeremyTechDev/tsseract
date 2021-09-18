@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useState, useEffect, FC } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
 
 import useStyles from './styles';
 

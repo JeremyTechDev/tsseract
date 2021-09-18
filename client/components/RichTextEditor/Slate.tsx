@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { ReactEditor } from 'slate-react';
 import { Editor, Transforms } from 'slate';
-import { Typography, Link } from '@material-ui/core';
+import { Typography, Link } from '@mui/material';
 
 import {
   Bold,

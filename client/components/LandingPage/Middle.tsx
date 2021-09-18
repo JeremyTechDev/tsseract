@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Link, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Link, Typography } from '@mui/material';
 
 import useStyles from './styles';
 

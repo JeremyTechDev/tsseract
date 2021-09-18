@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Paper } from '@material-ui/core';
+import { Paper } from '@mui/material';
 
 import useStyles from './styles';
 import Header from './Header';
