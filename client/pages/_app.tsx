@@ -19,12 +19,10 @@ import { iUser } from '../@types';
 
 import '../main.css';
 
-
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 interface Props {
   Component: React.FC;
@@ -62,12 +60,19 @@ const MyApp = ({ Component, pageProps, authData }: Props) => {
 
 MyApp.getInitialProps = async (appContext: iAppContext) => {
   const appProps = await App.getInitialProps(appContext);
-  const authData = await getRequest(
-    // @ts-ignore
-    `/auth?token=${appContext?.ctx?.req?.signedCookies?.['tsseract-auth-token']}`,
-  ).then((res) => res.json());
 
-  return { ...appProps, authData };
+  try {
+    const authData = await getRequest(
+      // @ts-ignore
+      `/auth?token=${appContext?.ctx?.req?.signedCookies?.['tsseract-auth-token']}`,
+    ).then((res) => res.json());
+
+    return { ...appProps, authData };
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return { ...appProps };
+  }
 };
 
 export default MyApp;

@@ -20,7 +20,7 @@
     "copy-files": "cp -vr ./static/. dist/client/public/",
     "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
-    "heroku-postbuild": "npm i && run-s tsc build copy-files"
+    "heroku-postbuild": "yarn && run-s tsc build copy-files copy-css"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",

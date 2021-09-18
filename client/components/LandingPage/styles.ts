@@ -37,9 +37,15 @@ const styles = makeStyles((theme: Theme) => ({
     },
   },
   tweets: {
-    width: '100vw',
-    overflowX: 'scroll',
+    display: 'grid',
+    gridGap: 10,
+    gridTemplateColumns: '5px repeat(7, calc(30vw - 40px)) 5px',
     marginBottom: '2rem',
+    overflowX: 'scroll',
+    overflowY: 'hidden',
+    width: '100vw',
+    '&::before': { content: '""' },
+    '&::after': { content: '""' },
   },
   forYouTo: {
     color: theme.palette.grey[700],

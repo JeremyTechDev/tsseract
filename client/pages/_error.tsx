@@ -7,7 +7,7 @@ import Avatar from '../components/Avatar/Avatar';
 
 const AVATAR = {
   accessoriesType: 'Round',
-  clotheColor: 'Red',
+  clotheColor: 'PastelBlue',
   clotheType: 'GraphicShirt',
   eyeType: 'Cry',
   eyebrowType: 'SadConcerned',

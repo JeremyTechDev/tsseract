@@ -22,7 +22,7 @@ const TODO = [
   { text: 'Published 🚀', checked: true },
   { text: 'Richest text-editor', checked: false },
   { text: 'Share on Twitter', checked: false },
-  { text: 'Sick lading page', checked: true },
+  { text: 'Sick landing page', checked: true },
   { text: 'User accounts', checked: false },
   { text: 'User engagement features', checked: true },
 ];

@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 
 import useStyles from './styles';
 
@@ -157,13 +157,11 @@ const Tweets = () => {
         </Grid>
       </Container>
 
-      <Grid item container spacing={2} wrap="nowrap" className={classes.tweets}>
+      <Box className={classes.tweets}>
         {TWEETS.map((Tweet, i) => (
-          <Grid item key={Tweet.name + i}>
-            <Tweet />
-          </Grid>
+          <Tweet key={Tweet.name + i} />
         ))}
-      </Grid>
+      </Box>
     </Grid>
   );
 };
