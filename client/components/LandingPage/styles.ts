@@ -25,7 +25,7 @@ const styles = makeStyles((theme: Theme) => ({
   },
   memoji: {
     backgroundImage:
-      'radial-gradient(ellipse at center, rgba(250,250,250,0) 21%,rgba(250,250,250,0.7) 42%,rgba(250,250,250,1) 60%), url("/memoji-square.png")',
+      'radial-gradient(ellipse at center, rgba(255,255,255,0) 21%,rgba(255,255,255,0.7) 42%,rgba(255,255,255,1) 60%), url("/memoji-square.png")',
     width: 500,
     height: 500,
     backgroundRepeat: 'no-repeat',
