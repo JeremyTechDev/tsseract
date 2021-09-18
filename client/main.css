@@ -1,0 +1,47 @@
+.footer--background {
+  background: linear-gradient(268deg, #d2afff, #a3adff);
+  background-size: 400% 400%;
+  margin-top: 4rem;
+  padding: 50px;
+  width: 100vw;
+
+  -webkit-animation: Gradient 4s ease infinite;
+  -moz-animation: Gradient 4s ease infinite;
+  animation: Gradient 4s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+  0% {
+    background-position: 0% 7%;
+  }
+  50% {
+    background-position: 100% 94%;
+  }
+  100% {
+    background-position: 0% 7%;
+  }
+}
+
+@-moz-keyframes Gradient {
+  0% {
+    background-position: 0% 7%;
+  }
+  50% {
+    background-position: 100% 94%;
+  }
+  100% {
+    background-position: 0% 7%;
+  }
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 7%;
+  }
+  50% {
+    background-position: 100% 94%;
+  }
+  100% {
+    background-position: 0% 7%;
+  }
+}

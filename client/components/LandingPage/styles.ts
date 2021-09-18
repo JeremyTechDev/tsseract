@@ -1,71 +1,53 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core';
 
-const styles = makeStyles(
-  ({ palette, breakpoints }) => {
-    const gradient = `-webkit-linear-gradient(top right, ${palette.primary.main}, ${palette.secondary.main})`;
-
-    return {
-      img: {
-        height: '100vh',
-        left: 0,
-        overflow: 'hidden',
-        position: 'fixed',
-        top: 0,
-        width: '100vw',
-        zIndex: 0,
-      },
-      mainWindow: {
-        height: '70vh',
-        minWidth: '100%',
-        position: 'relative',
-        top: 80,
-      },
-      control: {
-        position: 'absolute',
-        right: 50,
-        top: 50,
-      },
-      window: {
-        background: 'transparent',
-        border: '2px solid #181818',
-        borderRadius: 4,
-        width: '55%',
-        [breakpoints.down('md')]: {
-          width: '100%',
-        },
-      },
-      windowTop: {
-        background: 'transparent',
-        border: '2px solid #181818',
-        borderRadius: '4px 4px 0 0',
-        height: 25,
-        margin: -2,
-        width: 'calc(100% + 4px)',
-      },
-      title: {
-        backgroundImage: gradient,
-        fontWeight: 900,
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        [breakpoints.down('sm')]: {
-          fontSize: 50,
-        },
-      },
-      windowContent: {
-        color: '#252525',
-        height: 'calc(90% - 25px)',
-        padding: 50,
-        width: '100%',
-        [breakpoints.down('sm')]: {
-          padding: 20,
-        },
-      },
-      btn: {
-        marginTop: 30,
-      },
-    };
+const styles = makeStyles((theme: Theme) => ({
+  root: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
   },
-  { index: 1 },
-);
+  container: {
+    background: 'url("/landing.png")',
+    backgroundAttachment: 'fixed',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: '100vh',
+    padding: theme.spacing(8),
+    width: '100vw',
+  },
+  window: {
+    background: 'transparent',
+    maxWidth: 700,
+    padding: theme.spacing(2),
+    color: 'inherit',
+  },
+  memoji: {
+    backgroundImage:
+      'radial-gradient(ellipse at center, rgba(250,250,250,0) 21%,rgba(250,250,250,0.7) 42%,rgba(250,250,250,1) 60%), url("/memoji-square.png")',
+    width: 500,
+    height: 500,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundSize: 'contain',
+    [theme.breakpoints.down('sm')]: {
+      width: 300,
+      height: 300,
+    },
+  },
+  tweets: {
+    width: '100vw',
+    overflowX: 'scroll',
+    marginBottom: '2rem',
+  },
+  forYouTo: {
+    color: theme.palette.grey[700],
+  },
+  inspire: {
+    color: theme.palette.primary.main,
+  },
+  codeFont: {
+    fontFamily: 'Source Code Pro',
+  },
+}));
 
 export default styles;

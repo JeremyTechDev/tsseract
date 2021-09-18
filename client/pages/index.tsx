@@ -1,17 +1,21 @@
-import { NextPage } from 'next';
+import Box from '@material-ui/core/Box';
 
-import Layout from '../components/Layout';
-import LandingPage from '../components/LandingPage';
-import { authInitialProps } from '../lib/auth';
+import Main from '../components/LandingPage/Main';
+import Middle from '../components/LandingPage/Middle';
+import ContributeSection from '../components/LandingPage/ContributeSection';
+import Footer from '../components/LandingPage/Footer';
+import Tweets from '../components/LandingPage/Tweets';
 
-const Homepage: NextPage = () => {
+const LandingPage = () => {
   return (
-    <Layout title="Tsseract" displayFooter={false} displayNav={false}>
-      <LandingPage />
-    </Layout>
+    <Box>
+      <Main />
+      <Middle />
+      <Tweets />
+      <ContributeSection />
+      <Footer />
+    </Box>
   );
 };
 
-export const getServerSideProps = authInitialProps();
-
-export default Homepage;
+export default LandingPage;

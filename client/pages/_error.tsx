@@ -1,23 +1,11 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import {
-  Button,
-  Divider,
-  Grid,
-  Typography,
-  makeStyles,
-} from '@material-ui/core';
+import { Button, Divider, Grid, Typography } from '@material-ui/core';
 
 import Avatar from '../components/Avatar/Avatar';
 
-const useStyles = makeStyles({
-  root: { height: '90vh' },
-  divider: { margin: '20px 0' },
-  logo: { height: 100, position: 'fixed', top: 20, left: 20 },
-});
-
-const avatar = {
+const AVATAR = {
   accessoriesType: 'Round',
   clotheColor: 'Red',
   clotheType: 'GraphicShirt',
@@ -30,18 +18,10 @@ const avatar = {
   topType: 'LongHairStraightStrand',
 };
 
-const errors = {
-  0: '',
-  404: ' - Page not found',
-  500: ' - Server Error',
-};
-
 interface Props {
   statusCode?: number;
 }
-const Error: NextPage<Props> = ({ statusCode = 404 }) => {
-  const classes = useStyles();
-
+const ErrorPage: NextPage<Props> = ({ statusCode = 404 }) => {
   return (
     <>
       <Head>
@@ -50,52 +30,65 @@ const Error: NextPage<Props> = ({ statusCode = 404 }) => {
         </title>
       </Head>
 
+      <Link href="/">
+        <img
+          alt="logo"
+          src="/Main-aside/white_logo_transparent_background.png"
+          width="250"
+          style={{ position: 'absolute' }}
+        />
+      </Link>
+
       <Grid
-        container
-        className={classes.root}
-        justify="center"
         alignItems="center"
+        container
+        justifyContent="center"
+        style={{ height: '100vh' }}
       >
-        <Link href="/">
-          <img
-            className={classes.logo}
-            src="/Main-aside/white_logo_transparent_background.png"
-          />
-        </Link>
+        <Grid item xs={12} md={5} container justifyContent="center">
+          <Avatar size="600px" avatar={AVATAR} />
+        </Grid>
 
-        <Avatar size="600px" avatar={avatar} />
+        <Grid item xs={10} md={7} container direction="column" spacing={1}>
+          <Grid item>
+            <Typography variant="h1">Ops!</Typography>
+          </Grid>
 
-        <Grid item>
-          <Typography variant="h1">Ops!</Typography>
-
-          <Typography variant="h2">
-            {statusCode === 404 ? "We can't seem to find" : 'An unexpected'}
-          </Typography>
-
-          <Typography variant="h2" paragraph>
-            {statusCode === 404
-              ? 'the page you are looking for'
-              : 'has occurred'}
-          </Typography>
-
-          {statusCode && (
-            <Typography variant="h5">
-              {statusCode}
-              {errors[statusCode || 0]}
+          <Grid item>
+            <Typography variant="h2">
+              {statusCode === 404
+                ? "We can't seem to find the page you are looking for"
+                : 'An unexpected error ocurred'}
             </Typography>
-          )}
+          </Grid>
 
-          <Divider className={classes.divider} />
+          <Grid item>
+            {statusCode && (
+              <Typography variant="h5">
+                {statusCode}
+                {' - '}
+                {statusCode === 404
+                  ? 'Page not found'
+                  : statusCode >= 500 && 'Server Error'}
+              </Typography>
+            )}
+          </Grid>
 
-          <Link href="/">
-            <Button color="primary" variant="contained">
-              Go back home
-            </Button>
-          </Link>
+          <Grid item>
+            <Divider />
+          </Grid>
+
+          <Grid item>
+            <Link href="/home">
+              <Button color="primary" variant="contained">
+                Go back home
+              </Button>
+            </Link>
+          </Grid>
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default Error;
+export default ErrorPage;

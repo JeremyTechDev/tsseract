@@ -47,10 +47,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
           <meta name="author" content="Jeremy" />
-          <meta
-            name="theme-color"
-            content={theme('dark').palette.primary.main}
-          />
+          <meta name="theme-color" content={theme.palette.primary.main} />
           <meta
             name="description"
             content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
@@ -61,7 +58,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
             name="msapplication-navbutton-color"
-            content={theme('dark').palette.primary.main}
+            content={theme.palette.primary.main}
           />
           <meta
             name="apple-mobile-web-app-status-bar-style"
@@ -70,7 +67,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="msapplication-starturl" content="/" />
           <meta property="og:site_name" content="Tsseract" />
           <meta property="og:title" content="Tsseract" />
-          <meta property="og:url" content="http://tsseract.io" />
+          {/* <meta property="og:url" content="http://tsseract.io" /> */}
           <meta
             property="og:description"
             content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
@@ -88,7 +85,12 @@ export default class MyDocument extends Document<{ userData: authType }> {
             href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap"
+            rel="stylesheet"
+          />
         </Head>
+
         <body style={{ margin: 0, position: 'relative', minHeight: '100vh' }}>
           <Main />
           <NextScript />
@@ -96,6 +98,11 @@ export default class MyDocument extends Document<{ userData: authType }> {
             dangerouslySetInnerHTML={{ __html: getUserScript(userData.user) }}
           />
         </body>
+        <script
+          async
+          charSet="utf-8"
+          src="https://platform.twitter.com/widgets.js"
+        />
       </Html>
     );
   }

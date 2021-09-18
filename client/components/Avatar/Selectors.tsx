@@ -23,7 +23,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({
 }) => {
   return tab in pieceItems.tabsWithColors ? (
     <Box p={3}>
-      <Grid container alignItems="flex-start" justify="flex-start" spacing={1}>
+      <Grid container alignItems="flex-start" justifyContent="flex-start" spacing={1}>
         {pieceItems[
           tab === 7 || tab === 2 ? 'clothesAndHatsColor' : 'hairColors'
         ].map(({ type, colorCode, shared }) => {
@@ -54,7 +54,7 @@ export const GraphicSelector: React.FC<GraphicSelectorProps> = ({
 }) => {
   return (
     <Box p={3}>
-      <Grid container alignItems="flex-start" justify="flex-start" spacing={1}>
+      <Grid container alignItems="flex-start" justifyContent="flex-start" spacing={1}>
         {pieceItems.graphics.map(({ type, text }) => (
           <TabItem
             key={'graphic-' + type}

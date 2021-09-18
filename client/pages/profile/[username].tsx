@@ -5,7 +5,7 @@ import UserPage from '../../components/UserPage';
 import { authInitialProps } from '../../lib/auth';
 import { authType, iPost, iUser } from '../../@types';
 import { getRequest } from '../../lib/fetch';
-import Error from '../_error';
+import ErrorPage from '../_error';
 
 interface Props {
   user: iUser;
@@ -24,7 +24,7 @@ const User: NextPage<Props> = ({ user, posts, authData }) => {
       />
     </Layout>
   ) : (
-    <Error statusCode={404} />
+    <ErrorPage statusCode={404} />
   );
 };
 

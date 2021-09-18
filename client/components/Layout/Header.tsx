@@ -39,7 +39,7 @@ const Header = () => {
   return (
     <AppBar className={classes.header}>
       <Toolbar>
-        <Grid container justify="space-around" alignItems="center">
+        <Grid container justifyContent="space-around" alignItems="center">
           <Link href={isAuthenticated ? '/posts' : '/'}>
             <Image
               alt="Tsseract logo"

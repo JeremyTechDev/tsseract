@@ -5,9 +5,9 @@ import regex from '../helpers/regex';
 
 export const commentsSchema = new Schema({
   user: {
-    type: Types.ObjectId,
-    required: true,
+    default: null,
     ref: 'Users',
+    type: Types.ObjectId,
   },
   body: {
     type: String,
@@ -19,7 +19,7 @@ export const commentsSchema = new Schema({
 
 export const validateComment = <T>(comment: T) => {
   const schema = Joi.object({
-    user: Joi.string().regex(regex.objectId).required(),
+    user: Joi.string().regex(regex.objectId).default(null),
     body: Joi.string().required(),
     updatedAt: Joi.date().timestamp(),
     createdAt: Joi.date().timestamp(),

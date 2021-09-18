@@ -8,17 +8,17 @@ const orange = '#d35400';
 const white = '#ffffff';
 const yellow = '#ffc107';
 
-type ColorType = { background: string; color?: string };
+type ColorType = { marginLeft: number; background: string; color?: string };
 const colors: ColorType[] = [
-  { background: black, color: white },
-  { background: blue, color: white },
-  { background: cyan, color: white },
-  { background: yellow, color: black },
-  { background: gray, color: white },
-  { background: green, color: white },
-  { background: magenta, color: white },
-  { background: orange, color: white },
-  { background: white, color: black },
+  { marginLeft: 10, background: black, color: white },
+  { marginLeft: 10, background: blue, color: white },
+  { marginLeft: 10, background: cyan, color: white },
+  { marginLeft: 10, background: yellow, color: black },
+  { marginLeft: 10, background: gray, color: white },
+  { marginLeft: 10, background: green, color: white },
+  { marginLeft: 10, background: magenta, color: white },
+  { marginLeft: 10, background: orange, color: white },
+  { marginLeft: 10, background: white, color: black },
 ];
 
 export const getTagColor = (tagName: string) => {

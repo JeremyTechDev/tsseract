@@ -11,11 +11,11 @@ import {
 } from '@material-ui/core';
 import router from 'next/router';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { NextPage } from 'next';
 
 import Avatar from '../Avatar/Avatar';
 import Tag from '../Tag';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import theme from '../../theme';
 import useStyles from './styles';
 import { iPost } from '../../@types';
@@ -28,13 +28,12 @@ interface Props {
 }
 
 const getStyles = (out: boolean) => {
-  const pallete = theme('dark').palette;
+  const pallete = theme.palette;
 
   return {
-    alignSelf: out ? 'end' : 'start',
-    background: out ? pallete.primary.main : pallete.grey[700],
+    alignSelf: out ? 'flex-end' : 'flex-start',
+    background: out ? pallete.secondary.main : pallete.primary.main,
     borderRadius: out ? '20px 0 20px 20px' : '0 20px 20px 20px',
-    margin: out ? '20px 30px' : '5px 30px',
   };
 };
 
@@ -50,7 +49,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
   return (
     <Card className={classes.root} style={getStyles(out)}>
       <CardContent>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Grid container alignItems="center">
               <Link href={`/profile/${user.username}`}>
@@ -90,7 +89,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
       </CardActionArea>
 
       <CardActions>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             {tags.map((tag) => (
               <Tag key={tag._id} tag={tag} />

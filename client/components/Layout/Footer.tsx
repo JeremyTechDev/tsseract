@@ -22,9 +22,9 @@ const Footer = () => {
   return (
     <Box className={classes.footer}>
       <Paper elevation={20} square>
-        <Grid container justify="center" alignItems="center">
-          <Grid className={classes.footerTop} container justify="center">
-            <Grid item container justify="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid className={classes.footerTop} container justifyContent="center">
+            <Grid item container justifyContent="center" alignItems="center">
               <IconButton color="primary" href="https://github.com/jeremy2918">
                 <GitHub fontSize="large" />
               </IconButton>
@@ -61,7 +61,7 @@ const Footer = () => {
       </Paper>
 
       <Paper square className={classes.footerBottom}>
-        <Grid container justify="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center">
           <Typography variant="h5" align="center">
             Crafted with
           </Typography>

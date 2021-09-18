@@ -62,7 +62,7 @@ export interface iComment {
   body: string;
   createdAt: string;
   updatedAt: string;
-  user: iUser;
+  user: iUser | null;
 }
 
 export interface iTag {

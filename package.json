@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "12.17.0",
-    "npm": "6.14.8"
+    "node": "15",
+    "npm": "7"
   },
   "scripts": {
     "start": "node ./dist/server",
@@ -18,6 +18,7 @@
     "tsc:w:server": "tsc -p ./server -w",
     "seed": "node dist/server/seeder.js",
     "copy-files": "cp -vr ./static/. dist/client/public/",
+    "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
     "heroku-postbuild": "npm i && run-s tsc build copy-files"
   },
@@ -73,8 +74,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test",
-      "pre-commit": "npm run tsc"
+      "pre-push": "yarn test",
+      "pre-commit": "yarn tsc"
     }
   },
   "browserslist": {
