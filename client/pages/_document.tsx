@@ -49,7 +49,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="author" content="Jeremy" />
           <meta
             name="theme-color"
-            content={theme('dark').palette.primary.main}
+            content={theme.palette.primary.main}
           />
           <meta
             name="description"
@@ -61,7 +61,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
             name="msapplication-navbutton-color"
-            content={theme('dark').palette.primary.main}
+            content={theme.palette.primary.main}
           />
           <meta
             name="apple-mobile-web-app-status-bar-style"

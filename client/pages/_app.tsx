@@ -9,7 +9,7 @@ import {
 import type { AppContext as iAppContext } from 'next/app';
 
 import AppContext from '../context';
-import getTheme from '../theme';
+import theme from '../theme';
 import initialState from '../context/state';
 import reducer from '../context/reducer';
 import { getRequest } from '../lib/fetch';
@@ -32,11 +32,11 @@ const MyApp = ({ Component, pageProps, authData }: Props) => {
   }, []);
 
   return (
-    <ThemeProvider theme={responsiveFontSizes(getTheme('dark'))}>
+    <ThemeProvider theme={responsiveFontSizes(theme)}>
       <CssBaseline />
 
       <NextProgress
-        color={getTheme('dark').palette.secondary.main}
+        color={theme.palette.secondary.main}
         options={{ showSpinner: false }}
       />
 

@@ -28,11 +28,11 @@ interface Props {
 }
 
 const getStyles = (out: boolean) => {
-  const pallete = theme('dark').palette;
+  const pallete = theme.palette;
 
   return {
     alignSelf: out ? 'flex-end' : 'flex-start',
-    background: out ? pallete.primary.main : pallete.grey[700],
+    background: out ? pallete.secondary.main : pallete.primary.main,
     borderRadius: out ? '20px 0 20px 20px' : '0 20px 20px 20px',
   };
 };

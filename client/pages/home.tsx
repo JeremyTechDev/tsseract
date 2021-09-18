@@ -122,7 +122,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
                   height={70}
                   objectFit="contain"
                   priority
-                  src="/Main-aside/white_logo_transparent_background.png"
+                  src="/Main-aside/dark_logo_transparent_background.png"
                   width={160}
                 />
               </Link>

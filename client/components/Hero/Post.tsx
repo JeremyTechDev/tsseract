@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState, useEffect, FC } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 
@@ -30,12 +31,14 @@ const PostHero: FC<Props> = ({ cover, title }) => {
       direction="column"
       justifyContent="space-between"
     >
-      <img
-        alt="Logo"
-        width="300"
-        style={{ position: 'absolute' }}
-        src="/Main-aside/white_logo_transparent_background.png"
-      />
+      <Link href="/home">
+        <img
+          alt="Logo"
+          width="300"
+          style={{ cursor: 'pointer', position: 'absolute' }}
+          src="/Main-aside/white_logo_transparent_background.png"
+        />
+      </Link>
 
       <Grid item>
         <img
