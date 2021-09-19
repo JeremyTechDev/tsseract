@@ -21,7 +21,7 @@
     "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
     "postinstall": "yarn tsc",
-    "heroku-postbuild": "run-s build copy-files copy-css"
+    "heroku-postbuild": "run-s copy-files copy-css build"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
