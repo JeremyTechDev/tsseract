@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import mixPanel from 'mixpanel-browser';
 
 import database from './database';
 
@@ -56,6 +57,10 @@ const init = (options: Options) => {
 
   // start the server
   if (NODE_ENV !== 'test') {
+    // Initialize tracking
+    mixPanel.init(process.env.MIXPANEL_KEY as string);
+    mixPanel.track('Sign Up');
+
     server.listen(PORT, () =>
       console.info(`🚀 Server running on port ${PORT}...`),
     );

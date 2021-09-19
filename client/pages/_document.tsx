@@ -43,6 +43,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
       <Html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
+          <title>Tsseract</title>
           <link rel="manifest" href="./manifest.json" />
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
@@ -67,7 +68,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="msapplication-starturl" content="/" />
           <meta property="og:site_name" content="Tsseract" />
           <meta property="og:title" content="Tsseract" />
-          {/* <meta property="og:url" content="http://tsseract.io" /> */}
+          <meta property="og:url" content="http://tsseract.askjere.com" />
           <meta
             property="og:description"
             content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
@@ -86,7 +87,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
             rel="stylesheet"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,900;1,400&display=swap"
             rel="stylesheet"
           />
         </Head>

@@ -33,7 +33,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 404 }) => {
       <Link href="/">
         <img
           alt="logo"
-          src="/Main-aside/white_logo_transparent_background.png"
+          src="/Main-aside/dark_logo_transparent_background.png"
           width="250"
           style={{ position: 'absolute' }}
         />

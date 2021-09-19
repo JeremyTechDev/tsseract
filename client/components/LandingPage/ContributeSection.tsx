@@ -52,7 +52,7 @@ const ContributeSection = () => {
           <Grid item xs={false} md={1} />
 
           <Grid item xs={12} md={5}>
-            <Paper elevation={10} className={classes.window}>
+            <Paper elevation={10} className={classes.window} id="contribute">
               <Typography variant="h3" paragraph className={classes.codeFont}>
                 Do you Open Source?
               </Typography>
@@ -88,7 +88,10 @@ const ContributeSection = () => {
               {TODO.map(({ text, checked }) => (
                 <Grid item key={text} container alignItems="center">
                   <Grid item>
-                    <IconButton onClick={() => handleClick(checked)} size="large">
+                    <IconButton
+                      onClick={() => handleClick(checked)}
+                      size="large"
+                    >
                       {checked ? <CheckedBoxIcon /> : <BoxIcon />}
                     </IconButton>
                   </Grid>

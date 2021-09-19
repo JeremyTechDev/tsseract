@@ -21,7 +21,7 @@
     "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
     "postinstall": "yarn tsc",
-    "heroku-postbuild": "run-s copy-files copy-css"
+    "heroku-postbuild": "run-s build copy-files copy-css"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -39,14 +39,15 @@
     "is-hotkey": "^0.1.6",
     "is-url": "^1.2.4",
     "jsonwebtoken": "^8.5.1",
+    "mixpanel-browser": "^2.41.0",
     "mongoose": "^5.9.16",
     "next": "^10.0.5",
     "nextjs-progressbar": "0.0.7",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "slate": "^0.59.0",
-    "slate-react": "^0.59.0",
-    "npm-run-all": "^4.1.5"
+    "slate-react": "^0.59.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.12.13",
@@ -58,6 +59,7 @@
     "@types/jest": "^26.0.19",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/material-ui": "^0.21.8",
+    "@types/mixpanel-browser": "^2.35.7",
     "@types/mongoose": "^5.7.31",
     "@types/node": "^14.0.22",
     "@types/react": "^16.9.43",
@@ -65,7 +67,6 @@
     "@types/supertest": "^2.0.10",
     "babel-plugin-styled-components": "^1.11.1",
     "faker": "^5.1.0",
-    "husky": "^4.2.5",
     "jest": "^26.4.2",
     "lint-staged": "^10.2.7",
     "nodemon": "^2.0.6",
@@ -74,12 +75,6 @@
     "set-cookie-parser": "^2.4.6",
     "supertest": "^4.0.2",
     "typescript": "^3.9.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn test",
-      "pre-commit": "yarn tsc"
-    }
   },
   "browserslist": {
     "production": [

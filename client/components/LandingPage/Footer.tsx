@@ -3,6 +3,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
+import useStyles from './styles';
+
 const LINKS = [
   { Icon: TwitterIcon, title: 'Twitter', link: 'https://twitter.com/askjere' },
   {
@@ -18,8 +20,10 @@ const LINKS = [
 ];
 
 const Footer = () => {
+  const classes = useStyles();
+
   return (
-    <footer className="footer--background">
+    <footer className={`gradient--background ${classes.footer}`}>
       <Grid container direction="column" alignItems="center">
         <Typography variant="h2">again, Tsseract</Typography>
 
@@ -39,12 +43,21 @@ const Footer = () => {
         <Grid item container spacing={2} justifyContent="center">
           {LINKS.map(({ Icon, title, link }) => (
             <Grid item key={link}>
-              <IconButton title={title} color="inherit" href={link} size="large">
+              <IconButton
+                color="inherit"
+                href={link}
+                title={title}
+                size="large"
+              >
                 <Icon fontSize="large" />
               </IconButton>
             </Grid>
           ))}
         </Grid>
+
+        <Link variant="h5" color="textSecondary" href="/terms-of-use">
+          Terms of Use
+        </Link>
       </Grid>
     </footer>
   );

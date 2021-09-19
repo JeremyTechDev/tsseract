@@ -22,7 +22,6 @@ const NewComment: FC<Props> = ({ postId, setNewComments }) => {
     postRequest(`/posts/c/anonymous/${postId}`, { body })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setNewComments(data.comments as iComment[]);
         setBody('');
       })
@@ -55,7 +54,7 @@ const NewComment: FC<Props> = ({ postId, setNewComments }) => {
 
       <Grid item>
         <Button color="primary" variant="contained" onClick={handleSubmit}>
-          Share
+          Comment
         </Button>
       </Grid>
     </Grid>

@@ -16,7 +16,7 @@ interface Props {
 }
 
 const TagCard: FC<Props> = ({ tag }) => (
-  <CardActionArea>
+  <CardActionArea href={`/home?tag=${tag.tag._id}`}>
     <Box overflow="hidden">
       <Grid container alignItems="center">
         <Grid item xs={2}>

@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { useState, useEffect, FC } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Link, Grid, Typography } from '@mui/material';
 
 import useStyles from './styles';
 
@@ -25,36 +24,38 @@ const PostHero: FC<Props> = ({ cover, title }) => {
   }, [offset]);
 
   return (
-    <Grid
-      className={classes.hero}
-      container
-      direction="column"
-      justifyContent="space-between"
-    >
+    <>
       <Link href="/home">
         <img
-          alt="Logo"
+          alt="Tsseract Logo"
           width="300"
-          style={{ cursor: 'pointer', position: 'absolute' }}
+          style={{ position: 'absolute' }}
           src="/Main-aside/white_logo_transparent_background.png"
         />
       </Link>
 
-      <Grid item>
-        <img
-          alt={title || ''}
-          className={classes.img}
-          src={cover}
-          style={{ transform: `translateY(${offset * 0.5}px)` }}
-        />
-      </Grid>
+      <Grid
+        className={classes.hero}
+        container
+        direction="column"
+        justifyContent="space-between"
+      >
+        <Grid item>
+          <img
+            alt={title || ''}
+            className={classes.img}
+            src={cover}
+            style={{ transform: `translateY(${offset * 0.5}px)` }}
+          />
+        </Grid>
 
-      <Grid item>
-        <Typography className={classes.title} variant="h1">
-          {title}
-        </Typography>
+        <Grid item>
+          <Typography className={classes.title} variant="h1">
+            {title}
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
