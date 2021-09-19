@@ -1,6 +1,6 @@
-import { createTheme, adaptV4Theme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
   mixins: {
     toolbar: { minHeight: 80 },
   },
@@ -11,6 +11,13 @@ const theme = createTheme(adaptV4Theme({
     },
     secondary: {
       main: '#A3ADFF',
+    },
+  },
+  components: {
+    MuiLink: {
+      defaultProps: {
+        underline: 'hover',
+      },
     },
   },
   typography: {
@@ -40,6 +47,6 @@ const theme = createTheme(adaptV4Theme({
       fontFamily: 'Montserrat',
     },
   },
-}));
+});
 
 export default theme;

@@ -18,7 +18,6 @@ const colors: ColorType[] = [
   { marginLeft: 10, background: green, color: white },
   { marginLeft: 10, background: magenta, color: white },
   { marginLeft: 10, background: orange, color: white },
-  { marginLeft: 10, background: white, color: black },
 ];
 
 export const getTagColor = (tagName: string) => {

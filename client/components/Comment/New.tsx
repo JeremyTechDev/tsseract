@@ -55,7 +55,7 @@ const NewComment: FC<Props> = ({ postId, setNewComments }) => {
 
       <Grid item>
         <Button color="primary" variant="contained" onClick={handleSubmit}>
-          Share
+          Comment
         </Button>
       </Grid>
     </Grid>

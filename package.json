@@ -21,7 +21,7 @@
     "copy-css": "cp -vr ./client/main.css dist/client/main.css",
     "test": "NODE_ENV=test && jest --detectOpenHandles",
     "postinstall": "yarn tsc",
-    "heroku-postbuild": "run-s copy-files copy-css"
+    "heroku-postbuild": "run-s build copy-files copy-css"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -39,14 +39,15 @@
     "is-hotkey": "^0.1.6",
     "is-url": "^1.2.4",
     "jsonwebtoken": "^8.5.1",
+    "mixpanel-browser": "^2.41.0",
     "mongoose": "^5.9.16",
     "next": "^10.0.5",
     "nextjs-progressbar": "0.0.7",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "slate": "^0.59.0",
-    "slate-react": "^0.59.0",
-    "npm-run-all": "^4.1.5"
+    "slate-react": "^0.59.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.12.13",

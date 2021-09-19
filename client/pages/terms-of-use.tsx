@@ -9,8 +9,8 @@ const TermsOfUse = () => (
     <Typography align="justify">Version 1.0</Typography>
 
     <Typography align="justify">
-      The Tesseract website located at http://tesseract.askjere.com is a
-      copyrighted work belonging to http://tesseract.askjere.com. Certain
+      The Tsseract website located at http://tsseract.askjere.com is a
+      copyrighted work belonging to http://tsseract.askjere.com. Certain
       features of the Site may be subject to additional guidelines, terms, or
       rules, which will be posted on the Site in connection with such features.
     </Typography>

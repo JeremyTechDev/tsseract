@@ -39,12 +39,21 @@ const Footer = () => {
         <Grid item container spacing={2} justifyContent="center">
           {LINKS.map(({ Icon, title, link }) => (
             <Grid item key={link}>
-              <IconButton title={title} color="inherit" href={link} size="large">
+              <IconButton
+                color="inherit"
+                href={link}
+                title={title}
+                size="large"
+              >
                 <Icon fontSize="large" />
               </IconButton>
             </Grid>
           ))}
         </Grid>
+
+        <Link variant="h5" color="textSecondary" href="/terms-of-use">
+          Terms of Use
+        </Link>
       </Grid>
     </footer>
   );

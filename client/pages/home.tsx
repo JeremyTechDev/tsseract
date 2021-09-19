@@ -1,10 +1,11 @@
+import Head from 'next/head';
 import { useContext, useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { NextPage, NextPageContext } from 'next';
 import {
   AppBar,
   Drawer,
+  Link,
   Grid,
   Hidden,
   IconButton,
@@ -21,7 +22,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Avatar from '../components/Avatar/Avatar';
 
 import TagCard from '../components/Tag/Card';
-import MessagePost from '../components/MessagePost';
+import Post from '../components/Post';
 import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
 import { iPost, iTag } from '../@types';
@@ -67,10 +68,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     sendButton: {
-      background: theme.palette.primary.main,
+      bottom: 5,
       position: 'fixed',
-      right: 15,
-      bottom: 40,
+      right: 20,
     },
   }),
 );
@@ -93,116 +93,130 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item>
-              <Grid container>
-                {isMobile && (
-                  <Grid item>
-                    <IconButton title="Open Menu" onClick={toggleMenu} size="large">
-                      <MenuIcon />
-                    </IconButton>
-                  </Grid>
-                )}
+    <>
+      <Head>
+        <title>Tsseract</title>
+      </Head>
+      <div className={classes.root}>
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item>
+                <Grid container>
+                  {isMobile && (
+                    <Grid item>
+                      <IconButton
+                        title="Open Menu"
+                        onClick={toggleMenu}
+                        size="large"
+                      >
+                        <MenuIcon />
+                      </IconButton>
+                    </Grid>
+                  )}
 
-                <Hidden smDown>
-                  <Grid item>
-                    <Typography variant="h4">Home</Typography>
-                  </Grid>
-                </Hidden>
+                  <Hidden smDown>
+                    <Grid item>
+                      <Typography variant="h4">Home</Typography>
+                    </Grid>
+                  </Hidden>
+                </Grid>
               </Grid>
-            </Grid>
 
-            <Grid item>
-              <Link href="/home">
-                <Image
-                  alt="Tsseract logo"
-                  height={70}
-                  objectFit="contain"
-                  priority
-                  src="/Main-aside/dark_logo_transparent_background.png"
-                  width={160}
-                />
-              </Link>
-            </Grid>
+              <Grid item>
+                <Link href="/home">
+                  <Image
+                    alt="Tsseract logo"
+                    height={70}
+                    objectFit="contain"
+                    priority
+                    src="/Main-aside/dark_logo_transparent_background.png"
+                    width={160}
+                  />
+                </Link>
+              </Grid>
 
-            <Grid item>
-              <Grid container alignItems="center">
-                <Hidden smDown>
+              <Grid item>
+                <Grid container alignItems="center">
+                  <Hidden smDown>
+                    <Grid item>
+                      <Typography>
+                        <strong>Coming soon:</strong>
+                      </Typography>
+                      <Typography>Create accounts!</Typography>
+                    </Grid>
+                  </Hidden>
+
                   <Grid item>
-                    <Link href={`/profile/${user?.username}`}>
-                      <Typography variant="h5">{user?.name}</Typography>
-                    </Link>
-                  </Grid>
-                </Hidden>
-
-                <Grid item>
-                  <Link href={`/profile/${user?.username}`}>
                     <Avatar avatar={user?.avatar || {}} size="70px" />
-                  </Link>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
 
-      <Drawer
-        className={classes.drawer}
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={isMobile && isMenuOpen}
-        onClose={toggleMenu}
-        classes={{ paper: classes.drawerPaper }}
-      >
-        {!isMobile && <Toolbar />}
+        <Drawer
+          className={classes.drawer}
+          classes={{ paper: classes.drawerPaper }}
+          onClose={toggleMenu}
+          open={isMobile && isMenuOpen}
+          variant={isMobile ? 'temporary' : 'permanent'}
+        >
+          <Toolbar />
 
-        <div className={classes.drawerContainer}>
-          <Grid container direction="column" spacing={3}>
-            {tags.map((tag) => (
-              <Grid item key={tag.tag._id}>
-                <TagCard tag={tag} />
-              </Grid>
+          <div className={classes.drawerContainer}>
+            <Grid container direction="column" spacing={3}>
+              {tags.map((tag) => (
+                <Grid item key={tag.tag._id}>
+                  <TagCard tag={tag} />
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </Drawer>
+
+        <main className={classes.content}>
+          <Toolbar />
+          <Grid container direction="column">
+            {posts.map((post) => (
+              <Post
+                key={post._id}
+                out={user?._id === post.user._id}
+                post={post}
+              />
             ))}
           </Grid>
-        </div>
-      </Drawer>
 
-      <main className={classes.content}>
-        <Toolbar />
-        <Grid container direction="column">
-          {posts.map((post) => (
-            <MessagePost
-              key={post._id}
-              out={user?._id === post.user._id}
-              post={post}
+          <Paper square className={classes.newPostContainer}>
+            <TextField
+              color="primary"
+              label="Soon you will be able to start writing your own post here! 🚀"
+              margin="normal"
+              placeholder="Perfect place to write the title of your post, isn't it?"
+              size="small"
+              variant="outlined"
+              fullWidth
+              disabled
             />
-          ))}
-        </Grid>
 
-        <Paper square className={classes.newPostContainer}>
-          <TextField
-            color="primary"
-            label="Have something in your mind? Start typing it here 🚀"
-            margin="normal"
-            placeholder="Perfect place to write the title of your post, isn't it?"
-            size="small"
-            variant="outlined"
-            fullWidth
-          />
-
-          <IconButton className={classes.sendButton} title="Continue typing" size="large">
-            <SendIcon />
-          </IconButton>
-        </Paper>
-      </main>
-    </div>
+            <IconButton
+              className={classes.sendButton}
+              color="primary"
+              size="large"
+              title="Continue typing"
+            >
+              <SendIcon />
+            </IconButton>
+          </Paper>
+        </main>
+      </div>
+    </>
   );
 };
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
-  authInitialProps(true)(ctx);
+  authInitialProps(false)(ctx);
   const posts = await getRequest('/posts').then((res) => res.json());
   const tags = await getRequest('/tags').then((res) => res.json());
 

@@ -46,6 +46,12 @@ const styles = makeStyles((theme: Theme) => ({
     width: '100vw',
     '&::before': { content: '""' },
     '&::after': { content: '""' },
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: '5px repeat(7, calc(70vw - 40px)) 5px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '5px repeat(7, calc(90vw - 40px)) 5px',
+    },
   },
   forYouTo: {
     color: theme.palette.grey[700],

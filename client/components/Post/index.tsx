@@ -9,7 +9,6 @@ import {
   CardActionArea,
   Typography,
 } from '@mui/material';
-import router from 'next/router';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { NextPage } from 'next';
@@ -32,7 +31,7 @@ const getStyles = (out: boolean) => {
 
   return {
     alignSelf: out ? 'flex-end' : 'flex-start',
-    background: out ? pallete.secondary.main : pallete.primary.main,
+    background: out ? pallete.secondary.light : pallete.secondary.light,
     borderRadius: out ? '20px 0 20px 20px' : '0 20px 20px 20px',
   };
 };
@@ -42,7 +41,7 @@ const getStyles = (out: boolean) => {
  * @param {object} post The post data
  * @param {boolean} out True if the post was published by the authenticated user
  */
-const Received: NextPage<Props> = ({ post, out }) => {
+const Post: NextPage<Props> = ({ post, out }) => {
   const classes = useStyles();
   const { title, user, tags, cover, interactions, createdAt, _id } = post;
 
@@ -72,7 +71,7 @@ const Received: NextPage<Props> = ({ post, out }) => {
         </Grid>
       </CardContent>
 
-      <CardActionArea onClick={() => router.push(`/post/${_id}`)}>
+      <CardActionArea href={`/post/${_id}`}>
         <Box component="div" className={classes.imgContainer}>
           <Image
             alt={title}
@@ -110,4 +109,4 @@ const Received: NextPage<Props> = ({ post, out }) => {
   );
 };
 
-export default Received;
+export default Post;

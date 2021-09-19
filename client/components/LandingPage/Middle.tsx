@@ -12,7 +12,9 @@ const Middle = () => {
           <Grid container alignItems="center">
             <Grid item xs={12} md={6} container direction="column">
               <Grid item>
-                <Typography variant="h1">Tsseract</Typography>
+                <Typography variant="h1" component="h2">
+                  Tsseract
+                </Typography>
               </Grid>
 
               <Grid item>

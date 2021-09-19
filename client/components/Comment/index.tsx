@@ -3,6 +3,7 @@ import { Divider, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+import Avatar from '../Avatar/Avatar';
 import { iComment } from '../../@types';
 
 dayjs.extend(relativeTime);
@@ -17,18 +18,32 @@ const Comment: FC<Props> = ({ comment }) => (
       <Divider />
     </Grid>
 
-    <Grid item>
-      <Typography variant="subtitle1">@{comment?.user?.username || 'anonymous'}</Typography>
-    </Grid>
+    {console.log(comment)}
 
-    <Grid item>
-      <Typography>{comment.body}</Typography>
-    </Grid>
+    <Grid item container alignItems="center" wrap="nowrap">
+      {comment.user && (
+        <Grid item>
+          <Avatar avatar={comment.user.avatar} size="80px" />
+        </Grid>
+      )}
 
-    <Grid item>
-      <Typography variant="body2">
-        {dayjs(comment.createdAt).fromNow()}
-      </Typography>
+      <Grid item container direction="column">
+        <Grid item>
+          <Typography variant="subtitle1">
+            @{comment?.user?.username || 'anonymous'}
+          </Typography>
+        </Grid>
+
+        <Grid item>
+          <Typography>{comment.body}</Typography>
+        </Grid>
+
+        <Grid item>
+          <Typography variant="body2">
+            {dayjs(comment.createdAt).fromNow()}
+          </Typography>
+        </Grid>
+      </Grid>
     </Grid>
 
     <Grid item>
