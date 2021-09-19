@@ -18,8 +18,6 @@ const Comment: FC<Props> = ({ comment }) => (
       <Divider />
     </Grid>
 
-    {console.log(comment)}
-
     <Grid item container alignItems="center" wrap="nowrap">
       {comment.user && (
         <Grid item>

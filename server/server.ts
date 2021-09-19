@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import mixPanel from 'mixpanel-browser';
 
 import database from './database';
 
@@ -25,6 +26,10 @@ interface Options {
 const init = (options: Options) => {
   const { appHandler } = options;
   database();
+
+  // Initialize tracking
+  mixPanel.init(process.env.MIXPANEL_KEY as string);
+  mixPanel.track('Sign Up');
 
   const server = express();
 

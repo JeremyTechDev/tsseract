@@ -22,7 +22,6 @@ const NewComment: FC<Props> = ({ postId, setNewComments }) => {
     postRequest(`/posts/c/anonymous/${postId}`, { body })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setNewComments(data.comments as iComment[]);
         setBody('');
       })
