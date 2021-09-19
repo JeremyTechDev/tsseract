@@ -62,6 +62,10 @@ const styles = makeStyles((theme: Theme) => ({
   codeFont: {
     fontFamily: 'Source Code Pro',
   },
+  footer: {
+    marginTop: '4rem',
+    padding: 20,
+  },
 }));
 
 export default styles;

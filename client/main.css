@@ -1,9 +1,7 @@
-.footer--background {
+.gradient--background {
   background: linear-gradient(268deg, #d2afff, #a3adff);
+  background: -webkit-linear-gradient(268deg, #d2afff, #a3adff);
   background-size: 400% 400%;
-  margin-top: 4rem;
-  padding: 50px;
-  width: 100vw;
 
   -webkit-animation: Gradient 4s ease infinite;
   -moz-animation: Gradient 4s ease infinite;

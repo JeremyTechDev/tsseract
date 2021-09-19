@@ -67,7 +67,6 @@
     "@types/supertest": "^2.0.10",
     "babel-plugin-styled-components": "^1.11.1",
     "faker": "^5.1.0",
-    "husky": "^4.2.5",
     "jest": "^26.4.2",
     "lint-staged": "^10.2.7",
     "nodemon": "^2.0.6",

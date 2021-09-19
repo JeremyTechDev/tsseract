@@ -216,7 +216,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
 };
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
-  authInitialProps(false)(ctx);
+  authInitialProps()(ctx);
   const posts = await getRequest('/posts').then((res) => res.json());
   const tags = await getRequest('/tags').then((res) => res.json());
 

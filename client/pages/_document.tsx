@@ -87,7 +87,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
             rel="stylesheet"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital@1&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,900;1,400&display=swap"
             rel="stylesheet"
           />
         </Head>

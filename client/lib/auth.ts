@@ -45,7 +45,7 @@ export const authInitialProps = (isPrivateRoute = false) => ({
   const auth: authType = req ? getServerSideToken(req) : getClientSideToken();
 
   if (isPrivateRoute && auth && !auth.user) {
-    redirect(res, '/login');
+    redirect(res, '/coming-soon');
   }
 
   return { props: { user: auth } };
