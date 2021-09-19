@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useContext, useState } from 'react';
 import Image from 'next/image';
-import { NextPage, NextPageContext } from 'next';
+import { NextPage } from 'next';
 import {
   AppBar,
   Drawer,
@@ -23,7 +23,6 @@ import Avatar from '../components/Avatar/Avatar';
 
 import TagCard from '../components/Tag/Card';
 import Post from '../components/Post';
-import { authInitialProps } from '../lib/auth';
 import { getRequest } from '../lib/fetch';
 import { iPost, iTag } from '../@types';
 import { makeStyles, createStyles } from '@mui/styles';
@@ -215,8 +214,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
   );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext) => {
-  authInitialProps()(ctx);
+export const getServerSideProps = async () => {
   const posts = await getRequest('/posts').then((res) => res.json());
   const tags = await getRequest('/tags').then((res) => res.json());
 
