@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import {
   Card,
-  Link,
   Box,
   Grid,
   CardActions,
@@ -51,18 +50,12 @@ const Post: NextPage<Props> = ({ post, out }) => {
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Grid container alignItems="center">
-              <Link href={`/profile/${user.username}`}>
-                <Avatar size="95px" avatar={user.avatar} />
-              </Link>
+              <Avatar size="95px" avatar={user.avatar} />
 
               <Grid item>
-                <Link href={`/profile/${user.username}`} color="inherit">
-                  <Typography variant="h5">{user.name}</Typography>
-                </Link>
+                <Typography variant="h5">{user.name}</Typography>
 
-                <Link href={`/profile/${user.username}`} color="inherit">
-                  <Typography variant="subtitle1">@{user.username}</Typography>
-                </Link>
+                <Typography variant="subtitle1">@{user.username}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -88,15 +81,22 @@ const Post: NextPage<Props> = ({ post, out }) => {
       </CardActionArea>
 
       <CardActions>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
+        <Grid
+          alignItems="center"
+          container
+          justifyContent="space-between"
+          wrap="nowrap"
+        >
+          <Grid item xs={12} md={10} container>
             {tags.map((tag) => (
-              <Tag key={tag._id} tag={tag} />
+              <Grid item>
+                <Tag key={tag._id} tag={tag} />
+              </Grid>
             ))}
           </Grid>
 
           {!!interactions && (
-            <Grid item>
+            <Grid item xs={12} md={2}>
               <Typography>
                 {interactions}{' '}
                 {interactions === 1 ? 'interaction' : 'interactions'}

@@ -12,6 +12,9 @@ const styles = makeStyles((theme) => ({
     height: 350,
     position: 'relative',
     width: '100%',
+    [theme.breakpoints.down('md')]: {
+      height: 190,
+    },
   },
 }));
 

@@ -9,6 +9,8 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     width: '100vw',
     zIndex: -1,
+    [theme.breakpoints.down('md')]: { height: '60vh' },
+    [theme.breakpoints.down('sm')]: { height: '40vh' },
   },
   hero: {
     height: '100vh',
@@ -16,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100vw',
     zIndex: -1,
+    [theme.breakpoints.down('md')]: { height: '60vh' },
+    [theme.breakpoints.down('sm')]: { height: '40vh' },
   },
   title: {
     color: theme.palette.common.white,

@@ -28,7 +28,7 @@ const PostHero: FC<Props> = ({ cover, title }) => {
       <Link href="/home">
         <img
           alt="Tsseract Logo"
-          width="300"
+          width="200"
           style={{ position: 'absolute' }}
           src="/Main-aside/white_logo_transparent_background.png"
         />
@@ -50,7 +50,7 @@ const PostHero: FC<Props> = ({ cover, title }) => {
         </Grid>
 
         <Grid item>
-          <Typography className={classes.title} variant="h1">
+          <Typography className={classes.title} variant="h2" component="h1">
             {title}
           </Typography>
         </Grid>
