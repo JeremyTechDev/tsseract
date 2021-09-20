@@ -27,6 +27,7 @@ import { getRequest } from '../lib/fetch';
 import { iPost, iTag } from '../@types';
 import { makeStyles, createStyles } from '@mui/styles';
 import AppContext from '../context';
+import TwitterMeta from '../components/Meta/Twitter';
 
 const DRAWER_WIDTH = 350;
 
@@ -95,7 +96,12 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
     <>
       <Head>
         <title>Tsseract</title>
+        <TwitterMeta
+          title="Share/Find guidance now! ⚡️"
+          card="summary_large_image"
+        />
       </Head>
+
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
@@ -202,6 +208,7 @@ const Feed: NextPage<Props> = ({ posts, tags }) => {
             <IconButton
               className={classes.sendButton}
               color="primary"
+              disabled
               size="large"
               title="Continue typing"
             >

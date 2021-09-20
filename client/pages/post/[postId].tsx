@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import PostHero from '../../components/Hero/Post';
+import TwitterMeta from '../../components/Meta/Twitter';
 import Avatar from '../../components/Avatar/Avatar';
 import Comment from '../../components/Comment';
 import NewComment from '../../components/Comment/New';
@@ -42,6 +43,14 @@ const Post: NextPage<Props> = ({ post }) => {
     <>
       <Head>
         <title>{post.title}</title>
+
+        <TwitterMeta
+          card="summary_large_image"
+          image={post.cover}
+          title={post.title}
+          creator={post?.user?.username}
+          path={`/post/${post._id}`}
+        />
       </Head>
 
       <PostHero cover={post.cover} title={post.title} />

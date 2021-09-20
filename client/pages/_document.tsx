@@ -43,7 +43,6 @@ export default class MyDocument extends Document<{ userData: authType }> {
       <Html lang="en-US">
         <Head>
           <meta charSet="UTF-8" />
-          <title>Tsseract</title>
           <link rel="manifest" href="./manifest.json" />
           <link rel="icon" href="./tsseract.ico" />
           <link rel="apple-touch-icon" href="./tsseract.ico" />
@@ -51,7 +50,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta name="theme-color" content={theme.palette.primary.main} />
           <meta
             name="description"
-            content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
+            content="Tsseract is home for every idea, script or thought you want share"
           />
           <meta name="application-name" content="Tsseract" />
           <meta name="apple-mobile-web-app-title" content="Tsseract" />
@@ -71,15 +70,13 @@ export default class MyDocument extends Document<{ userData: authType }> {
           <meta property="og:url" content="http://tsseract.askjere.com" />
           <meta
             property="og:description"
-            content="Social media app to share your knowledge on ant topic and earn money 💸 with it."
+            content="Tsseract is home for every idea, script or thought you want share"
           />
           <meta
             property="og:image"
-            itemProp="image"
-            content="./Square-bottom/logo_size.jpg"
+            content="/Square-bottom/logo_size.jpg"
           />
           <meta property="og:type" content="website" />
-          <meta property="og:updated_time" content="1604951865715" />
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
