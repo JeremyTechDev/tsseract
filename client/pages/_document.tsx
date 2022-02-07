@@ -72,7 +72,7 @@ export default class MyDocument extends Document<{ userData: authType }> {
             property="og:description"
             content="Tsseract is home for every idea, script or thought you want share"
           />
-          <meta property="og:image" content="/frame.png" />
+          <meta property="og:image" content="https://i.ibb.co/Sw3jFzP/Screen-Shot-2022-02-07-at-10-58-27.png" />
           <meta property="og:type" content="website" />
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
