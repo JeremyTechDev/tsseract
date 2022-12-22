@@ -38,7 +38,7 @@
     "express": "^4.17.1",
     "is-hotkey": "^0.1.6",
     "is-url": "^1.2.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mixpanel-browser": "^2.41.0",
     "mongoose": "^5.9.16",
     "next": "^10.0.5",
